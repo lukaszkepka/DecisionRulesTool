@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model
 {
-    public class Class1
+    public static class Globals
     {
+        public static string TestFilesDirectory => "../../../../Resources";
+
+
     }
 }
