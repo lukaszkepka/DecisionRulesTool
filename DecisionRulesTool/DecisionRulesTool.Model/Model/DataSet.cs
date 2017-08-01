@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.Model
 {
-    public class RuleSet
+    public class DataSet
     {
         public string Name { get; set; }
-        public Attribute DecisionAttribute => Attributes.LastOrDefault();
-        public IEnumerable<string> DecisionValues { get; set; }
         public IEnumerable<Attribute> Attributes { get; set; }
-        public IEnumerable<Rule> Rules { get; set; }
+        public IEnumerable<Object> Objects { get; set; }
+        public Attribute DecisionAttribute { get; set; }
     }
 }

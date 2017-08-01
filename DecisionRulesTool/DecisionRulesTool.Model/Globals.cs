@@ -9,7 +9,5 @@ namespace DecisionRulesTool.Model
     public static class Globals
     {
         public static string TestFilesDirectory => "../../../../Resources";
-
-
     }
 }

@@ -13,7 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecisionRulesTool.Tests", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1E3FE3D7-9B34-466B-A994-C32BB79B0400}"
 	ProjectSection(SolutionItems) = preProject
-		Resources\128-142-1-SikoraM.pdf = Resources\128-142-1-SikoraM.pdf
+		..\Resources\DecisionRulesTool.Plan.docx = ..\Resources\DecisionRulesTool.Plan.docx
+		..\Resources\M. Sikora WYBRANE_METODY_OCENY_I_PRZYCINANIA_REGUŁ_DEDYZYJNYCH.pdf = ..\Resources\M. Sikora WYBRANE_METODY_OCENY_I_PRZYCINANIA_REGUŁ_DEDYZYJNYCH.pdf
+		..\Resources\RSES_MANUAL.pdf = ..\Resources\RSES_MANUAL.pdf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{1E8865AF-482F-40DD-8F13-437E54888324}"
@@ -35,16 +37,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sets", "Sets", "{4B02EB64-C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rules", "Rules", "{55F72166-9FCF-4BE5-94BC-AC76DF7F1A37}"
 	ProjectSection(SolutionItems) = preProject
-		..\Resources\Examples\RSES\female.rul = ..\Resources\Examples\RSES\female.rul
-		..\Resources\Examples\RSES\male.rul = ..\Resources\Examples\RSES\male.rul
+		..\Resources\Examples\RSES\Rules\demo.rul = ..\Resources\Examples\RSES\Rules\demo.rul
+		..\Resources\Examples\RSES\Rules\female.rul = ..\Resources\Examples\RSES\Rules\female.rul
+		..\Resources\Examples\RSES\Rules\male.rul = ..\Resources\Examples\RSES\Rules\male.rul
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sets", "Sets", "{94D27A2D-BDD7-4B98-A751-7788B99C6D01}"
 	ProjectSection(SolutionItems) = preProject
-		..\Resources\Examples\RSES\Fin.tab = ..\Resources\Examples\RSES\Fin.tab
-		..\Resources\Examples\RSES\Fts.tab = ..\Resources\Examples\RSES\Fts.tab
-		..\Resources\Examples\RSES\Min.tab = ..\Resources\Examples\RSES\Min.tab
-		..\Resources\Examples\RSES\Mts.tab = ..\Resources\Examples\RSES\Mts.tab
+		..\Resources\Examples\RSES\Sets\Fin.tab = ..\Resources\Examples\RSES\Sets\Fin.tab
+		..\Resources\Examples\RSES\Sets\Fts.tab = ..\Resources\Examples\RSES\Sets\Fts.tab
+		..\Resources\Examples\RSES\Sets\Min.tab = ..\Resources\Examples\RSES\Sets\Min.tab
+		..\Resources\Examples\RSES\Sets\Mts.tab = ..\Resources\Examples\RSES\Sets\Mts.tab
 	EndProjectSection
 EndProject
 Global

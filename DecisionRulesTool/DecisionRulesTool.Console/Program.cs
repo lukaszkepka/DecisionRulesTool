@@ -1,6 +1,7 @@
 ﻿using DecisionRulesTool.Model;
 using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Parsers;
+using DecisionRulesTool.Model.Parsers.RSES;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,8 +15,8 @@ namespace DecisionRulesTool.Console
     {
         static void Main(string[] args)
         {
-            string _4EmkaRulesFilePath = "/Examples/RSES/Rules/male.rul";
-            IFileParser<RulesSet> r = new RsesRulesParser();
+            string _4EmkaRulesFilePath = "/Examples/RSES/Sets/Min.tab";
+            IFileParser<DataSet> r = new RsesDataSetParser();
 
             r.ParseFile(Globals.TestFilesDirectory + _4EmkaRulesFilePath);
         }
