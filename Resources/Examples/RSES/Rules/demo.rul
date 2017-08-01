@@ -1,0 +1,29 @@
+RULE_SET Demo
+ATTRIBUTES 5
+temperature numeric 1
+headache numeric 0
+cough symbolic
+catarrh symbolic
+disease symbolic
+DECISION_VALUES 4
+angina
+influenza
+cold
+healthy
+RULES 16
+(temperature=38.7)&(headache=7)=>(disease=angina[1]) 1
+(temperature=38.3)&(headache=MISSING)=>(disease=influenza[1]) 1
+(temperature=MISSING)&(headache=3)=>(disease=cold[1]) 1
+(temperature=36.7)&(headache=1)=>(disease=healthy[1]) 1
+(headache=7)&(cough=no)=>(disease=angina[1]) 1
+(headache=MISSING)&(cough=yes)=>(disease=influenza[1]) 1
+(headache=3)&(cough=no)=>(disease=cold[1]) 1
+(headache=1)&(cough=no)=>(disease=healthy[1]) 1
+(headache=7)&(catarrh=no)=>(disease=angina[1]) 1
+(headache=MISSING)&(catarrh=yes)=>(disease=influenza[1]) 1
+(headache=3)&(catarrh=no)=>(disease=cold[1]) 1
+(headache=1)&(catarrh=no)=>(disease=healthy[1]) 1
+(cough=no)=>(disease={angina[1],cold[1],healthy[1]}) 3
+(cough=yes)=>(disease=influenza[1]) 1
+(catarrh=no)=>(disease={angina[1],cold[1],healthy[1]}) 3
+(catarrh=yes)=>(disease=influenza[1]) 1
