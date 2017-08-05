@@ -21,7 +21,7 @@ namespace DecisionRulesTool.Model.Parsers.RSES
 
         private void ParseAttributes(StreamReader fileStream, DataSet dataSet)
         {
-            dataSet.Attributes = base.ParseAttributes(fileStream);
+            //dataSet.Attributes = base.ParseAttributes(fileStream);
         }
 
         private void ParseObjects(StreamReader fileStream, DataSet dataSet)
@@ -36,13 +36,13 @@ namespace DecisionRulesTool.Model.Parsers.RSES
                 {
                     string[] values = fileLine.Split(',');
                     Object dataSetObject = new Object();
-                    dataSetObject.Attributes = dataSet.Attributes;
-                    dataSetObject.Values = values;
+                    //dataSetObject.Attributes = dataSet.Attributes;
+                    //dataSetObject.Values = values;
                     objects.Add(dataSetObject);
                     objectIndex++;
                 }
             }
-            dataSet.Objects = objects;
+            //dataSet.Objects = objects;
         }
 
         public override DataSet ParseFile(StreamReader fileStream)

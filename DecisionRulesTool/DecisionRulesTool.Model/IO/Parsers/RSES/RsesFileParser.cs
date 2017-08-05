@@ -28,7 +28,7 @@ namespace DecisionRulesTool.Model.Parsers
                 }
             } while (!sectionFound && !fileStream.EndOfStream);
 
-            if (fileStream.EndOfStream)
+            if (fileStream.EndOfStream && !sectionFound)
             {
                 throw new InvalidDataException($"Section: \"{sectionName}\" not found!");
             }
@@ -48,9 +48,9 @@ namespace DecisionRulesTool.Model.Parsers
                     string[] lineWords = fileLine.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                     Attribute attribute = new Attribute();
                     attribute.Name = lineWords[0];
-                    attribute.Type = (Attribute.Category)Enum.Parse(typeof(Attribute.Category), lineWords[1].ToUpper());
-                    attribute.Accuary = attribute.Type == Attribute.Category.NUMERIC ? Convert.ToInt32(lineWords[2]) : default(int?);
-                    attributeIndex++;
+                    //attribute.Type = (Attribute.Category)Enum.Parse(typeof(Attribute.Category), lineWords[1].ToUpper());
+                    //attribute.Accuary = attribute.Type == Attribute.Category.NUMERIC ? Convert.ToInt32(lineWords[2]) : default(int?);
+                    //attributeIndex++;
                     attributes.Add(attribute);
                 }
             }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DecisionRulesTool.Model.Model;
 using System.Diagnostics;
 using DecisionRulesTool.Model.Parsers;
+using DecisionRulesTool.Model.IO;
 
 namespace DecisionRulesTool.Model.Parsers
 {
@@ -21,30 +22,30 @@ namespace DecisionRulesTool.Model.Parsers
 
         private void ParseHeader(StreamReader fileStream, RuleSet rulesSet)
         {
-            rulesSet.Name = GetSectionValue(fileStream, RULES_FILE_HEADER);
+            rulesSet.Name = GetSectionValue(fileStream, RsesFileFormat.RULES_FILE_HEADER);
         }
 
         private void ParseAttributes(StreamReader fileStream, RuleSet rulesSet)
         {
-            rulesSet.Attributes = base.ParseAttributes(fileStream);
+            //rulesSet.Attributes = base.ParseAttributes(fileStream);
         }
 
         private void ParseDecisionValues(StreamReader fileStream, RuleSet rulesSet)
         {
             ICollection<string> decisionValues = new List<string>();
-            int valuesCount = Convert.ToInt32(GetSectionValue(fileStream, DECISION_VALUES_SECTION_HEADER));        
+            int valuesCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.DECISION_VALUES_SECTION_HEADER));        
             for (int i = 0; i < valuesCount; i++)
             {
                 string value = fileStream.ReadLine();
                 decisionValues.Add(value);
             }
-            rulesSet.DecisionValues = decisionValues;
+            //rulesSet.DecisionValues = decisionValues;
         }
 
         private void ParseRules(StreamReader fileStream, RuleSet rulesSet)
         {
             ICollection<Rule> rules = new List<Rule>();
-            int rulesCount = Convert.ToInt32(GetSectionValue(fileStream, RULES_SECTION_HEADER));
+            int rulesCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.RULES_SECTION_HEADER));
             for (int i = 0; i < rulesCount; i++)
             {
                 string ruleString = fileStream.ReadLine();
@@ -54,24 +55,24 @@ namespace DecisionRulesTool.Model.Parsers
             rulesSet.Rules = rules;
         }
 
-        private Relation ParseRelation(string relationString, RuleSet rulesSet)
+        private Premise ParseRelation(string relationString, RuleSet rulesSet)
         {
             string rawRelation = relationString.Substring(1, relationString.Length - 2);
             string[] relationParts = rawRelation.Split('=');
             var attributeName = relationParts[0];
             var attributeValue = relationParts[1];
 
-            Relation relation = new Relation();
+            Premise relation = new Premise();
             relation.Attribute = rulesSet.Attributes.Where(x => x.Name.Equals(attributeName)).FirstOrDefault();
-            relation.Type = Relation.Category.Equality;
-            relation.Value = attributeValue;
+            //relation.Type = Premise.Category.Equality;
+            //relation.Value = attributeValue;
 
             return relation;
         }
 
-        private IEnumerable<Decision> ParseDecision(string decisionString, RuleSet rulesSet)
+        private IEnumerable<Conclusion> ParseDecision(string decisionString, RuleSet rulesSet)
         {
-            ICollection<Decision> decisions = new List<Decision>();
+            ICollection<Conclusion> decisions = new List<Conclusion>();
             var t = decisionString.Split(' ')[0];
             string rawDecision = t.Substring(1, t.Length - 2);
             string[] rawDecisionParts = rawDecision.Split('=');
@@ -92,15 +93,15 @@ namespace DecisionRulesTool.Model.Parsers
             {
                 var decisionParts = decisionValue.Split('[');
                 string supportValueString = new string(decisionParts[1].TakeWhile(x => x != ']').ToArray());
-                Decision decision = new Decision();
-                decision.SupportValue = Convert.ToDouble(supportValueString);
-                decision.Relation = new Relation()
-                {
-                    Attribute = rulesSet.DecisionAttribute,
-                    Type = Relation.Category.Equality,
-                    Value = decisionParts[0]
-                };
-                decisions.Add(decision);
+                Conclusion decision = new Conclusion();
+                //decision.SupportValue = Convert.ToDouble(supportValueString);
+                //decision.Relation = new Premise()
+                //{
+                //    Attribute = rulesSet.DecisionAttribute,
+                //    Type = Premise.Category.Equality,
+                //    Value = decisionParts[0]
+                //};
+                //decisions.Add(decision);
 
             }
             return decisions;
@@ -108,7 +109,7 @@ namespace DecisionRulesTool.Model.Parsers
 
         private Rule ParseRule(string ruleString, RuleSet rulesSet)
         {
-            ICollection<Relation> relations = new List<Relation>();
+            ICollection<Premise> relations = new List<Premise>();
 
             string[] ruleParts = ruleString.Split(new[] { "=>" }, StringSplitOptions.RemoveEmptyEntries);
             var relationsString = ruleParts[0];
@@ -121,9 +122,9 @@ namespace DecisionRulesTool.Model.Parsers
             }
 
             Rule rule = new Rule();
-            rule.Decision = ParseDecision(decision, rulesSet);
-            rule.Relations = relations;
-            rule.RulesSet = rulesSet;
+            //rule.Decision = ParseDecision(decision, rulesSet);
+            //rule.Relations = relations;
+            //rule.RulesSet = rulesSet;
             return rule;
         }
 
