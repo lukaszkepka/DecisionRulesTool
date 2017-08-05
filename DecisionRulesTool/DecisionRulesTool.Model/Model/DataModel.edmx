@@ -1,0 +1,503 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="Attributes" EntityType="Model1.Store.Attributes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RuleSets" EntityType="Model1.Store.RuleSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Rules" EntityType="Model1.Store.Rules" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DataSets" EntityType="Model1.Store.DataSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Premises" EntityType="Model1.Store.Premises" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Conclusions" EntityType="Model1.Store.Conclusions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Objects" EntityType="Model1.Store.Objects" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="DataSetAttribute" Association="Model1.Store.DataSetAttribute">
+      <End Role="DataSet" EntitySet="DataSets" />
+      <End Role="Attribute" EntitySet="Attributes" />
+    </AssociationSet>
+    <AssociationSet Name="RuleSetAttribute" Association="Model1.Store.RuleSetAttribute">
+      <End Role="RuleSet" EntitySet="RuleSets" />
+      <End Role="Attribute" EntitySet="Attributes" />
+    </AssociationSet>
+    <AssociationSet Name="DataSetObject" Association="Model1.Store.DataSetObject">
+      <End Role="DataSet" EntitySet="DataSets" />
+      <End Role="Object" EntitySet="Objects" />
+    </AssociationSet>
+    <AssociationSet Name="RulePremise" Association="Model1.Store.RulePremise">
+      <End Role="Rule" EntitySet="Rules" />
+      <End Role="Premise" EntitySet="Premises" />
+    </AssociationSet>
+    <AssociationSet Name="RuleConclusion" Association="Model1.Store.RuleConclusion">
+      <End Role="Rule" EntitySet="Rules" />
+      <End Role="Conclusion" EntitySet="Conclusions" />
+    </AssociationSet>
+    <AssociationSet Name="RuleSetRule" Association="Model1.Store.RuleSetRule">
+      <End Role="RuleSet" EntitySet="RuleSets" />
+      <End Role="Rule" EntitySet="Rules" />
+    </AssociationSet>
+    <AssociationSet Name="AttributePremise" Association="Model1.Store.AttributePremise">
+      <End Role="Attribute" EntitySet="Attributes" />
+      <End Role="Premise" EntitySet="Premises" />
+    </AssociationSet>
+    <AssociationSet Name="AttributeConclusion" Association="Model1.Store.AttributeConclusion">
+      <End Role="Attribute" EntitySet="Attributes" />
+      <End Role="Conclusion" EntitySet="Conclusions" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Attributes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="AvailableValues" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DataSet_Id" Type="int" Nullable="false" />
+    <Property Name="RuleSet_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RuleSets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rules">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RuleSet_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DataSets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Premises">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RelationType" Type="int" Nullable="false" />
+    <Property Name="Rule_Id" Type="int" Nullable="false" />
+    <Property Name="Attribute_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Conclusions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rule_Id" Type="int" Nullable="false" />
+    <Property Name="Attribute_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Objects">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ValueString" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DataSet_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="DataSetAttribute">
+    <End Role="DataSet" Type="Model1.Store.DataSets" Multiplicity="1" />
+    <End Role="Attribute" Type="Model1.Store.Attributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DataSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Attribute">
+        <PropertyRef Name="DataSet_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RuleSetAttribute">
+    <End Role="RuleSet" Type="Model1.Store.RuleSets" Multiplicity="1" />
+    <End Role="Attribute" Type="Model1.Store.Attributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RuleSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Attribute">
+        <PropertyRef Name="RuleSet_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DataSetObject">
+    <End Role="DataSet" Type="Model1.Store.DataSets" Multiplicity="1" />
+    <End Role="Object" Type="Model1.Store.Objects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DataSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Object">
+        <PropertyRef Name="DataSet_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RulePremise">
+    <End Role="Rule" Type="Model1.Store.Rules" Multiplicity="1" />
+    <End Role="Premise" Type="Model1.Store.Premises" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Premise">
+        <PropertyRef Name="Rule_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RuleConclusion">
+    <End Role="Rule" Type="Model1.Store.Rules" Multiplicity="1" />
+    <End Role="Conclusion" Type="Model1.Store.Conclusions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Conclusion">
+        <PropertyRef Name="Rule_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RuleSetRule">
+    <End Role="RuleSet" Type="Model1.Store.RuleSets" Multiplicity="1" />
+    <End Role="Rule" Type="Model1.Store.Rules" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RuleSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rule">
+        <PropertyRef Name="RuleSet_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AttributePremise">
+    <End Role="Attribute" Type="Model1.Store.Attributes" Multiplicity="1" />
+    <End Role="Premise" Type="Model1.Store.Premises" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attribute">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Premise">
+        <PropertyRef Name="Attribute_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AttributeConclusion">
+    <End Role="Attribute" Type="Model1.Store.Attributes" Multiplicity="1" />
+    <End Role="Conclusion" Type="Model1.Store.Conclusions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attribute">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Conclusion">
+        <PropertyRef Name="Attribute_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="DatabaseContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attributes" EntityType="Model1.Attribute" />
+          <EntitySet Name="RuleSets" EntityType="Model1.RuleSet" />
+          <EntitySet Name="Rules" EntityType="Model1.Rule" />
+          <EntitySet Name="DataSets" EntityType="Model1.DataSet" />
+          <EntitySet Name="Premises" EntityType="Model1.Premise" />
+          <EntitySet Name="Conclusions" EntityType="Model1.Conclusion" />
+          <EntitySet Name="Objects" EntityType="Model1.Object" />
+          <AssociationSet Name="DataSetAttribute" Association="Model1.DataSetAttribute">
+            <End Role="DataSet" EntitySet="DataSets" />
+            <End Role="Attribute" EntitySet="Attributes" />
+          </AssociationSet>
+          <AssociationSet Name="RuleSetAttribute" Association="Model1.RuleSetAttribute">
+            <End Role="RuleSet" EntitySet="RuleSets" />
+            <End Role="Attribute" EntitySet="Attributes" />
+          </AssociationSet>
+          <AssociationSet Name="DataSetObject" Association="Model1.DataSetObject">
+            <End Role="DataSet" EntitySet="DataSets" />
+            <End Role="Object" EntitySet="Objects" />
+          </AssociationSet>
+          <AssociationSet Name="RulePremise" Association="Model1.RulePremise">
+            <End Role="Rule" EntitySet="Rules" />
+            <End Role="Premise" EntitySet="Premises" />
+          </AssociationSet>
+          <AssociationSet Name="RuleConclusion" Association="Model1.RuleConclusion">
+            <End Role="Rule" EntitySet="Rules" />
+            <End Role="Conclusion" EntitySet="Conclusions" />
+          </AssociationSet>
+          <AssociationSet Name="RuleSetRule" Association="Model1.RuleSetRule">
+            <End Role="RuleSet" EntitySet="RuleSets" />
+            <End Role="Rule" EntitySet="Rules" />
+          </AssociationSet>
+          <AssociationSet Name="AttributePremise" Association="Model1.AttributePremise">
+            <End Role="Attribute" EntitySet="Attributes" />
+            <End Role="Premise" EntitySet="Premises" />
+          </AssociationSet>
+          <AssociationSet Name="AttributeConclusion" Association="Model1.AttributeConclusion">
+            <End Role="Attribute" EntitySet="Attributes" />
+            <End Role="Conclusion" EntitySet="Conclusions" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Attribute">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="DataSet" Relationship="Model1.DataSetAttribute" FromRole="Attribute" ToRole="DataSet" />
+          <NavigationProperty Name="RuleSet" Relationship="Model1.RuleSetAttribute" FromRole="Attribute" ToRole="RuleSet" />
+          <NavigationProperty Name="Premises" Relationship="Model1.AttributePremise" FromRole="Attribute" ToRole="Premise" cg:SetterAccess="Private" />
+          <NavigationProperty Name="Conclusions" Relationship="Model1.AttributeConclusion" FromRole="Attribute" ToRole="Conclusion" cg:SetterAccess="Private" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Type" Type="Model1.Type" Nullable="false" />
+          <Property Name="AvailableValues" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RuleSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Attributes" Relationship="Model1.RuleSetAttribute" FromRole="RuleSet" ToRole="Attribute" />
+          <NavigationProperty Name="Rules" Relationship="Model1.RuleSetRule" FromRole="RuleSet" ToRole="Rule" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Premises" Relationship="Model1.RulePremise" FromRole="Rule" ToRole="Premise" />
+          <NavigationProperty Name="Conclusions" Relationship="Model1.RuleConclusion" FromRole="Rule" ToRole="Conclusion" />
+          <NavigationProperty Name="RuleSet" Relationship="Model1.RuleSetRule" FromRole="Rule" ToRole="RuleSet" />
+        </EntityType>
+        <EntityType Name="DataSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Attributes" Relationship="Model1.DataSetAttribute" FromRole="DataSet" ToRole="Attribute" cg:SetterAccess="Private" />
+          <NavigationProperty Name="Objects" Relationship="Model1.DataSetObject" FromRole="DataSet" ToRole="Object" cg:SetterAccess="Private" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Premise">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Rule" Relationship="Model1.RulePremise" FromRole="Premise" ToRole="Rule" />
+          <Property Name="RelationType" Type="Model1.RelationType" Nullable="false" />
+          <NavigationProperty Name="Attribute" Relationship="Model1.AttributePremise" FromRole="Premise" ToRole="Attribute" />
+        </EntityType>
+        <EntityType Name="Conclusion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Rule" Relationship="Model1.RuleConclusion" FromRole="Conclusion" ToRole="Rule" />
+          <NavigationProperty Name="Attribute" Relationship="Model1.AttributeConclusion" FromRole="Conclusion" ToRole="Attribute" />
+        </EntityType>
+        <EntityType Name="Object">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="DataSet" Relationship="Model1.DataSetObject" FromRole="Object" ToRole="DataSet" />
+          <Property Name="ValueString" Type="String" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+        </EntityType>
+        <Association Name="DataSetAttribute">
+          <End Type="Model1.DataSet" Role="DataSet" Multiplicity="1" />
+          <End Type="Model1.Attribute" Role="Attribute" Multiplicity="*" />
+        </Association>
+        <Association Name="RuleSetAttribute">
+          <End Type="Model1.RuleSet" Role="RuleSet" Multiplicity="1" />
+          <End Type="Model1.Attribute" Role="Attribute" Multiplicity="*" />
+        </Association>
+        <Association Name="DataSetObject">
+          <End Type="Model1.DataSet" Role="DataSet" Multiplicity="1" />
+          <End Type="Model1.Object" Role="Object" Multiplicity="*" />
+        </Association>
+        <Association Name="RulePremise">
+          <End Type="Model1.Rule" Role="Rule" Multiplicity="1" />
+          <End Type="Model1.Premise" Role="Premise" Multiplicity="*" />
+        </Association>
+        <Association Name="RuleConclusion">
+          <End Type="Model1.Rule" Role="Rule" Multiplicity="1" />
+          <End Type="Model1.Conclusion" Role="Conclusion" Multiplicity="*" />
+        </Association>
+        <Association Name="RuleSetRule">
+          <End Type="Model1.RuleSet" Role="RuleSet" Multiplicity="1" />
+          <End Type="Model1.Rule" Role="Rule" Multiplicity="*" />
+        </Association>
+        <EnumType Name="RelationType">
+          <Member Name="Equality" />
+          <Member Name="Greather" />
+          <Member Name="Less" />
+          <Member Name="GreatherOrEqual" />
+          <Member Name="LessOrEqual" />
+        </EnumType>
+        <Association Name="AttributePremise">
+          <End Type="Model1.Attribute" Role="Attribute" Multiplicity="1" />
+          <End Type="Model1.Premise" Role="Premise" Multiplicity="*" />
+        </Association>
+        <Association Name="AttributeConclusion">
+          <End Type="Model1.Attribute" Role="Attribute" Multiplicity="1" />
+          <End Type="Model1.Conclusion" Role="Conclusion" Multiplicity="*" />
+        </Association>
+        <EnumType Name="Type">
+          <Member Name="Numeric" />
+          <Member Name="Symbolic" />
+        </EnumType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="DatabaseContext">
+    <EntitySetMapping Name="Attributes">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Attribute)">
+        <MappingFragment StoreEntitySet="Attributes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="AvailableValues" ColumnName="AvailableValues" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RuleSets">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.RuleSet)">
+        <MappingFragment StoreEntitySet="RuleSets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rules">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Rule)">
+        <MappingFragment StoreEntitySet="Rules">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DataSets">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.DataSet)">
+        <MappingFragment StoreEntitySet="DataSets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Premises">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Premise)">
+        <MappingFragment StoreEntitySet="Premises">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RelationType" ColumnName="RelationType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Conclusions">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Conclusion)">
+        <MappingFragment StoreEntitySet="Conclusions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Objects">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Object)">
+        <MappingFragment StoreEntitySet="Objects">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ValueString" ColumnName="ValueString" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="DataSetAttribute" TypeName="Model1.DataSetAttribute" StoreEntitySet="Attributes">
+      <EndProperty Name="DataSet">
+        <ScalarProperty Name="Id" ColumnName="DataSet_Id" />
+      </EndProperty>
+      <EndProperty Name="Attribute">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RuleSetAttribute" TypeName="Model1.RuleSetAttribute" StoreEntitySet="Attributes">
+      <EndProperty Name="RuleSet">
+        <ScalarProperty Name="Id" ColumnName="RuleSet_Id" />
+      </EndProperty>
+      <EndProperty Name="Attribute">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DataSetObject" TypeName="Model1.DataSetObject" StoreEntitySet="Objects">
+      <EndProperty Name="DataSet">
+        <ScalarProperty Name="Id" ColumnName="DataSet_Id" />
+      </EndProperty>
+      <EndProperty Name="Object">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RulePremise" TypeName="Model1.RulePremise" StoreEntitySet="Premises">
+      <EndProperty Name="Rule">
+        <ScalarProperty Name="Id" ColumnName="Rule_Id" />
+      </EndProperty>
+      <EndProperty Name="Premise">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RuleConclusion" TypeName="Model1.RuleConclusion" StoreEntitySet="Conclusions">
+      <EndProperty Name="Rule">
+        <ScalarProperty Name="Id" ColumnName="Rule_Id" />
+      </EndProperty>
+      <EndProperty Name="Conclusion">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RuleSetRule" TypeName="Model1.RuleSetRule" StoreEntitySet="Rules">
+      <EndProperty Name="RuleSet">
+        <ScalarProperty Name="Id" ColumnName="RuleSet_Id" />
+      </EndProperty>
+      <EndProperty Name="Rule">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AttributePremise" TypeName="Model1.AttributePremise" StoreEntitySet="Premises">
+      <EndProperty Name="Attribute">
+        <ScalarProperty Name="Id" ColumnName="Attribute_Id" />
+      </EndProperty>
+      <EndProperty Name="Premise">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AttributeConclusion" TypeName="Model1.AttributeConclusion" StoreEntitySet="Conclusions">
+      <EndProperty Name="Attribute">
+        <ScalarProperty Name="Id" ColumnName="Attribute_Id" />
+      </EndProperty>
+      <EndProperty Name="Conclusion">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

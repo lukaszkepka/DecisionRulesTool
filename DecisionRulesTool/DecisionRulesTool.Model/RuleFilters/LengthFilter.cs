@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
-    class LengthFilter
+    public class LengthFilter : BaseFilter
     {
     }
 }

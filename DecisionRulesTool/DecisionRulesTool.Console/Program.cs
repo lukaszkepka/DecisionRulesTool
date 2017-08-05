@@ -8,17 +8,31 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DecisionRulesTool.Console
 {
+    using DecisionRulesTool.Model.Model;
     class Program
     {
         static void Main(string[] args)
         {
-            string _4EmkaRulesFilePath = "/Examples/RSES/Sets/Min.tab";
-            IFileParser<DataSet> r = new RsesDataSetParser();
+            using (var t = new DatabaseContext())
+            {
+                Attribute a = new Attribute()
+                {
+                    Name = "asd"
+                };
 
-            r.ParseFile(Globals.TestFilesDirectory + _4EmkaRulesFilePath);
+                Object o = new Object()
+                {
+                    //Values = new[] { "a", "d", "l" },
+                    DataSet = new Model.Model.DataSet { Name = "sadasd" }
+                };
+
+                t.Objects.Add(o);
+                t.SaveChanges();
+            }
         }
     }
 }

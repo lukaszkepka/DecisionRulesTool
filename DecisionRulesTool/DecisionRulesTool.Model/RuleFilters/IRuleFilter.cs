@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
-    interface IRuleFilter
+    public interface IRuleFilter
     {
         RuleSet FilterRules(RuleSet ruleSet);
     }
