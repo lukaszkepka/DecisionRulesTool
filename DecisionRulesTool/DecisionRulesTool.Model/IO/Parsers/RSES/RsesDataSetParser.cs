@@ -7,8 +7,9 @@ using System.IO;
 
 namespace DecisionRulesTool.Model.Parsers.RSES
 {
-    using Model;
+    using DecisionRulesTool.Model;
     using IO;
+    using Model;
 
     public class RsesDataSetParser : RsesFileParser<DataSet>
     {

@@ -12,27 +12,11 @@ using System.Data.Entity;
 
 namespace DecisionRulesTool.Console
 {
-    using DecisionRulesTool.Model.Model;
     class Program
     {
         static void Main(string[] args)
         {
-            using (var t = new DatabaseContext())
-            {
-                Attribute a = new Attribute()
-                {
-                    Name = "asd"
-                };
 
-                Object o = new Object()
-                {
-                    //Values = new[] { "a", "d", "l" },
-                    DataSet = new Model.Model.DataSet { Name = "sadasd" }
-                };
-
-                t.Objects.Add(o);
-                t.SaveChanges();
-            }
         }
     }
 }

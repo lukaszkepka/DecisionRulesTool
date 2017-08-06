@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DecisionRulesTool.Model</RootNamespace>
-    <AssemblyName>DecisionRulesTool.Model</AssemblyName>
+    <AssemblyName>DecisionRulesToolModel</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -51,6 +51,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comparers\AttributeValuesComparer.cs" />
+    <Compile Include="Comparers\IConditionChecker.cs" />
+    <Compile Include="Comparers\IntegerAttributeComparer.cs" />
+    <Compile Include="Comparers\NumericAttributeComparer.cs" />
+    <Compile Include="Comparers\ConditionChecker.cs" />
+    <Compile Include="Comparers\IAttributeValuesComparer.cs" />
+    <Compile Include="Comparers\SpecificAttibuteComparer.cs" />
+    <Compile Include="Comparers\SymbolicAttributeComparer.cs" />
+    <Compile Include="Model\Attribute.cs" />
+    <Compile Include="Model\AttributeType.cs" />
+    <Compile Include="Model\Condition.cs" />
+    <Compile Include="Model\DataSet.cs" />
+    <Compile Include="Model\Decision.cs" />
+    <Compile Include="Model\Object.cs" />
+    <Compile Include="Model\Relation.cs" />
+    <Compile Include="Model\Rule.cs" />
+    <Compile Include="Model\RuleSet.cs" />
     <Compile Include="IO\FileSavers\BaseFileSaver.cs" />
     <Compile Include="IO\FileSavers\IFileSaver.cs" />
     <Compile Include="IO\FileSavers\RSES\RsesDataSetSaver.cs" />
@@ -65,48 +82,6 @@
     <Compile Include="IO\Parsers\RSES\RsesDataSetParser.cs" />
     <Compile Include="IO\Parsers\RSES\RsesFileParser.cs" />
     <Compile Include="IO\Parsers\RSES\RsesRulesParser.cs" />
-    <Compile Include="Model\Attribute.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Conclusion.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DataModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DataModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DataModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DataSet.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Object.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Premise.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\RelationType.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Rule.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\RuleSet.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Type.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleFilters\AttributeConditionFilter.cs" />
     <Compile Include="RuleFilters\AttributePresenceFilter.cs" />
@@ -121,30 +96,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="Model\DataModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DataModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model\DataModel.edmx.diagram">
-      <DependentUpon>DataModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Model\DataModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DataModel.Context.cs</LastGenOutput>
-      <DependentUpon>DataModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Model\DataModel.edmx.sql" />
-    <Content Include="Model\DataModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DataModel.cs</LastGenOutput>
-      <DependentUpon>DataModel.edmx</DependentUpon>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

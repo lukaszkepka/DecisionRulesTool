@@ -55,14 +55,14 @@ namespace DecisionRulesTool.Model.Parsers
             rulesSet.Rules = rules;
         }
 
-        private Premise ParseRelation(string relationString, RuleSet rulesSet)
+        private Condition ParseRelation(string relationString, RuleSet rulesSet)
         {
             string rawRelation = relationString.Substring(1, relationString.Length - 2);
             string[] relationParts = rawRelation.Split('=');
             var attributeName = relationParts[0];
             var attributeValue = relationParts[1];
 
-            Premise relation = new Premise();
+            Condition relation = new Condition();
             relation.Attribute = rulesSet.Attributes.Where(x => x.Name.Equals(attributeName)).FirstOrDefault();
             //relation.Type = Premise.Category.Equality;
             //relation.Value = attributeValue;
@@ -70,9 +70,9 @@ namespace DecisionRulesTool.Model.Parsers
             return relation;
         }
 
-        private IEnumerable<Conclusion> ParseDecision(string decisionString, RuleSet rulesSet)
+        private IEnumerable<Decision> ParseDecision(string decisionString, RuleSet rulesSet)
         {
-            ICollection<Conclusion> decisions = new List<Conclusion>();
+            ICollection<Decision> decisions = new List<Decision>();
             var t = decisionString.Split(' ')[0];
             string rawDecision = t.Substring(1, t.Length - 2);
             string[] rawDecisionParts = rawDecision.Split('=');
@@ -93,7 +93,7 @@ namespace DecisionRulesTool.Model.Parsers
             {
                 var decisionParts = decisionValue.Split('[');
                 string supportValueString = new string(decisionParts[1].TakeWhile(x => x != ']').ToArray());
-                Conclusion decision = new Conclusion();
+                Decision decision = new Decision();
                 //decision.SupportValue = Convert.ToDouble(supportValueString);
                 //decision.Relation = new Premise()
                 //{
@@ -109,7 +109,7 @@ namespace DecisionRulesTool.Model.Parsers
 
         private Rule ParseRule(string ruleString, RuleSet rulesSet)
         {
-            ICollection<Premise> relations = new List<Premise>();
+            ICollection<Condition> relations = new List<Condition>();
 
             string[] ruleParts = ruleString.Split(new[] { "=>" }, StringSplitOptions.RemoveEmptyEntries);
             var relationsString = ruleParts[0];
