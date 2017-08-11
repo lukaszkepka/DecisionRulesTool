@@ -15,10 +15,34 @@ namespace DecisionRulesTool.Model.Parsers
 
         public override RuleSet ParseFile(StreamReader fileStream)
         {
+            RuleSet ruleSet = default(RuleSet);
+            using (fileStream)
+            {
+                ruleSet = new RuleSet();
+                ParseHeader(fileStream, ruleSet);
+                ParseAttributes(fileStream, ruleSet);
+                ParseDecisionValues(fileStream, ruleSet);
+                ParseRules(fileStream, ruleSet);
+            }
+            return ruleSet;
+        }
+
+        private void ParseRules(StreamReader fileStream, RuleSet ruleSet)
+        {
             throw new NotImplementedException();
         }
 
-        public RuleSet ParseFile(FileStream file)
+        private void ParseDecisionValues(StreamReader fileStream, RuleSet ruleSet)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ParseAttributes(StreamReader fileStream, RuleSet ruleSet)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ParseHeader(StreamReader fileStream, RuleSet ruleSet)
         {
             throw new NotImplementedException();
         }

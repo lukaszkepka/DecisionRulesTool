@@ -8,14 +8,38 @@ namespace DecisionRulesTool.Model.Model
 {
     public class Rule
     {
-        public Rule()
+        public Rule(RuleSet ruleSet)
         {
-            this.Conditions = new HashSet<Condition>();
-            this.Decisions = new HashSet<Decision>();
+            RuleSet = ruleSet;
+            Conditions = new HashSet<Condition>();
+            Decisions = new HashSet<Decision>();
         }
 
-        public virtual ICollection<Condition> Conditions { get; set; }
-        public virtual ICollection<Decision> Decisions { get; set; }
-        public virtual RuleSet RuleSet { get; set; }
+        public Rule(RuleSet ruleSet, ICollection<Condition> conditions, ICollection<Decision> decisions) : this(ruleSet)
+        {
+            Conditions = conditions;
+            Decisions = decisions;
+        }
+
+        public ICollection<Condition> Conditions { get; }
+        public ICollection<Decision> Decisions { get; }
+        public RuleSet RuleSet { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            bool result = false;
+            Rule rule = obj as Rule;
+            if (rule != null)
+            {
+                result = Conditions.SequenceEqual(rule.Conditions) &&
+                         Decisions.SequenceEqual(rule.Decisions);
+            }
+            return result;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

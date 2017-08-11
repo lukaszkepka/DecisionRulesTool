@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -9,9 +8,10 @@ using System;
 
 namespace DecisionRulesTool.Model.Parsers
 {
-
     using IO;
     using Model;
+    using System.Globalization;
+
     public abstract class RsesFileParser<T> : BaseFileParser<T>
     {
         protected string GetSectionValue(StreamReader fileStream, string sectionName)
@@ -36,10 +36,32 @@ namespace DecisionRulesTool.Model.Parsers
             return sectionValue;
         }
 
+        protected object GetAttributeValue(Attribute attribute, string value)
+        {
+            object attributeValue = value;
+            if (RsesFileFormat.MissingValueChars.Contains(attributeValue))
+            {
+                attributeValue = Attribute.MissingValue;
+            }
+            else
+            {
+                switch (attribute.Type)
+                {
+                    case AttributeType.Numeric:
+                        attributeValue = Convert.ToDouble(attributeValue, CultureInfo.InvariantCulture);
+                        break;
+                    case AttributeType.Integer:
+                        attributeValue = Convert.ToInt32(attributeValue, CultureInfo.InvariantCulture);
+                        break;
+                }
+            }
+            return attributeValue;
+        }
+
         protected virtual IEnumerable<Attribute> ParseAttributes(StreamReader fileStream)
         {
-            ICollection<Attribute> attributes = new List<Attribute>();
-            int attributesCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.ATTRIBUTES_SECTION_HEADER));
+            int attributesCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.AttributesSectionHeader));
+            Attribute[] attributes = new Attribute[attributesCount];
             int attributeIndex = 0;
             while (attributeIndex < attributesCount)
             {
@@ -47,12 +69,11 @@ namespace DecisionRulesTool.Model.Parsers
                 if (!string.IsNullOrEmpty(fileLine))
                 {
                     string[] lineWords = fileLine.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                    Attribute attribute = new Attribute();
-                    //attribute.Name = lineWords[0];
-                    //attribute.Type = (Attribute.Category)Enum.Parse(typeof(Attribute.Category), lineWords[1].ToUpper());
+                    AttributeType type = (AttributeType)Enum.Parse(typeof(AttributeType), lineWords[1], true);
+                    string name = lineWords[0];
                     //attribute.Accuary = attribute.Type == Attribute.Category.NUMERIC ? Convert.ToInt32(lineWords[2]) : default(int?);
-                    //attributeIndex++;
-                    attributes.Add(attribute);
+                    Attribute attribute = new Attribute(type, name);
+                    attributes[attributeIndex++] = attribute;
                 }
             }
             return attributes;

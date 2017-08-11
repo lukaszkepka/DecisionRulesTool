@@ -11,38 +11,34 @@ using System.Threading.Tasks;
 namespace DecisionRulesTool.Tests
 {
     using DecisionRulesTool.Model.Model;
+    using Te;
 
     [TestFixture]
     public class RsesRuleParserTests
     {
 
-        public static Stream GenerateStreamFromString(string value)
+        [Test]
+        public void ParseAttributes_DifferentTypes_ParsedProperly()
         {
-            return new MemoryStream(Encoding.UTF8.GetBytes(value ?? ""));
+            RsesRulesParser rsesFileParser = new RsesRulesParser();
+
+            string fileContent =
+            "RULE_SET test\n" +
+            "ATTRIBUTES 2\n" +
+            " but numeric 1\n" +
+            " and symbolic\n" +
+            "DECISION_VALUES 0\n" +
+            "RULES 0\n";
+
+            var expectedResult = new[] {
+                new Attribute(AttributeType.Numeric, "but"),
+                new Attribute(AttributeType.Symbolic, "and")
+            };
+
+            StreamReader streamReader = new StreamReader(Utils.GenerateStreamFromString(fileContent));
+            RuleSet ruleSet = rsesFileParser.ParseFile(streamReader);
+            Assert.IsTrue(ruleSet.Attributes.SequenceEqual(expectedResult));
         }
-
-        //[Test]
-        //public void ParseAttributes_DifferentTypes_ParsedProperly()
-        //{
-        //    RsesRulesParser rsesFileParser = new RsesRulesParser();
-
-        //    string fileContent =
-        //    "RULE_SET test\n" +
-        //    "ATTRIBUTES 2\n" +
-        //    " but numeric 1\n" +
-        //    " and symbolic\n" +
-        //    "DECISION_VALUES 0\n" +
-        //    "RULES 0\n";
-
-        //    var expectedResult = new[] {
-        //        new Attribute() {Name = "but", Type = Attribute.Category.NUMERIC, Accuary = 1},
-        //        new Attribute() {Name = "and", Type = Attribute.Category.SYMBOLIC, Accuary = null},
-        //    };
-
-        //    StreamReader streamReader = new StreamReader(GenerateStreamFromString(fileContent));
-        //    RuleSet ruleSet = rsesFileParser.ParseFile(streamReader);
-        //    Assert.IsTrue(ruleSet.Attributes.SequenceEqual(expectedResult));
-        //}
 
         //[Test]
         //public void ParseDecisionValues_ParsedProperly()

@@ -8,15 +8,38 @@ namespace DecisionRulesTool.Model.Model
 {
     public class Attribute
     {
-        public Attribute()
-        {
-        }
-
-        public AttributeType Type { get; set; }
-        public string Name { get; set; }
+        public static readonly Attribute MissingValue;
+        public AttributeType Type { get; }
+        public string Name { get; }
         public string[] AvailableValues { get; set; }
 
-        public DataSet DataSet { get; set; }
-        public RuleSet RuleSet { get; set; }
+        public Attribute(AttributeType type, string name, params string[] availableValues)
+        {
+            Type = type;
+            Name = name;
+            AvailableValues = availableValues;
+        }
+
+        public Attribute()
+        {
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool result = false;
+            Attribute attribute = obj as Attribute;
+            if(attribute != null)
+            {
+                result = attribute.Name.Equals(Name) &&
+                         attribute.Type == Type;
+            }
+            return result;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

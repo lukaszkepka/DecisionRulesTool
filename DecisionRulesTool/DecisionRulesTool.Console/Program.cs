@@ -16,7 +16,8 @@ namespace DecisionRulesTool.Console
     {
         static void Main(string[] args)
         {
-
+            IFileParser<RuleSet> t = new RsesRulesParser();
+            t.ParseFile(Globals.RsesFilesDirectory + "/Rules/demo.rul");
         }
     }
 }

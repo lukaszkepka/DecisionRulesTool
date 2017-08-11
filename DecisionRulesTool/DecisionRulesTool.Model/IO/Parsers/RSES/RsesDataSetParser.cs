@@ -7,9 +7,9 @@ using System.IO;
 
 namespace DecisionRulesTool.Model.Parsers.RSES
 {
-    using DecisionRulesTool.Model;
     using IO;
     using Model;
+    using System.Globalization;
 
     public class RsesDataSetParser : RsesFileParser<DataSet>
     {
@@ -17,18 +17,32 @@ namespace DecisionRulesTool.Model.Parsers.RSES
 
         private void ParseHeader(StreamReader fileStream, DataSet dataSet)
         {
-            dataSet.Name = GetSectionValue(fileStream, RsesFileFormat.DATASET_FILE_HEADER);
+            dataSet.Name = GetSectionValue(fileStream, RsesFileFormat.DatasetFileHeader);
         }
 
         private void ParseAttributes(StreamReader fileStream, DataSet dataSet)
         {
-            //dataSet.Attributes = base.ParseAttributes(fileStream);
+            foreach (var attribute in base.ParseAttributes(fileStream))
+            {
+                dataSet.Attributes.Add(attribute);
+            }
+        }
+
+        private void SetObjectValues(string[] stringValues, Object dataObject)
+        {
+            var attributeEnumerator = dataObject.Attributes.GetEnumerator();
+            attributeEnumerator.MoveNext();
+            for (int i = 0; i < stringValues.Length; i++)
+            {
+                object value = GetAttributeValue(attributeEnumerator.Current, stringValues[i]);
+                dataObject.Values[i] = value;
+                attributeEnumerator.MoveNext();
+            }
         }
 
         private void ParseObjects(StreamReader fileStream, DataSet dataSet)
         {
-            ICollection<Object> objects = new List<Object>();
-            int objectsCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.OBJECTS_SECTION_HEADER));
+            int objectsCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.ObjectsSectionHeader));
             int objectIndex = 0;
             while (objectIndex < objectsCount)
             {
@@ -36,14 +50,12 @@ namespace DecisionRulesTool.Model.Parsers.RSES
                 if (!string.IsNullOrEmpty(fileLine))
                 {
                     string[] values = fileLine.Split(',');
-                    Object dataSetObject = new Object();
-                    //dataSetObject.Attributes = dataSet.Attributes;
-                    //dataSetObject.Values = values;
-                    objects.Add(dataSetObject);
+                    Object dataSetObject = new Object(dataSet, new object[values.Length]);
+                    SetObjectValues(values, dataSetObject);
+                    dataSet.Objects.Add(dataSetObject);
                     objectIndex++;
                 }
             }
-            //dataSet.Objects = objects;
         }
 
         public override DataSet ParseFile(StreamReader fileStream)

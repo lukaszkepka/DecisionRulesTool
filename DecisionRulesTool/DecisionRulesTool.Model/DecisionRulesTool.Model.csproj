@@ -59,11 +59,14 @@
     <Compile Include="Comparers\IAttributeValuesComparer.cs" />
     <Compile Include="Comparers\SpecificAttibuteComparer.cs" />
     <Compile Include="Comparers\SymbolicAttributeComparer.cs" />
+    <Compile Include="IO\Parsers\4eMka\4EmkaDataSetParser.cs" />
+    <Compile Include="IO\_4eMkaFileFormat.cs" />
     <Compile Include="Model\Attribute.cs" />
     <Compile Include="Model\AttributeType.cs" />
     <Compile Include="Model\Condition.cs" />
     <Compile Include="Model\DataSet.cs" />
     <Compile Include="Model\Decision.cs" />
+    <Compile Include="Model\DecisionType.cs" />
     <Compile Include="Model\Object.cs" />
     <Compile Include="Model\Relation.cs" />
     <Compile Include="Model\Rule.cs" />

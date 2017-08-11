@@ -8,11 +8,16 @@ namespace DecisionRulesTool.Model.IO
 {
     internal static class RsesFileFormat
     {
-        public const string RULES_FILE_HEADER = "RULE_SET";
-        public const string DATASET_FILE_HEADER = "TABLE";
-        public const string ATTRIBUTES_SECTION_HEADER = "ATTRIBUTES";
-        public const string DECISION_VALUES_SECTION_HEADER = "DECISION_VALUES";
-        public const string RULES_SECTION_HEADER = "RULES";
-        public const string OBJECTS_SECTION_HEADER = "OBJECTS";
+        internal readonly static string RulesFileHeader = "RULE_SET";
+        internal readonly static string DatasetFileHeader = "TABLE";
+        internal readonly static string AttributesSectionHeader = "ATTRIBUTES";
+        internal readonly static string DecisionValuesSectionHeader = "DECISION_VALUES";
+        internal readonly static string RulesSectionHeader = "RULES";
+        internal readonly static string ObjectsSectionHeader = "OBJECTS";
+        internal readonly static string[] ConditionRelationChars = new[] { "=" };
+        internal readonly static string[] DecisionRelationChars = new[] { "=" };
+        internal readonly static string[] DecisionStringStartChars = new[] { "=>" };
+        internal readonly static string[] MissingValueChars = new[] { "MISSING", "?" };
+        internal readonly static char ConditionSeparatorChar = '&';
     }
 }

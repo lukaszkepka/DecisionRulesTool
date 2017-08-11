@@ -24,7 +24,6 @@ namespace DecisionRulesTool.Model.Comparers
                 case Relation.Less:
                 case Relation.LessOrEqual:
                     throw new NotImplementedException();
-                    break;
                 default:
                     break;
             }

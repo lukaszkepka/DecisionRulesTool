@@ -10,13 +10,23 @@ namespace DecisionRulesTool.Model.Model
     {
         public RuleSet()
         {
-            this.Attributes = new HashSet<Attribute>();
-            this.Rules = new HashSet<Rule>();
+            Attributes = new List<Attribute>();
+            Rules = new List<Rule>();
+        }
+        public RuleSet(string name) : this()
+        {
+            Name = name;
+        }
+        public RuleSet(string name, IList<Attribute> attributes, IList<Rule> rules, Attribute decisionAttribute) : this(name)
+        {
+            Attributes = attributes;
+            Rules = rules;
+            DecisionAttribute = decisionAttribute;
         }
 
         public string Name { get; set; }
-
-        public virtual ICollection<Attribute> Attributes { get; set; }
-        public virtual ICollection<Rule> Rules { get; set; }
+        public Attribute DecisionAttribute { get; set; }
+        public IList<Attribute> Attributes { get; }
+        public IList<Rule> Rules { get; }
     }
 }

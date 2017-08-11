@@ -20,6 +20,11 @@ namespace DecisionRulesTool.Model.Parsers
             return SupportedFormats.Contains(fileFormat);
         }
 
+        protected string RemoveBrackets(string value)
+        {
+            return value.Substring(1, value.Length - 2);
+        }
+
         public virtual StreamReader OpenFile(string path)
         {
             StreamReader streamReader = default(StreamReader);
@@ -31,7 +36,10 @@ namespace DecisionRulesTool.Model.Parsers
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                    if(Debugger.IsAttached)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
                 }
             }
             else
@@ -51,6 +59,7 @@ namespace DecisionRulesTool.Model.Parsers
                 try
                 {
                     result = ParseFile(fileStream);
+                    Debugger.Log(2, "ASD", "fsasdfghj");
                 }
                 catch (Exception ex)
                 {

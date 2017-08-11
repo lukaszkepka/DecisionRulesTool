@@ -11,6 +11,9 @@ using DecisionRulesTool.Model.IO;
 
 namespace DecisionRulesTool.Model.Parsers
 {
+    using Model;
+    using System.Globalization;
+
     public class RsesRulesParser : RsesFileParser<RuleSet>
     {
         public override string[] SupportedFormats => new[] { "rul" };
@@ -22,109 +25,107 @@ namespace DecisionRulesTool.Model.Parsers
 
         private void ParseHeader(StreamReader fileStream, RuleSet rulesSet)
         {
-            rulesSet.Name = GetSectionValue(fileStream, RsesFileFormat.RULES_FILE_HEADER);
+            rulesSet.Name = GetSectionValue(fileStream, RsesFileFormat.RulesFileHeader);
         }
 
         private void ParseAttributes(StreamReader fileStream, RuleSet rulesSet)
         {
-            //rulesSet.Attributes = base.ParseAttributes(fileStream);
+            foreach (var attribute in base.ParseAttributes(fileStream))
+            {
+                rulesSet.Attributes.Add(attribute);
+            }
+            rulesSet.DecisionAttribute = rulesSet.Attributes.Last();
         }
 
-        private void ParseDecisionValues(StreamReader fileStream, RuleSet rulesSet)
+        private string[] ParseDecisionValues(StreamReader fileStream, RuleSet rulesSet)
         {
-            ICollection<string> decisionValues = new List<string>();
-            int valuesCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.DECISION_VALUES_SECTION_HEADER));        
+            int valuesCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.DecisionValuesSectionHeader));
+            string[] decisionValues = new string[valuesCount];
             for (int i = 0; i < valuesCount; i++)
             {
-                string value = fileStream.ReadLine();
-                decisionValues.Add(value);
+                decisionValues[i] = fileStream.ReadLine();
             }
-            //rulesSet.DecisionValues = decisionValues;
+            return decisionValues;
         }
 
         private void ParseRules(StreamReader fileStream, RuleSet rulesSet)
         {
-            ICollection<Rule> rules = new List<Rule>();
-            int rulesCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.RULES_SECTION_HEADER));
+            int rulesCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.RulesSectionHeader));
             for (int i = 0; i < rulesCount; i++)
             {
                 string ruleString = fileStream.ReadLine();
                 Rule rule = ParseRule(ruleString, rulesSet);
-                rules.Add(rule);
+                rulesSet.Rules.Add(rule);
             }
-            rulesSet.Rules = rules;
         }
 
-        private Condition ParseRelation(string relationString, RuleSet rulesSet)
+        private Condition ParseCondition(string conditionString, RuleSet rulesSet)
         {
-            string rawRelation = relationString.Substring(1, relationString.Length - 2);
-            string[] relationParts = rawRelation.Split('=');
+            //Remove brackets from condition string
+            string rawCondition = RemoveBrackets(conditionString);
+            string[] relationParts = rawCondition.Split(RsesFileFormat.ConditionRelationChars, StringSplitOptions.RemoveEmptyEntries);
             var attributeName = relationParts[0];
-            var attributeValue = relationParts[1];
 
-            Condition relation = new Condition();
-            relation.Attribute = rulesSet.Attributes.Where(x => x.Name.Equals(attributeName)).FirstOrDefault();
-            //relation.Type = Premise.Category.Equality;
-            //relation.Value = attributeValue;
-
-            return relation;
+            Attribute attribute = rulesSet.Attributes.Where(x => x.Name.Equals(attributeName)).FirstOrDefault();
+            object attributeValue = GetAttributeValue(attribute, relationParts[1]);
+            //Relation is set to equality, because we assume that RSES don't have another types available
+            return new Condition(Relation.Equality, attribute, attributeValue);
         }
 
-        private IEnumerable<Decision> ParseDecision(string decisionString, RuleSet rulesSet)
+        private ICollection<Decision> ParseDecision(string decisionString, Rule rule)
         {
             ICollection<Decision> decisions = new List<Decision>();
-            var t = decisionString.Split(' ')[0];
-            string rawDecision = t.Substring(1, t.Length - 2);
-            string[] rawDecisionParts = rawDecision.Split('=');
-            string decisionAttribute = rawDecisionParts[0];
-            string[] decisionValues;
+            var decisionStringParts = decisionString.Split(' ');
+            string decisionStringWithoutSupport = decisionStringParts.Take(decisionStringParts.Length - 1).Aggregate((x, y) => x + y);
+            //Remove brackets from decision string
+            string rawDecision = RemoveBrackets(decisionStringWithoutSupport);
+            string[] rawDecisionParts = rawDecision.Split(RsesFileFormat.DecisionRelationChars, StringSplitOptions.RemoveEmptyEntries);
             string decisionValuesString = rawDecisionParts[1];
-            if(decisionValuesString[0] == '{')
+
+            string[] decisionValues;
+            //There are mutliple decisions for rule
+            if (decisionValuesString.StartsWith("{"))
             {
-                string q = decisionValuesString.Substring(1, decisionValuesString.Length - 2);
-                decisionValues = q.Split(',');
+                //Remove brackets from decision string
+                string rawDecisionValues = RemoveBrackets(decisionValuesString);
+                decisionValues = rawDecisionValues.Split(',');
             }
+            //There are one decision for rule
             else
             {
                 decisionValues = new[] { decisionValuesString };
             }
 
-            foreach(var decisionValue in decisionValues)
+            foreach (var decisionValue in decisionValues)
             {
-                var decisionParts = decisionValue.Split('[');
-                string supportValueString = new string(decisionParts[1].TakeWhile(x => x != ']').ToArray());
-                Decision decision = new Decision();
-                //decision.SupportValue = Convert.ToDouble(supportValueString);
-                //decision.Relation = new Premise()
-                //{
-                //    Attribute = rulesSet.DecisionAttribute,
-                //    Type = Premise.Category.Equality,
-                //    Value = decisionParts[0]
-                //};
-                //decisions.Add(decision);
-
+                var decisionValueParts = decisionValue.Split('[');
+                string supportValueString = new string(decisionValueParts[1].TakeWhile(x => x != ']').ToArray());
+                int support = Convert.ToInt32(supportValueString);
+                Decision decision = new Decision(DecisionType.Equality, rule, decisionValueParts[0], support);
+                decisions.Add(decision);
             }
             return decisions;
         }
 
-        private Rule ParseRule(string ruleString, RuleSet rulesSet)
+        private Rule ParseRule(string ruleString, RuleSet ruleSet)
         {
-            ICollection<Condition> relations = new List<Condition>();
+            Rule rule = new Rule(ruleSet);
 
-            string[] ruleParts = ruleString.Split(new[] { "=>" }, StringSplitOptions.RemoveEmptyEntries);
-            var relationsString = ruleParts[0];
-            var decision = ruleParts[1];
-            var conditions = relationsString.Split('&');
-            foreach(string condition in conditions)
+            string[] ruleParts = ruleString.Split(RsesFileFormat.DecisionStringStartChars, StringSplitOptions.RemoveEmptyEntries);
+            var conditionsString = ruleParts[0];
+            var decisionString = ruleParts[1];
+            var conditionsArray = conditionsString.Replace(" ", String.Empty).Split(RsesFileFormat.ConditionSeparatorChar);
+            //Add conditions
+            foreach (string condition in conditionsArray)
             {
-                var relation = ParseRelation(condition, rulesSet);
-                relations.Add(relation);
+                rule.Conditions.Add(ParseCondition(condition, ruleSet));
+            }
+            //Add decisions
+            foreach (Decision decision in ParseDecision(decisionString, rule))
+            {
+                rule.Decisions.Add(decision);
             }
 
-            Rule rule = new Rule();
-            //rule.Decision = ParseDecision(decision, rulesSet);
-            //rule.Relations = relations;
-            //rule.RulesSet = rulesSet;
             return rule;
         }
 

@@ -7,27 +7,28 @@ using DecisionRulesTool.Model.Model;
 
 namespace DecisionRulesTool.Model.Comparers
 {
+    using Model;
     public abstract class AttributeValuesComparer : IAttributeValuesComparer
     {
         public abstract AttributeType SupportedType { get; }
         public abstract bool AreInRelation(Relation relation, object value1, object value2);
 
-        public static IAttributeValuesComparer Instantiate(AttributeType type)
+        public static IAttributeValuesComparer Instantiate(Attribute attribute)
         {
             IAttributeValuesComparer result = null;
-            switch (type)
+            switch (attribute.Type)
             {
                 case AttributeType.Numeric:
-                    result = null;
+                    result = new NumericAttributeComparer();
                     break;
                 case AttributeType.Integer:
-                    result = null;
+                    result = new IntegerAttributeComparer();
                     break;
                 case AttributeType.Symbolic:
-                    result = null;
+                    result = new SymbolicAttributeComparer();
                     break;
                 case AttributeType.Specific:
-                    result = null;
+                    result = new SpecificAttibuteComparer(attribute.AvailableValues);
                     break;
                 default:
                     break;
