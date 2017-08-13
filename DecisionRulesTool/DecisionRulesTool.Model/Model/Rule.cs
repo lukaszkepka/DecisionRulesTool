@@ -24,6 +24,7 @@ namespace DecisionRulesTool.Model.Model
         public ICollection<Condition> Conditions { get; }
         public ICollection<Decision> Decisions { get; }
         public RuleSet RuleSet { get; set; }
+        public virtual int SupportValue => Decisions.Sum(x => (int)x.Support);
 
         public override bool Equals(object obj)
         {
@@ -31,7 +32,8 @@ namespace DecisionRulesTool.Model.Model
             Rule rule = obj as Rule;
             if (rule != null)
             {
-                result = Conditions.SequenceEqual(rule.Conditions) &&
+                result = SupportValue.Equals(rule.SupportValue) &&
+                         Conditions.SequenceEqual(rule.Conditions) &&
                          Decisions.SequenceEqual(rule.Decisions);
             }
             return result;

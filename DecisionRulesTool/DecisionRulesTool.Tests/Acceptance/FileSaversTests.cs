@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.Te.Acceptance
+namespace DecisionRulesTool.Tests.Acceptance
 {
     [TestFixture]
     [Category("Acceptance test")]
@@ -18,19 +18,19 @@ namespace DecisionRulesTool.Te.Acceptance
         }
 
         [Test]
-        public void RsesFileParser_TestResultFile_ParsedProperly()
+        public void RsesFileParser_TestResultFile_SavedProperly()
         {
             Assert.Fail();
         }
 
         [Test]
-        public void _4eMkaFileParser_RuleSetFile_ParsedProperly()
+        public void _4eMkaFileParser_RuleSetFile_SavedProperly()
         {
             Assert.Fail();
         }
 
         [Test]
-        public void _4eMkaFileParser_TestResultFile_ParsedProperly()
+        public void _4eMkaFileParser_TestResultFile_SavedProperly()
         {
             Assert.Fail();
         }

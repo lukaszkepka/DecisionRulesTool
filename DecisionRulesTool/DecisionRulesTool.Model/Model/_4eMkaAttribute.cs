@@ -6,13 +6,7 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.Model
 {
-    public enum Relation
+    public class _4eMkaAttribute : Attribute
     {
-        Equality,
-        Greather,
-        GreatherOrEqual,
-        Less,
-        LessOrEqual,
-        Undefined
     }
 }

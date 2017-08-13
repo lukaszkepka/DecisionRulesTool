@@ -10,10 +10,15 @@ namespace DecisionRulesTool.Model.Parsers
 {
     using IO;
     using Model;
-    using System.Globalization;
 
     public abstract class RsesFileParser<T> : BaseFileParser<T>
     {
+        protected RsesFileFormat fileFormat;
+        public RsesFileParser()
+        {
+            fileFormat = new RsesFileFormat();
+        }
+
         protected string GetSectionValue(StreamReader fileStream, string sectionName)
         {
             string sectionValue = null;
@@ -36,31 +41,9 @@ namespace DecisionRulesTool.Model.Parsers
             return sectionValue;
         }
 
-        protected object GetAttributeValue(Attribute attribute, string value)
-        {
-            object attributeValue = value;
-            if (RsesFileFormat.MissingValueChars.Contains(attributeValue))
-            {
-                attributeValue = Attribute.MissingValue;
-            }
-            else
-            {
-                switch (attribute.Type)
-                {
-                    case AttributeType.Numeric:
-                        attributeValue = Convert.ToDouble(attributeValue, CultureInfo.InvariantCulture);
-                        break;
-                    case AttributeType.Integer:
-                        attributeValue = Convert.ToInt32(attributeValue, CultureInfo.InvariantCulture);
-                        break;
-                }
-            }
-            return attributeValue;
-        }
-
         protected virtual IEnumerable<Attribute> ParseAttributes(StreamReader fileStream)
         {
-            int attributesCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.AttributesSectionHeader));
+            int attributesCount = Convert.ToInt32(GetSectionValue(fileStream, fileFormat.AttributesSectionHeader));
             Attribute[] attributes = new Attribute[attributesCount];
             int attributeIndex = 0;
             while (attributeIndex < attributesCount)
@@ -69,7 +52,7 @@ namespace DecisionRulesTool.Model.Parsers
                 if (!string.IsNullOrEmpty(fileLine))
                 {
                     string[] lineWords = fileLine.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                    AttributeType type = (AttributeType)Enum.Parse(typeof(AttributeType), lineWords[1], true);
+                    AttributeType type = fileFormat.GetAttributeType(lineWords[1]);
                     string name = lineWords[0];
                     //attribute.Accuary = attribute.Type == Attribute.Category.NUMERIC ? Convert.ToInt32(lineWords[2]) : default(int?);
                     Attribute attribute = new Attribute(type, name);

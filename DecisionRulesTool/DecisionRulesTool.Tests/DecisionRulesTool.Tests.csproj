@@ -71,6 +71,7 @@
     <Compile Include="Acceptance\FileParsersTests.cs" />
     <Compile Include="Acceptance\FileSaversTests.cs" />
     <Compile Include="Comparers\ConditionCheckerTests.cs" />
+    <Compile Include="IO\_4EmkaRulesParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IO\RsesRuleParserTests.cs" />
     <Compile Include="Utils.cs" />

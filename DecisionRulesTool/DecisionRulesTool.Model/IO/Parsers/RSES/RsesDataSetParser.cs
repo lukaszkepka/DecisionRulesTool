@@ -17,7 +17,7 @@ namespace DecisionRulesTool.Model.Parsers.RSES
 
         private void ParseHeader(StreamReader fileStream, DataSet dataSet)
         {
-            dataSet.Name = GetSectionValue(fileStream, RsesFileFormat.DatasetFileHeader);
+            dataSet.Name = GetSectionValue(fileStream, fileFormat.DatasetFileHeader);
         }
 
         private void ParseAttributes(StreamReader fileStream, DataSet dataSet)
@@ -34,7 +34,7 @@ namespace DecisionRulesTool.Model.Parsers.RSES
             attributeEnumerator.MoveNext();
             for (int i = 0; i < stringValues.Length; i++)
             {
-                object value = GetAttributeValue(attributeEnumerator.Current, stringValues[i]);
+                object value = fileFormat.GetAttributeValue(attributeEnumerator.Current, stringValues[i]);
                 dataObject.Values[i] = value;
                 attributeEnumerator.MoveNext();
             }
@@ -42,7 +42,7 @@ namespace DecisionRulesTool.Model.Parsers.RSES
 
         private void ParseObjects(StreamReader fileStream, DataSet dataSet)
         {
-            int objectsCount = Convert.ToInt32(GetSectionValue(fileStream, RsesFileFormat.ObjectsSectionHeader));
+            int objectsCount = Convert.ToInt32(GetSectionValue(fileStream, fileFormat.ObjectsSectionHeader));
             int objectIndex = 0;
             while (objectIndex < objectsCount)
             {

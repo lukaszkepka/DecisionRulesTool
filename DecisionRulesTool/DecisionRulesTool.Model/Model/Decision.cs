@@ -8,7 +8,7 @@ namespace DecisionRulesTool.Model.Model
 {
     public class Decision
     {
-        public Decision(DecisionType type, Rule rule, object value, int support = 0)
+        public Decision(DecisionType type, Rule rule, object value, int? support = null)
         {
             Type = type;
             Rule = rule;
@@ -20,7 +20,7 @@ namespace DecisionRulesTool.Model.Model
         public Rule Rule { get; set; }
         public Attribute DecisionAttribute => Rule.RuleSet.DecisionAttribute;
         public object Value { get; }
-        public int Support { get; set; }
+        public int? Support { get; set; }
 
         public override bool Equals(object obj)
         {

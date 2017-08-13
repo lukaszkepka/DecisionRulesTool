@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DecisionRulesTool.Model.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -36,15 +37,12 @@ namespace DecisionRulesTool.Model.Parsers
                 }
                 catch (Exception ex)
                 {
-                    if(Debugger.IsAttached)
-                    {
-                        Debug.WriteLine(ex.Message);
-                    }
+                    Debug.WriteLine(ex.Message);
                 }
             }
             else
             {
-                throw new NotSupportedException();
+                throw new FileFormatNotSupportedException();
             }
 
             return streamReader;
@@ -54,21 +52,13 @@ namespace DecisionRulesTool.Model.Parsers
         {
             T result = default(T);
             StreamReader fileStream = OpenFile(filePath);
-            if (fileStream != null)
+            try
             {
-                try
-                {
-                    result = ParseFile(fileStream);
-                    Debugger.Log(2, "ASD", "fsasdfghj");
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
+                result = ParseFile(fileStream);
             }
-            else
+            catch (Exception ex)
             {
-
+                throw new InvalidFileBodyException();
             }
             return result;
         }

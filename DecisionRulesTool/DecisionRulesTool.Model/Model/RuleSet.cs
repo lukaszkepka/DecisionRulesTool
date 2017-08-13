@@ -28,5 +28,23 @@ namespace DecisionRulesTool.Model.Model
         public Attribute DecisionAttribute { get; set; }
         public IList<Attribute> Attributes { get; }
         public IList<Rule> Rules { get; }
+
+        public override bool Equals(object obj)
+        {
+            bool result = false;
+            RuleSet ruleSet = obj as RuleSet;
+            if(ruleSet != null)
+            {
+                result = Attributes.SequenceEqual(ruleSet.Attributes) &&
+                         Rules.SequenceEqual(ruleSet.Rules) &&
+                         DecisionAttribute.Equals(ruleSet.DecisionAttribute);
+            }
+            return result;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace DecisionRulesTool.Model.Model
     {
         Equality,
         AtMost,
-        AtLeast
+        AtLeast,
+        Undefined
     }
 }

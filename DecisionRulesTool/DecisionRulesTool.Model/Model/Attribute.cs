@@ -29,9 +29,19 @@ namespace DecisionRulesTool.Model.Model
         {
             bool result = false;
             Attribute attribute = obj as Attribute;
-            if(attribute != null)
+            if (attribute != null)
             {
+                bool availableValuesEqual = false;
+                if (attribute.AvailableValues == null || AvailableValues == null)
+                {
+                    availableValuesEqual = attribute.AvailableValues == AvailableValues;
+                }
+                else
+                {
+                    availableValuesEqual = attribute.AvailableValues.SequenceEqual(AvailableValues);
+                }
                 result = attribute.Name.Equals(Name) &&
+                         availableValuesEqual &&
                          attribute.Type == Type;
             }
             return result;

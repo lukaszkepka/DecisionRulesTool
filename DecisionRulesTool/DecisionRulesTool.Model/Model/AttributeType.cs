@@ -11,6 +11,7 @@ namespace DecisionRulesTool.Model.Model
         Numeric,
         Integer,
         Symbolic,
-        Specific
+        Specific,
+        Undefined
     }
 }
