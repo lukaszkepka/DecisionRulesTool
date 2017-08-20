@@ -7,11 +7,8 @@ using DecisionRulesTool.Model.Model;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
-    public class BaseFilter : IRuleFilter
+    public abstract class BaseFilter : IRuleFilter
     {
-        public RuleSet FilterRules(RuleSet ruleSet)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract RuleSet FilterRules(RuleSet ruleSet);
     }
 }

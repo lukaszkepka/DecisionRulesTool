@@ -24,6 +24,11 @@ namespace DecisionRulesTool.Model.Model
             RelativeStrength = relativeStrength;
         }
 
+        public override object Clone()
+        {
+            return new _4eMkaRule(RuleSet, Conditions, Decisions, SupportValue, RelativeStrength);
+        }
+
         public void SetSupportValue(int supportValue)
         {
             this.supportValue = supportValue;

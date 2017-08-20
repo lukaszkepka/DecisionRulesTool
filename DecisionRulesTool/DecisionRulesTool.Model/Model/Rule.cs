@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.Model
 {
-    public class Rule
+    public class Rule : ICloneable
     {
         public Rule(RuleSet ruleSet)
         {
@@ -25,6 +25,11 @@ namespace DecisionRulesTool.Model.Model
         public ICollection<Decision> Decisions { get; }
         public RuleSet RuleSet { get; set; }
         public virtual int SupportValue => Decisions.Sum(x => (int)x.Support);
+
+        public virtual object Clone()
+        {
+            return new Rule(RuleSet, Conditions, Decisions);
+        }
 
         public override bool Equals(object obj)
         {
