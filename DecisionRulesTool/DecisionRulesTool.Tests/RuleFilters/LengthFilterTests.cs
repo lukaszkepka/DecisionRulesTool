@@ -27,9 +27,9 @@ namespace DecisionRulesTool.Te.RuleFilters
             #endregion When
             #region Then
             bool haveInvalidReference = false;
-            foreach(Rule rule in filteredRuleSet.Rules)
+            foreach (Rule rule in filteredRuleSet.Rules)
             {
-                if(rule.RuleSet != filteredRuleSet)
+                if (rule.RuleSet != filteredRuleSet)
                 {
                     haveInvalidReference = true;
                 }
@@ -43,7 +43,7 @@ namespace DecisionRulesTool.Te.RuleFilters
         {
             #region Given
             IRuleFilter ruleFilter = new LengthFilter(Relation.GreatherOrEqual, 3);
-            RuleSet ruleSet = GetRuleSet();           
+            RuleSet ruleSet = GetRuleSet();
             #endregion Given
             #region When
             RuleSet filteredRuleSet = ruleFilter.FilterRules(ruleSet);
@@ -157,3 +157,4 @@ namespace DecisionRulesTool.Te.RuleFilters
         }
     }
 }
+

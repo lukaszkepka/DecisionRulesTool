@@ -71,11 +71,16 @@
     <Compile Include="Acceptance\FileParsersTests.cs" />
     <Compile Include="Acceptance\FileSaversTests.cs" />
     <Compile Include="Comparers\ConditionCheckerTests.cs" />
+    <Compile Include="DataProvider\ITestDataProvider.cs" />
     <Compile Include="IO\_4EmkaRulesParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IO\RsesRuleParserTests.cs" />
+    <Compile Include="RuleFilters\DataProviders\4eMkaRulesProvider.cs" />
     <Compile Include="RuleFilters\AttributeConditionFilterTests.cs" />
+    <Compile Include="RuleFilters\AttributePresenceFilterTests.cs" />
     <Compile Include="RuleFilters\LengthFilterTests.cs" />
+    <Compile Include="RuleFilters\DataProviders\RsesRulesProvider.cs" />
+    <Compile Include="RuleFilters\SupportValueFilterTests.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
