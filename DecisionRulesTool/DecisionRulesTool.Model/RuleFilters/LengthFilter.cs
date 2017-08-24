@@ -8,7 +8,7 @@ using DecisionRulesTool.Model.Comparers;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
-    public class LengthFilter : BaseFilter
+    public class LengthFilter : IRuleFilter
     {
         private Relation relationBetweenRulesLengths;
         private IAttributeValuesComparer ruleLengthComparer;
@@ -35,7 +35,7 @@ namespace DecisionRulesTool.Model.RuleFilters
             return ruleLengthComparer.AreInRelation(relationBetweenRulesLengths, rule.Conditions.Count, desiredLength);
         }
 
-        public override RuleSet FilterRules(RuleSet ruleSet)
+        public RuleSet FilterRules(RuleSet ruleSet)
         {
             RuleSet newRuleSet = new RuleSet(ruleSet.Name, ruleSet.Attributes, new List<Rule>(), ruleSet.DecisionAttribute);
             foreach (Rule rule in ruleSet.Rules)

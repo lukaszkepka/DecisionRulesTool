@@ -7,9 +7,9 @@ using DecisionRulesTool.Model.Model;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
-    public class AttributeConditionFilter : BaseFilter
+    public class AttributeConditionFilter : IRuleFilter
     {
-        public override RuleSet FilterRules(RuleSet ruleSet)
+        public RuleSet FilterRules(RuleSet ruleSet)
         {
             throw new NotImplementedException();
         }

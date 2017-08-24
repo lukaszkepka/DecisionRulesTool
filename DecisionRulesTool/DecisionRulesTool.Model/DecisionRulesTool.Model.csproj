@@ -95,7 +95,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleFilters\AttributeConditionFilter.cs" />
     <Compile Include="RuleFilters\AttributePresenceFilter.cs" />
-    <Compile Include="RuleFilters\BaseFilter.cs" />
     <Compile Include="RuleFilters\IRuleFilter.cs" />
     <Compile Include="RuleFilters\LengthFilter.cs" />
     <Compile Include="RuleFilters\RuleFilterAggreagtor.cs" />

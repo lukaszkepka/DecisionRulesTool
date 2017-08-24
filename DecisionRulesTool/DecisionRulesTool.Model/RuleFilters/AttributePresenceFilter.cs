@@ -7,11 +7,40 @@ using DecisionRulesTool.Model.Model;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
-    public class AttributePresenceFilter : BaseFilter
+    public class AttributePresenceFilter : IRuleFilter
     {
-        public override RuleSet FilterRules(RuleSet ruleSet)
+        private string[] attributeNames;
+
+        public AttributePresenceFilter(params string[] attributeNames)
         {
-            throw new NotImplementedException();
+            this.attributeNames = attributeNames;
+        }
+
+        public bool CheckCondition(Rule rule, string attributeName)
+        {
+            return rule.Conditions.Any(x => x.Attribute.Name.Equals(attributeName));
+        }
+
+        public RuleSet FilterRules(RuleSet ruleSet)
+        {
+            RuleSet newRuleSet = new RuleSet(ruleSet.Name, ruleSet.Attributes, new List<Rule>(), ruleSet.DecisionAttribute);
+            foreach (Rule rule in ruleSet.Rules)
+            {
+                bool ruleSatisfiesCondition = true;
+                foreach(string attributeName in attributeNames)
+                {
+                    if(!CheckCondition(rule, attributeName))
+                    {
+                        ruleSatisfiesCondition = false;
+                        break;
+                    }
+                }
+                if(ruleSatisfiesCondition)
+                {
+                    newRuleSet.Rules.Add(rule);
+                }
+            }
+            return newRuleSet;
         }
     }
 }
