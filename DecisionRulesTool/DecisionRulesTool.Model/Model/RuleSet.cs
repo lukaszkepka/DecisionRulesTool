@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.Model
 {
-    public class RuleSet
+    public class RuleSet : ICloneable
     {
         public RuleSet()
         {
@@ -45,6 +45,13 @@ namespace DecisionRulesTool.Model.Model
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public object Clone()
+        {
+            int decisionAttributeIndex = Attributes.IndexOf(DecisionAttribute);
+            IList<Attribute> newAttributes = new List<Attribute>(Attributes);
+            return new RuleSet(Name, newAttributes, new List<Rule>(Rules), newAttributes[decisionAttributeIndex]);
         }
     }
 }

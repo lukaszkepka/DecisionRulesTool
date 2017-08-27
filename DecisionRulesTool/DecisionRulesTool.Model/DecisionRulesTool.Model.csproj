@@ -93,7 +93,6 @@
     <Compile Include="Model\_4eMkaAttribute.cs" />
     <Compile Include="Model\_4eMkaRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RuleFilters\AttributeConditionFilter.cs" />
     <Compile Include="RuleFilters\AttributePresenceFilter.cs" />
     <Compile Include="RuleFilters\IRuleFilter.cs" />
     <Compile Include="RuleFilters\LengthFilter.cs" />

@@ -7,10 +7,49 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
-    public class RuleFilterAggreagtor
+    public class RuleFilterAggregator
     {
-        IEnumerable<IRuleFilter> Filters { get; set; }
-        RuleSet InitialRuleSet { get; set; }
-        RuleSet ResultRuleSet { get; set; }
+        private IList<IRuleFilter> ruleFilters;
+        public IEnumerable<IRuleFilter> Filters => ruleFilters;
+        public RuleSet InitialRuleSet { get; }
+
+        public RuleFilterAggregator(RuleSet initialRuleSet)
+        {
+            InitialRuleSet = initialRuleSet;
+            ruleFilters = new List<IRuleFilter>();
+        }
+
+        public RuleFilterAggregator(RuleSet initialRuleSet, IEnumerable<IRuleFilter> filters) : this(initialRuleSet)
+        {
+            ruleFilters = new List<IRuleFilter>(filters);
+        }
+
+        public void RemoveFilter(int index)
+        {
+            ruleFilters.RemoveAt(index);
+        }
+
+        public void AddFilter(IRuleFilter ruleFilter)
+        {
+            ruleFilters.Add(ruleFilter);
+        }
+
+
+        public RuleSet RunFiltering()
+        {
+            RuleSet filteredRuleSet = (RuleSet)InitialRuleSet.Clone();
+
+            foreach (IRuleFilter filter in ruleFilters)
+            {
+                filteredRuleSet = filter.FilterRules(filteredRuleSet);
+                if(filteredRuleSet.Rules.Count == 0)
+                {
+                    break;
+                }
+            }
+
+            return filteredRuleSet;
+        }
+
     }
 }

@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sets", "Sets", "{94D27A2D-B
 		..\Resources\Examples\RSES\Sets\Mts.tab = ..\Resources\Examples\RSES\Sets\Mts.tab
 	EndProjectSection
 EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "DecisionRulesTool.Diagrams", "DecisionRulesTool.Diagrams\DecisionRulesTool.Diagrams.modelproj", "{BFD306EC-AB5A-45DE-B692-9D4FE2039A9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{A9246ECB-7903-4FF5-AA53-81ABA5BBD63A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9246ECB-7903-4FF5-AA53-81ABA5BBD63A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9246ECB-7903-4FF5-AA53-81ABA5BBD63A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFD306EC-AB5A-45DE-B692-9D4FE2039A9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFD306EC-AB5A-45DE-B692-9D4FE2039A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFD306EC-AB5A-45DE-B692-9D4FE2039A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFD306EC-AB5A-45DE-B692-9D4FE2039A9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{00000000-0000-0000-0000-000000000000}</ProjectGuid>
+    <ProjectGuid>{bfd306ec-ab5a-45de-b692-9d4fe2039a9d}</ProjectGuid>
     <ArchitectureToolsVersion>2.0.0.0</ArchitectureToolsVersion>
     <Name>DecisionRulesTool.Diagrams</Name>
     <RootNamespace>DecisionRulesTool.Diagrams</RootNamespace>
@@ -22,6 +22,13 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
   <ItemGroup>
+    <Content Include="RuleTester.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="RuleTester.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>RuleTester.classdiagram</DependentUpon>
+    </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\DecisionRulesTool.Diagrams.uml">
       <SubType>Content</SubType>

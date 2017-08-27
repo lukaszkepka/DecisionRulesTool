@@ -1,8 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
   Id="4c81c3dd-4179-41df-9100-17d151adf453"
   name="DecisionRulesTool.Diagrams" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <appliedStereotypesInternal>
+    <stereotypeInstance
+      Id="2ca9fad3-2133-4858-95b9-7d61039563fc"
+      name="namespace"
+      profile="CSharpProfile">
+      <propertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="5cd44fd4-0d02-4410-8e7b-b883b477c37b">
+          <propertyInstance
+            Id="538571b8-79a8-49f8-acc4-5708bf9772ad"
+            name="BaseName" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="9831dac2-ba78-4067-b362-92178a32e7fb">
+          <propertyInstance
+            Id="85a3d2c1-c8f5-478f-99f0-a7074a5259ed"
+            name="ClrAttributes" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="ade94bda-3006-459a-800f-0c5994971b00">
+          <propertyInstance
+            Id="5d04985b-d83a-42b5-a9ee-032c21727a40"
+            name="Usings" />
+        </stereotypeInstanceHasPropertyInstances>
+      </propertyInstances>
+    </stereotypeInstance>
+    <stereotypeInstance
+      Id="db95341a-fde7-4584-968e-a106e8dcb9f8"
+      name="TextTemplateBindings"
+      profile="TextTemplateBindings">
+      <propertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="8ffc0895-e0f8-466f-9341-b172e15102d7">
+          <propertyInstance
+            Id="eafb0e03-eac7-4024-8fd6-bd32b95b26be"
+            name="Alias"
+            value="ClassTemplate|EnumTemplate|InterfaceTemplate|StructTemplate" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="492da8df-eb4b-4f01-88e4-6d4cc8799e58">
+          <propertyInstance
+            Id="05385a72-3464-4e95-b627-c60b60d1496a"
+            name="TemplateFilePath"
+            value="ClassTemplate=D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4|EnumTemplate=D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4|InterfaceTemplate=D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\InterfaceTemplate.t4|StructTemplate=D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="4636504f-186b-4586-b4a9-3ce268ca8e8b">
+          <propertyInstance
+            Id="60f0cecb-7a35-43fc-afff-ae7e82052a02"
+            name="ProjectPath"
+            value="ClassTemplate=..\DecisionRulesTool.DiagramsLib\DecisionRulesTool.DiagramsLib.csproj|EnumTemplate=..\DecisionRulesTool.DiagramsLib\DecisionRulesTool.DiagramsLib.csproj|InterfaceTemplate=..\DecisionRulesTool.DiagramsLib\DecisionRulesTool.DiagramsLib.csproj|StructTemplate=..\DecisionRulesTool.DiagramsLib\DecisionRulesTool.DiagramsLib.csproj" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="b6cc1561-716a-4ec9-8e00-c9f321400376">
+          <propertyInstance
+            Id="3edd6a37-16f4-4aa8-abd3-c6628af5f05f"
+            name="TargetDirectory"
+            value="ClassTemplate=GeneratedCode\{PackageStructure}|EnumTemplate=GeneratedCode\{PackageStructure}|InterfaceTemplate=GeneratedCode\{PackageStructure}|StructTemplate=GeneratedCode\{PackageStructure}" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="b1889ba9-7049-44f8-8658-da9077bb0505">
+          <propertyInstance
+            Id="e37a3a55-2144-49a7-a4dc-1fc06dc88661"
+            name="TargetName"
+            value="ClassTemplate={Name}|EnumTemplate={Name}|InterfaceTemplate={Name}|StructTemplate={Name}" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="3e892bce-fe20-49d5-a228-19d74401e85a">
+          <propertyInstance
+            Id="08235cdd-5135-45fc-8369-bd1c289938dc"
+            name="Overwrite"
+            value="ClassTemplate=True|EnumTemplate=True|InterfaceTemplate=True|StructTemplate=True" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="2dec4baf-9383-4214-bb74-6cdffafd8f05">
+          <propertyInstance
+            Id="c951bfd8-0e2c-4101-a3b7-4912b85fd69d"
+            name="Parameters" />
+        </stereotypeInstanceHasPropertyInstances>
+      </propertyInstances>
+    </stereotypeInstance>
+  </appliedStereotypesInternal>
   <profileInstances>
     <packageHasProfileInstances
       Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
@@ -16,29 +98,708 @@
         Id="532ea607-fb19-44b8-8502-3351b05452be"
         name="StandardProfileL3" />
     </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="435440db-6617-48a2-8aaf-eb69fb59d58d">
+      <profileInstance
+        Id="5ea34093-5975-409b-b1ef-0f363b51a341"
+        name="CSharpProfile" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="f9befb9b-2bf6-40a1-8196-366a761fab95">
+      <profileInstance
+        Id="d9ef10e2-8c8c-436c-9964-ca74c9c90ea0"
+        name="TextTemplateBindings" />
+    </packageHasProfileInstances>
   </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <Interface
+        Id="8579cb55-7785-4ccc-aa9e-cd0963650ef5"
+        name="IRuleTester"
+        isAbstract="false"
+        isLeaf="false">
+        <suppliersInternal>
+          <dependency
+            Id="8a033161-4d46-47aa-b5d4-481e55d6a6e7"
+            name="&lt;&lt;Uses&gt;&gt;">
+            <classMoniker
+              Id="46abe6c5-7ad1-4065-86e4-7c611401f2fb"
+              LastKnownName="TestRequest"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+          </dependency>
+          <dependency
+            Id="5f3aad73-6d40-4745-8e28-a3b207cae2e0"
+            name="&lt;&lt;Produces&gt;&gt;">
+            <classMoniker
+              Id="23dd3ca0-a1f0-412f-886c-0afa17658f4c"
+              LastKnownName="TestResult"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+          </dependency>
+        </suppliersInternal>
+        <ownedOperations>
+          <operation
+            Id="0b710eae-afe0-4e32-ad62-2d7b5d46b832"
+            name="IEnumerable&lt;TestResult&gt; RunTesting"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="82fd32eb-b30c-424b-a09c-d9fac8d5d857"
+                  name="IEnumerable&lt;TestRequest&gt;"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="4173e687-079a-40d4-a338-437a0ea87f38"
+        name="IConflictResolver"
+        isAbstract="false"
+        isLeaf="false">
+        <ownedAttributes>
+          <property
+            Id="33c0fd3b-5500-4a6d-b749-57f65af73210"
+            name="ConflictResolvingMethod resolvingMethod"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributes>
+        <ownedOperations>
+          <operation
+            Id="2ce85572-e980-4068-a126-d57c037008c2"
+            name="void Resolve"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperations>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="23dd3ca0-a1f0-412f-886c-0afa17658f4c"
+        name="TestResult"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="75918a3c-90d4-4537-8811-c3aaa561755c"
+            isDerived="false"
+            sourceEndRoleName="TestResult"
+            targetEndRoleName="ConfusionMatrix"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="155d9235-5e0f-46c6-b56f-c15f9291d143"
+              LastKnownName="ConfusionMatrix"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="92ffc59e-5edf-43ed-8448-382c4aa1eff5"
+                  name="TestResult"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="23a3135d-f7f9-45d4-a765-2d64ee06ea5e"
+                  name="ConfusionMatrix"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="ad787b21-8f22-49ed-9cd5-f30126e3e239"
+            isDerived="false"
+            sourceEndRoleName="TestResult"
+            targetEndRoleName="TestRequest"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="46abe6c5-7ad1-4065-86e4-7c611401f2fb"
+              LastKnownName="TestRequest"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e909c933-1f32-44ed-8c3e-8277a0b73d2e"
+                  name="TestResult"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="9d8b9f6f-e4b7-4727-bd2c-9c7bbdefaa06"
+                  name="TestRequest"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="7b0ac814-b4e2-4479-abe0-75a471eb9a4f"
+            name="ConfusionMatrix confusionMatrix"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="a53a68bb-1831-43c7-b70d-3b265048ec0b"
+            name="string[] decisionValues"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="5e06b152-52f7-4063-a4ff-3eee4e18bd6c"
+            name="TestRequest testRequest"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2b76b069-c224-4c45-b968-4a7807952a3c"
+        name="RuleTester"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="8459e7be-460c-49d2-8f14-bce6cf5adbe3">
+            <interfaceMoniker
+              Id="8579cb55-7785-4ccc-aa9e-cd0963650ef5"
+              LastKnownName="IRuleTester"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="784ccfc0-e8ec-4c17-99c7-a1ee9db56b51"
+            name="IEnumerable&lt;TestResult&gt; RunTesting"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="5f9d8419-26fa-4950-bc71-ddb565c28c62"
+                  name="IEnumerable&lt;TestRequest&gt;"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="155d9235-5e0f-46c6-b56f-c15f9291d143"
+        name="ConfusionMatrix"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="feeb07e6-8bee-4c74-989e-cc41613080d4"
+            name="int TruePositives"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="e4b72f6c-ee81-4843-bce5-d04ba29c2ff2"
+            name="int TrueNegatives"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="ac154364-213c-414a-9701-4fe3a2b011b1"
+            name="int FalseNegatives"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="f0ff7706-61f9-42c5-9be0-d84b60360523"
+            name="int FalsePositives"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="12551d30-5fa7-45ac-beb8-ed364c8353d7"
+        name="WeightedVoting"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="82c33665-d237-45bf-a3bd-154fb9f0f3ce">
+            <interfaceMoniker
+              Id="4173e687-079a-40d4-a338-437a0ea87f38"
+              LastKnownName="IConflictResolver"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="110fe6a4-813c-4641-b5f2-f2b950a5a273"
+            name="ConflictResolvingMethod resolvingMethod"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="aee862a9-300a-4d04-9121-8d8dfff7036f"
+            name="void Resolve"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="0b0f5e3f-f1e1-4928-99e7-37d0a68d39a1"
+        name="MajorityVoting"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="e028f15b-3703-442e-b5b5-3108c7b2635d">
+            <interfaceMoniker
+              Id="4173e687-079a-40d4-a338-437a0ea87f38"
+              LastKnownName="IConflictResolver"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="45fdb0ff-9077-463e-9ccb-e9a2349c63a5"
+            name="ConflictResolvingMethod resolvingMethod"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="e5ad4c1e-11a1-47b7-b12d-d5a614e993a4"
+            name="void Resolve"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="de4714a6-1101-49e5-b023-4d6c61bb2c63"
+        name="RefuseConflict"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="01739ce6-8ace-4646-8bbd-2b089d813039">
+            <interfaceMoniker
+              Id="4173e687-079a-40d4-a338-437a0ea87f38"
+              LastKnownName="IConflictResolver"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="4d8791a9-a778-40ce-bc59-38617aa2875a"
+            name="ConflictResolvingMethod resolvingMethod"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="05b13459-82c3-449a-9552-4d6cbaa3e6b8"
+            name="void Resolve"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="5a9d11dd-3513-4871-935c-86d799b30f14"
+        name="RuleTesterManager"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <description>Class responsible for creatin test request and running rule testing</description>
+        <suppliersInternal>
+          <dependency
+            Id="e1bdfcb2-561d-41ca-81c4-e2c00376658f"
+            name="&lt;&lt;Produces&gt;&gt;">
+            <classMoniker
+              Id="46abe6c5-7ad1-4065-86e4-7c611401f2fb"
+              LastKnownName="TestRequest"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+          </dependency>
+        </suppliersInternal>
+        <targetEnds>
+          <association
+            Id="18ea864b-e3e9-4a99-b1e9-f6a7aa7a3e06"
+            isDerived="false"
+            sourceEndRoleName="RuleTesterManager"
+            targetEndRoleName="IRuleTester"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="8579cb55-7785-4ccc-aa9e-cd0963650ef5"
+              LastKnownName="IRuleTester"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="400b11c2-319f-4448-88c7-cce89720869e"
+                  name="RuleTesterManager"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="59cf9034-fd09-45f2-ab9a-b571495c83d7"
+                  name="IRuleTester"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="7febf230-942e-4ed6-a41f-131e3281b451"
+            name="IEnumerable&lt;TestRequest&gt; testRequests"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="aec22fd6-729f-45f3-b4f0-c57f2300fb69"
+            name="IRuleTester ruleTester"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="7a4133a6-2614-43d6-94fd-0ec55539e623"
+            name="IEnumerable&lt;TestRequest&gt; GenerateTests"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="aefdcebe-c88b-4943-9391-66a941992246"
+                  name="DataSet[] testSets"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="4488a784-ad5f-4c72-8b6f-3ca49e718303"
+                  name="RuleSet ruleSet"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="834329a5-ddf2-4d4e-b53f-d56bf2cf9043"
+            name="IEnumerable&lt;TestRequest&gt; GenerateTestSeries"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="fb94ecd5-9bdf-40a4-b849-38ba236e9c7b"
+                  name="RuleFilterAggregator filterAggregator"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="2fb7a85c-6fbb-4c62-84d0-b1f8fe57e0b1"
+                  name="DataSet[] testSets"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="819d91be-38c0-4e42-a377-514c45688557"
+            name="IEnumerable&lt;TestResult&gt; RunTesting"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="cef32df1-19a7-4329-9fd7-91060f5cd041"
+            name="void AddTestRequest"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="114d058c-b9f2-426b-b22b-a3684b2a5ba3"
+                  name="TestRequest testRequest"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="c0633fcc-b223-4b9f-ab8e-6566aa4b3c81"
+            name="void DeleteTestRequest"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="8bf66e86-9665-44c1-8623-7cf0fe75cb5c"
+                  name="int index"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="93e305a3-b150-41d0-a092-773955cdb7e3"
+            name="viod Clear"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="46abe6c5-7ad1-4065-86e4-7c611401f2fb"
+        name="TestRequest"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="29bc11f6-c085-4483-9a79-b33384246c7c"
+            name="RuleSet ruleSet"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="d983a0b4-516d-4a40-bda0-d14f40f55bd8"
+            name="DataSet testSet"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="97d23817-8284-4475-9b27-da4cfb69ec96"
+            name="ConflictResolvingMethod resolvingMethod"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="15e72f5f-bf12-4208-9c9f-2d57feda83af"
+        name="ConflictResolvingMethod"
+        isAbstract="false"
+        isLeaf="false">
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="aadf5666-9aa3-4d87-b53c-6a2654a026de"
+            name="WeightedVoting" />
+          <enumerationLiteral
+            Id="7255be3a-cd8f-44fe-bfcc-3463fe6c57eb"
+            name="MajorityVoting" />
+          <enumerationLiteral
+            Id="a4e8b609-266f-43fa-96a2-309a643c4e58"
+            name="RefuseConflicts" />
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+  </packagedElements>
   <primitiveType
     Id="220a3521-e091-4221-bae9-3ef9018e845c"
     name="Integer"
     isAbstract="false"
-    isTemplate="false"
     isLeaf="false" />
   <primitiveType
     Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
     name="Boolean"
     isAbstract="false"
-    isTemplate="false"
     isLeaf="false" />
   <primitiveType
     Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
     name="String"
     isAbstract="false"
-    isTemplate="false"
     isLeaf="false" />
   <primitiveType
     Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
     name="UnlimitedNatural"
     isAbstract="false"
-    isTemplate="false"
     isLeaf="false" />
 </modelStoreModel>

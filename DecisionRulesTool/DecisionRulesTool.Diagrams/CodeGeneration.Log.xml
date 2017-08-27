@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="file:///D:/PROGRAMY/VISUAL STUDIO/COMMON7/IDE/EXTENSIONS/MICROSOFT/ARCHITECTURE TOOLS/EXTENSIBILITY/Logging/CodeGenLog.xslt"?>
+<Log xmlns="http://schemas.microsoft.com/VisualStudio/2010/CodeGen.RE.Log" Label="Code Generation/Text Transformation Log">
+  <MessageClass Name="Message" Label="Message" Option="Show informational messages" />
+  <MessageClass Name="Warning" Label="Warning" Option="Show warnings" />
+  <MessageClass Name="Error" Label="Error" Option="Show errors" />
+  <MessageClass Name="Property" Label="Property" Option="Show metadata" />
+  <MessageClass Name="Diagnostic" Label="Message" Option="Show diagnostic messages" />
+  <Message Timestamp="2017-08-27T16:55:18" Importance="High" Text="Code generation or text transformation started." />
+  <Message Timestamp="2017-08-27T16:55:18" Importance="Diagnostic" Text="Name = ClassTemplate" />
+  <Message Timestamp="2017-08-27T16:55:18" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2017-08-27T16:55:18" Importance="Diagnostic" Text="ProjectPath = ..\DecisionRulesTool.DiagramsLib\DecisionRulesTool.DiagramsLib.csproj" />
+  <Message Timestamp="2017-08-27T16:55:18" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2017-08-27T16:55:18" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2017-08-27T16:55:18" Importance="Diagnostic" Text="TemplateFilePath = D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2017-08-27T16:55:18" Importance="Diagnostic" Text="ResolvedTemplateFilePath = D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2017-08-27T16:55:18" Importance="Medium" Text="DecisionRulesTool.Diagrams's Text Template Binding: 'ClassTemplate' will apply ClassTemplate.t4 to: 'DecisionRulesTool.Diagrams::TestResult' -  (Class), 'DecisionRulesTool.Diagrams::RuleTester' -  (Class), 'DecisionRulesTool.Diagrams::ConfusionMatrix' -  (Class), 'DecisionRulesTool.Diagrams::WeightedVoting' -  (Class), 'DecisionRulesTool.Diagrams::MajorityVoting' -  (Class), 'DecisionRulesTool.Diagrams::RefuseConflict' -  (Class), 'DecisionRulesTool.Diagrams::RuleTesterManager' -  (Class), 'DecisionRulesTool.Diagrams::TestRequest' -  (Class) " />
+  <Message Timestamp="2017-08-27T16:55:47" Importance="Medium" Text="Project Added: D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\DecisionRulesTool.DiagramsLib.csproj" />
+  <Message Timestamp="2017-08-27T16:55:47" Importance="Medium" Text="'DecisionRulesTool.Diagrams::TestResult' -  (Class) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\TestResult.cs" />
+  <Message Timestamp="2017-08-27T16:55:48" Importance="Medium" Text="'DecisionRulesTool.Diagrams::RuleTester' -  (Class) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\RuleTester.cs" />
+  <Message Timestamp="2017-08-27T16:55:49" Importance="Medium" Text="'DecisionRulesTool.Diagrams::ConfusionMatrix' -  (Class) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\ConfusionMatrix.cs" />
+  <Message Timestamp="2017-08-27T16:55:49" Importance="Medium" Text="'DecisionRulesTool.Diagrams::WeightedVoting' -  (Class) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\WeightedVoting.cs" />
+  <Message Timestamp="2017-08-27T16:55:49" Importance="Medium" Text="'DecisionRulesTool.Diagrams::MajorityVoting' -  (Class) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\MajorityVoting.cs" />
+  <Message Timestamp="2017-08-27T16:55:50" Importance="Medium" Text="'DecisionRulesTool.Diagrams::RefuseConflict' -  (Class) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\RefuseConflict.cs" />
+  <Message Timestamp="2017-08-27T16:55:50" Importance="Medium" Text="'DecisionRulesTool.Diagrams::RuleTesterManager' -  (Class) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\RuleTesterManager.cs" />
+  <Message Timestamp="2017-08-27T16:55:51" Importance="Medium" Text="'DecisionRulesTool.Diagrams::TestRequest' -  (Class) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\TestRequest.cs" />
+  <Message Timestamp="2017-08-27T16:55:51" Importance="Diagnostic" Text="Name = EnumTemplate" />
+  <Message Timestamp="2017-08-27T16:55:51" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2017-08-27T16:55:51" Importance="Diagnostic" Text="ProjectPath = ..\DecisionRulesTool.DiagramsLib\DecisionRulesTool.DiagramsLib.csproj" />
+  <Message Timestamp="2017-08-27T16:55:51" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2017-08-27T16:55:51" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2017-08-27T16:55:51" Importance="Diagnostic" Text="TemplateFilePath = D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4" />
+  <Message Timestamp="2017-08-27T16:55:51" Importance="Diagnostic" Text="ResolvedTemplateFilePath = D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4" />
+  <Message Timestamp="2017-08-27T16:55:51" Importance="Medium" Text="DecisionRulesTool.Diagrams's Text Template Binding: 'EnumTemplate' will apply EnumTemplate.t4 to: 'DecisionRulesTool.Diagrams::ConflictResolvingMethod' -  (Enumeration) " />
+  <Message Timestamp="2017-08-27T16:55:51" Importance="Medium" Text="'DecisionRulesTool.Diagrams::ConflictResolvingMethod' -  (Enumeration) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\ConflictResolvingMethod.cs" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="Name = InterfaceTemplate" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="ProjectPath = ..\DecisionRulesTool.DiagramsLib\DecisionRulesTool.DiagramsLib.csproj" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="TemplateFilePath = D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\InterfaceTemplate.t4" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="ResolvedTemplateFilePath = D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\InterfaceTemplate.t4" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Medium" Text="DecisionRulesTool.Diagrams's Text Template Binding: 'InterfaceTemplate' will apply InterfaceTemplate.t4 to: 'DecisionRulesTool.Diagrams::IRuleTester' -  (Interface), 'DecisionRulesTool.Diagrams::IConflictResolver' -  (Interface) " />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Medium" Text="'DecisionRulesTool.Diagrams::IRuleTester' -  (Interface) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\IRuleTester.cs" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Medium" Text="'DecisionRulesTool.Diagrams::IConflictResolver' -  (Interface) : success (file created) - D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.DiagramsLib\GeneratedCode\IConflictResolver.cs" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="Name = StructTemplate" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="ProjectPath = ..\DecisionRulesTool.DiagramsLib\DecisionRulesTool.DiagramsLib.csproj" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="TemplateFilePath = D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Diagnostic" Text="ResolvedTemplateFilePath = D:\PROGRAMY\VISUAL STUDIO\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2017-08-27T16:55:52" Importance="Medium" Text="DecisionRulesTool.Diagrams's Text Template Binding: 'StructTemplate' will apply StructTemplate.t4 to: 'DecisionRulesTool.Diagrams::TestResult' -  (Class), 'DecisionRulesTool.Diagrams::RuleTester' -  (Class), 'DecisionRulesTool.Diagrams::ConfusionMatrix' -  (Class), 'DecisionRulesTool.Diagrams::WeightedVoting' -  (Class), 'DecisionRulesTool.Diagrams::MajorityVoting' -  (Class), 'DecisionRulesTool.Diagrams::RefuseConflict' -  (Class), 'DecisionRulesTool.Diagrams::RuleTesterManager' -  (Class), 'DecisionRulesTool.Diagrams::TestRequest' -  (Class) " />
+  <Message Timestamp="2017-08-27T16:55:53" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::TestResult' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2017-08-27T16:55:53" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::RuleTester' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2017-08-27T16:55:53" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::ConfusionMatrix' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2017-08-27T16:55:53" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::WeightedVoting' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2017-08-27T16:55:53" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::MajorityVoting' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::RefuseConflict' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::RuleTesterManager' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::TestRequest' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="The selection included 10 elements which were not bound to a template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::&lt;&lt;Produces&gt;&gt;' -  (Dependency): no bound template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::' -  (Association): no bound template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::' -  (Association): no bound template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::&lt;&lt;Produces&gt;&gt;' -  (Dependency): no bound template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::&lt;&lt;Uses&gt;&gt;' -  (Dependency): no bound template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="Diagnostic" Text="'DecisionRulesTool.Diagrams::' -  (Association): no bound template." />
+  <Message Timestamp="2017-08-27T16:55:54" Importance="High" Text="Code generation complete. Errors: 0. Warnings: 0." />
+</Log>

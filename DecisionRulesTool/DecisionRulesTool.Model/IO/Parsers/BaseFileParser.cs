@@ -56,7 +56,7 @@ namespace DecisionRulesTool.Model.Parsers
             {
                 result = ParseFile(fileStream);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new InvalidFileBodyException();
             }
