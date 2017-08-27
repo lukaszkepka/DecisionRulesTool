@@ -1,12 +1,12 @@
 ﻿using DecisionRulesTool.Model.Model;
-using DecisionRulesTool.Te.DataProvider;
+using DecisionRulesTool.Test.DataProvider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.Te.RuleFilters
+namespace DecisionRulesTool.Test.RuleFilters
 {
     using Model.Model;
     class _4eMkaRulesProvider : ITestDataProvider<RuleSet>

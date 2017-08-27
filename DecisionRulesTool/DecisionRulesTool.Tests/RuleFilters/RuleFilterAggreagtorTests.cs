@@ -1,88 +1,88 @@
-﻿using DecisionRulesTool.Model.RuleFilters;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.Test.RuleFilters
+namespace DecisionRulesTool.Tests.RuleFilters
 {
     using Model.Model;
+    using Model.RuleFilters;
 
     [TestFixture]
-    [Category("Unit test")]
-    public class LengthFilterTests
+    public class RuleFilterAggreagtorTests
     {
         [Test]
-        public void FilterRules_DifferentRuleLengths_FilteredRulesHaveReferenceToNewRuleSet()
+        public void RunFiltering_SimpleFilters_InitialSetIsntChanged()
         {
             #region Given
-            IRuleFilter ruleFilter = new LengthFilter(Relation.GreatherOrEqual, 3);
             RuleSet ruleSet = GetRuleSet();
-            #endregion Given
-            #region When
-            RuleSet filteredRuleSet = ruleFilter.FilterRules(ruleSet);
-            Rule[] expectedResult = new[] { ruleSet.Rules[1] };
-            #endregion When
-            #region Then
-            bool haveInvalidReference = false;
-            foreach (Rule rule in filteredRuleSet.Rules)
+            RuleSet initialRuleSet = (RuleSet)ruleSet.Clone();
+            IEnumerable<IRuleFilter> filters = new[]
             {
-                if (rule.RuleSet != filteredRuleSet)
-                {
-                    haveInvalidReference = true;
-                }
-            }
-            Assert.IsFalse(haveInvalidReference);
+                new LengthFilter(Relation.Equality, 3)
+            };
+            RuleFilterAggregator filterAggregator = new RuleFilterAggregator(ruleSet, filters);
+            #endregion Given
+            #region When
+            RuleSet filteredRuleSet = filterAggregator.RunFiltering();
+            #endregion When
+            #region Then
+            Assert.AreEqual(initialRuleSet, ruleSet);
             #endregion Then
         }
 
         [Test]
-        public void FilterRules_DifferentRuleLengths_FilteredProperly()
+        public void RunFiltering_NoFilters_ResultSetEqualToInitial()
         {
             #region Given
-            IRuleFilter ruleFilter = new LengthFilter(Relation.GreatherOrEqual, 3);
             RuleSet ruleSet = GetRuleSet();
+            RuleFilterAggregator filterAggregator = new RuleFilterAggregator(ruleSet, Enumerable.Empty<IRuleFilter>());
             #endregion Given
             #region When
-            RuleSet filteredRuleSet = ruleFilter.FilterRules(ruleSet);
-            Rule[] expectedResult = new[] { ruleSet.Rules[1] };
+            RuleSet filteredRuleSet = filterAggregator.RunFiltering();
             #endregion When
             #region Then
-            Assert.IsTrue(filteredRuleSet.Rules.SequenceEqual(expectedResult));
+            Assert.AreEqual(filteredRuleSet, ruleSet);
             #endregion Then
         }
 
         [Test]
-        public void FilterRules_EachRuleSatisfyCondition_FilteredRuleSetDidntChange()
+        public void RunFiltering_NoFilters_ResultSetIsNewInstance()
         {
             #region Given
-            IRuleFilter ruleFilter = new LengthFilter(Relation.LessOrEqual, 3);
             RuleSet ruleSet = GetRuleSet();
+            RuleFilterAggregator filterAggregator = new RuleFilterAggregator(ruleSet, Enumerable.Empty<IRuleFilter>());
             #endregion Given
             #region When
-            RuleSet filteredRuleSet = ruleFilter.FilterRules(ruleSet);
-            Rule[] expectedResult = ruleSet.Rules.ToArray();
+            RuleSet filteredRuleSet = filterAggregator.RunFiltering();
             #endregion When
             #region Then
-            Assert.IsTrue(filteredRuleSet.Rules.SequenceEqual(expectedResult));
+            Assert.AreNotSame(filteredRuleSet, ruleSet);
             #endregion Then
         }
 
         [Test]
-        public void FilterRules_NoRuleSatisfyCondition_EmptyRuleSetReturned()
+        public void RunFiltering_ManyFilters_FilteredProperly()
         {
             #region Given
-            IRuleFilter ruleFilter = new LengthFilter(Relation.Greather, 3);
             RuleSet ruleSet = GetRuleSet();
+
+            IEnumerable<IRuleFilter> filters = new IRuleFilter[]
+            {
+                new AttributePresenceFilter("MaxSpeed"),
+                new LengthFilter(Relation.Equality, 2)
+            };
+
+            RuleFilterAggregator filterAggregator = new RuleFilterAggregator(ruleSet, filters);
             #endregion Given
             #region When
-            RuleSet filteredRuleSet = ruleFilter.FilterRules(ruleSet);
-            Rule[] expectedResult = new Rule[0];
+            RuleSet filteredRuleSet = filterAggregator.RunFiltering();
+            IEnumerable<Rule> expectedRules = new[] { ruleSet.Rules[2] };
             #endregion When
             #region Then
-            Assert.IsTrue(filteredRuleSet.Rules.SequenceEqual(expectedResult));
+            Assert.AreEqual(filteredRuleSet.Rules, expectedRules);
             #endregion Then
         }
 
@@ -157,4 +157,3 @@ namespace DecisionRulesTool.Test.RuleFilters
         }
     }
 }
-

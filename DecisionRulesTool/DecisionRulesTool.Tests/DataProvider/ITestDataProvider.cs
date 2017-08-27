@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.Te.DataProvider
+namespace DecisionRulesTool.Test.DataProvider
 {
     interface ITestDataProvider<T> 
     {
