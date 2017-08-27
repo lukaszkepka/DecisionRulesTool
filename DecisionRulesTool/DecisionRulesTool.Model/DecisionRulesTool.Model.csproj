@@ -98,10 +98,19 @@
     <Compile Include="RuleFilters\LengthFilter.cs" />
     <Compile Include="RuleFilters\RuleFilterAggreagtor.cs" />
     <Compile Include="RuleFilters\SupportValueFilter.cs" />
+    <Compile Include="RuleTester\ConflictResolvingMethod.cs" />
+    <Compile Include="RuleTester\ConfusionMatrix.cs" />
+    <Compile Include="RuleTester\IConflictResolver.cs" />
+    <Compile Include="RuleTester\IRuleTester.cs" />
+    <Compile Include="RuleTester\MajorityVoting.cs" />
+    <Compile Include="RuleTester\RefuseConflict.cs" />
+    <Compile Include="RuleTester\RuleTester.cs" />
+    <Compile Include="RuleTester\RuleTesterManager.cs" />
+    <Compile Include="RuleTester\TestRequest.cs" />
+    <Compile Include="RuleTester\TestResult.cs" />
+    <Compile Include="RuleTester\WeightedVoting.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RuleTester\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

@@ -11,7 +11,7 @@ using System.Text;
 
 public interface IRuleTester 
 {
-	void IEnumerable<TestResult> RunTesting(object IEnumerable<TestRequest>);
+	IEnumerable<TestResult> RunTesting(IEnumerable<TestRequest> testRequests);
 
 }
 
