@@ -9,9 +9,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public interface IRuleTester 
-{
-	IEnumerable<TestResult> RunTesting(IEnumerable<TestRequest> testRequests);
 
+namespace DecisionRulesTool.Model.RuleTester
+{
+    public interface IRuleTester
+    {
+        IEnumerable<TestResult> RunTesting(IEnumerable<TestRequest> testRequests);
+
+    }
 }
 

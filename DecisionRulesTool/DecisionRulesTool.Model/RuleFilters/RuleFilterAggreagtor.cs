@@ -34,7 +34,10 @@ namespace DecisionRulesTool.Model.RuleFilters
             ruleFilters.Add(ruleFilter);
         }
 
-
+        /// <summary>
+        /// Applies filters on initial rule set. Initial rule set isn't modified
+        /// </summary>
+        /// <returns>New instance of rule set which is subset of initial rule set</returns>
         public RuleSet RunFiltering()
         {
             RuleSet filteredRuleSet = (RuleSet)InitialRuleSet.Clone();

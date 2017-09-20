@@ -5,52 +5,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-/// <summary>
-/// Class responsible for creating test request and running rule testing
-/// </summary>
-public class RuleTesterManager
+
+namespace DecisionRulesTool.Model.RuleTester
 {
-    public virtual IEnumerable<TestRequest> testRequests
+    /// <summary>
+    /// Class responsible for creating test request and running rule testing
+    /// </summary>
+    public class RuleTesterManager
     {
-        get;
-        set;
-    }
+        private IList<TestRequest> testRequests;
+        public virtual IEnumerable<TestRequest> TestRequests
+        {
+            get
+            {
+                return testRequests;
+            }
+        }
 
-    public virtual IRuleTester IRuleTester
-    {
-        get;
-        set;
-    }
+        public RuleTesterManager()
+        {
+            testRequests = new List<TestRequest>();
+        }
 
-    public virtual IEnumerable<TestRequest> GenerateTests(DataSet[] testSets, RuleSet ruleSet)
-    {
-        throw new System.NotImplementedException();
-    }
+        public virtual IEnumerable<TestRequest> GenerateTests(DataSet[] testSets, RuleSet ruleSet, ConflictResolvingMethod conflictResolvingMethod = ConflictResolvingMethod.MajorityVoting)
+        {
+            IList<TestRequest> testRequests = new List<TestRequest>();
+            foreach (DataSet testSet in testSets)
+            {
+                testRequests.Add(new TestRequest(ruleSet, testSet, conflictResolvingMethod));
+            }
+            return testRequests;
+        }
 
-    public virtual IEnumerable<TestRequest> GenerateTestSeries(RuleFilterAggregator filterAggregator, DataSet[] testSets)
-    {
-        throw new System.NotImplementedException();
-    }
+        public virtual IEnumerable<TestRequest> GenerateTestSeries(RuleFilterAggregator filterAggregator, DataSet[] testSets)
+        {
+            throw new System.NotImplementedException();
+        }
 
-    public virtual IEnumerable<TestResult> RunTesting()
-    {
-        throw new System.NotImplementedException();
-    }
+        public virtual IEnumerable<TestResult> RunTesting(IRuleTester testingStrategy)
+        {
+            return testingStrategy.RunTesting(testRequests);
+        }
 
-    public virtual void AddTestRequest(TestRequest testRequest)
-    {
-        throw new System.NotImplementedException();
-    }
+        public virtual void AddTestRequest(TestRequest testRequest)
+        {
+            testRequests.Add(testRequest);
+        }
 
-    public virtual void DeleteTestRequest(int index)
-    {
-        throw new System.NotImplementedException();
-    }
+        public virtual void DeleteTestRequest(int index)
+        {
+            testRequests.RemoveAt(index);
+        }
 
-    public virtual void Clear()
-    {
-        throw new System.NotImplementedException();
-    }
+        public virtual void Clear()
+        {
+            testRequests.Clear();
+        }
 
+    }
 }
 

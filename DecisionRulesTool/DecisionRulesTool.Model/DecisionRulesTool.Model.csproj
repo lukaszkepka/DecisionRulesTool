@@ -72,7 +72,6 @@
     <Compile Include="Model\DecisionType.cs" />
     <Compile Include="Model\Object.cs" />
     <Compile Include="Model\Relation.cs" />
-    <Compile Include="Model\RsesAttribute.cs" />
     <Compile Include="Model\RsesRule.cs" />
     <Compile Include="Model\Rule.cs" />
     <Compile Include="Model\RuleSet.cs" />
@@ -90,7 +89,6 @@
     <Compile Include="IO\Parsers\RSES\RsesDataSetParser.cs" />
     <Compile Include="IO\Parsers\RSES\RsesFileParser.cs" />
     <Compile Include="IO\Parsers\RSES\RsesRulesParser.cs" />
-    <Compile Include="Model\_4eMkaAttribute.cs" />
     <Compile Include="Model\_4eMkaRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleFilters\AttributePresenceFilter.cs" />
@@ -98,17 +96,23 @@
     <Compile Include="RuleFilters\LengthFilter.cs" />
     <Compile Include="RuleFilters\RuleFilterAggreagtor.cs" />
     <Compile Include="RuleFilters\SupportValueFilter.cs" />
+    <Compile Include="RuleTester\ClassificationResult.cs" />
+    <Compile Include="RuleTester\ConflictResolverFactory.cs" />
     <Compile Include="RuleTester\ConflictResolvingMethod.cs" />
     <Compile Include="RuleTester\ConfusionMatrix.cs" />
-    <Compile Include="RuleTester\IConflictResolver.cs" />
+    <Compile Include="RuleTester\DecisionMatrix.cs" />
+    <Compile Include="RuleTester\DecisionResolver\BaseDecisionResolverStrategy.cs" />
+    <Compile Include="RuleTester\DecisionResolver\IDecisionResolverStrategy.cs" />
     <Compile Include="RuleTester\IRuleTester.cs" />
-    <Compile Include="RuleTester\MajorityVoting.cs" />
-    <Compile Include="RuleTester\RefuseConflict.cs" />
+    <Compile Include="RuleTester\DecisionResolver\MajorityVoting.cs" />
+    <Compile Include="RuleTester\DecisionResolver\RefuseConflict.cs" />
     <Compile Include="RuleTester\RuleTester.cs" />
     <Compile Include="RuleTester\RuleTesterManager.cs" />
     <Compile Include="RuleTester\TestRequest.cs" />
     <Compile Include="RuleTester\TestResult.cs" />
-    <Compile Include="RuleTester\WeightedVoting.cs" />
+    <Compile Include="RuleTester\DecisionResolver\WeightedVoting.cs" />
+    <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\ReferenceComparer.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

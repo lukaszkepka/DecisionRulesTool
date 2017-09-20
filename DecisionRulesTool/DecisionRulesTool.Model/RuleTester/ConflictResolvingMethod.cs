@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public enum ConflictResolvingMethod
+namespace DecisionRulesTool.Model.RuleTester
 {
-	WeightedVoting,
-	MajorityVoting,
-	RefuseConflicts,
+    public enum ConflictResolvingMethod
+    {
+        WeightedVoting,
+        MajorityVoting,
+        RefuseConflicts,
+    }
 }

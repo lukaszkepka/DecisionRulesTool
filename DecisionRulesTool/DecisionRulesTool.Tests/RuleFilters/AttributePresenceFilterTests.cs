@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Test.RuleFilters
 {
-    using DataProvider;
     using Model.Model;
     using Model.RuleFilters;
     using RuleFilters;
+    using Tests.DataProviders;
 
     [TestFixture("Rses")]
     [TestFixture("4eMka")]

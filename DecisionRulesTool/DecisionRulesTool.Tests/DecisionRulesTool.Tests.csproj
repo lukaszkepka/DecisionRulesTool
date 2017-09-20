@@ -71,7 +71,8 @@
     <Compile Include="Acceptance\FileParsersTests.cs" />
     <Compile Include="Acceptance\FileSaversTests.cs" />
     <Compile Include="Comparers\ConditionCheckerTests.cs" />
-    <Compile Include="DataProvider\ITestDataProvider.cs" />
+    <Compile Include="DataProviders\DataProvider.cs" />
+    <Compile Include="DataProviders\ITestDataProvider.cs" />
     <Compile Include="IO\_4EmkaRulesParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IO\RsesRuleParserTests.cs" />
@@ -81,6 +82,10 @@
     <Compile Include="RuleFilters\DataProviders\RsesRulesProvider.cs" />
     <Compile Include="RuleFilters\RuleFilterAggreagtorTests.cs" />
     <Compile Include="RuleFilters\SupportValueFilterTests.cs" />
+    <Compile Include="RuleTester\MajorityVotingTests.cs" />
+    <Compile Include="RuleTester\RefuseConflictsTests.cs" />
+    <Compile Include="RuleTester\RuleManagerTests.cs" />
+    <Compile Include="RuleTester\WeightedVotingTests.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

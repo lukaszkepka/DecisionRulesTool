@@ -31,15 +31,15 @@ namespace DecisionRulesTool.Model.Model
             Attribute attribute = obj as Attribute;
             if (attribute != null)
             {
-                bool availableValuesEqual = false;
-                if (attribute.AvailableValues == null || AvailableValues == null)
-                {
-                    availableValuesEqual = attribute.AvailableValues == AvailableValues;
-                }
-                else
-                {
-                    availableValuesEqual = attribute.AvailableValues.SequenceEqual(AvailableValues);
-                }
+                bool availableValuesEqual = true; //false;
+                //if (attribute.AvailableValues == null || AvailableValues == null)
+                //{
+                //    availableValuesEqual = attribute.AvailableValues == AvailableValues;
+                //}
+                //else
+                //{
+                //    availableValuesEqual = attribute.AvailableValues.SequenceEqual(AvailableValues);
+                //}
                 result = attribute.Name.Equals(Name) &&
                          availableValuesEqual &&
                          attribute.Type == Type;

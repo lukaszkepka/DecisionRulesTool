@@ -4,25 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class TestRequest
+
+namespace DecisionRulesTool.Model.RuleTester
 {
-	public virtual RuleSet ruleSet
-	{
-		get;
-		set;
-	}
+    public class TestRequest
+    {
+        public RuleSet RuleSet { get; }
+        public DataSet TestSet { get; }
+        public ConflictResolvingMethod ResolvingMethod { get; }
 
-	public virtual DataSet testSet
-	{
-		get;
-		set;
-	}
+        public TestRequest(RuleSet ruleSet, DataSet testSet, ConflictResolvingMethod resolvingMethod)
+        {
+            RuleSet = ruleSet;
+            TestSet = testSet;
+            ResolvingMethod = resolvingMethod;
+        }
 
-	public virtual ConflictResolvingMethod resolvingMethod
-	{
-		get;
-		set;
-	}
-
+    }
 }
 

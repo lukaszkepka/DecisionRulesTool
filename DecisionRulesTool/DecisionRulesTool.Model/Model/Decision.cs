@@ -8,19 +8,20 @@ namespace DecisionRulesTool.Model.Model
 {
     public class Decision
     {
+        private int? support;
         public Decision(DecisionType type, Rule rule, object value, int? support = null)
         {
-            Type = type;
-            Rule = rule;
-            Value = value;
-            Support = support;
+            this.Type = type;
+            this.Rule = rule;
+            this.Value = value;
+            this.support = support;
         }
 
         public DecisionType Type { get; }
         public Rule Rule { get; set; }
         public Attribute DecisionAttribute => Rule.RuleSet.DecisionAttribute;
+        public int Support => support ?? Rule.SupportValue;
         public object Value { get; }
-        public int? Support { get; set; }
 
         public override bool Equals(object obj)
         {

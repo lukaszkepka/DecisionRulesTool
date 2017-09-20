@@ -1,5 +1,5 @@
 ﻿using DecisionRulesTool.Model.Model;
-using DecisionRulesTool.Test.DataProvider;
+using DecisionRulesTool.Tests.DataProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;

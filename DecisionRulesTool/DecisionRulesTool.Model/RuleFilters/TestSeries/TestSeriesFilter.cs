@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.Test.DataProvider
+namespace DecisionRulesTool.Model.RuleFilters
 {
-    interface ITestDataProvider<T> 
+    class TestSeriesFilter
     {
-        T GetData();
     }
 }

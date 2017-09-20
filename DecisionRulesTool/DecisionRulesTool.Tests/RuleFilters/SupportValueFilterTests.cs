@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Test.RuleFilters
 {
-    using DataProvider;
     using Model.Model;
     using Model.RuleFilters;
+    using Tests.DataProviders;
 
     [TestFixture("4eMka")]
     public class SupportValueFilterTests

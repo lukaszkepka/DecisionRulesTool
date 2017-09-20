@@ -709,7 +709,7 @@
           </operation>
           <operation
             Id="93e305a3-b150-41d0-a092-773955cdb7e3"
-            name="viod Clear"
+            name="void Clear"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
@@ -780,6 +780,130 @@
             name="RefuseConflicts" />
         </ownedLiterals>
       </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="65d3c6fd-6623-452f-b086-8a7a4f1845a0"
+        name="TestResultAggregator"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="e2bd2c5a-e662-40ce-9d33-34739912b34b"
+            isDerived="false"
+            sourceEndRoleName="TestResultAggregator"
+            targetEndRoleName="TestResult"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="23dd3ca0-a1f0-412f-886c-0afa17658f4c"
+              LastKnownName="TestResult"
+              LastKnownLocation="DecisionRulesTool.Diagrams.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b6fc4a1b-f90f-4f39-abb6-defe90f32b55"
+                  name="TestResultAggregator"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6e827f89-7d99-423e-8cae-cfafcbfc0497"
+                  name="TestResult"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="c041bb14-b1a7-45ef-bce7-3fe0c3d1ddd2"
+                      name="Lower"
+                      value="N" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="69b460a9-7323-415e-9b9d-258c094be46b"
+                      name="Upper"
+                      value="N" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedOperationsInternal>
+          <operation
+            Id="7501bae8-5001-4a73-a654-483265795a4b"
+            name="AggreagatedTestResult[] Aggreate"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="14c3139e-20a2-482e-acfa-fc85a1fd6dc6"
+            name="void AddTestResult"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="4dc0a04d-4148-4c89-93ee-31db738f7d97"
+                  name="TestResult testResult"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="5be14a92-df50-492f-9c21-7a7d59c29de7"
+        name="AggregatedTestResult"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="6fe0d0dd-a80a-4a09-8875-40c3fdb28eca"
+            name="TestResult[] testResults"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="f2feccd7-073b-4da7-b95f-7ef0f31c87b3"
+            name="DataSet dataSet"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

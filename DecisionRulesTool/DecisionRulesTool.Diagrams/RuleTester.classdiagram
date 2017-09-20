@@ -72,20 +72,6 @@
       </propertyInstances>
     </stereotypeInstance>
   </appliedStereotypesInternal>
-  <profileInstances>
-    <packageHasProfileInstances Id="58718dc6-3d6c-4957-9d19-9770eaa320b4">
-      <profileInstance Id="61bb58b7-6efc-44dd-841c-67771e480dda" name="CSharpProfile">
-        <elementDefinition Id="5ea34093-5975-409b-b1ef-0f363b51a341" />
-      </profileInstance>
-      <elementDefinition Id="435440db-6617-48a2-8aaf-eb69fb59d58d" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="c94e8632-85b3-451f-bc40-3a46f5469bad">
-      <profileInstance Id="3e404d2f-d009-47d3-a84b-236f9d0b90a1" name="TextTemplateBindings">
-        <elementDefinition Id="d9ef10e2-8c8c-436c-9964-ca74c9c90ea0" />
-      </profileInstance>
-      <elementDefinition Id="f9befb9b-2bf6-40a1-8196-366a761fab95" />
-    </packageHasProfileInstances>
-  </profileInstances>
   <packagedElements>
     <logicalClassDesignerModelHasTypes>
       <Interface Id="7a7677cf-7a96-450d-9def-977157bfb607" name="IRuleTester" isAbstract="false" isLeaf="false">
@@ -374,7 +360,7 @@
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
-          <operation Id="d314fe78-27f7-416a-b370-2cd632ae32f3" name="viod Clear" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+          <operation Id="d314fe78-27f7-416a-b370-2cd632ae32f3" name="void Clear" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="93e305a3-b150-41d0-a092-773955cdb7e3" />
           </operation>
         </ownedOperationsInternal>
@@ -412,6 +398,67 @@
         </ownedLiterals>
       </enumeration>
     </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="e3a0ed89-d7dc-4deb-ab22-12322a05964c" name="TestResultAggregator" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="65d3c6fd-6623-452f-b086-8a7a4f1845a0" />
+        <targetEnds>
+          <association Id="35434c29-57d3-4de0-a1a6-a1ac33179a53" isDerived="false" sourceEndRoleName="TestResultAggregator" targetEndRoleName="TestResult" isLeaf="false" isAbstract="false">
+            <classMoniker Id="47bb083f-ba1b-4c6d-a7b9-7a83fce176ba" LastKnownName="TestResult" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5d73d672-436b-441a-8a3e-8845889b2bd9" name="TestResultAggregator" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="b6fc4a1b-f90f-4f39-abb6-defe90f32b55" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="c314ecc0-b47b-4bc8-ba3b-43423b80a53d" name="TestResult" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="03dcacf7-8ddc-49d7-b57d-50b34d404df4" name="Lower" value="N">
+                      <elementDefinition Id="c041bb14-b1a7-45ef-bce7-3fe0c3d1ddd2" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="293a3348-b927-4368-8c47-d7dfb2a756ba" name="Upper" value="N">
+                      <elementDefinition Id="69b460a9-7323-415e-9b9d-258c094be46b" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="6e827f89-7d99-423e-8cae-cfafcbfc0497" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="e2bd2c5a-e662-40ce-9d33-34739912b34b" />
+          </association>
+        </targetEnds>
+        <ownedOperationsInternal>
+          <operation Id="6394858c-65bd-4a3d-86ae-84a07e4c1ec4" name="AggreagatedTestResult[] Aggreate" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="7501bae8-5001-4a73-a654-483265795a4b" />
+          </operation>
+          <operation Id="0749861b-7191-4ad1-959a-f70a0a715253" name="void AddTestResult" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="14c3139e-20a2-482e-acfa-fc85a1fd6dc6" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="8bb0ca86-07da-4d8a-9874-3ced730875ee" name="TestResult testResult" direction="In" isUnique="false">
+                  <elementDefinition Id="4dc0a04d-4148-4c89-93ee-31db738f7d97" />
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="ba1c8e62-39ca-48df-ab71-6526599cc28f" name="AggregatedTestResult" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="5be14a92-df50-492f-9c21-7a7d59c29de7" />
+        <ownedAttributesInternal>
+          <property Id="5384e99e-fb40-49c1-a4e4-548ac12a24be" name="TestResult[] testResults" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6fe0d0dd-a80a-4a09-8875-40c3fdb28eca" />
+          </property>
+          <property Id="a34563a6-ed74-4ef1-b639-8e1bffb92cef" name="DataSet dataSet" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f2feccd7-073b-4da7-b95f-7ef0f31c87b3" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="8ff9cf51-e0eb-4647-832c-a20e6a0a2e91" name="DecisionRulesTool.Diagrams">
     <elementDefinition Id="4c81c3dd-4179-41df-9100-17d151adf453" />
@@ -427,6 +474,18 @@
           <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
         </profileInstance>
         <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="58718dc6-3d6c-4957-9d19-9770eaa320b4">
+        <profileInstance Id="61bb58b7-6efc-44dd-841c-67771e480dda" name="CSharpProfile">
+          <elementDefinition Id="5ea34093-5975-409b-b1ef-0f363b51a341" />
+        </profileInstance>
+        <elementDefinition Id="435440db-6617-48a2-8aaf-eb69fb59d58d" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="c94e8632-85b3-451f-bc40-3a46f5469bad">
+        <profileInstance Id="3e404d2f-d009-47d3-a84b-236f9d0b90a1" name="TextTemplateBindings">
+          <elementDefinition Id="d9ef10e2-8c8c-436c-9964-ca74c9c90ea0" />
+        </profileInstance>
+        <elementDefinition Id="f9befb9b-2bf6-40a1-8196-366a761fab95" />
       </packageHasProfileInstances>
     </profileInstances>
   </package>

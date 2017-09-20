@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.Model.Model
+namespace DecisionRulesTool.Model.RuleFilters.TestSeries
 {
-    public class _4eMkaAttribute : Attribute
+    class AttributeSeriesFilter
     {
     }
 }

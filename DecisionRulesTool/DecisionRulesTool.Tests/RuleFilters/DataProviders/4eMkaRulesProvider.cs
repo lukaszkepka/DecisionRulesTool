@@ -1,5 +1,4 @@
 ﻿using DecisionRulesTool.Model.Model;
-using DecisionRulesTool.Test.DataProvider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,8 @@ using System.Threading.Tasks;
 namespace DecisionRulesTool.Test.RuleFilters
 {
     using Model.Model;
+    using Tests.DataProviders;
+
     class _4eMkaRulesProvider : ITestDataProvider<RuleSet>
     {
         public RuleSet GetData()
