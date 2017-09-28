@@ -11,29 +11,9 @@ using System.Text;
 
 public class ConfusionMatrix
 {
-    public virtual int TruePositives
-    {
-        get;
-        set;
-    }
-
-    public virtual int TrueNegatives
-    {
-        get;
-        set;
-    }
-
-    public virtual int FalseNegatives
-    {
-        get;
-        set;
-    }
-
-    public virtual int FalsePositives
-    {
-        get;
-        set;
-    }
-
+    public virtual int TruePositives { get; set; }
+    public virtual int TrueNegatives { get; set; }
+    public virtual int FalseNegatives { get; set; }
+    public virtual int FalsePositives { get; set; }
 }
 

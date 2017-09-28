@@ -96,11 +96,13 @@
     <Compile Include="RuleFilters\LengthFilter.cs" />
     <Compile Include="RuleFilters\RuleFilterAggreagtor.cs" />
     <Compile Include="RuleFilters\SupportValueFilter.cs" />
+    <Compile Include="RuleTester\Series\TestSeriesGenerator.cs" />
+    <Compile Include="RuleTester\Series\TestSeriesRequest.cs" />
+    <Compile Include="RuleTester\Series\TestSeriesRequestBuilder.cs" />
     <Compile Include="RuleTester\ClassificationResult.cs" />
     <Compile Include="RuleTester\ConflictResolverFactory.cs" />
     <Compile Include="RuleTester\ConflictResolvingMethod.cs" />
     <Compile Include="RuleTester\ConfusionMatrix.cs" />
-    <Compile Include="RuleTester\DecisionMatrix.cs" />
     <Compile Include="RuleTester\DecisionResolver\BaseDecisionResolverStrategy.cs" />
     <Compile Include="RuleTester\DecisionResolver\IDecisionResolverStrategy.cs" />
     <Compile Include="RuleTester\IRuleTester.cs" />

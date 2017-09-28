@@ -1,5 +1,7 @@
 ﻿using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.RuleFilters;
+using DecisionRulesTool.Model.RuleFilters.TestSeries;
+using DecisionRulesTool.Model.RuleTester.Series;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,9 +39,10 @@ namespace DecisionRulesTool.Model.RuleTester
             return testRequests;
         }
 
-        public virtual IEnumerable<TestRequest> GenerateTestSeries(RuleFilterAggregator filterAggregator, DataSet[] testSets)
+        public virtual IEnumerable<TestRequest> GenerateTestSeries(TestSeriesRequest testSeriesRequest, DataSet[] testSets)
         {
-            throw new System.NotImplementedException();
+            TestSeriesGenerator testSeriesGenerator = new TestSeriesGenerator();
+            return testSeriesGenerator.GenerateTestSeries(testSeriesRequest, testSets);
         }
 
         public virtual IEnumerable<TestResult> RunTesting(IRuleTester testingStrategy)
