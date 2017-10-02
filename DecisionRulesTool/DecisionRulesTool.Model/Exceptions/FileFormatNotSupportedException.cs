@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.Exceptions
 {
-    class FileFormatNotSupportedException : Exception
+    public class FileFormatNotSupportedException : Exception
     {
+        public string FileExtension { get; }
+
+        public FileFormatNotSupportedException(string filePath)
+        {
+            FileExtension = filePath;
+        }
     }
 }

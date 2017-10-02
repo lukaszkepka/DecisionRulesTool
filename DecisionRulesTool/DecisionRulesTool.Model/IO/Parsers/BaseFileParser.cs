@@ -11,14 +11,12 @@ namespace DecisionRulesTool.Model.Parsers
 {
     public abstract class BaseFileParser<T> : IFileParser<T>
     {
-        private const int FILE_FORMAT_LENGTH = 3;
-
-        public abstract string[] SupportedFormats { get; }
+        public abstract string SupportedFormat { get; }
 
         public bool IsFileFormatSupported(string path)
         {
-            string fileFormat = path.Substring(path.Length - FILE_FORMAT_LENGTH);
-            return SupportedFormats.Contains(fileFormat);
+            string fileFormat = Path.GetExtension(path);
+            return SupportedFormat.Equals(fileFormat);
         }
 
         protected string RemoveBrackets(string value)
@@ -42,7 +40,7 @@ namespace DecisionRulesTool.Model.Parsers
             }
             else
             {
-                throw new FileFormatNotSupportedException();
+                throw new FileFormatNotSupportedException(path);
             }
 
             return streamReader;
@@ -56,9 +54,9 @@ namespace DecisionRulesTool.Model.Parsers
             {
                 result = ParseFile(fileStream);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new InvalidFileBodyException();
+                throw new InvalidFileBodyException(ex.Message, filePath);
             }
             return result;
         }

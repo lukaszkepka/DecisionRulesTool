@@ -13,7 +13,7 @@ namespace DecisionRulesTool.Model.Parsers.RSES
 
     public class RsesDataSetParser : RsesFileParser<DataSet>
     {
-        public override string[] SupportedFormats => new[] { "tab" };
+        public override string SupportedFormat => BaseFileFormat.FileExtensions.RSESDataset;
 
         private void ParseHeader(StreamReader fileStream, DataSet dataSet)
         {

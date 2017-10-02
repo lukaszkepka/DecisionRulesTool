@@ -13,6 +13,6 @@ namespace DecisionRulesTool.Model.Parsers
         T ParseFile(StreamReader fileStream);
         T ParseFile(string path);
         bool IsFileFormatSupported(string path);
-        string[] SupportedFormats { get; }
+        string SupportedFormat { get; }
     }
 }

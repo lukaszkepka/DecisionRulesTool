@@ -1,5 +1,7 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +10,12 @@ namespace DecisionRulesTool.Model.Model
 {
     public class RuleSet : ICloneable
     {
+
+        public string Name { get; set; }
+        public Attribute DecisionAttribute { get; set; }
+        public IList<Attribute> Attributes { get; protected set; }
+        public IList<Rule> Rules { get; protected set; }
+
         public RuleSet()
         {
             Attributes = new List<Attribute>();
@@ -23,11 +31,6 @@ namespace DecisionRulesTool.Model.Model
             Rules = rules;
             DecisionAttribute = decisionAttribute;
         }
-
-        public string Name { get; set; }
-        public Attribute DecisionAttribute { get; set; }
-        public IList<Attribute> Attributes { get; }
-        public IList<Rule> Rules { get; }
 
         public override bool Equals(object obj)
         {

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
 {
-    public class AttributePresenceSeriesFilter : AttributePresenceFilter
+    public interface IRuleSeriesFilter
     {
+        IList<IRuleFilter> GenerateSeries();
     }
 }

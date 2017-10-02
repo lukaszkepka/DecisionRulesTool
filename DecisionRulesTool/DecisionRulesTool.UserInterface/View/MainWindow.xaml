@@ -1,0 +1,138 @@
+﻿<Window x:Class="DecisionRulesTool.UserInterface.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:helper="clr-namespace:DecisionRulesTool.UserInterface.Utils"
+        xmlns:converters="clr-namespace:DecisionRulesTool.UserInterface.Utils.Converters"
+        xmlns:local="clr-namespace:DecisionRulesTool.UserInterface"
+        xmlns:utils="clr-namespace:DecisionRulesTool.UserInterface.Utils"
+        xmlns:filters="clr-namespace:DecisionRulesTool.Model.RuleFilters;assembly=DecisionRulesToolModel"      
+        xmlns:model="clr-namespace:DecisionRulesTool.Model.Model;assembly=DecisionRulesToolModel"
+        mc:Ignorable="d"
+        Title="Decision Rules Tool" Height="500" Width="800" WindowState="Maximized">
+
+    <Window.Resources>
+        <converters:ConditionsToStringConverter  x:Key="conditionsToStringConverter" />
+        <converters:DecisionsToStringConverter  x:Key="decisionsToStringConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+            <ToolBar DockPanel.Dock="Top">
+                <Button Content="Options">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding LoadRuleSets}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </ToolBar>
+        </DockPanel>
+
+        <GroupBox x:Name="LoadedRuleSetsGroupBox" Grid.Column="0" Grid.Row="1" Header="Loaded rule sets">
+            <StackPanel>
+                <DockPanel x:Name="LoadedRuleSetsToolBar"
+                           Height="30">
+                    <ToolBar DockPanel.Dock="Top">
+                        <Button Content="Load">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding LoadRuleSets}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button Content="Subset">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding GenerateSubsets}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </ToolBar>
+                </DockPanel>
+                <TreeView x:Name="LoadedRuleSetsTreeView"
+                          Grid.Column="0" Grid.Row="1"
+                          BorderThickness="0"
+                          ItemsSource="{Binding RuleSets}">
+
+                    <i:Interaction.Behaviors>
+                        <utils:BindableSelectedItemBehavior SelectedItem="{Binding SelectedRuleSet, Mode=TwoWay}"/>
+                    </i:Interaction.Behaviors>
+
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate
+                                  DataType="{x:Type model:RuleSetSubset}"
+                                  ItemsSource="{Binding Subsets}">
+
+                                <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding Name}"/>
+
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="Rules">
+            <DockPanel>
+                <DockPanel Height="30" DockPanel.Dock="Top">
+                    <ToolBar DockPanel.Dock="Top">
+                        <Button Content="Save">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding SaveRuleSetToFile}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Separator/>
+                        <Label>Applied Filters :</Label>
+                        <StackPanel Orientation="Horizontal">
+                            <Button BorderThickness="0" Background="AliceBlue" Content=" asdasda "/>
+                            <Button BorderThickness="0" Background="AliceBlue" Content=" asdasda "/>
+                            <Button BorderThickness="0" Background="AliceBlue" Content=" asdasda "/>
+                        </StackPanel>
+
+                    </ToolBar>
+                </DockPanel>
+
+                <DataGrid x:Name="RulesDataGrid"
+                          ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ItemsSource="{Binding SelectedRuleSet.Rules}" 
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn 
+                                Binding="{Binding Path=Conditions, Converter = {StaticResource conditionsToStringConverter}}" 
+                                Width="5*" 
+                                Header="Conditions"/>
+                        <DataGridTextColumn 
+                                Binding="{Binding Path=Decisions, Converter = {StaticResource decisionsToStringConverter}}" 
+                                Width="2*" 
+                                Header="Decision"/>
+                        <DataGridTextColumn 
+                                Binding="{Binding Path=SupportValue}" 
+                                Width="*" 
+                                Header="Support"/>
+                        <DataGridTextColumn 
+                                Binding="{Binding Path=Conditions.Count}" 
+                                Width="*" 
+                                Header="Length"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </GroupBox>
+
+    </Grid>
+</Window>

@@ -11,6 +11,14 @@ namespace DecisionRulesTool.Model.IO
 
     public abstract class BaseFileFormat
     {
+        public static class FileExtensions
+        {
+            public const string RSESRuleSet = ".rul";
+            public const string RSESDataset = ".tab";
+            public const string _4emkaRuleSet = ".rls";
+            public const string _4emkaDataset = ".isf";
+        }
+
         public abstract string RuleFileHeader { get; }
         public abstract string DatasetFileHeader { get; }
         public abstract string AttributesSectionHeader { get; }

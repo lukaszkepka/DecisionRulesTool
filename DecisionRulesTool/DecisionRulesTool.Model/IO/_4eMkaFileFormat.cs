@@ -15,7 +15,7 @@ namespace DecisionRulesTool.Model.IO
         public override string ObjectsSectionHeader => "**EXAMPLES";
         public override string RulesSectionHeader => "**RULES";
         public override string EndFileHeader => "**END";
-        public override string[] ConditionRelationChars => new[] { "<=", ">=" };
+        public override string[] ConditionRelationChars => new[] { "<=", ">=", "=", ">", "<" };
         public override string[] DecisionRelationChars => new[] { "at most", "at least" };
         public override string[] DecisionStringStartChars => new[] { "=>" };
         public override string[] MissingValueChars => new[] { "?" };

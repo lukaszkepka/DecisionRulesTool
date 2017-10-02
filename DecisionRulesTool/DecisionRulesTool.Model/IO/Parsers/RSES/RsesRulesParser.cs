@@ -16,7 +16,7 @@ namespace DecisionRulesTool.Model.Parsers
 
     public class RsesRulesParser : RsesFileParser<RuleSet>
     {
-        public override string[] SupportedFormats => new[] { "rul" };
+        public override string SupportedFormat => BaseFileFormat.FileExtensions.RSESRuleSet;
 
         public RsesRulesParser() : base()
         {

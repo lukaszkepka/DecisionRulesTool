@@ -10,9 +10,9 @@ namespace DecisionRulesTool.Model.RuleFilters
 {
     public class LengthFilter : IRuleFilter
     {
-        private Relation relationBetweenRulesLengths;
-        private IAttributeValuesComparer ruleLengthComparer;
-        private int desiredLength;
+        public Relation RelationBetweenRulesLengths { get; }
+        public IAttributeValuesComparer RuleLengthComparer { get; }
+        public int DesiredLength { get; }
 
         /// <summary>
         /// Constructor for length filter
@@ -22,17 +22,17 @@ namespace DecisionRulesTool.Model.RuleFilters
         /// <param name="ruleLengthComparer">Provides comparision between numbers based on relation. IntegerAttributeComparer by default</param>
         public LengthFilter(Relation relation, int desiredLength, IAttributeValuesComparer ruleLengthComparer = null)
         {
-            this.relationBetweenRulesLengths = relation;
-            this.desiredLength = desiredLength;
+            this.RelationBetweenRulesLengths = relation;
+            this.DesiredLength = desiredLength;
             if(ruleLengthComparer == null)
             {
-                this.ruleLengthComparer = new IntegerAttributeComparer();
+                this.RuleLengthComparer = new IntegerAttributeComparer();
             }
         }
 
         public bool CheckCondition(Rule rule)
         {
-            return ruleLengthComparer.AreInRelation(relationBetweenRulesLengths, rule.Conditions.Count, desiredLength);
+            return RuleLengthComparer.AreInRelation(RelationBetweenRulesLengths, rule.Conditions.Count, DesiredLength);
         }
 
         public RuleSet FilterRules(RuleSet ruleSet)

@@ -11,7 +11,14 @@ namespace DecisionRulesTool.Model.RuleFilters
     {
         private IList<IRuleFilter> ruleFilters;
         public IEnumerable<IRuleFilter> Filters => ruleFilters;
-        public RuleSet InitialRuleSet { get; }
+
+        public RuleSet InitialRuleSet { get; private set; }
+        public RuleSet FilteredRuleSet { get; private set; }
+
+        public RuleFilterAggregator(RuleFilterAggregator ruleFilterAggregator)
+        {
+
+        }
 
         public RuleFilterAggregator(RuleSet initialRuleSet)
         {
@@ -40,18 +47,18 @@ namespace DecisionRulesTool.Model.RuleFilters
         /// <returns>New instance of rule set which is subset of initial rule set</returns>
         public RuleSet RunFiltering()
         {
-            RuleSet filteredRuleSet = (RuleSet)InitialRuleSet.Clone();
+            FilteredRuleSet = (RuleSet)InitialRuleSet.Clone();
 
             foreach (IRuleFilter filter in ruleFilters)
             {
-                filteredRuleSet = filter.FilterRules(filteredRuleSet);
-                if(filteredRuleSet.Rules.Count == 0)
+                FilteredRuleSet = filter.FilterRules(FilteredRuleSet);
+                if(FilteredRuleSet.Rules.Count == 0)
                 {
                     break;
                 }
             }
 
-            return filteredRuleSet;
+            return FilteredRuleSet;
         }
 
     }

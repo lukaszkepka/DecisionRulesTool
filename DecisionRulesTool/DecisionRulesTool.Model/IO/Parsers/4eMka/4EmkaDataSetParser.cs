@@ -10,27 +10,26 @@ using System.IO;
 namespace DecisionRulesTool.Model.IO.Parsers._4eMka
 {
     using Model;
+    using NLog;
 
     public class _4eMkaDataSetParser : _4eMkaFileParser<DataSet>
     {
-        public override string[] SupportedFormats => new[] { "isf" };
+        public override string SupportedFormat => BaseFileFormat.FileExtensions._4emkaDataset;
 
         public override DataSet ParseFile(StreamReader fileStream)
         {
+            LogManager.GetCurrentClassLogger().Info("Testowa informacja!");
+
             DataSet dataSet = default(DataSet);
             using (fileStream)
             {
                 dataSet = new DataSet();
                 ParseAttributes(fileStream, dataSet);
-                ParsePreferences(fileStream, dataSet);
                 ParseObjects(fileStream, dataSet);
             }
             return dataSet;
         }
 
-        private void ParsePreferences(StreamReader fileStream, DataSet dataSet)
-        {
-        }
 
         private void SetObjectValues(string[] stringValues, Object dataObject)
         {

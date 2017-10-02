@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.Exceptions
 {
-    class InvalidFileBodyException : Exception
+    public class InvalidFileBodyException : Exception
     {
+        private string filePath;
+
+        public string FilePath { get; }
+
+        public InvalidFileBodyException(string message, string filePath) : base(message)
+        {
+            this.filePath = filePath;
+        }
     }
 }

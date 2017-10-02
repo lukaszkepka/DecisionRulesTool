@@ -12,30 +12,89 @@ using System.Text.RegularExpressions;
 namespace DecisionRulesTool.Model.Parsers
 {
     using Model;
+    using NLog;
     using System.Globalization;
 
     public class _4eMkaRulesParser : _4eMkaFileParser<RuleSet>
     {
-        public override string[] SupportedFormats => new[] { "rls" };
+        public override string SupportedFormat => BaseFileFormat.FileExtensions._4emkaRuleSet;
 
         private readonly Regex ruleBeginRegex = new Regex("\\bRule \\b\\d+. ");
 
         public override RuleSet ParseFile(StreamReader fileStream)
         {
+            LogManager.GetCurrentClassLogger().Info("Testowa informacja!");
+
             RuleSet ruleSet = default(RuleSet);
             using (fileStream)
             {
                 ruleSet = new RuleSet();
+                ParseHeader(fileStream, ruleSet);
                 ParseAttributes(fileStream, ruleSet);
-                ParsePreferences(fileStream, ruleSet);
                 ParseRules(fileStream, ruleSet);
             }
             return ruleSet;
         }
 
-        private void ParsePreferences(StreamReader fileStream, RuleSet ruleSet)
+        public void ParseHeader(StreamReader fileStream, RuleSet ruleSet)
         {
+            string ruleSetName = string.Empty;
 
+            string fileLine = fileStream.ReadLine();
+            while(fileLine.StartsWith("#") && string.IsNullOrEmpty(ruleSetName))
+            {
+                string[] lineParts = fileLine.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                if(lineParts.Any() && lineParts[0].Equals("# Learning File"))
+                {
+                    string fileName = lineParts[1].Trim();
+                    if(fileName.Contains(SupportedFormat))
+                    {
+                        ruleSetName = fileName.Replace(SupportedFormat, string.Empty);
+                    }
+                }
+                fileLine = fileStream.ReadLine();
+            }
+
+            ruleSet.Name = ruleSetName;
+        }
+
+        public void ParseRules(StreamReader fileStream, RuleSet ruleSet)
+        {
+            MoveStreamToSection(fileStream, fileFormat.RulesSectionHeader);
+            string fileLine = fileStream.ReadLine();
+            while (fileLine != null && ruleBeginRegex.Match(fileLine).Success)
+            {
+                fileLine = ruleBeginRegex.Replace(fileLine, string.Empty);
+                string[] fileLineParts = fileLine.Split(fileFormat.DecisionStringStartChars, StringSplitOptions.RemoveEmptyEntries);
+                string conditionsString = fileLineParts[0];
+                string decisionString = fileLineParts[1];
+                string[] conditionsArray = conditionsString.Replace(" ", string.Empty).Split(fileFormat.ConditionSeparatorChar);
+
+                _4eMkaRule rule = new _4eMkaRule(ruleSet);
+                //Add conditions
+                foreach (string condition in conditionsArray)
+                {
+                    rule.Conditions.Add(ParseCondition(condition, ruleSet));
+                }
+
+                //Add decisions
+                foreach (Decision decision in ParseDecisions(decisionString, rule))
+                {
+                    rule.Decisions.Add(decision);
+                }
+
+                ruleSet.Rules.Add(rule);
+                fileLine = fileStream.ReadLine();
+            }
+        }
+
+        public void ParseAttributes(StreamReader fileStream, RuleSet ruleSet)
+        {
+            foreach (var attribute in base.ParseAttributes(fileStream))
+            {
+                ruleSet.Attributes.Add(attribute);
+            }
+            ruleSet.DecisionAttribute = ruleSet.Attributes.Last();
         }
 
         private void ParseRuleParameters(string parametersString, _4eMkaRule rule)
@@ -93,43 +152,5 @@ namespace DecisionRulesTool.Model.Parsers
             return new Condition(relation, attribute, attributeValue);
         }
 
-        private void ParseRules(StreamReader fileStream, RuleSet ruleSet)
-        {
-            MoveStreamToSection(fileStream, fileFormat.RulesSectionHeader);
-            string fileLine = fileStream.ReadLine();
-            while (fileLine != null && ruleBeginRegex.Match(fileLine).Success)
-            {
-                fileLine = ruleBeginRegex.Replace(fileLine, string.Empty);
-                string[] fileLineParts = fileLine.Split(fileFormat.DecisionStringStartChars, StringSplitOptions.RemoveEmptyEntries);
-                string conditionsString = fileLineParts[0];
-                string decisionString = fileLineParts[1];
-                string[] conditionsArray = conditionsString.Replace(" ", string.Empty).Split(fileFormat.ConditionSeparatorChar);
-
-                _4eMkaRule rule = new _4eMkaRule(ruleSet);
-                //Add conditions
-                foreach (string condition in conditionsArray)
-                {
-                    rule.Conditions.Add(ParseCondition(condition, ruleSet));
-                }
-
-                //Add decisions
-                foreach (Decision decision in ParseDecisions(decisionString, rule))
-                {
-                    rule.Decisions.Add(decision);
-                }
-
-                ruleSet.Rules.Add(rule);
-                fileLine = fileStream.ReadLine();
-            }
-        }
-
-        private void ParseAttributes(StreamReader fileStream, RuleSet ruleSet)
-        {
-            foreach (var attribute in base.ParseAttributes(fileStream))
-            {
-                ruleSet.Attributes.Add(attribute);
-            }
-            ruleSet.DecisionAttribute = ruleSet.Attributes.Last();
-        }
     }
 }
