@@ -13,6 +13,13 @@ namespace DecisionRulesTool.UserInterface.Services
     {
         public void NavigateToWindow(BaseWindowViewModel viewModel)
         {
+            switch (viewModel)
+            {
+                case RuleSubsetGenerationViewModel ruleSubsetGenerationViewModel:
+                    break;
+                default:
+                    break;
+            }
             //Window newWindow = null;
             //if (viewModel is CategoryViewModel)
             //{

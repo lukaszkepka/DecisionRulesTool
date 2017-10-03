@@ -8,8 +8,24 @@
         Title="Rule Subset Generation Options" Height="200" Width="400">
     <Grid>
         <TabControl>
-            <TabItem Header="Length Filter"></TabItem>
-            <TabItem Header="Support Filter"></TabItem>
+            <TabItem Header="Length Filter">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding MinLengthFilter}" />
+                        <TextBlock Text=" - " />
+                        <TextBox Text="{Binding MaxLengthFilter}" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Support Filter">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding MinSupportFilter}" />
+                        <TextBlock Text=" - " />
+                        <TextBox Text="{Binding MaxSupportFilter}" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
             <TabItem Header="Attribute Filter"></TabItem>
             <TabItem Header="X Filter"></TabItem>
         </TabControl>
