@@ -31,9 +31,10 @@ namespace DecisionRulesTool.UserInterface.Utils
             if (e.NewValue == null)
                 foreach (var item in tree.Items.OfType<TreeViewItem>())
                     item.SetValue(TreeViewItem.IsSelectedProperty, false);
-            var treeViewItem = e.NewValue as TreeViewItem;
-            if (treeViewItem != null)
+            if (e.NewValue is TreeViewItem treeViewItem)
+            {
                 treeViewItem.SetValue(TreeViewItem.IsSelectedProperty, true);
+            }
             else
             {
                 var itemsHostProperty = tree.GetType().GetProperty("ItemsHost", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);

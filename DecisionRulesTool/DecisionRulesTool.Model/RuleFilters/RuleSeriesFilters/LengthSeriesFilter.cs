@@ -10,42 +10,24 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
 {
     public class LengthSeriesFilter : LengthFilter, IRuleSeriesFilter
     {
-        private LengthFilter initialFilter;
+        public int MinLength { get; }
+        public int MaxLength { get; }
 
-
-        public int MinLength { get; set; }
-        public int MaxLength { get; set; }
-
-        public LengthSeriesFilter(int minLength, int maxLength, LengthFilter lengthFilter) : base(lengthFilter.RelationBetweenRulesLengths, lengthFilter.DesiredLength, lengthFilter.RuleLengthComparer)
+        public LengthSeriesFilter(int minLength, int maxLength, Relation relation, IAttributeValuesComparer valueComparer = null) : base(relation, 0, valueComparer)
         {
-            this.initialFilter = lengthFilter;
             MinLength = minLength;
             MaxLength = maxLength;
         }
 
         public IList<IRuleFilter> GenerateSeries()
         {
-
-            IList<IRuleFilter> h = new List<IRuleFilter>();
-            for (int i = MinLength; i < MaxLength; i++)
+            IList<IRuleFilter> filters = new List<IRuleFilter>();
+            for (int i = MinLength; i <= MaxLength; i++)
             {
-                IRuleFilter ruleFilter = new LengthFilter(initialFilter.RelationBetweenRulesLengths, i);
-                h.Add(ruleFilter);
+                IRuleFilter ruleFilter = new LengthFilter(RelationBetweenRulesLengths, i);
+                filters.Add(ruleFilter);
             }
-            return h;
-
-
-
-            //IList<RuleFilterAggregator> h = new List<RuleFilterAggregator>();
-            //for (int i = MinLength; i < MaxLength; i++)
-            //{
-            //    RuleFilterAggregator r = new RuleFilterAggregator(ruleFilterAggregator.InitialRuleSet, ruleFilterAggregator.Filters);
-            //    IRuleFilter ruleFilter = new LengthFilter(initialFilter.RelationBetweenRulesLengths, i);
-            //    r.AddFilter(ruleFilter);
-
-            //    h.Add(r);
-            //}
-            //return h;
+            return filters;
         }
     }
 }

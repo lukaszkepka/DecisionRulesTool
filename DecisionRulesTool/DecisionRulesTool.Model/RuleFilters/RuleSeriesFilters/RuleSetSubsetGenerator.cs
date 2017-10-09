@@ -1,62 +1,91 @@
 ﻿using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
 {
-    public class RuleSetSubsetGenerator
+    public class RuleSetSubsetGenerator : IRuleSubsetGenerator
     {
         private IList<IRuleSeriesFilter> ruleFilters;
+        //private IProgressNotifier progressNotifier;
         private RuleSetSubset rootRuleSet;
 
         public IEnumerable<IRuleSeriesFilter> Filters => ruleFilters;
 
         public RuleSetSubsetGenerator(RuleSetSubset rootRuleSet)
         {
-            ruleFilters = new List<IRuleSeriesFilter>() { new LengthSeriesFilter(1, 3, new LengthFilter(Relation.Equality, 0))};
+            ruleFilters = new List<IRuleSeriesFilter>();
             this.rootRuleSet = rootRuleSet;
         }
 
-        public void a()
+        public void RemoveFilter(int index)
         {
-            Stack<RuleSetSubset> b = new Stack<RuleSetSubset>();
-            b.Push(rootRuleSet);
+            ruleFilters.RemoveAt(index);
+        }
+
+        public void AddFilter(IRuleSeriesFilter ruleFilter)
+        {
+            ruleFilters.Add(ruleFilter);
+        }
+
+        public void GenerateSubsets()
+        {
+            //Create stack that holds collection of rule sets 
+            //for actual iteration
+            List<RuleSetSubset> actualSubsetLevel = new List<RuleSetSubset>();
+
+            //Create stack that holds collection of parent rule sets
+            //for next iteration
+            Stack<RuleSetSubset> subsetParents = new Stack<RuleSetSubset>();
+            subsetParents.Push(rootRuleSet);
 
             foreach (IRuleSeriesFilter seriesFilter in ruleFilters)
             {
-                var gg = new List<RuleSetSubset>(b.ToList());
-                b.Clear();
-                foreach (var item in gg)
+                //TODO: Dont skip actual root when children nodes weren't created //Q: For qure you need that?
+
+
+                //Collection of parent rule setes are copied to actual                 
+                //processed level collection
+                if(subsetParents.Any())
                 {
+                    actualSubsetLevel = new List<RuleSetSubset>(subsetParents.ToList());
+                }
+                
+                //Clear stack for rule set parents for next level
+                subsetParents.Clear();
+
+                foreach (var actualRuleSet in actualSubsetLevel)
+                {
+                    //For every subset in actual level generate subsets using 
+                    //series for one type of filter
                     foreach (var filter in seriesFilter.GenerateSeries())
                     {
-                        var newRuleSet = filter.FilterRules(item);
+                        //Use filter to generate new subset
+                        RuleSetSubset subset = new RuleSetSubset(actualRuleSet, rootRuleSet);
+                        subset.AddFilter(filter);
+                        subset.ApplyFilters();
 
-                        RuleSetSubset subset = new RuleSetSubset(newRuleSet, rootRuleSet);
-                        item.Subsets.Add(subset);
-                        b.Push(subset);
+                        //Set new subset name 
+                        SetSubsetName(subset);
+
+                        //Attach new subset to parent
+                        actualRuleSet.Subsets.Add(subset);
+                        //Mark new subset as parent for next level
+                        subsetParents.Push(subset);
                     }
                 }
             }
         }
 
-
-
-
-
-        //IList<RuleFilterAggregator> h = new List<RuleFilterAggregator>();
-        //for (int i = MinLength; i < MaxLength; i++)
-        //{
-        //    RuleFilterAggregator r = new RuleFilterAggregator(ruleFilterAggregator.InitialRuleSet, ruleFilterAggregator.Filters);
-        //    IRuleFilter ruleFilter = new LengthFilter(initialFilter.RelationBetweenRulesLengths, i);
-        //    r.AddFilter(ruleFilter);
-
-        //    h.Add(r);
-        //}
-        //return h;
+        public void SetSubsetName(RuleSetSubset subset)
+        {
+            subset.Name = $"{rootRuleSet.Name}: {subset.Filters.LastOrDefault()?.ToString()} ";
+        }
     }
 }
 

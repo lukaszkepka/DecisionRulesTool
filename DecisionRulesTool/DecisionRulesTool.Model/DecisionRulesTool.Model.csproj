@@ -111,6 +111,7 @@
     <Compile Include="RuleFilters\RuleFilterAggreagtor.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\AttributePresenceSeriesFilter.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\IRuleSeriesFilter.cs" />
+    <Compile Include="RuleFilters\RuleSeriesFilters\IRuleSubsetGenerator.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\LengthSeriesFilter.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\RuleSetSubsetGenerator.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\SupportValueSeriesFilter.cs" />
@@ -135,7 +136,10 @@
     <Compile Include="RuleTester\TestResult.cs" />
     <Compile Include="RuleTester\DecisionResolver\WeightedVoting.cs" />
     <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\IProgressNotifier.cs" />
+    <Compile Include="Utils\ProgressNotifier.cs" />
     <Compile Include="Utils\ReferenceComparer.cs" />
+    <Compile Include="Utils\Tools.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logger\" />

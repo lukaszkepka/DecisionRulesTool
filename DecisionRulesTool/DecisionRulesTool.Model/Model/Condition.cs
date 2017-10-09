@@ -24,8 +24,7 @@ namespace DecisionRulesTool.Model.Model
         public override bool Equals(object obj)
         {
             bool result = false;
-            Condition condition = obj as Condition;
-            if (condition != null)
+            if (obj is Condition condition)
             {
                 result = Value == null || condition.Value == null ? Value == condition.Value : Value.Equals(condition.Value) &&
                          RelationType == condition.RelationType &&

@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Comparers;
+using DecisionRulesTool.Model.Utils;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
     public class LengthFilter : IRuleFilter
     {
-        public Relation RelationBetweenRulesLengths { get; }
-        public IAttributeValuesComparer RuleLengthComparer { get; }
+        protected Relation RelationBetweenRulesLengths { get; }
+        protected IAttributeValuesComparer RuleLengthComparer { get; }
         public int DesiredLength { get; }
 
         /// <summary>
@@ -48,6 +49,11 @@ namespace DecisionRulesTool.Model.RuleFilters
                 }
             }
             return newRuleSet;
+        }
+
+        public override string ToString()
+        {
+            return $"Length {Tools.GetRelationString(RelationBetweenRulesLengths)} {DesiredLength}";
         }
     }
 }

@@ -35,11 +35,12 @@ namespace DecisionRulesTool.UserInterface.Services
 
         private OpenFileDialogSettings CreateOpenFileDialogOptions()
         {
-            OpenFileDialogSettings options = new OpenFileDialogSettings();
-            options.Multiselect = true;
-            options.Filter = ruleSetsFilter;
-            options.InitialDirectory = Path.GetFullPath(Globals.TestFilesDirectory);
-            return options;
+            return new OpenFileDialogSettings
+            {
+                Multiselect = true,
+                Filter = ruleSetsFilter,
+                InitialDirectory = Path.GetFullPath(Globals.RsesFilesDirectory)
+            };
         }
 
         public ICollection<RuleSet> LoadRuleSets()

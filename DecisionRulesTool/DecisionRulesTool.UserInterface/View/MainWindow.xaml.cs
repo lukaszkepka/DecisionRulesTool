@@ -26,8 +26,7 @@ namespace DecisionRulesTool.UserInterface
         public MainWindow()
         {
             InitializeComponent();
-            var dialogService = new DialogService(this);
-            var viewModel = new MainWindowViewModel(dialogService);
+            var viewModel = new MainWindowViewModel();
             viewModel.CloseRequest += (sender, e) => Close();
             DataContext = viewModel;
         }

@@ -15,20 +15,18 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     public abstract class BaseWindowViewModel : INotifyPropertyChanged
     {
         protected DialogService dialogService;
+        protected WindowNavigatorService windowNavigatorService;
         protected RuleSetLoaderService ruleSetLoaderService;
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ICommand NavigationMenuItemClicked { get; private set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler CloseRequest;
 
-        public BaseWindowViewModel(DialogService dialogService)
+        public BaseWindowViewModel()
         {
-            this.dialogService = dialogService;
-            ruleSetLoaderService = new RuleSetLoaderService(new RuleSetParserFactory(), dialogService);
+            this.windowNavigatorService = new WindowNavigatorService();
+            this.dialogService = new DialogService();
+            this.ruleSetLoaderService = new RuleSetLoaderService(new RuleSetParserFactory(), dialogService);
 
             InitializeInternalCommands();
             InitializeCommands();

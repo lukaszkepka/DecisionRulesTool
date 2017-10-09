@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Globalization;
+using DecisionRulesTool.Model.Utils;
 
 namespace DecisionRulesTool.UserInterface.Utils.Converters
 {
@@ -21,9 +22,7 @@ namespace DecisionRulesTool.UserInterface.Utils.Converters
                 foreach (var decision in decisions)
                 {
                     result.Append(decision.DecisionAttribute.Name);
-                    result.Append(" ");
-                    result.Append(decision.Type.ToString());
-                    result.Append(" ");
+                    result.Append($" {Tools.GetDecisionTypeString(decision.Type)} ");
                     result.Append(decision.Value.ToString());
                 }
             }

@@ -13,7 +13,7 @@ namespace DecisionRulesTool.Model.Model
 
     public class RuleSetSubset : RuleSet
     {
-        private IList<IRuleFilter> ruleFilters;
+        private List<IRuleFilter> ruleFilters;
 
         public RuleSet RootRuleSet { get; private set; }
         public RuleSet InitialRuleSet { get; private set; }
@@ -22,8 +22,15 @@ namespace DecisionRulesTool.Model.Model
 
         public void Initialize()
         {
-            ruleFilters = new List<IRuleFilter>();
-            Subsets = new List<RuleSetSubset>();
+            if (ruleFilters == null)
+            {
+                ruleFilters = new List<IRuleFilter>();
+            }
+
+            if (Subsets == null)
+            {
+                Subsets = new List<RuleSetSubset>();
+            }
         }
 
         public RuleSetSubset(string name) : base(name)
@@ -31,17 +38,19 @@ namespace DecisionRulesTool.Model.Model
             Initialize();
         }
 
-        public RuleSetSubset(RuleSetSubset initialRuleSet) : base(initialRuleSet.Name, initialRuleSet.Attributes, initialRuleSet.Rules, initialRuleSet.DecisionAttribute)
+        public RuleSetSubset(RuleSetSubset initialRuleSet) : this(initialRuleSet, initialRuleSet.RootRuleSet)
         {
             Initialize();
             InitialRuleSet = initialRuleSet;
             RootRuleSet = initialRuleSet.RootRuleSet;
+
+            this.ruleFilters.AddRange(initialRuleSet.Filters);
         }
 
-        public RuleSetSubset(RuleSet ruleSet, RuleSet rootRuleSet) : base(ruleSet.Name, ruleSet.Attributes, ruleSet.Rules, ruleSet.DecisionAttribute)
+        public RuleSetSubset(RuleSet initialRuleSet, RuleSet rootRuleSet) : base(initialRuleSet.Name, initialRuleSet.Attributes, initialRuleSet.Rules, initialRuleSet.DecisionAttribute)
         {
             Initialize();
-            InitialRuleSet = ruleSet;
+            InitialRuleSet = initialRuleSet;
             RootRuleSet = rootRuleSet;
         }
 

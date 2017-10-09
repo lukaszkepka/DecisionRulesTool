@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Comparers;
+using DecisionRulesTool.Model.Utils;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
     public class SupportValueFilter : IRuleFilter
     {
-        private Relation relationBetweenRulesLengths;
-        private IAttributeValuesComparer ruleLengthComparer;
+        protected Relation relationBetweenRulesSupport;
+        protected IAttributeValuesComparer ruleLengthComparer;
         private int desiredValue;
 
         /// <summary>
@@ -22,7 +23,7 @@ namespace DecisionRulesTool.Model.RuleFilters
         /// <param name="ruleLengthComparer">Provides comparision between numbers based on relation. IntegerAttributeComparer by default</param>
         public SupportValueFilter(Relation relation, int desiredValue, IAttributeValuesComparer ruleLengthComparer = null)
         {
-            this.relationBetweenRulesLengths = relation;
+            this.relationBetweenRulesSupport = relation;
             this.desiredValue = desiredValue;
             if (ruleLengthComparer == null)
             {
@@ -32,7 +33,7 @@ namespace DecisionRulesTool.Model.RuleFilters
 
         public bool CheckCondition(Rule rule)
         {
-            return ruleLengthComparer.AreInRelation(relationBetweenRulesLengths, rule.SupportValue, desiredValue);
+            return ruleLengthComparer.AreInRelation(relationBetweenRulesSupport, rule.SupportValue, desiredValue);
         }
 
         public RuleSet FilterRules(RuleSet ruleSet)
@@ -48,6 +49,11 @@ namespace DecisionRulesTool.Model.RuleFilters
                 }
             }
             return newRuleSet;
+        }
+
+        public override string ToString()
+        {
+            return $"Support {Tools.GetRelationString(relationBetweenRulesSupport)} {desiredValue}";
         }
     }
 }

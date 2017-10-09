@@ -26,8 +26,7 @@ namespace DecisionRulesTool.Model.Model
         public override bool Equals(object obj)
         {
             bool result = false;
-            Decision decision = obj as Decision;
-            if (decision != null)
+            if (obj is Decision decision)
             {
                 result = Value.Equals(decision.Value) &&
                          Support == decision.Support &&

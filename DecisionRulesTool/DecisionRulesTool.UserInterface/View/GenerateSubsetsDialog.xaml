@@ -3,31 +3,117 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:DecisionRulesTool.UserInterface.View"
+        xmlns:controls="clr-namespace:DecisionRulesTool.UserInterface.Model.CustomControls"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Rule Subset Generation Options" Height="200" Width="400">
+        Title="Rule Subset Generation Options" Height="300" Width="550">
+
     <Grid>
-        <TabControl>
-            <TabItem Header="Length Filter">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding MinLengthFilter}" />
-                        <TextBlock Text=" - " />
-                        <TextBox Text="{Binding MaxLengthFilter}" />
-                    </StackPanel>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Support Filter">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding MinSupportFilter}" />
-                        <TextBlock Text=" - " />
-                        <TextBox Text="{Binding MaxSupportFilter}" />
-                    </StackPanel>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Attribute Filter"></TabItem>
-            <TabItem Header="X Filter"></TabItem>
-        </TabControl>
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Grid.RowSpan="5">
+            <DockPanel x:Name="LoadedRuleSetsToolBar"
+                   DockPanel.Dock="Top"
+                   Height="30">
+                <ToolBar DockPanel.Dock="Top">
+                    <CheckBox IsChecked="{Binding AllLevelGeneration}" Content=""/>
+                </ToolBar>
+            </DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <controls:ReorderableTabControl x:Name="RuleFiltersTabControl"
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="2" 
+                    TabStripPlacement="Top" 
+                    AllowDrop="True">
+
+                    <TabItem Header="Length Filter" Width="125">
+                        <GroupBox Padding="5" HorizontalAlignment="Stretch" DataContext="{Binding LengthFilterViewModel}">
+                            <GroupBox.Header>
+                                <CheckBox x:Name="isLengthFilterEnabled" Content="Length filter" IsChecked="{Binding IsEnabled}"/>
+                            </GroupBox.Header>
+                            <StackPanel IsEnabled="{Binding IsChecked, ElementName=isLengthFilterEnabled}">
+                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                    <TextBlock Text="Length filter values : &lt; " />
+                                    <xctk:IntegerUpDown Value="{Binding MinLengthFilter}" Width="45" BorderThickness="1" />
+                                    <TextBlock Text=" - " />
+                                    <xctk:IntegerUpDown Value="{Binding MaxLengthFilter}" Width="45" BorderThickness="1" />
+                                    <TextBlock Text=" &gt; " />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                    <TextBlock Text="Relation : " />
+                                    <ComboBox Width="100" ItemsSource="{Binding AvailableRelations}" SelectedItem="{Binding SelectedRelation}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                    <RadioButton Content="Generate child filters" IsChecked="{Binding G}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+
+                    </TabItem>
+                    <TabItem Header="Support Filter">
+                        <GroupBox Padding="5" HorizontalAlignment="Stretch" DataContext="{Binding SupportValueFilterViewModel}">
+                            <GroupBox.Header>
+                                <CheckBox x:Name="isSupportFilterEnabled" Content="Support filter" IsChecked="{Binding IsEnabled}"/>
+                            </GroupBox.Header>
+                            <StackPanel IsEnabled="{Binding IsChecked, ElementName=isSupportFilterEnabled}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text=" Rule support division : &lt; " />
+                                    <xctk:IntegerUpDown Value="{Binding MinSupportFilter}" Width="45" BorderThickness="1" />
+                                    <TextBlock Text=" - " />
+                                    <xctk:IntegerUpDown Value="{Binding MaxSupportFilter}" Width="45" BorderThickness="1" />
+                                    <TextBlock Text=" &gt; " />
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                    </TabItem>
+                    
+                    <TabItem Header="Attribute Filter">
+                        <GroupBox Padding="5" HorizontalAlignment="Stretch">
+                            <GroupBox.Header>
+                                <CheckBox x:Name="isAttributeFilterEnabled" Content="Attribute Filter" IsChecked="{Binding IsEnabled}"/>
+                            </GroupBox.Header>
+                        <StackPanel IsEnabled="{Binding IsChecked, ElementName=isAttributeFilterEnabled}"/>
+                        </GroupBox>
+                    </TabItem>
+                </controls:ReorderableTabControl>
+            </Grid>
+            
+        </DockPanel>
+
+        <Grid Grid.Row="5"  Height="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Column="1" Content="Apply"  VerticalAlignment="Center" Width="Auto"  Command="{Binding Apply}"/>
+            <Button Grid.Column="3" Content="No"  VerticalAlignment="Center" Width="Auto" Command="{Binding Cancel}"/>
+        </Grid>
+
+
     </Grid>
+
+
 </Window>

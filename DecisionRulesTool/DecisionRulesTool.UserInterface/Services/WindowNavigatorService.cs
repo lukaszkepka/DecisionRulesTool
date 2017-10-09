@@ -1,4 +1,6 @@
-﻿using DecisionRulesTool.UserInterface.ViewModel;
+﻿using DecisionRulesTool.UserInterface.View;
+using DecisionRulesTool.UserInterface.ViewModel;
+using DecisionRulesTool.UserInterface.ViewModel.Dialog;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -9,55 +11,46 @@ using System.Windows;
 
 namespace DecisionRulesTool.UserInterface.Services
 {
-    class WindowNavigatorService
+    public class WindowNavigatorService
     {
-        public void NavigateToWindow(BaseWindowViewModel viewModel)
+        protected Window GetWindow(BaseWindowViewModel viewModel)
         {
+            Window newWindow = null;
             switch (viewModel)
             {
                 case RuleSubsetGenerationViewModel ruleSubsetGenerationViewModel:
+                    newWindow = new GenerateSubsetsDialog();
+                    break;
+                case ProgressDialogViewModel progressDialogViewModel:
+                    newWindow = new ProgressDialog();
                     break;
                 default:
                     break;
             }
-            //Window newWindow = null;
-            //if (viewModel is CategoryViewModel)
-            //{
-            //    newWindow = new CategoryWindow();
-            //}
-            //else if (viewModel is GoalViewModel)
-            //{
-            //    newWindow = new GoalWindow();
-            //}
-            //else if (viewModel is EntryViewModel)
-            //{
-            //    newWindow = new EntryWindow();
-            //}
-            //else
-            //{
-            //    throw new NotImplementedException();
-            //}
-
-            //if (newWindow != null)
-            //{
-            //    newWindow.DataContext = viewModel;
-            //    newWindow.Show();
-            //    viewModel.CloseRequest += (sender, e) => newWindow.Close();
-            //}
-
-            Window mew = new MainWindow();
-
-            OpenFileDialog a = new OpenFileDialog();
-            a.ShowDialog(mew);
-
+            return newWindow;
         }
 
-        public void NavigateToWindow(string windowName)
+        public virtual void SwitchContext(BaseWindowViewModel viewModel)
         {
-            //BaseWindowViewModel newViewModel = null;
+            Window newWindow = GetWindow(viewModel);
+            if (newWindow != null)
+            {
+                newWindow.DataContext = viewModel;
+                newWindow.Show();
+                viewModel.CloseRequest += (sender, e) => newWindow.Close();
+            }
+        }
+
+        public virtual void NavigateToWindow(string windowName)
+        {
+            BaseWindowViewModel newViewModel = null;
 
             switch (windowName)
             {
+                case "GenerateSubsetsDialog":
+                   // newViewModel = new RuleSubsetGenerationViewModel();
+                    break;
+
                 //case "CategoryWindow":
                 //    newViewModel = new CategoryViewModel();
                 //    break;
@@ -73,7 +66,8 @@ namespace DecisionRulesTool.UserInterface.Services
                 default:
                     throw new NotImplementedException();
             }
-            //NavigateToWindow(newViewModel);
+
+            SwitchContext(newViewModel);
         }
     }
 }

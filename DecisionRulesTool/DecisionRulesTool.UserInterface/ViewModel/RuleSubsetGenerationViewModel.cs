@@ -4,74 +4,89 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DecisionRulesTool.UserInterface.Services.Dialog;
+using System.Windows.Input;
+using DecisionRulesTool.UserInterface.Model;
+using DecisionRulesTool.Model.RuleFilters;
+using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
+using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.Utils;
+using DecisionRulesTool.UserInterface.ViewModel.Filters;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    public class RuleSubsetGenerationViewModel : BaseWindowViewModel
+    public class RuleSubsetGenerationViewModel : BaseDialogViewModel
     {
-        private int minSupportFilter;
-        private int maxSupportFilter;
-        private int minLengthFilter;
-        private int maxLengthFilter;
+        private RuleSetSubset rootRuleSet;
+        private List<IRuleSeriesFilter> filters;
+
+        private LengthFilterViewModel lengthFilterViewModel;
+        private SupportValueFilterViewModel supportValueFilterViewModel;
+
+
+        public ICommand Apply { get; private set; }
+        public ICommand Cancel { get; private set; }
 
         #region Properties
-        public int MinSupportFilter
+        public LengthFilterViewModel LengthFilterViewModel
         {
             get
             {
-                return minSupportFilter;
+                return lengthFilterViewModel;
             }
             set
             {
-                minSupportFilter = value;
-                OnPropertyChanged("MinSupportFilter");
+                lengthFilterViewModel = value;
+                OnPropertyChanged("LengthFilterViewModel");
             }
         }
-        public int MaxSupportFilter
+        public SupportValueFilterViewModel SupportValueFilterViewModel
         {
             get
             {
-                return maxSupportFilter;
+                return supportValueFilterViewModel;
             }
             set
             {
-                maxSupportFilter = value;
-                OnPropertyChanged("MaxSupportFilter");
-            }
-        }
-        public int MinLengthFilter
-        {
-            get
-            {
-                return minLengthFilter;
-            }
-            set
-            {
-                minLengthFilter = value;
-                OnPropertyChanged("MinLengthFilter");
-            }
-        }
-        public int MaxLengthFilter
-        {
-            get
-            {
-                return maxLengthFilter;
-            }
-            set
-            {
-                maxLengthFilter = value;
-                OnPropertyChanged("MaxLengthFilter");
+                supportValueFilterViewModel = value;
+                OnPropertyChanged("SupportValueFilterViewModel");
             }
         }
         #endregion
 
-        public RuleSubsetGenerationViewModel(DialogService dialogService) : base(dialogService)
+        public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet)
         {
+            this.supportValueFilterViewModel = new SupportValueFilterViewModel(rootRuleSet);
+            this.lengthFilterViewModel = new LengthFilterViewModel(rootRuleSet);
+            this.rootRuleSet = rootRuleSet;
+        }
+
+        public IRuleSubsetGenerator GetSubsetGenerator()
+        {
+            IRuleSubsetGenerator ruleSubsetGenerator = new RuleSetSubsetGenerator(rootRuleSet);
+            IRuleSeriesFilter filter1 = lengthFilterViewModel.GetRuleSeriesFilter();
+            IRuleSeriesFilter filter2 = supportValueFilterViewModel.GetRuleSeriesFilter();
+
+            ruleSubsetGenerator.AddFilter(filter1);
+            ruleSubsetGenerator.AddFilter(filter2);
+            return ruleSubsetGenerator;
         }
 
         protected override void InitializeCommands()
         {
-            
+            Apply = new RelayCommand(OnApply);
+            Cancel = new RelayCommand(OnCancel);
+        }
+
+        public void OnApply()
+        {
+            Result = true;
+            OnCloseRequest();
+        }
+
+        public void OnCancel()
+        {
+            Result = false;
+            OnCloseRequest();
         }
     }
 }

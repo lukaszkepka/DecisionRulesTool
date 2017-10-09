@@ -21,7 +21,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="3.5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
@@ -41,8 +41,10 @@
         </DockPanel>
 
         <GroupBox x:Name="LoadedRuleSetsGroupBox" Grid.Column="0" Grid.Row="1" Header="Loaded rule sets">
-            <StackPanel>
+
+            <DockPanel>
                 <DockPanel x:Name="LoadedRuleSetsToolBar"
+                           DockPanel.Dock="Top"
                            Height="30">
                     <ToolBar DockPanel.Dock="Top">
                         <Button Content="Load">
@@ -62,7 +64,10 @@
                     </ToolBar>
                 </DockPanel>
                 <TreeView x:Name="LoadedRuleSetsTreeView"
-                          Grid.Column="0" Grid.Row="1"
+                          DockPanel.Dock="Bottom"
+                          ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.HorizontalScrollBarVisibility="Visible"
                           BorderThickness="0"
                           ItemsSource="{Binding RuleSets}">
 
@@ -75,12 +80,13 @@
                                   DataType="{x:Type model:RuleSetSubset}"
                                   ItemsSource="{Binding Subsets}">
 
-                                <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding Name}"/>
+                            <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding Name}"/>
 
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
                 </TreeView>
-            </StackPanel>
+            </DockPanel>
+
         </GroupBox>
 
         <GroupBox Grid.Column="1" Grid.Row="1" Header="Rules">
@@ -96,11 +102,24 @@
                         </Button>
                         <Separator/>
                         <Label>Applied Filters :</Label>
-                        <StackPanel Orientation="Horizontal">
+                        <!--<StackPanel Orientation="Horizontal" >
                             <Button BorderThickness="0" Background="AliceBlue" Content=" asdasda "/>
                             <Button BorderThickness="0" Background="AliceBlue" Content=" asdasda "/>
                             <Button BorderThickness="0" Background="AliceBlue" Content=" asdasda "/>
-                        </StackPanel>
+                        </StackPanel>-->
+
+                        <ItemsControl ItemsSource="{Binding SelectedRuleSet.Filters}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding .}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0" Background="AliceBlue"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
 
                     </ToolBar>
                 </DockPanel>

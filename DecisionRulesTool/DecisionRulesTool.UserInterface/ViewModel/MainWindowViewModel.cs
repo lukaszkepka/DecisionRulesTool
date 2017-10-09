@@ -3,12 +3,15 @@ using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Parsers;
 using DecisionRulesTool.Model.RuleFilters;
 using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
+using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.UserInterface.Model;
 using DecisionRulesTool.UserInterface.Services.Dialog;
+using DecisionRulesTool.UserInterface.ViewModel.Dialog;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -54,12 +57,15 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         }
         #endregion
 
-        public MainWindowViewModel(DialogService dialogService) : base(dialogService)
+        public MainWindowViewModel() : base()
         {
             RuleSets = new ObservableCollection<RuleSetSubset>();
         }
         private void OnSaveRuleSetToFile()
         {
+            //TODO: this line is for refresh tree view, change this
+            //      so it will be refreshed without creating new collection
+            RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
             dialogService.ShowWarningMessage("Functionality not implemented yet");
         }
         public void OnLoadRuleSet()
@@ -80,22 +86,39 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         }
         private void OnGenerateSubsets()
         {
-            if(SelectedRuleSet != null)
+            //IProgressNotifier subsetGenerationProgressNotifier = new ProgressNotifier();
+            //var progressDialogViewModel = new ProgressDialogViewModel(subsetGenerationProgressNotifier);
+
+            if (SelectedRuleSet != null)
             {
-                RuleSetSubsetGenerator a = new RuleSetSubsetGenerator(SelectedRuleSet);
-                a.a();
-                OnPropertyChanged("RuleSets");
+                var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet);
+                if (dialogService.ShowDialog(optionsViewModel) == true)
+                {
+                    IRuleSubsetGenerator ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
+                    ruleSubsetGenerator.GenerateSubsets(); 
+
+                    dialogService.ShowInformationMessage("Operation completed successfully");
+                }
+                else
+                {
+                }
             }
             else
             {
-
+                dialogService.ShowWarningMessage("To generate rule subsets, you must first select initial rule set from 'Loaded rule sets' panel");
             }
+
+
+            //TODO: this line is for refresh tree view, change this
+            //      so it will be refreshed without creating new collection
+            RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
         }
+
         protected override void InitializeCommands()
         {
-            SaveRuleSetToFile = new Command(OnSaveRuleSetToFile);
-            LoadRuleSets = new Command(OnLoadRuleSet);
-            GenerateSubsets = new Command(OnGenerateSubsets);
+            SaveRuleSetToFile = new RelayCommand(OnSaveRuleSetToFile);
+            LoadRuleSets = new RelayCommand(OnLoadRuleSet);
+            GenerateSubsets = new RelayCommand(OnGenerateSubsets);
         }
     }
 }
