@@ -99,7 +99,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         {
             var relations = (Relation[])Enum.GetValues(typeof(Relation));
             availableRelations = new string[relations.Length - 1];
-            for (int i = 0; i < relations.Length - 2; i++)
+            for (int i = 0; i < relations.Length - 1; i++)
             {
                 availableRelations[i] = Tools.GetRelationString(relations[i]);
             }
@@ -107,9 +107,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             selectedRelation = availableRelations.Where(x => x.Equals(Tools.GetRelationString(Relation.Equality))).FirstOrDefault();
         }
 
-        public override IRuleSeriesFilter GetRuleSeriesFilter()
+        public override IRuleFilterApplier[] GetRuleSeriesFilter()
         {
-            return new LengthSeriesFilter(minLengthFilter, maxLengthFilter, Tools.ParseRelationString(selectedRelation));
+            return new[] { new LengthSeriesFilter(minLengthFilter, maxLengthFilter, Tools.ParseRelationString(selectedRelation)) };
         }
 
         private void SetFilterBounds()

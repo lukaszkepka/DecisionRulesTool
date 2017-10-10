@@ -60,7 +60,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         }
         #endregion
 
-        public SupportValueFilterViewModel(DecisionRulesTool.Model.Model.RuleSetSubset rootRuleSet) : base(rootRuleSet)
+        public SupportValueFilterViewModel(RuleSetSubset rootRuleSet) : base(rootRuleSet)
         {
             SetFilterBounds();
         }
@@ -85,9 +85,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             }
         }
 
-        public override IRuleSeriesFilter GetRuleSeriesFilter()
+        public override IRuleFilterApplier[] GetRuleSeriesFilter()
         {
-            return new SupportValueSeriesFilter(minSupportFilter, maxSupportFilter, Relation.Equality);
+            return new[] { new SupportValueSeriesFilter(minSupportFilter, maxSupportFilter, Relation.Equality), new SupportValueSeriesFilter(minSupportFilter, maxSupportFilter, Relation.Equality), };
         }
     }
 }

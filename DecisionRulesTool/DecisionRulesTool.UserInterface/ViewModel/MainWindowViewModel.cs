@@ -60,6 +60,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public MainWindowViewModel() : base()
         {
             RuleSets = new ObservableCollection<RuleSetSubset>();
+            InitializeCommands();
         }
         private void OnSaveRuleSetToFile()
         {
@@ -94,8 +95,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet);
                 if (dialogService.ShowDialog(optionsViewModel) == true)
                 {
-                    IRuleSubsetGenerator ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
-                    ruleSubsetGenerator.GenerateSubsets(); 
+                    LengthSeriesFilter ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
+                    ruleSubsetGenerator.ApplyFilterSeries(SelectedRuleSet);
 
                     dialogService.ShowInformationMessage("Operation completed successfully");
                 }
@@ -114,7 +115,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
         }
 
-        protected override void InitializeCommands()
+        private void InitializeCommands()
         {
             SaveRuleSetToFile = new RelayCommand(OnSaveRuleSetToFile);
             LoadRuleSets = new RelayCommand(OnLoadRuleSet);

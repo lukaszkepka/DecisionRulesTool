@@ -16,7 +16,7 @@ namespace DecisionRulesTool.UserInterface.Model.CustomControls
             base.OnMouseDoubleClick(e);
             a();
         }
-        void a ()
+        void a()
         {
             //if (true)
             //{

@@ -8,7 +8,7 @@ using DecisionRulesTool.Model.Model;
 
 namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
 {
-    public class SupportValueSeriesFilter : SupportValueFilter, IRuleSeriesFilter
+    public class SupportValueSeriesFilter : SupportValueFilter, IRuleFilterApplier
     {
         public int MinLength { get; }
         public int MaxLength { get; }
@@ -28,6 +28,11 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
                 filters.Add(ruleFilter);
             }
             return filters;
+        }
+
+        public RuleSetSubset[] ApplyFilterSeries(RuleSetSubset ruleSet)
+        {
+            throw new NotImplementedException();
         }
     }
 }

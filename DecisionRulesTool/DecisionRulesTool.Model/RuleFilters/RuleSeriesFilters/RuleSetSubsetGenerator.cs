@@ -11,15 +11,14 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
 {
     public class RuleSetSubsetGenerator : IRuleSubsetGenerator
     {
-        private IList<IRuleSeriesFilter> ruleFilters;
-        //private IProgressNotifier progressNotifier;
+        private IList<IRuleFilterApplier> ruleFilters;
         private RuleSetSubset rootRuleSet;
 
-        public IEnumerable<IRuleSeriesFilter> Filters => ruleFilters;
+        public IEnumerable<IRuleFilterApplier> Filters => ruleFilters;
 
         public RuleSetSubsetGenerator(RuleSetSubset rootRuleSet)
         {
-            ruleFilters = new List<IRuleSeriesFilter>();
+            ruleFilters = new List<IRuleFilterApplier>();
             this.rootRuleSet = rootRuleSet;
         }
 
@@ -28,7 +27,7 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
             ruleFilters.RemoveAt(index);
         }
 
-        public void AddFilter(IRuleSeriesFilter ruleFilter)
+        public void AddFilter(IRuleFilterApplier ruleFilter)
         {
             ruleFilters.Add(ruleFilter);
         }
@@ -44,11 +43,8 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
             Stack<RuleSetSubset> subsetParents = new Stack<RuleSetSubset>();
             subsetParents.Push(rootRuleSet);
 
-            foreach (IRuleSeriesFilter seriesFilter in ruleFilters)
+            foreach (IRuleFilterApplier seriesFilter in ruleFilters)
             {
-                //TODO: Dont skip actual root when children nodes weren't created //Q: For qure you need that?
-
-
                 //Collection of parent rule setes are copied to actual                 
                 //processed level collection
                 if(subsetParents.Any())
@@ -63,21 +59,21 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
                 {
                     //For every subset in actual level generate subsets using 
                     //series for one type of filter
-                    foreach (var filter in seriesFilter.GenerateSeries())
-                    {
-                        //Use filter to generate new subset
-                        RuleSetSubset subset = new RuleSetSubset(actualRuleSet, rootRuleSet);
-                        subset.AddFilter(filter);
-                        subset.ApplyFilters();
+                    //foreach (var filter in seriesFilter.GenerateSeries())
+                    //{
+                    //    //Use filter to generate new subset
+                    //    RuleSetSubset subset = new RuleSetSubset(actualRuleSet, rootRuleSet);
+                    //    subset.AddFilter(filter);
+                    //    subset.ApplyFilters();
 
-                        //Set new subset name 
-                        SetSubsetName(subset);
+                    //    //Set new subset name 
+                    //    SetSubsetName(subset);
 
-                        //Attach new subset to parent
-                        actualRuleSet.Subsets.Add(subset);
-                        //Mark new subset as parent for next level
-                        subsetParents.Push(subset);
-                    }
+                    //    //Attach new subset to parent
+                    //    actualRuleSet.Subsets.Add(subset);
+                    //    //Mark new subset as parent for next level
+                    //    subsetParents.Push(subset);
+                    //}
                 }
             }
         }

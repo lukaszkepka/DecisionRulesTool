@@ -9,10 +9,5 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     public class BaseDialogViewModel : BaseWindowViewModel
     {
         public bool Result { get; protected set; }
-
-        protected override void InitializeCommands()
-        {
-            //throw new NotImplementedException();
-        }
     }
 }

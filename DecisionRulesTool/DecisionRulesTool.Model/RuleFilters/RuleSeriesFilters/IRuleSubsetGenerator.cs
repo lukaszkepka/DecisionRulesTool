@@ -6,7 +6,7 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
     {
         void SetSubsetName(RuleSetSubset subset);
         void RemoveFilter(int index);
-        void AddFilter(IRuleSeriesFilter ruleFilter);
+        void AddFilter(IRuleFilterApplier ruleFilter);
         void GenerateSubsets();
     }
 }

@@ -16,8 +16,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 {
     public class RuleSubsetGenerationViewModel : BaseDialogViewModel
     {
+        private IRuleSubsetGenerator ruleSubsetGenerator;
         private RuleSetSubset rootRuleSet;
-        private List<IRuleSeriesFilter> filters;
 
         private LengthFilterViewModel lengthFilterViewModel;
         private SupportValueFilterViewModel supportValueFilterViewModel;
@@ -55,23 +55,27 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet)
         {
+            this.ruleSubsetGenerator = new RuleSetSubsetGenerator(rootRuleSet);
             this.supportValueFilterViewModel = new SupportValueFilterViewModel(rootRuleSet);
             this.lengthFilterViewModel = new LengthFilterViewModel(rootRuleSet);
             this.rootRuleSet = rootRuleSet;
+
+            InitializeCommands();
         }
 
-        public IRuleSubsetGenerator GetSubsetGenerator()
+        public LengthSeriesFilter GetSubsetGenerator()
         {
-            IRuleSubsetGenerator ruleSubsetGenerator = new RuleSetSubsetGenerator(rootRuleSet);
-            IRuleSeriesFilter filter1 = lengthFilterViewModel.GetRuleSeriesFilter();
-            IRuleSeriesFilter filter2 = supportValueFilterViewModel.GetRuleSeriesFilter();
+            //IRuleSubsetGenerator ruleSubsetGenerator = new RuleSetSubsetGenerator(rootRuleSet);
+            //IRuleSeriesFilter filter1 = lengthFilterViewModel.GetRuleSeriesFilter()[0];
+            //IRuleSeriesFilter filter2 = supportValueFilterViewModel.GetRuleSeriesFilter()[0];
 
-            ruleSubsetGenerator.AddFilter(filter1);
-            ruleSubsetGenerator.AddFilter(filter2);
-            return ruleSubsetGenerator;
+            //ruleSubsetGenerator.AddFilter(filter1);
+            //ruleSubsetGenerator.AddFilter(filter2);
+            //return ruleSubsetGenerator;
+            return (LengthSeriesFilter)lengthFilterViewModel.GetRuleSeriesFilter()[0];
         }
 
-        protected override void InitializeCommands()
+        private void InitializeCommands()
         {
             Apply = new RelayCommand(OnApply);
             Cancel = new RelayCommand(OnCancel);
