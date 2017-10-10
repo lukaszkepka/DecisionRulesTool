@@ -9,42 +9,14 @@ using DecisionRulesTool.Model.Utils;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
-    public class LengthFilterViewModel : FilterViewModel
+    public class LengthFilterViewModel : RelationFilterViewModel
     {
-        private string[] availableRelations;
-        private string selectedRelation;
-
         private int lengthFilterLowerBound = 1;
         private int lengthFilterUpperBound = 1;
         private int minLengthFilter = 1;
         private int maxLengthFilter = 1;
 
         #region Properties
-        public string[] AvailableRelations
-        {
-            get
-            {
-                return availableRelations;
-            }
-            set
-            {
-                availableRelations = value;
-                OnPropertyChanged("AvailableRelations");
-            }
-        }
-        public string SelectedRelation
-        {
-            get
-            {
-                return selectedRelation;
-            }
-            set
-            {
-
-                selectedRelation = value;
-                OnPropertyChanged("SelectedRelation");
-            }
-        }
         public int MinLengthFilter
         {
             get
@@ -89,27 +61,15 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         }
         #endregion Properties
 
+
         public LengthFilterViewModel(RuleSetSubset rootRuleSet) : base(rootRuleSet)
         {
-            InitializeRelations();
             SetFilterBounds();
-        }
-
-        public void InitializeRelations()
-        {
-            var relations = (Relation[])Enum.GetValues(typeof(Relation));
-            availableRelations = new string[relations.Length - 1];
-            for (int i = 0; i < relations.Length - 2; i++)
-            {
-                availableRelations[i] = Tools.GetRelationString(relations[i]);
-            }
-
-            selectedRelation = availableRelations.Where(x => x.Equals(Tools.GetRelationString(Relation.Equality))).FirstOrDefault();
         }
 
         public override IRuleSeriesFilter GetRuleSeriesFilter()
         {
-            return new LengthSeriesFilter(minLengthFilter, maxLengthFilter, Tools.ParseRelationString(selectedRelation));
+            return new LengthSeriesFilter(minLengthFilter, maxLengthFilter, SelectedRelation);
         }
 
         private void SetFilterBounds()

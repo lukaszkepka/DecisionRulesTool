@@ -6,9 +6,14 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:DecisionRulesTool.UserInterface.View"
         xmlns:controls="clr-namespace:DecisionRulesTool.UserInterface.Model.CustomControls"
+        xmlns:converters="clr-namespace:DecisionRulesTool.UserInterface.Model.Converters"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Rule Subset Generation Options" Height="300" Width="550">
+
+    <Window.Resources>
+        <converters:RelationToStringConverter  x:Key="relationToStringConverter" />
+    </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -42,7 +47,14 @@
                     TabStripPlacement="Top" 
                     AllowDrop="True">
 
-                    <TabItem Header="Length Filter" Width="125">
+                    <TabItem Width="125">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="&lt;" Background="White" BorderThickness="0" Margin="0 0 5 0"/>
+                                <CheckBox Content="Length filter" IsChecked="{Binding IsEnabled}"/>
+                                <Button Content=">" Background="White" BorderThickness="0" Margin="5 0 0 0"/>
+                            </StackPanel>
+                        </TabItem.Header>
                         <GroupBox Padding="5" HorizontalAlignment="Stretch" DataContext="{Binding LengthFilterViewModel}">
                             <GroupBox.Header>
                                 <CheckBox x:Name="isLengthFilterEnabled" Content="Length filter" IsChecked="{Binding IsEnabled}"/>
@@ -57,7 +69,13 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
                                     <TextBlock Text="Relation : " />
-                                    <ComboBox Width="100" ItemsSource="{Binding AvailableRelations}" SelectedItem="{Binding SelectedRelation}"/>
+                                    <ComboBox Width="100" ItemsSource="{Binding AvailableRelations}" SelectedIndex="{Binding SelectedRelationIndex}" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=., Converter = {StaticResource relationToStringConverter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
                                     <RadioButton Content="Generate child filters" IsChecked="{Binding G}"/>
@@ -72,12 +90,25 @@
                                 <CheckBox x:Name="isSupportFilterEnabled" Content="Support filter" IsChecked="{Binding IsEnabled}"/>
                             </GroupBox.Header>
                             <StackPanel IsEnabled="{Binding IsChecked, ElementName=isSupportFilterEnabled}">
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
                                     <TextBlock Text=" Rule support division : &lt; " />
                                     <xctk:IntegerUpDown Value="{Binding MinSupportFilter}" Width="45" BorderThickness="1" />
                                     <TextBlock Text=" - " />
                                     <xctk:IntegerUpDown Value="{Binding MaxSupportFilter}" Width="45" BorderThickness="1" />
                                     <TextBlock Text=" &gt; " />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                    <TextBlock Text="Relation : " />
+                                    <ComboBox Width="100" ItemsSource="{Binding AvailableRelations}" SelectedIndex="{Binding SelectedRelationIndex}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=., Converter = {StaticResource relationToStringConverter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                    <RadioButton Content="Generate child filters" IsChecked="{Binding G}"/>
                                 </StackPanel>
                             </StackPanel>
                         </GroupBox>

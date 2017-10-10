@@ -8,7 +8,7 @@ using System.Windows.Data;
 using System.Globalization;
 using DecisionRulesTool.Model.Utils;
 
-namespace DecisionRulesTool.UserInterface.Utils.Converters
+namespace DecisionRulesTool.UserInterface.Model.Converters
 {
     [ValueConversion(typeof(ICollection<Decision>), typeof(string))]
     public class DecisionsToStringConverter : IValueConverter

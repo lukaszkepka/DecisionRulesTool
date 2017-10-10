@@ -17,7 +17,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     public class RuleSubsetGenerationViewModel : BaseDialogViewModel
     {
         private RuleSetSubset rootRuleSet;
-        private List<IRuleSeriesFilter> filters;
 
         private LengthFilterViewModel lengthFilterViewModel;
         private SupportValueFilterViewModel supportValueFilterViewModel;

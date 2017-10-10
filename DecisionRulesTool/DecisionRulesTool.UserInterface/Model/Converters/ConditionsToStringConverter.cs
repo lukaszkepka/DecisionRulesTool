@@ -6,11 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Globalization;
-using DecisionRulesTool.Model.Utils;
 
-namespace DecisionRulesTool.UserInterface.Utils.Converters
+
+namespace DecisionRulesTool.UserInterface.Model.Converters
 {
     using DecisionRulesTool.Model.Model;
+    using DecisionRulesTool.Model.Utils;
 
     [ValueConversion(typeof(ICollection<Condition>), typeof(string))]
     public class ConditionsToStringConverter : IValueConverter
