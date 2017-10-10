@@ -26,5 +26,19 @@ namespace DecisionRulesTool.Model.Utils
             }
             return maxIndex;
         }
+
+        public static int GetIndexOf<T>(this T[] array, T element)
+        {
+            int index = -1;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if(array[i].Equals(element))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
     }
 }

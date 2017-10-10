@@ -90,10 +90,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Converters\RelationToStringConverter.cs" />
     <Compile Include="Model\CustomControls\TabControlReorderBehaviour.cs" />
     <Compile Include="ViewModel\Dialog\ProgressDialogViewModel.cs" />
     <Compile Include="ViewModel\Filters\FilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\LengthFilterViewModel.cs" />
+    <Compile Include="ViewModel\Filters\RelationFilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\SupportValueFilterViewModel.cs" />
     <Compile Include="View\ProgressDialog.xaml.cs">
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
@@ -116,8 +118,8 @@
     <Compile Include="Services\ServicesRepository.cs" />
     <Compile Include="Services\WindowNavigatorService.cs" />
     <Compile Include="Utils\BindableSelectedItemBehaviour.cs" />
-    <Compile Include="Utils\Converters\ConditionsToStringConverter.cs" />
-    <Compile Include="Utils\Converters\DecisionsToStringConverter.cs" />
+    <Compile Include="Model\Converters\ConditionsToStringConverter.cs" />
+    <Compile Include="Model\Converters\DecisionsToStringConverter.cs" />
     <Compile Include="ViewModel\Dialog\BaseDialogViewModel.cs" />
     <Compile Include="ViewModel\BaseWindowViewModel.cs" />
     <Compile Include="Services\Dialog\DialogService.cs" />

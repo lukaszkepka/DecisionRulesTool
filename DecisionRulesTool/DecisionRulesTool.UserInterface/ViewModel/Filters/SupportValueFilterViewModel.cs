@@ -8,7 +8,7 @@ using DecisionRulesTool.Model.Model;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
-    public class SupportValueFilterViewModel : FilterViewModel
+    public class SupportValueFilterViewModel : RelationFilterViewModel
     {
         private int supportFilterLowerBound = 1;
         private int supportFilterUpperBound = 1;
@@ -87,7 +87,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 
         public override IRuleFilterApplier[] GetRuleSeriesFilter()
         {
-            return new[] { new SupportValueSeriesFilter(minSupportFilter, maxSupportFilter, Relation.Equality), new SupportValueSeriesFilter(minSupportFilter, maxSupportFilter, Relation.Equality), };
+            return new SupportValueSeriesFilter(minSupportFilter, maxSupportFilter, SelectedRelation);
         }
     }
 }

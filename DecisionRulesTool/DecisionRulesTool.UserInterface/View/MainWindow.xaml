@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:helper="clr-namespace:DecisionRulesTool.UserInterface.Utils"
-        xmlns:converters="clr-namespace:DecisionRulesTool.UserInterface.Utils.Converters"
+        xmlns:converters="clr-namespace:DecisionRulesTool.UserInterface.Model.Converters"
         xmlns:local="clr-namespace:DecisionRulesTool.UserInterface"
         xmlns:utils="clr-namespace:DecisionRulesTool.UserInterface.Utils"
         xmlns:filters="clr-namespace:DecisionRulesTool.Model.RuleFilters;assembly=DecisionRulesToolModel"      
@@ -101,12 +101,10 @@
                             </i:Interaction.Triggers>
                         </Button>
                         <Separator/>
-                        <Label>Applied Filters :</Label>
-                        <!--<StackPanel Orientation="Horizontal" >
-                            <Button BorderThickness="0" Background="AliceBlue" Content=" asdasda "/>
-                            <Button BorderThickness="0" Background="AliceBlue" Content=" asdasda "/>
-                            <Button BorderThickness="0" Background="AliceBlue" Content=" asdasda "/>
-                        </StackPanel>-->
+                        <TextBlock Text= "Rules : " VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 0 0"/>
+                        <TextBlock Text="{Binding SelectedRuleSet.Rules.Count}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 0 0"/>
+                        <Separator/>
+                        <TextBlock Text= "Applied Filters : " VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 0 0"/>
 
                         <ItemsControl ItemsSource="{Binding SelectedRuleSet.Filters}">
                             <ItemsControl.ItemsPanel>
