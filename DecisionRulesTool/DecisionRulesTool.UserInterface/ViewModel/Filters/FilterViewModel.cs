@@ -33,6 +33,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             this.rootRuleSet = rootRuleSet;
         }
 
-        public abstract IRuleFilterApplier[] GetRuleSeriesFilter();
+        public abstract IRuleFilterApplier GetRuleSeriesFilter();
     }
 }

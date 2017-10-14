@@ -8,31 +8,21 @@ using DecisionRulesTool.Model.Model;
 
 namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
 {
-    public class SupportValueSeriesFilter : SupportValueFilter, IRuleFilterApplier
+    public class SupportValueFilterApplier : ValueBasedFiltersApplier
     {
-        public int MinLength { get; }
-        public int MaxLength { get; }
-
-        public SupportValueSeriesFilter(int minLength, int maxLength, Relation relation, IAttributeValuesComparer ruleLengthComparer = null) : base(relation, 0, ruleLengthComparer)
+        public SupportValueFilterApplier(int minLength, int maxLength, Relation relation) : base(minLength, maxLength, relation)
         {
-            MinLength = minLength;
-            MaxLength = maxLength;
         }
 
-        public IList<IRuleFilter> GenerateSeries()
+        public override IList<IRuleFilter> GenerateSeries()
         {
             IList<IRuleFilter> filters = new List<IRuleFilter>();
             for (int i = MinLength; i <= MaxLength; i++)
             {
-                IRuleFilter ruleFilter = new SupportValueFilter(relationBetweenRulesSupport, i);
+                IRuleFilter ruleFilter = new SupportValueFilter(this.RelationBetweenRulesLengths, i);
                 filters.Add(ruleFilter);
             }
             return filters;
-        }
-
-        public RuleSetSubset[] ApplyFilterSeries(RuleSetSubset ruleSet)
-        {
-            throw new NotImplementedException();
         }
     }
 }

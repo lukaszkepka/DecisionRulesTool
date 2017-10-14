@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace DecisionRulesTool.Model.Model
 {
     using Model;
-    using PropertyChanged;
     using RuleFilters;
 
     public class RuleSetSubset : RuleSet

@@ -62,13 +62,12 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             RuleSets = new ObservableCollection<RuleSetSubset>();
             InitializeCommands();
         }
+
         private void OnSaveRuleSetToFile()
         {
-            //TODO: this line is for refresh tree view, change this
-            //      so it will be refreshed without creating new collection
-            RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
             dialogService.ShowWarningMessage("Functionality not implemented yet");
         }
+
         public void OnLoadRuleSet()
         {
             foreach (var ruleSet in ruleSetLoaderService.LoadRuleSets())
@@ -85,18 +84,16 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             //      so it will be refreshed without creating new collection
             RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
         }
+
         private void OnGenerateSubsets()
         {
-            //IProgressNotifier subsetGenerationProgressNotifier = new ProgressNotifier();
-            //var progressDialogViewModel = new ProgressDialogViewModel(subsetGenerationProgressNotifier);
-
             if (SelectedRuleSet != null)
             {
                 var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet);
                 if (dialogService.ShowDialog(optionsViewModel) == true)
                 {
-                    LengthSeriesFilter ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
-                    ruleSubsetGenerator.ApplyFilterSeries(SelectedRuleSet);
+                    IRuleSubsetGenerator ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
+                    ruleSubsetGenerator.GenerateSubsets();
 
                     dialogService.ShowInformationMessage("Operation completed successfully");
                 }

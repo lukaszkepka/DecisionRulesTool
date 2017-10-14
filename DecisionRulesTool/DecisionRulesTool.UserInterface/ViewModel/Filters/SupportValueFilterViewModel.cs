@@ -85,9 +85,14 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             }
         }
 
-        public override IRuleFilterApplier[] GetRuleSeriesFilter()
+        public override IRuleFilterApplier GetRuleSeriesFilter()
         {
-            return new SupportValueSeriesFilter(minSupportFilter, maxSupportFilter, SelectedRelation);
+            IRuleFilterApplier ruleFilterApplier = default(IRuleFilterApplier);
+            if (isEnabled)
+            {
+                ruleFilterApplier = new SupportValueFilterApplier(minSupportFilter, maxSupportFilter, SelectedRelation);
+            }
+            return ruleFilterApplier;
         }
     }
 }

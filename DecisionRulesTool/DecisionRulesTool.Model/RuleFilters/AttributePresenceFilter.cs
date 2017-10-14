@@ -4,21 +4,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.RuleFilters.AttributePresenceStrategy;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
     public class AttributePresenceFilter : IRuleFilter
     {
         private string[] attributeNames;
+        private IAttributePresenceStrategy attributePresenceStrategy;
+        private Mode mode;
 
-        public AttributePresenceFilter(params string[] attributeNames)
+        public AttributePresenceFilter(Mode mode, params string[] attributeNames)
         {
             this.attributeNames = attributeNames;
+            this.mode = mode;
+
+            InitializeAttributePresenceStrategy();
         }
 
-        public bool CheckCondition(Rule rule, string attributeName)
+        private void InitializeAttributePresenceStrategy()
         {
-            return rule.Conditions.Any(x => x.Attribute.Name.Equals(attributeName));
+            this.attributePresenceStrategy = default(IAttributePresenceStrategy);
+            switch (mode)
+            {
+                case Mode.Strict:
+                    attributePresenceStrategy = new StrictModeStrategy();
+                    break;
+                case Mode.Any:
+                    attributePresenceStrategy = new AnyAttributeStrategy();
+                    break;
+                case Mode.All:
+                    attributePresenceStrategy = new AllAtributesStrategy();
+                    break;
+                default:
+                    attributePresenceStrategy = new DefaultAttributeStrategy();
+                    break;
+            }
+        }
+
+        public virtual bool CheckCondition(Rule rule, string[] attributeName)
+        {
+            return attributePresenceStrategy.CheckCondition(rule, attributeName);
         }
 
         public RuleSet FilterRules(RuleSet ruleSet)
@@ -26,21 +52,24 @@ namespace DecisionRulesTool.Model.RuleFilters
             RuleSet newRuleSet = new RuleSet(ruleSet.Name, ruleSet.Attributes, new List<Rule>(), ruleSet.DecisionAttribute);
             foreach (Rule rule in ruleSet.Rules)
             {
-                bool ruleSatisfiesCondition = true;
-                foreach(string attributeName in attributeNames)
-                {
-                    if(!CheckCondition(rule, attributeName))
-                    {
-                        ruleSatisfiesCondition = false;
-                        break;
-                    }
-                }
-                if(ruleSatisfiesCondition)
+                if (CheckCondition(rule, attributeNames))
                 {
                     newRuleSet.Rules.Add(rule);
                 }
             }
             return newRuleSet;
+        }
+
+        public override string ToString()
+        {
+            return $"Attribute filter (Mode = {mode.ToString()}";
+        }
+
+        public enum Mode
+        {
+            Any,
+            All,
+            Strict
         }
     }
 }

@@ -21,7 +21,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private LengthFilterViewModel lengthFilterViewModel;
         private SupportValueFilterViewModel supportValueFilterViewModel;
-
+        private AttributePresenceFilterViewModel attributePresenceFilterViewModel;
 
         public ICommand Apply { get; private set; }
         public ICommand Cancel { get; private set; }
@@ -51,28 +51,42 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 OnPropertyChanged("SupportValueFilterViewModel");
             }
         }
+        public AttributePresenceFilterViewModel AttributePresenceFilterViewModel
+        {
+            get
+            {
+                return attributePresenceFilterViewModel;
+            }
+            set
+            {
+                attributePresenceFilterViewModel = value;
+                OnPropertyChanged("AttributePresenceFilterViewModel");
+            }
+        }
         #endregion
 
         public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet)
         {
-            this.ruleSubsetGenerator = new RuleSetSubsetGenerator(rootRuleSet);
+            this.ruleSubsetGenerator = new RuleSetSubsetGeneratorOLD(rootRuleSet);
             this.supportValueFilterViewModel = new SupportValueFilterViewModel(rootRuleSet);
             this.lengthFilterViewModel = new LengthFilterViewModel(rootRuleSet);
+            this.attributePresenceFilterViewModel = new AttributePresenceFilterViewModel(rootRuleSet);
             this.rootRuleSet = rootRuleSet;
 
             InitializeCommands();
         }
 
-        public LengthSeriesFilter GetSubsetGenerator()
+        public IRuleSubsetGenerator GetSubsetGenerator()
         {
-            //IRuleSubsetGenerator ruleSubsetGenerator = new RuleSetSubsetGenerator(rootRuleSet);
-            //IRuleSeriesFilter filter1 = lengthFilterViewModel.GetRuleSeriesFilter()[0];
-            //IRuleSeriesFilter filter2 = supportValueFilterViewModel.GetRuleSeriesFilter()[0];
+            IRuleSubsetGenerator ruleSubsetGenerator = new RuleSetSubsetGenerator(rootRuleSet);
+            IRuleFilterApplier filter1 = lengthFilterViewModel.GetRuleSeriesFilter();
+            IRuleFilterApplier filter2 = supportValueFilterViewModel.GetRuleSeriesFilter();
+            IRuleFilterApplier filter3 = attributePresenceFilterViewModel.GetRuleSeriesFilter();
 
-            //ruleSubsetGenerator.AddFilter(filter1);
-            //ruleSubsetGenerator.AddFilter(filter2);
-            //return ruleSubsetGenerator;
-            return (LengthSeriesFilter)lengthFilterViewModel.GetRuleSeriesFilter()[0];
+            ruleSubsetGenerator.AddFilter(filter1);
+            ruleSubsetGenerator.AddFilter(filter2);
+            ruleSubsetGenerator.AddFilter(filter3);
+            return ruleSubsetGenerator;
         }
 
         private void InitializeCommands()

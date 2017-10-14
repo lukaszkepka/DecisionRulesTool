@@ -67,9 +67,14 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             SetFilterBounds();
         }
 
-        public override IRuleFilterApplier[] GetRuleSeriesFilter()
+        public override IRuleFilterApplier GetRuleSeriesFilter()
         {
-            return new LengthSeriesFilter(minLengthFilter, maxLengthFilter, SelectedRelation);
+            IRuleFilterApplier ruleFilterApplier = default(IRuleFilterApplier);
+            if(isEnabled)
+            {
+                ruleFilterApplier = new LengthFilterApplier(minLengthFilter, maxLengthFilter, SelectedRelation);
+            }
+            return ruleFilterApplier;
         }
 
         private void SetFilterBounds()
