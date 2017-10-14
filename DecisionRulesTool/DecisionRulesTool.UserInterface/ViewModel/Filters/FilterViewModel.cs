@@ -12,8 +12,21 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
     {
         protected RuleSetSubset rootRuleSet;
         protected bool isEnabled;
+        protected string name;
 
         #region Properties
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+        }
         public bool IsEnabled
         {
             get
@@ -31,6 +44,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         public FilterViewModel(RuleSetSubset rootRuleSet)
         {
             this.rootRuleSet = rootRuleSet;
+            name = this.ToString();
         }
 
         public abstract IRuleFilterApplier GetRuleSeriesFilter();

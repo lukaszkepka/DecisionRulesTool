@@ -64,5 +64,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         {
             return new AttributePresenceFilterApplier(availableModes[selectedModeIndex], Attributes.GetSelectedItems().ToArray());
         }
+
+        public override string ToString()
+        {
+            return "Attribute Filter";
+        }
     }
 }

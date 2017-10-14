@@ -96,5 +96,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
                 maxLengthFilter = 0;
             }
         }
+
+        public override string ToString()
+        {
+            return "Length Filter";
+        }
     }
 }

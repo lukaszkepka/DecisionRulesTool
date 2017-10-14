@@ -94,5 +94,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             }
             return ruleFilterApplier;
         }
+
+        public override string ToString()
+        {
+            return "Support Filter";
+        }
     }
 }

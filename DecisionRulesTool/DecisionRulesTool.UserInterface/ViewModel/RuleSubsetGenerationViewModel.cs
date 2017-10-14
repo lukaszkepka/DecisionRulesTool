@@ -11,56 +11,39 @@ using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.UserInterface.ViewModel.Filters;
+using System.Collections.ObjectModel;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
     public class RuleSubsetGenerationViewModel : BaseDialogViewModel
     {
         private IRuleSubsetGenerator ruleSubsetGenerator;
+        private IList<FilterViewModel> filters;
+        private FilterViewModel selectedFilterViewModel;
         private RuleSetSubset rootRuleSet;
-
-        private LengthFilterViewModel lengthFilterViewModel;
-        private SupportValueFilterViewModel supportValueFilterViewModel;
-        private AttributePresenceFilterViewModel attributePresenceFilterViewModel;
 
         public ICommand Apply { get; private set; }
         public ICommand Cancel { get; private set; }
+        public ICommand MoveViewModelLeft { get; private set; }
 
         #region Properties
-        public LengthFilterViewModel LengthFilterViewModel
+        public ICollection<FilterViewModel> Filters
         {
             get
             {
-                return lengthFilterViewModel;
-            }
-            set
-            {
-                lengthFilterViewModel = value;
-                OnPropertyChanged("LengthFilterViewModel");
+                return filters;
             }
         }
-        public SupportValueFilterViewModel SupportValueFilterViewModel
+        public FilterViewModel SelectedFilterViewModel
         {
             get
             {
-                return supportValueFilterViewModel;
+                return selectedFilterViewModel;
             }
             set
             {
-                supportValueFilterViewModel = value;
-                OnPropertyChanged("SupportValueFilterViewModel");
-            }
-        }
-        public AttributePresenceFilterViewModel AttributePresenceFilterViewModel
-        {
-            get
-            {
-                return attributePresenceFilterViewModel;
-            }
-            set
-            {
-                attributePresenceFilterViewModel = value;
-                OnPropertyChanged("AttributePresenceFilterViewModel");
+                selectedFilterViewModel = value;
+                OnPropertyChanged("SelectedFilterViewModel");
             }
         }
         #endregion
@@ -68,24 +51,19 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet)
         {
             this.ruleSubsetGenerator = new RuleSetSubsetGeneratorOLD(rootRuleSet);
-            this.supportValueFilterViewModel = new SupportValueFilterViewModel(rootRuleSet);
-            this.lengthFilterViewModel = new LengthFilterViewModel(rootRuleSet);
-            this.attributePresenceFilterViewModel = new AttributePresenceFilterViewModel(rootRuleSet);
             this.rootRuleSet = rootRuleSet;
 
+            InitializeFilterViewModels();
             InitializeCommands();
         }
 
         public IRuleSubsetGenerator GetSubsetGenerator()
         {
             IRuleSubsetGenerator ruleSubsetGenerator = new RuleSetSubsetGenerator(rootRuleSet);
-            IRuleFilterApplier filter1 = lengthFilterViewModel.GetRuleSeriesFilter();
-            IRuleFilterApplier filter2 = supportValueFilterViewModel.GetRuleSeriesFilter();
-            IRuleFilterApplier filter3 = attributePresenceFilterViewModel.GetRuleSeriesFilter();
-
-            ruleSubsetGenerator.AddFilter(filter1);
-            ruleSubsetGenerator.AddFilter(filter2);
-            ruleSubsetGenerator.AddFilter(filter3);
+            foreach (var filter in Filters)
+            {
+                ruleSubsetGenerator.AddFilter(filter.GetRuleSeriesFilter());
+            }
             return ruleSubsetGenerator;
         }
 
@@ -93,6 +71,37 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             Apply = new RelayCommand(OnApply);
             Cancel = new RelayCommand(OnCancel);
+            MoveViewModelLeft = new RelayCommand(OnMoveViewModelLeft);
+        }
+
+        private void OnMoveViewModelLeft()
+        {
+            FilterViewModel viewModel = SelectedFilterViewModel;
+            int i = filters.IndexOf(viewModel);
+            if(i > 0)
+            {
+                filters.RemoveAt(i);
+                filters.Insert(i - 1, viewModel);
+            }
+            else
+            {
+                filters.RemoveAt(i);
+                filters.Add(viewModel);
+            }
+
+            SelectedFilterViewModel = viewModel;
+        }
+
+        private void InitializeFilterViewModels()
+        {
+            this.filters = new ObservableCollection<FilterViewModel>()
+            {
+                new SupportValueFilterViewModel(rootRuleSet),
+                new LengthFilterViewModel(rootRuleSet),
+                new AttributePresenceFilterViewModel(rootRuleSet)
+            };
+
+            SelectedFilterViewModel = filters[1];
         }
 
         public void OnApply()

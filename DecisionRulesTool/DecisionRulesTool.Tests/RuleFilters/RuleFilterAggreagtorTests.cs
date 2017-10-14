@@ -71,7 +71,7 @@ namespace DecisionRulesTool.Tests.RuleFilters
 
             IEnumerable<IRuleFilter> filters = new IRuleFilter[]
             {
-                new AttributePresenceFilter("MaxSpeed"),
+                new AttributePresenceFilter(AttributePresenceFilter.Mode.All,"MaxSpeed"),
                 new LengthFilter(Relation.Equality, 2)
             };
 

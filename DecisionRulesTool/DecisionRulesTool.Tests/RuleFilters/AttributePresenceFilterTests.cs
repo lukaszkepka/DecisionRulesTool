@@ -39,7 +39,7 @@ namespace DecisionRulesTool.Test.RuleFilters
         public void FilterRules_DifferentAttributes_FilteredRulesHaveReferenceToNewRuleSet()
         {
             #region Given
-            IRuleFilter ruleFilter = new AttributePresenceFilter("HorsePower", "MaxSpeed");
+            IRuleFilter ruleFilter = new AttributePresenceFilter(AttributePresenceFilter.Mode.All, "HorsePower", "MaxSpeed");
             #endregion Given
             #region When
             RuleSet filteredRuleSet = ruleFilter.FilterRules(ruleSet);
@@ -62,7 +62,7 @@ namespace DecisionRulesTool.Test.RuleFilters
         public void FilterRules_DifferentAttributes_FilteredProperly()
         {
             #region Given
-            IRuleFilter ruleFilter = new AttributePresenceFilter("MaxSpeed", "ComprPressure");
+            IRuleFilter ruleFilter = new AttributePresenceFilter(AttributePresenceFilter.Mode.All, "MaxSpeed", "ComprPressure");
             #endregion Given
             #region When
             RuleSet filteredRuleSet = ruleFilter.FilterRules(ruleSet);
@@ -77,7 +77,7 @@ namespace DecisionRulesTool.Test.RuleFilters
         public void FilterRules_EachRuleSatisfyCondition_FilteredRuleSetDidntChange()
         {
             #region Given
-            IRuleFilter ruleFilter = new AttributePresenceFilter("MaxSpeed");
+            IRuleFilter ruleFilter = new AttributePresenceFilter(AttributePresenceFilter.Mode.All, "MaxSpeed");
             #endregion Given
             #region When
             RuleSet filteredRuleSet = ruleFilter.FilterRules(ruleSet);
@@ -92,7 +92,7 @@ namespace DecisionRulesTool.Test.RuleFilters
         public void FilterRules_NoRuleSatisfyCondition_EmptyRuleSetReturned()
         {
             #region Given
-            IRuleFilter ruleFilter = new AttributePresenceFilter("HorsePower");
+            IRuleFilter ruleFilter = new AttributePresenceFilter(AttributePresenceFilter.Mode.All, "HorsePower");
             #endregion Given
             #region When
             RuleSet filteredRuleSet = ruleFilter.FilterRules(ruleSet);

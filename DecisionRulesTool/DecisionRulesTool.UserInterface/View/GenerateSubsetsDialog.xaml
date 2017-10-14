@@ -7,12 +7,15 @@
         xmlns:local="clr-namespace:DecisionRulesTool.UserInterface.View"
         xmlns:controls="clr-namespace:DecisionRulesTool.UserInterface.Model.CustomControls"
         xmlns:converters="clr-namespace:DecisionRulesTool.UserInterface.Model.Converters"
+        xmlns:templateSelectors="clr-namespace:DecisionRulesTool.UserInterface.Model.DataTemplateSelectors"
+        xmlns:filtersVM="clr-namespace:DecisionRulesTool.UserInterface.ViewModel.Filters"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Rule Subset Generation Options" Height="300" Width="550">
 
     <Window.Resources>
         <converters:RelationToStringConverter  x:Key="relationToStringConverter" />
+        <converters:BoolToVisibleOrHidden x:Key="boolToVisConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -45,140 +48,146 @@
                     Grid.Column="0" 
                     Grid.ColumnSpan="2" 
                     TabStripPlacement="Top" 
-                    AllowDrop="True">
+                    AllowDrop="True"
+                    SelectedItem="{Binding SelectedFilterViewModel}"
+                    ItemsSource="{Binding Filters}">
 
-                    <TabItem Header="Length Filter">
-                        <!--<TabItem.Header>
+                    <controls:ReorderableTabControl.ItemTemplate>
+                        <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="&lt;" Background="White" BorderThickness="0" Margin="0 0 5 0"/>
-                                <CheckBox Content="Length filter" IsChecked="{Binding IsEnabled}"/>
-                                <Button Content=">" Background="White" BorderThickness="0" Margin="5 0 0 0"/>
+                                <Button Content=" &lt; " BorderThickness="0" Background="White" Width="50" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource AncestorType=TabItem}}"  Command="{Binding DataContext.MoveViewModelLeft, RelativeSource={RelativeSource AncestorType=controls:ReorderableTabControl}}"/>
+                                <TextBlock Text="{Binding Name}" />
                             </StackPanel>
-                        </TabItem.Header>-->
-                        <GroupBox Padding="5" HorizontalAlignment="Stretch" DataContext="{Binding LengthFilterViewModel}">
-                            <GroupBox.Header>
-                                <CheckBox x:Name="isLengthFilterEnabled" Content="Length filter" IsChecked="{Binding IsEnabled}"/>
-                            </GroupBox.Header>
-                            <StackPanel IsEnabled="{Binding IsChecked, ElementName=isLengthFilterEnabled}">
-                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
-                                    <TextBlock Text="Length filter values : &lt; " />
-                                    <xctk:IntegerUpDown Value="{Binding MinLengthFilter}" Width="45" BorderThickness="1" />
-                                    <TextBlock Text=" - " />
-                                    <xctk:IntegerUpDown Value="{Binding MaxLengthFilter}" Width="45" BorderThickness="1" />
-                                    <TextBlock Text=" &gt; " />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
-                                    <TextBlock Text="Relation : " />
-                                    <ComboBox Width="100" ItemsSource="{Binding AvailableRelations}" SelectedIndex="{Binding SelectedRelationIndex}" >
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Path=., Converter = {StaticResource relationToStringConverter}}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
-                                    <RadioButton Content="Generate child filters" IsChecked="{Binding G}"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </GroupBox>
+                        </DataTemplate>
+                    </controls:ReorderableTabControl.ItemTemplate>
 
-                    </TabItem>
-                    <TabItem Header="Support Filter">
-                        <GroupBox Padding="5" HorizontalAlignment="Stretch" DataContext="{Binding SupportValueFilterViewModel}">
-                            <GroupBox.Header>
-                                <CheckBox x:Name="isSupportFilterEnabled" Content="Support filter" IsChecked="{Binding IsEnabled}"/>
-                            </GroupBox.Header>
-                            <StackPanel IsEnabled="{Binding IsChecked, ElementName=isSupportFilterEnabled}">
-                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
-                                    <TextBlock Text=" Rule support division : &lt; " />
-                                    <xctk:IntegerUpDown Value="{Binding MinSupportFilter}" Width="45" BorderThickness="1" />
-                                    <TextBlock Text=" - " />
-                                    <xctk:IntegerUpDown Value="{Binding MaxSupportFilter}" Width="45" BorderThickness="1" />
-                                    <TextBlock Text=" &gt; " />
+                    <controls:ReorderableTabControl.Resources>
+                        <DataTemplate DataType="{x:Type filtersVM:LengthFilterViewModel}">
+                            <GroupBox Padding="5" HorizontalAlignment="Stretch">
+                                <GroupBox.Header>
+                                    <CheckBox x:Name="isLengthFilterEnabled" Content="Length filter" IsChecked="{Binding IsEnabled}"/>
+                                </GroupBox.Header>
+                                <StackPanel IsEnabled="{Binding IsChecked, ElementName=isLengthFilterEnabled}">
+                                    <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                        <TextBlock Text="Length filter values : &lt; " />
+                                        <xctk:IntegerUpDown Value="{Binding MinLengthFilter}" Width="45" BorderThickness="1" />
+                                        <TextBlock Text=" - " />
+                                        <xctk:IntegerUpDown Value="{Binding MaxLengthFilter}" Width="45" BorderThickness="1" />
+                                        <TextBlock Text=" &gt; " />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                        <TextBlock Text="Relation : " />
+                                        <ComboBox Width="100" ItemsSource="{Binding AvailableRelations}" SelectedIndex="{Binding SelectedRelationIndex}" >
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=., Converter = {StaticResource relationToStringConverter}}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                        <RadioButton Content="Generate child filters" IsChecked="{Binding G}"/>
+                                    </StackPanel>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
-                                    <TextBlock Text="Relation : " />
-                                    <ComboBox Width="100" ItemsSource="{Binding AvailableRelations}" SelectedIndex="{Binding SelectedRelationIndex}">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Path=., Converter = {StaticResource relationToStringConverter}}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
+                            </GroupBox>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type filtersVM:SupportValueFilterViewModel}">
+                            <GroupBox Padding="5" HorizontalAlignment="Stretch">
+                                <GroupBox.Header>
+                                    <CheckBox x:Name="isSupportFilterEnabled" Content="Support filter" IsChecked="{Binding IsEnabled}"/>
+                                </GroupBox.Header>
+                                <StackPanel IsEnabled="{Binding IsChecked, ElementName=isSupportFilterEnabled}">
+                                    <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                        <TextBlock Text=" Rule support division : &lt; " />
+                                        <xctk:IntegerUpDown Value="{Binding MinSupportFilter}" Width="45" BorderThickness="1" />
+                                        <TextBlock Text=" - " />
+                                        <xctk:IntegerUpDown Value="{Binding MaxSupportFilter}" Width="45" BorderThickness="1" />
+                                        <TextBlock Text=" &gt; " />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                        <TextBlock Text="Relation : " />
+                                        <ComboBox Width="100" ItemsSource="{Binding AvailableRelations}" SelectedIndex="{Binding SelectedRelationIndex}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=., Converter = {StaticResource relationToStringConverter}}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
+                                        <RadioButton Content="Generate child filters" IsChecked="{Binding G}"/>
+                                    </StackPanel>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="10 0 0 10">
-                                    <RadioButton Content="Generate child filters" IsChecked="{Binding G}"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </GroupBox>
-                    </TabItem>
+                            </GroupBox>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type filtersVM:AttributePresenceFilterViewModel}">
+                            <GroupBox Padding="5" 
+                                  HorizontalAlignment="Stretch">
+                                <GroupBox.Header>
+                                    <CheckBox x:Name="isAttributeFilterEnabled" Content="Attribute Filter" IsChecked="{Binding IsEnabled}"/>
+                                </GroupBox.Header>
+                                <Grid IsEnabled="{Binding IsChecked, ElementName=isAttributeFilterEnabled}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
 
-                    <TabItem Header="Attribute Filter">
-                        <GroupBox Padding="5" 
-                                  HorizontalAlignment="Stretch"
-                                  DataContext="{Binding AttributePresenceFilterViewModel}">
-                            <GroupBox.Header>
-                                <CheckBox x:Name="isAttributeFilterEnabled" Content="Attribute Filter" IsChecked="{Binding IsEnabled}"/>
-                            </GroupBox.Header>
-                            <Grid IsEnabled="{Binding IsChecked, ElementName=isAttributeFilterEnabled}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"></ColumnDefinition>
-                                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-
-                                <DockPanel Grid.Column="0">
-                                    <TextBlock 
+                                    <DockPanel Grid.Column="0">
+                                        <TextBlock 
                                            Width="150"
                                            DockPanel.Dock="Top"
                                            HorizontalAlignment="Left" 
                                            Text="Available Attributes" 
                                            TextAlignment="Center"/>
-                                    <ListBox ItemsSource="{Binding Attributes, Mode=OneWay}"
+                                        <ListBox ItemsSource="{Binding Attributes, Mode=OneWay}"
                                          Width="150"
                                          ScrollViewer.VerticalScrollBarVisibility="Visible"
                                          ScrollViewer.CanContentScroll="True"
                                          HorizontalAlignment="Left"
                                          SelectionMode="Multiple">
 
-                                        <ListBox.Resources>
-                                            <Style TargetType="ListBoxItem">
-                                                <Setter Property="IsSelected" 
+                                            <ListBox.Resources>
+                                                <Style TargetType="ListBoxItem">
+                                                    <Setter Property="IsSelected" 
                                                         Value="{Binding IsSelected}"/>
-                                            </Style>
-                                        </ListBox.Resources>
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Path=Item}"/>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
+                                                </Style>
+                                            </ListBox.Resources>
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=Item}"/>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
 
-                                    </ListBox>
-                                </DockPanel>
+                                        </ListBox>
+                                    </DockPanel>
 
-                                <StackPanel Grid.Column="1" Margin="10 0 0 0">
-                                <StackPanel Orientation="Horizontal" >
-                                    <TextBlock Text="Mode :" 
+                                    <StackPanel Grid.Column="1" Margin="10 0 0 0">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <TextBlock Text="Mode :" 
                                                Margin="0 0 10 0"
                                                TextAlignment="Center"/>
-                                    <ComboBox ItemsSource="{Binding AvailableModes}" 
+                                            <ComboBox ItemsSource="{Binding AvailableModes}" 
                                               SelectedIndex="{Binding SelectedModeIndex}" 
                                               Width="150">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                    <TextBlock Text="{Binding Path=.}"/>
-                                                
-                                                <!--, Converter = {StaticResource attributeModeToStringConverter}}"--> 
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                </StackPanel>
-                                </StackPanel>
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Path=.}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </GroupBox>
+                        </DataTemplate>
+                    </controls:ReorderableTabControl.Resources>
 
-                            </Grid>
-
-                        </GroupBox>
-                    </TabItem>
+                    <controls:ReorderableTabControl.ContentTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding}"/>
+                        </DataTemplate>
+                    </controls:ReorderableTabControl.ContentTemplate>
+                    
                 </controls:ReorderableTabControl>
             </Grid>
 
