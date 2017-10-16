@@ -122,7 +122,6 @@
     <Compile Include="RuleFilters\RuleSeriesFilters\LengthSeriesFilter.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\NumberValuedFilterSeriesApplier.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\RuleSetSubsetGenerator.cs" />
-    <Compile Include="RuleFilters\RuleSeriesFilters\RuleSetSubsetGeneratorOLD.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\SupportValueSeriesFilter.cs" />
     <Compile Include="Model\RuleSetSubset.cs" />
     <Compile Include="RuleFilters\SupportValueFilter.cs" />

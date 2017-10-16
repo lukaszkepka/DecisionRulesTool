@@ -11,15 +11,12 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
     {
         public abstract IList<IRuleFilter> GenerateSeries();
 
-        protected RuleSetSubset ApplySingleFilter(IRuleFilter filter, RuleSetSubset ruleSet)
+        public virtual RuleSetSubset ApplySingleFilter(IRuleFilter filter, RuleSetSubset ruleSet)
         {
             //Use filter to generate new subset
             RuleSetSubset subset = new RuleSetSubset(ruleSet);
             subset.AddFilter(filter);
             subset.ApplyFilters();
-
-            //Set new subset name 
-            SetSubsetName(subset);
 
             //Attach new subset to parent
             ruleSet.Subsets.Add(subset);
@@ -27,7 +24,7 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
             return subset;
         }
 
-        public RuleSetSubset[] ApplyFilterSeries(RuleSetSubset ruleSet)
+        public virtual RuleSetSubset[] ApplyFilterSeries(RuleSetSubset ruleSet)
         {
             List<RuleSetSubset> actualSubsetLevel = new List<RuleSetSubset>();
             foreach (var filter in GenerateSeries())
@@ -38,11 +35,6 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
             }
 
             return actualSubsetLevel.ToArray();
-        }
-
-        public void SetSubsetName(RuleSetSubset subset)
-        {
-            subset.Name = $"{subset.RootRuleSet.Name}: {subset.Filters.LastOrDefault()?.ToString()} ";
         }
     }
 }

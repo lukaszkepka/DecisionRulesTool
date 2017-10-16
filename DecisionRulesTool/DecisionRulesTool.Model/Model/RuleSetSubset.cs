@@ -12,12 +12,25 @@ namespace DecisionRulesTool.Model.Model
 
     public class RuleSetSubset : RuleSet
     {
+        private string name;
         private List<IRuleFilter> ruleFilters;
 
         public RuleSet RootRuleSet { get; private set; }
         public RuleSet InitialRuleSet { get; private set; }
         public IList<RuleSetSubset> Subsets { get; private set; }
         public IEnumerable<IRuleFilter> Filters => ruleFilters;
+
+        public override string Name
+        {
+            get
+            {
+                return $"{RootRuleSet.Name}: {Filters.LastOrDefault()?.ToString()} [{Rules.Count}]";
+            }
+            set
+            {
+                name = value;
+            }
+        }
 
         public void Initialize()
         {

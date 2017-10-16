@@ -27,8 +27,8 @@ namespace DecisionRulesTool.Model.RuleFilters
             this.attributePresenceStrategy = default(IAttributePresenceStrategy);
             switch (mode)
             {
-                case Mode.Strict:
-                    attributePresenceStrategy = new StrictModeStrategy();
+                case Mode.Exact:
+                    attributePresenceStrategy = new ExactModeStrategy();
                     break;
                 case Mode.Any:
                     attributePresenceStrategy = new AnyAttributeStrategy();
@@ -62,14 +62,14 @@ namespace DecisionRulesTool.Model.RuleFilters
 
         public override string ToString()
         {
-            return $"Attribute filter (Mode = {mode.ToString()}";
+            return $"Attribute filter (Mode = {mode.ToString()}) {{{attributeNames.Aggregate((x,y) => x + ", " + y)}}}";
         }
 
         public enum Mode
         {
             Any,
             All,
-            Strict
+            Exact
         }
     }
 }

@@ -1,22 +1,9 @@
-﻿using DecisionRulesTool.Model.IO.Parsers.Factory;
-using DecisionRulesTool.Model.Model;
-using DecisionRulesTool.Model.Parsers;
-using DecisionRulesTool.Model.RuleFilters;
+﻿using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
-using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.UserInterface.Model;
-using DecisionRulesTool.UserInterface.Services.Dialog;
-using DecisionRulesTool.UserInterface.ViewModel.Dialog;
-using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace DecisionRulesTool.UserInterface.ViewModel

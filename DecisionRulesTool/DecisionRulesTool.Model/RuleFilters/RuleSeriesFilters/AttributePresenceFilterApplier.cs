@@ -20,7 +20,15 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
 
         public override IList<IRuleFilter> GenerateSeries()
         {
-            return new List<IRuleFilter>() { new AttributePresenceFilter(mode, attributeNames) };
+            IList<IRuleFilter> ruleFilters = new List<IRuleFilter>();
+            List<string> actualAttributes = new List<string>();
+            for (int i = 0; i < attributeNames.Length; i++)
+            {
+                actualAttributes.Add(attributeNames[i]);
+                ruleFilters.Add(new AttributePresenceFilter(mode, actualAttributes.ToArray()));
+            }
+
+            return ruleFilters;
         }
     }
 }

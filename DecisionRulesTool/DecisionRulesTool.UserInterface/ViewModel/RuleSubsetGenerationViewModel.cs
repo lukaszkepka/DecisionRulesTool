@@ -17,21 +17,21 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 {
     public class RuleSubsetGenerationViewModel : BaseDialogViewModel
     {
-        private IRuleSubsetGenerator ruleSubsetGenerator;
-        private IList<FilterViewModel> filters;
+        private IList<FilterViewModel> filterViewModels;
         private FilterViewModel selectedFilterViewModel;
         private RuleSetSubset rootRuleSet;
 
         public ICommand Apply { get; private set; }
         public ICommand Cancel { get; private set; }
         public ICommand MoveViewModelLeft { get; private set; }
+        public ICommand MoveViewModelRight { get; private set; }
 
         #region Properties
         public ICollection<FilterViewModel> Filters
         {
             get
             {
-                return filters;
+                return filterViewModels;
             }
         }
         public FilterViewModel SelectedFilterViewModel
@@ -50,7 +50,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet)
         {
-            this.ruleSubsetGenerator = new RuleSetSubsetGeneratorOLD(rootRuleSet);
             this.rootRuleSet = rootRuleSet;
 
             InitializeFilterViewModels();
@@ -62,7 +61,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             IRuleSubsetGenerator ruleSubsetGenerator = new RuleSetSubsetGenerator(rootRuleSet);
             foreach (var filter in Filters)
             {
-                ruleSubsetGenerator.AddFilter(filter.GetRuleSeriesFilter());
+                ruleSubsetGenerator.AddFilterApplier(filter.GetRuleSeriesFilter());
             }
             return ruleSubsetGenerator;
         }
@@ -72,36 +71,55 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             Apply = new RelayCommand(OnApply);
             Cancel = new RelayCommand(OnCancel);
             MoveViewModelLeft = new RelayCommand(OnMoveViewModelLeft);
-        }
-
-        private void OnMoveViewModelLeft()
-        {
-            FilterViewModel viewModel = SelectedFilterViewModel;
-            int i = filters.IndexOf(viewModel);
-            if(i > 0)
-            {
-                filters.RemoveAt(i);
-                filters.Insert(i - 1, viewModel);
-            }
-            else
-            {
-                filters.RemoveAt(i);
-                filters.Add(viewModel);
-            }
-
-            SelectedFilterViewModel = viewModel;
+            MoveViewModelRight = new RelayCommand(OnMoveViewModelRight);
         }
 
         private void InitializeFilterViewModels()
         {
-            this.filters = new ObservableCollection<FilterViewModel>()
+            this.filterViewModels = new ObservableCollection<FilterViewModel>()
             {
                 new SupportValueFilterViewModel(rootRuleSet),
                 new LengthFilterViewModel(rootRuleSet),
                 new AttributePresenceFilterViewModel(rootRuleSet)
             };
 
-            SelectedFilterViewModel = filters[1];
+            SelectedFilterViewModel = filterViewModels[1];
+        }
+
+        private void OnMoveViewModelLeft()
+        {
+            FilterViewModel viewModel = SelectedFilterViewModel;
+            int i = filterViewModels.IndexOf(viewModel);
+            if(i > 0)
+            {
+                filterViewModels.RemoveAt(i);
+                filterViewModels.Insert(i - 1, viewModel);
+            }
+            else
+            {
+                filterViewModels.RemoveAt(i);
+                filterViewModels.Add(viewModel);
+            }
+
+            SelectedFilterViewModel = viewModel;
+        }
+
+        private void OnMoveViewModelRight()
+        {
+            FilterViewModel viewModel = SelectedFilterViewModel;
+            int i = filterViewModels.IndexOf(viewModel);
+            if (i == filterViewModels.Count - 1)
+            {
+                filterViewModels.RemoveAt(i);
+                filterViewModels.Insert(0, viewModel);
+            }
+            else
+            {
+                filterViewModels.RemoveAt(i);
+                filterViewModels.Insert(i + 1, viewModel);
+            }
+
+            SelectedFilterViewModel = viewModel;
         }
 
         public void OnApply()

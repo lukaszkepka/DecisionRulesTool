@@ -10,6 +10,6 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
     public interface IRuleFilterApplier
     {
         RuleSetSubset[] ApplyFilterSeries(RuleSetSubset ruleSet);
-       // IList<IRuleFilter> GenerateSeries();
+        RuleSetSubset ApplySingleFilter(IRuleFilter filter, RuleSetSubset ruleSet);
     }
 }

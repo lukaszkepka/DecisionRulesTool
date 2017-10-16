@@ -21,7 +21,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="3.5*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
@@ -33,7 +33,7 @@
                 <Button Content="Options">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding LoadRuleSets}"/>
+                            <i:InvokeCommandAction Command="{Binding SaveRuleSetToFile}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -93,7 +93,7 @@
             <DockPanel>
                 <DockPanel Height="30" DockPanel.Dock="Top">
                     <ToolBar DockPanel.Dock="Top">
-                        <Button Content="Save">
+                        <Button Content="Save" Margin="3 0 3 0">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding SaveRuleSetToFile}"/>
@@ -101,24 +101,37 @@
                             </i:Interaction.Triggers>
                         </Button>
                         <Separator/>
-                        <TextBlock Text= "Rules : " VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 0 0"/>
-                        <TextBlock Text="{Binding SelectedRuleSet.Rules.Count}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 0 0"/>
-                        <Separator/>
-                        <TextBlock Text= "Applied Filters : " VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 0 0"/>
+                        <StackPanel Orientation="Horizontal" Margin="10 0 10 0">
+                            <TextBlock Text= "Root Rules : " VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding SelectedRuleSet.RootRuleSet.Rules.Count}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="10 0 10 0">
+                            <TextBlock Text= "Parent Rules : " VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding SelectedRuleSet.InitialRuleSet.Rules.Count}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="10 0 10 0">
+                            <TextBlock Text= "Rules : " VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding SelectedRuleSet.Rules.Count}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
 
-                        <ItemsControl ItemsSource="{Binding SelectedRuleSet.Filters}">
+                        <Separator/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text= "Applied Filters : " VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 10 0"/>
+                            <ItemsControl ItemsSource="{Binding SelectedRuleSet.Filters}">
+                                
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
+                                
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Content="{Binding .}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0" Background="AliceBlue"/>
+                                        <Button Content="{Binding .}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0" Background="AliceBlue" Margin="6 0 6 0"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-
+                        </StackPanel>
                     </ToolBar>
                 </DockPanel>
 

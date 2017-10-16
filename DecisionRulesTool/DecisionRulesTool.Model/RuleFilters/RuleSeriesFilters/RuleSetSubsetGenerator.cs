@@ -20,12 +20,12 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
             this.rootRuleSet = rootRuleSet;
         }
 
-        public void RemoveFilter(int index)
+        public void RemoveFilterApplier(int index)
         {
             ruleFilters.RemoveAt(index);
         }
 
-        public void AddFilter(IRuleFilterApplier ruleFilter)
+        public void AddFilterApplier(IRuleFilterApplier ruleFilter)
         {
             if (ruleFilter != null)
             {
@@ -41,8 +41,10 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
 
             //Create list that holds parent rule sets
             //for next iteration
-            List<RuleSetSubset> nextIterationParents = new List<RuleSetSubset>();
-            nextIterationParents.Add(rootRuleSet);
+            List<RuleSetSubset> nextIterationParents = new List<RuleSetSubset>
+            {
+                rootRuleSet
+            };
 
             foreach (IRuleFilterApplier seriesFilter in ruleFilters)
             {
@@ -53,7 +55,7 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
                     actualSubsetLevel = new List<RuleSetSubset>(nextIterationParents.ToList());
                 }
 
-                //Clear stack for rule set parents for next level
+                //Clear rule set parents for next level
                 nextIterationParents.Clear();
 
                 foreach (var actualRuleSet in actualSubsetLevel)

@@ -62,7 +62,12 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 
         public override IRuleFilterApplier GetRuleSeriesFilter()
         {
-            return new AttributePresenceFilterApplier(availableModes[selectedModeIndex], Attributes.GetSelectedItems().ToArray());
+            IRuleFilterApplier ruleFilterApplier = default(IRuleFilterApplier);
+            if (isEnabled)
+            {
+                ruleFilterApplier =  new AttributePresenceFilterApplier(availableModes[selectedModeIndex], Attributes.GetSelectedItems().ToArray());
+            }
+            return ruleFilterApplier;
         }
 
         public override string ToString()

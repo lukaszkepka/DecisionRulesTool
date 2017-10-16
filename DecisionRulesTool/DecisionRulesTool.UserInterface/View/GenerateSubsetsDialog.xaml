@@ -11,7 +11,7 @@
         xmlns:filtersVM="clr-namespace:DecisionRulesTool.UserInterface.ViewModel.Filters"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Rule Subset Generation Options" Height="300" Width="550">
+        Title="Rule Subset Generation Options" Height="500" Width="550">
 
     <Window.Resources>
         <converters:RelationToStringConverter  x:Key="relationToStringConverter" />
@@ -55,8 +55,13 @@
                     <controls:ReorderableTabControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content=" &lt; " BorderThickness="0" Background="White" Width="50" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource AncestorType=TabItem}}"  Command="{Binding DataContext.MoveViewModelLeft, RelativeSource={RelativeSource AncestorType=controls:ReorderableTabControl}}"/>
-                                <TextBlock Text="{Binding Name}" />
+                                <Button Content=" &lt; " BorderThickness="0" Background="White" Width="20" 
+                                        Visibility="{Binding IsSelected, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource AncestorType=TabItem}}"  
+                                        Command="{Binding DataContext.MoveViewModelLeft, RelativeSource={RelativeSource AncestorType=controls:ReorderableTabControl}}"/>
+                                <TextBlock Text="{Binding Name}" Margin="5 0 5 0" />
+                                <Button Content=" &gt; " BorderThickness="0" Background="White" Width="20" 
+                                        Visibility="{Binding IsSelected, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource AncestorType=TabItem}}"  
+                                        Command="{Binding DataContext.MoveViewModelRight, RelativeSource={RelativeSource AncestorType=controls:ReorderableTabControl}}"/>
                             </StackPanel>
                         </DataTemplate>
                     </controls:ReorderableTabControl.ItemTemplate>
@@ -140,11 +145,11 @@
                                            Text="Available Attributes" 
                                            TextAlignment="Center"/>
                                         <ListBox ItemsSource="{Binding Attributes, Mode=OneWay}"
-                                         Width="150"
-                                         ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                         ScrollViewer.CanContentScroll="True"
-                                         HorizontalAlignment="Left"
-                                         SelectionMode="Multiple">
+                                                 Width="150"
+                                                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                                 ScrollViewer.CanContentScroll="True"
+                                                 HorizontalAlignment="Left"
+                                                 SelectionMode="Multiple">
 
                                             <ListBox.Resources>
                                                 <Style TargetType="ListBoxItem">
@@ -152,6 +157,7 @@
                                                         Value="{Binding IsSelected}"/>
                                                 </Style>
                                             </ListBox.Resources>
+                                            
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Path=Item}"/>
@@ -187,7 +193,7 @@
                             <ContentControl Content="{Binding}"/>
                         </DataTemplate>
                     </controls:ReorderableTabControl.ContentTemplate>
-                    
+
                 </controls:ReorderableTabControl>
             </Grid>
 
@@ -206,7 +212,7 @@
             </Grid.RowDefinitions>
 
             <Button Grid.Column="1" Content="Apply"  VerticalAlignment="Center" Width="Auto"  Command="{Binding Apply}"/>
-            <Button Grid.Column="3" Content="No"  VerticalAlignment="Center" Width="Auto" Command="{Binding Cancel}"/>
+            <Button Grid.Column="3" Content="Cancel"  VerticalAlignment="Center" Width="Auto" Command="{Binding Cancel}"/>
         </Grid>
 
 

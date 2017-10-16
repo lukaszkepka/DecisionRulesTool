@@ -14,15 +14,25 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
         {
         }
 
-        public override IList<IRuleFilter> GenerateSeries()
+        public override int GetUpperBound(ValueBasedFilter lengthFilter, RuleSet ruleSet)
         {
-            IList<IRuleFilter> filters = new List<IRuleFilter>();
-            for (int i = MinLength; i <= MaxLength; i++)
+            switch (RelationBetweenRulesLengths)
             {
-                IRuleFilter ruleFilter = new SupportValueFilter(this.RelationBetweenRulesLengths, i);
-                filters.Add(ruleFilter);
+                case Relation.Greather:
+                case Relation.GreatherOrEqual:
+                    return ruleSet.Rules.Any() ? ruleSet.Rules.Max(x => x.SupportValue) : 0;
+                case Relation.Less:
+                    return lengthFilter.DesiredValue - 1;
+                case Relation.LessOrEqual:
+                    return lengthFilter.DesiredValue;
+                default:
+                    return 0;
             }
-            return filters;
+        }
+
+        public override ValueBasedFilter InstantiateSingleFilter(int desiredValue, Relation relation)
+        {
+            return new SupportValueFilter(relation, desiredValue);
         }
     }
 }

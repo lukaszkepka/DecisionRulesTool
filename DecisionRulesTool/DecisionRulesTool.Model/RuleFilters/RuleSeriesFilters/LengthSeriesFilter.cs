@@ -14,51 +14,25 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
         {
         }
 
-        public override IList<IRuleFilter> GenerateSeries()
+        public override int GetUpperBound(ValueBasedFilter lengthFilter, RuleSet ruleSet)
         {
-            IList<IRuleFilter> filters = new List<IRuleFilter>();
-            for (int i = MinLength; i <= MaxLength; i++)
+            switch (RelationBetweenRulesLengths)
             {
-                IRuleFilter ruleFilter = new LengthFilter(RelationBetweenRulesLengths, i);
-                filters.Add(ruleFilter);
+                case Relation.Greather:
+                case Relation.GreatherOrEqual:
+                    return ruleSet.Rules.Max(x => x.Conditions.Count);
+                case Relation.Less:
+                    return lengthFilter.DesiredValue - 1;
+                case Relation.LessOrEqual:
+                    return lengthFilter.DesiredValue;
+                default:
+                    return 0;
             }
-            return filters;
         }
 
-        //public RuleSetSubset[] ApplyFilterSeries(RuleSetSubset ruleSet)
-        //{
-
-
-
-            //var yy = actualSubsetLevel.ToList();
-            //for (int j  = 0; j < yy.Count; j++)
-            //{
-            //    var item = yy[j];
-            //    var g = item.Filters.LastOrDefault();
-            //    var t = (LengthFilter)g;
-
-            //    for (int i = GetLowerBound(t); i <= GetUpperBound(t, item); i++)
-            //    {
-            //        LengthFilter lengthFiler = new LengthFilter(Relation.Equality, i);
-            //        //Use filter to generate new subset
-            //        RuleSetSubset subset = new RuleSetSubset(item);
-            //        subset.AddFilter(lengthFiler);
-            //        subset.ApplyFilters();
-
-            //        //Set new subset name 
-            //        SetSubsetName(subset);
-
-            //        //Attach new subset to parent
-            //        item.Subsets.Add(subset);
-            //        //Mark new subset as parent for next level
-            //        actualSubsetLevel.Add(subset);
-            //    }               
-            //}
-
-            //return actualSubsetLevel.ToArray();
-        //}
-
-
-
+        public override ValueBasedFilter InstantiateSingleFilter(int desiredValue, Relation relation)
+        {
+            return new LengthFilter(relation, desiredValue);
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace DecisionRulesTool.Model.Model
     public class RuleSet : ICloneable
     {
 
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
         public Attribute DecisionAttribute { get; set; }
         public IList<Attribute> Attributes { get; protected set; }
         public IList<Rule> Rules { get; protected set; }

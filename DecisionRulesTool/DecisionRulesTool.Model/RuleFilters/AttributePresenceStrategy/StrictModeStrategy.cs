@@ -7,12 +7,12 @@ using DecisionRulesTool.Model.Model;
 
 namespace DecisionRulesTool.Model.RuleFilters.AttributePresenceStrategy
 {
-    internal class StrictModeStrategy : IAttributePresenceStrategy
+    internal class ExactModeStrategy : IAttributePresenceStrategy
     {
         public bool CheckCondition(Rule rule, string[] attributeNames)
         {
             var attributesInRule = rule.Conditions.Select(x => x.Attribute.Name).Distinct();
-            return attributesInRule.Intersect(attributeNames).Count() == attributeNames.Length;
+            return attributesInRule.Count() == attributeNames.Length && attributesInRule.Intersect(attributeNames).Count() == attributeNames.Length;
         }
     }
 }
