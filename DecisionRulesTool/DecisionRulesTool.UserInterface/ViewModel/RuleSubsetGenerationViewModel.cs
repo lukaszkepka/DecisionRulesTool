@@ -12,6 +12,7 @@ using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.UserInterface.ViewModel.Filters;
 using System.Collections.ObjectModel;
+using DecisionRulesTool.Model.RuleSubsetGeneration;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
@@ -58,7 +59,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public IRuleSubsetGenerator GetSubsetGenerator()
         {
-            IRuleSubsetGenerator ruleSubsetGenerator = new RuleSetSubsetGenerator(rootRuleSet);
+            IRuleSubsetGenerator ruleSubsetGenerator = new LowestLevelSubsetGenerator(rootRuleSet);
             foreach (var filter in Filters)
             {
                 ruleSubsetGenerator.AddFilterApplier(filter.GetRuleSeriesFilter());

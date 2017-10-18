@@ -9,6 +9,12 @@ namespace DecisionRulesTool.Model.RuleFilters
 {
     public interface IRuleFilter
     {
+        /// <summary>
+        /// Creates new instance of rule set with 
+        /// rules reduced by filter. 
+        /// </summary>
+        /// <param name="ruleSet">Initial rule set</param>
+        /// <returns>Filtered rule set</returns>
         RuleSet FilterRules(RuleSet ruleSet);
     }
 }

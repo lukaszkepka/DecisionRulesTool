@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.Utils;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
@@ -71,13 +72,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 
             if (rootRuleSet.Rules.Any())
             {
-                //Support filter
                 supportFilterUpperBound = rootRuleSet.Rules.Max(x => x.SupportValue);
                 maxSupportFilter = supportFilterUpperBound;
             }
             else
             {
-                //Support filter
                 supportFilterUpperBound = 0;
                 supportFilterLowerBound = 0;
                 minSupportFilter = 0;
@@ -93,6 +92,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
                 ruleFilterApplier = new SupportValueFilterApplier(minSupportFilter, maxSupportFilter, SelectedRelation);
             }
             return ruleFilterApplier;
+        }
+
+        public override void SetDefaultRelation()
+        {
+            selectedRelationIndex = availableRelations.GetIndexOf(Relation.GreatherOrEqual);
         }
 
         public override string ToString()

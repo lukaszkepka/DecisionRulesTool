@@ -54,10 +54,15 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             InitializeRelations();
         }
 
+        public virtual void SetDefaultRelation()
+        {
+            selectedRelationIndex = availableRelations.GetIndexOf(Relation.Equality);
+        }
+
         public void InitializeRelations()
         {
             availableRelations = Enum.GetValues(typeof(Relation)).Cast<Relation>().Where(x => x != Relation.Undefined).ToArray();
-            selectedRelationIndex = availableRelations.GetIndexOf(Relation.Equality);
+            SetDefaultRelation();
         }
 
     }

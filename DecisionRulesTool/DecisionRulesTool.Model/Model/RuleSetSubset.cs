@@ -66,23 +66,6 @@ namespace DecisionRulesTool.Model.Model
             RootRuleSet = rootRuleSet;
         }
 
-        public void ApplyFilters()
-        {
-            var ruleSetToFilter = (RuleSet)InitialRuleSet.Clone();
-
-            foreach (IRuleFilter filter in ruleFilters)
-            {
-                ruleSetToFilter = filter.FilterRules(ruleSetToFilter);
-                if (ruleSetToFilter.Rules.Count == 0)
-                {
-                    break;
-                }
-            }
-
-            this.Attributes = ruleSetToFilter.Attributes;
-            this.Rules = ruleSetToFilter.Rules;
-        }
-
 
         public void RemoveFilter(int index)
         {
@@ -92,6 +75,34 @@ namespace DecisionRulesTool.Model.Model
         public void AddFilter(IRuleFilter ruleFilter)
         {
             ruleFilters.Add(ruleFilter);
+        }
+
+        public void ApplyFilters()
+        {
+            RuleSet ruleSetToFilter = (RuleSet)InitialRuleSet.Clone();
+            RuleSet filteredRuleSet = default(RuleSet);
+
+            foreach (IRuleFilter filter in ruleFilters)
+            {
+                filteredRuleSet = filter.FilterRules(ruleSetToFilter);
+                if (filteredRuleSet.Rules.Count == 0)
+                {
+                    break;
+                }
+            }
+
+            this.Attributes = filteredRuleSet.Attributes;
+            this.Rules = filteredRuleSet.Rules;
+        }
+
+        public override object Clone()
+        {
+            return new RuleSetSubset(InitialRuleSet, RootRuleSet)
+            {
+                Rules = this.Rules,
+                Subsets = this.Subsets,
+                ruleFilters = this.ruleFilters,
+            };
         }
     }
 }

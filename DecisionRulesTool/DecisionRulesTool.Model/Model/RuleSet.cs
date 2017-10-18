@@ -34,8 +34,7 @@ namespace DecisionRulesTool.Model.Model
         public override bool Equals(object obj)
         {
             bool result = false;
-            RuleSet ruleSet = obj as RuleSet;
-            if(ruleSet != null)
+            if (obj is RuleSet ruleSet)
             {
                 result = Attributes.SequenceEqual(ruleSet.Attributes) &&
                          Rules.SequenceEqual(ruleSet.Rules) &&
@@ -49,7 +48,7 @@ namespace DecisionRulesTool.Model.Model
             return base.GetHashCode();
         }
 
-        public object Clone()
+        public virtual object Clone()
         {
             int decisionAttributeIndex = Attributes.IndexOf(DecisionAttribute);
             IList<Attribute> newAttributes = new List<Attribute>(Attributes);

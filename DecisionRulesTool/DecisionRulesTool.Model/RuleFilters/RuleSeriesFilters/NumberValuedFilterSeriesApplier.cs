@@ -47,7 +47,7 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
             {
                 //Apply additional filters
                 IList<RuleSetSubset> additionalFilterParents = currentRuleSubsets.ToList();
-                //currentRuleSubsets.Clear();
+                currentRuleSubsets.Clear();
 
                 for (int j = 0; j < additionalFilterParents.Count; j++)
                 {
@@ -58,7 +58,7 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
                     for (int i = GetLowerBound(parentFilter); i <= GetUpperBound(parentFilter, parentRuleSubset.RootRuleSet); i++)
                     {
                         ValueBasedFilter filter = InstantiateSingleFilter(i, Relation.Equality);
-                        var subset = ApplySingleFilter(filter, parentRuleSubset);
+                        var subset = ApplySingleFilter(filter, parentRuleSubset);                   
                         //Mark new subset as parent for next level
                         currentRuleSubsets.Add(subset);
                     }

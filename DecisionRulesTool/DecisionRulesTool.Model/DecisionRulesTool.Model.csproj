@@ -118,13 +118,15 @@
     <Compile Include="RuleFilters\RuleSeriesFilters\AttributePresenceFilterApplier.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\BaseFilterApplier.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\IRuleSeriesFilter.cs" />
-    <Compile Include="RuleFilters\RuleSeriesFilters\IRuleSubsetGenerator.cs" />
+    <Compile Include="RuleSubsetGeneration\AllLevelsSubsetGenerator.cs" />
+    <Compile Include="RuleSubsetGeneration\IRuleSubsetGenerator.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\LengthSeriesFilter.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\NumberValuedFilterSeriesApplier.cs" />
-    <Compile Include="RuleFilters\RuleSeriesFilters\RuleSetSubsetGenerator.cs" />
+    <Compile Include="RuleSubsetGeneration\BaseRuleSetSubsetGenerator.cs" />
     <Compile Include="RuleFilters\RuleSeriesFilters\SupportValueSeriesFilter.cs" />
     <Compile Include="Model\RuleSetSubset.cs" />
     <Compile Include="RuleFilters\SupportValueFilter.cs" />
+    <Compile Include="RuleSubsetGeneration\LowestLevelSubsetGenerator.cs" />
     <Compile Include="RuleTester\Series\TestSeriesGenerator.cs" />
     <Compile Include="RuleTester\Series\TestSeriesRequest.cs" />
     <Compile Include="RuleTester\Series\TestSeriesRequestBuilder.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="RuleTester\TestRequest.cs" />
     <Compile Include="RuleTester\TestResult.cs" />
     <Compile Include="RuleTester\DecisionResolver\WeightedVoting.cs" />
+    <Compile Include="Utils\CombinationGenerator.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\IProgressNotifier.cs" />
     <Compile Include="Utils\ProgressNotifier.cs" />

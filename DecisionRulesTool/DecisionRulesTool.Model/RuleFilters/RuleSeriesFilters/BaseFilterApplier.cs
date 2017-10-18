@@ -20,7 +20,6 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
 
             //Attach new subset to parent
             ruleSet.Subsets.Add(subset);
-
             return subset;
         }
 
@@ -35,6 +34,11 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
             }
 
             return actualSubsetLevel.ToArray();
+        }
+
+        public void SetSubsetName(RuleSetSubset subset)
+        {
+            subset.Name = $"{subset.RootRuleSet.Name}: {subset.Filters.LastOrDefault()?.ToString()} [{subset.Rules.Count}]";
         }
     }
 }

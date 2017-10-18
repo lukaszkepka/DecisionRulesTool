@@ -97,6 +97,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             }
         }
 
+        public override void SetDefaultRelation()
+        {
+            selectedRelationIndex = availableRelations.GetIndexOf(Relation.LessOrEqual);
+        }
+
         public override string ToString()
         {
             return "Length Filter";

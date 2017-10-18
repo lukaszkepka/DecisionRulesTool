@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DecisionRulesTool.Model.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,11 +22,15 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
         public override IList<IRuleFilter> GenerateSeries()
         {
             IList<IRuleFilter> ruleFilters = new List<IRuleFilter>();
-            List<string> actualAttributes = new List<string>();
-            for (int i = 0; i < attributeNames.Length; i++)
+            CombinationGenerator combinationGenerator = new CombinationGenerator();
+            IEnumerable<string[]> attributeSubsets = combinationGenerator.GenerateAllSubsets(attributeNames).OrderBy(x => x.Length);
+
+            //Exclude first element, which is empty subset
+            attributeSubsets = attributeSubsets.Skip(1);
+
+            foreach (string[] attributeSubset in attributeSubsets)
             {
-                actualAttributes.Add(attributeNames[i]);
-                ruleFilters.Add(new AttributePresenceFilter(mode, actualAttributes.ToArray()));
+                ruleFilters.Add(new AttributePresenceFilter(mode, attributeSubset));
             }
 
             return ruleFilters;
