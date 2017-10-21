@@ -16,10 +16,10 @@ namespace DecisionRulesTool.Model.IO.Parsers.Factory
             IFileParser<RuleSet> ruleSetParser = default(IFileParser<RuleSet>);
             switch (fileExtension)
             {
-                case ".rul":
+                case BaseFileFormat.FileExtensions.RSESRuleSet:
                     ruleSetParser = new RsesRulesParser();
                     break;
-                case ".rls":
+                case BaseFileFormat.FileExtensions._4emkaRuleSet:
                     ruleSetParser = new _4eMkaRulesParser();
                     break;
                 default:

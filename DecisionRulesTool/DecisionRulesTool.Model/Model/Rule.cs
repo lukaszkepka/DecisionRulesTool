@@ -11,8 +11,8 @@ namespace DecisionRulesTool.Model.Model
         public Rule(RuleSet ruleSet)
         {
             RuleSet = ruleSet;
-            Conditions = new HashSet<Condition>();
-            Decisions = new HashSet<Decision>();
+            Conditions = new List<Condition>();
+            Decisions = new List<Decision>();
         }
 
         public Rule(RuleSet ruleSet, ICollection<Condition> conditions, ICollection<Decision> decisions) : this(ruleSet)

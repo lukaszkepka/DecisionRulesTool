@@ -18,13 +18,15 @@ namespace DecisionRulesTool.Model.RuleSubsetGeneration
         {
             //Create stack that holds collection of rule sets 
             //for actual iteration
-            List<RuleSetSubset> actualSubsetLevel = new List<RuleSetSubset>();
+            List<RuleSetSubset> actualSubsetLevel = new List<RuleSetSubset>();
+
             //Create list that holds parent rule sets
             //for next iteration
             List<RuleSetSubset> nextIterationParents = new List<RuleSetSubset>
             {
                 rootRuleSet
-            };
+            };
+
             foreach (IRuleFilterApplier seriesFilter in ruleFilters)
             {
                 //Collection of parent rule setes are copied to actual                 
@@ -32,13 +34,15 @@ namespace DecisionRulesTool.Model.RuleSubsetGeneration
                 if (nextIterationParents.Any())
                 {
                     actualSubsetLevel = new List<RuleSetSubset>(nextIterationParents.ToList());
-                }
+                }
+
                 //Clear rule set parents for next level
-                nextIterationParents.Clear();
+                nextIterationParents.Clear();
+
                 foreach (var actualRuleSet in actualSubsetLevel)
                 {
-                    RuleSetSubset[] childRuleSets = seriesFilter.ApplyFilterSeries(actualRuleSet);
-                    nextIterationParents.AddRange(childRuleSets);
+                    IEnumerable<RuleSetSubset> ruleSetSubsetToAttach = seriesFilter.ApplyFilterSeries(actualRuleSet);
+                    nextIterationParents.AddRange(ruleSetSubsetToAttach);
                 }
             }
         }

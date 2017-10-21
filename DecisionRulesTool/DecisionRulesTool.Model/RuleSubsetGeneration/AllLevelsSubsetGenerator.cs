@@ -21,8 +21,9 @@ namespace DecisionRulesTool.Model.RuleSubsetGeneration
                 foreach (var item in rootRuleSet.Subsets)
                 {
                     InnerFuncton(item, seriesFilter);
-                    seriesFilter.ApplyFilterSeries(item);
+                    //seriesFilter.ApplyFilterSeries(item);
                 }
+                seriesFilter.ApplyFilterSeries(rootRuleSet);
             }
             else
             {
@@ -34,13 +35,15 @@ namespace DecisionRulesTool.Model.RuleSubsetGeneration
         {
             //Create stack that holds collection of rule sets 
             //for actual iteration
-            List<RuleSetSubset> actualSubsetLevel = new List<RuleSetSubset>();
+            List<RuleSetSubset> actualSubsetLevel = new List<RuleSetSubset>();
+
             //Create list that holds parent rule sets
             //for next iteration
             List<RuleSetSubset> nextIterationParents = new List<RuleSetSubset>
             {
                 rootRuleSet
-            };
+            };
+
             foreach (IRuleFilterApplier seriesFilter in ruleFilters)
             {
                 InnerFuncton(rootRuleSet, seriesFilter);

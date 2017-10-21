@@ -7,28 +7,40 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.Model
 {
+    using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
     using Model;
     using RuleFilters;
 
     public class RuleSetSubset : RuleSet
     {
-        private string name;
+        private RuleSetSubset rootRuleSet;
         private List<IRuleFilter> ruleFilters;
 
-        public RuleSet RootRuleSet { get; private set; }
-        public RuleSet InitialRuleSet { get; private set; }
-        public IList<RuleSetSubset> Subsets { get; private set; }
-        public IEnumerable<IRuleFilter> Filters => ruleFilters;
-
-        public override string Name
+        public RuleSetSubset RootRuleSet
         {
             get
             {
-                return $"{RootRuleSet.Name}: {Filters.LastOrDefault()?.ToString()} [{Rules.Count}]";
+                return rootRuleSet ?? (this);
             }
-            set
+            private set
             {
-                name = value;
+                rootRuleSet = value;
+            }
+        }
+        public RuleSetSubset InitialRuleSet { get; private set; }
+        public IList<RuleSetSubset> Subsets { get; private set; }
+        public IEnumerable<IRuleFilter> Filters => ruleFilters;
+
+        //
+        public IList<IRuleFilterApplier> FilterAppliers;
+
+        public override string Name { get; set; }
+
+        public string DisplayAs
+        {
+            get
+            {
+                return $"{Name}: {Filters.LastOrDefault()?.ToString()} [{Rules.Count}]";
             }
         }
 
@@ -43,11 +55,23 @@ namespace DecisionRulesTool.Model.Model
             {
                 Subsets = new List<RuleSetSubset>();
             }
+
+            if (FilterAppliers == null)
+            {
+                FilterAppliers = new List<IRuleFilterApplier>();
+            }
+
         }
 
         public RuleSetSubset(string name) : base(name)
         {
             Initialize();
+        }
+
+        public RuleSetSubset(RuleSet ruleSet) : base(ruleSet.Name, ruleSet.Attributes, ruleSet.Rules, ruleSet.DecisionAttribute)
+        {
+            Initialize();
+            RootRuleSet = this;
         }
 
         public RuleSetSubset(RuleSetSubset initialRuleSet) : this(initialRuleSet, initialRuleSet.RootRuleSet)
@@ -59,13 +83,12 @@ namespace DecisionRulesTool.Model.Model
             this.ruleFilters.AddRange(initialRuleSet.Filters);
         }
 
-        public RuleSetSubset(RuleSet initialRuleSet, RuleSet rootRuleSet) : base(initialRuleSet.Name, initialRuleSet.Attributes, initialRuleSet.Rules, initialRuleSet.DecisionAttribute)
+        public RuleSetSubset(RuleSetSubset initialRuleSet, RuleSetSubset rootRuleSet) : base(initialRuleSet.Name, initialRuleSet.Attributes, initialRuleSet.Rules, initialRuleSet.DecisionAttribute)
         {
             Initialize();
             InitialRuleSet = initialRuleSet;
             RootRuleSet = rootRuleSet;
         }
-
 
         public void RemoveFilter(int index)
         {
@@ -79,12 +102,11 @@ namespace DecisionRulesTool.Model.Model
 
         public void ApplyFilters()
         {
-            RuleSet ruleSetToFilter = (RuleSet)InitialRuleSet.Clone();
-            RuleSet filteredRuleSet = default(RuleSet);
+            RuleSet filteredRuleSet = null;
 
             foreach (IRuleFilter filter in ruleFilters)
             {
-                filteredRuleSet = filter.FilterRules(ruleSetToFilter);
+                filteredRuleSet = filter.FilterRules(this);
                 if (filteredRuleSet.Rules.Count == 0)
                 {
                     break;

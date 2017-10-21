@@ -8,10 +8,6 @@ namespace DecisionRulesTool.Model.Utils
     {
         public static readonly ReferenceEqualityComparer Default = new ReferenceEqualityComparer(); 
 
-        private ReferenceEqualityComparer()
-        {
-        }
-
         public new bool Equals(object x, object y)
         {
             return x == y;

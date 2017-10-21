@@ -47,7 +47,7 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
             {
                 //Apply additional filters
                 IList<RuleSetSubset> additionalFilterParents = currentRuleSubsets.ToList();
-                currentRuleSubsets.Clear();
+                //currentRuleSubsets.Clear();
 
                 for (int j = 0; j < additionalFilterParents.Count; j++)
                 {

@@ -1,4 +1,5 @@
 ﻿using DecisionRulesTool.UserInterface.View;
+using DecisionRulesTool.UserInterface.View.Dialogs;
 using DecisionRulesTool.UserInterface.ViewModel;
 using DecisionRulesTool.UserInterface.ViewModel.Dialog;
 using Microsoft.Win32;
@@ -23,6 +24,15 @@ namespace DecisionRulesTool.UserInterface.Services
                     break;
                 case ProgressDialogViewModel progressDialogViewModel:
                     newWindow = new ProgressDialog();
+                    break;
+                case TestConfigurationViewModel testConfigurationViewModel:
+                    newWindow = new TestConfigurationWindow();
+                    break;
+                case TestSetViewModel testSetViewModel:
+                    newWindow = new TestSetDialog();
+                    break;
+                case StudentViewModel s:
+                    newWindow = new test();
                     break;
                 default:
                     break;

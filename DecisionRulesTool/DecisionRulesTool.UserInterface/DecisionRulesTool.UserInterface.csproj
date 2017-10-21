@@ -98,16 +98,33 @@
     <Compile Include="Model\ISelectable.cs" />
     <Compile Include="Model\SelectableItem.cs" />
     <Compile Include="Model\SelectableItemExtension.cs" />
+    <Compile Include="Services\TestSetLoaderService.cs" />
+    <Compile Include="ViewModel\TestConfigurationViewModel.cs" />
     <Compile Include="ViewModel\Dialog\ProgressDialogViewModel.cs" />
     <Compile Include="ViewModel\Filters\AttributePresenceFilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\FilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\LengthFilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\RelationFilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\SupportValueFilterViewModel.cs" />
-    <Compile Include="View\ProgressDialog.xaml.cs">
+    <Compile Include="ViewModel\TestSetViewModel.cs" />
+    <Compile Include="ViewModel\vm.cs" />
+    <Compile Include="View\Dialogs\ProgressDialog.xaml.cs">
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\GenerateSubsetsDialog.xaml">
+    <Compile Include="View\Dialogs\TestSetDialog.xaml.cs">
+      <DependentUpon>TestSetDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\test.xaml.cs">
+      <DependentUpon>test.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestConfigurationWindow.xaml.cs">
+      <DependentUpon>TestConfigurationWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\Dialogs\GenerateSubsetsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\TestSetDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,14 +149,22 @@
     <Compile Include="Services\Dialog\DialogService.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\RuleSubsetGenerationViewModel.cs" />
-    <Compile Include="View\GenerateSubsetsDialog.xaml.cs">
+    <Compile Include="View\Dialogs\GenerateSubsetsDialog.xaml.cs">
       <DependentUpon>GenerateSubsetsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\ProgressDialog.xaml">
+    <Page Include="View\Dialogs\ProgressDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\test.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestConfigurationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

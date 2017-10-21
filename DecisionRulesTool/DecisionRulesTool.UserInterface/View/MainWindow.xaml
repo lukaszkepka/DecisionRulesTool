@@ -37,6 +37,13 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
+                <Button Content="Configure Tests">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding ConfigureTests}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </ToolBar>
         </DockPanel>
 
@@ -61,6 +68,20 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
+                        <Button Content="Edit Filters">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding EditFilters}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button Content="Delete">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding DeleteSubset}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
                     </ToolBar>
                 </DockPanel>
                 <TreeView x:Name="LoadedRuleSetsTreeView"
@@ -80,7 +101,7 @@
                                   DataType="{x:Type model:RuleSetSubset}"
                                   ItemsSource="{Binding Subsets}">
 
-                            <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding Name}"/>
+                            <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding DisplayAs}"/>
 
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
@@ -136,6 +157,7 @@
                 </DockPanel>
 
                 <DataGrid x:Name="RulesDataGrid"
+                          DockPanel.Dock="Top"
                           ScrollViewer.CanContentScroll="True"
                           ScrollViewer.VerticalScrollBarVisibility="Visible"
                           ItemsSource="{Binding SelectedRuleSet.Rules}" 
@@ -161,6 +183,12 @@
                                 Header="Length"/>
                     </DataGrid.Columns>
                 </DataGrid>
+
+                <ListBox DockPanel.Dock="Bottom" 
+                         Height="100"
+                         ItemsSource="{Binding Logs}">
+                </ListBox>
+                
             </DockPanel>
         </GroupBox>
 

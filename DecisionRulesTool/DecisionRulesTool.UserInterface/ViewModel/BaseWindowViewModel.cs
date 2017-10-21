@@ -16,6 +16,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     {
         protected DialogService dialogService;
         protected WindowNavigatorService windowNavigatorService;
+        protected TestSetLoaderService dataSetLoaderService;
         protected RuleSetLoaderService ruleSetLoaderService;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,6 +27,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             this.windowNavigatorService = new WindowNavigatorService();
             this.dialogService = new DialogService();
             this.ruleSetLoaderService = new RuleSetLoaderService(new RuleSetParserFactory(), dialogService);
+            this.dataSetLoaderService = new TestSetLoaderService(new DataSetParserFactory(), dialogService);
         }
 
         protected void OnPropertyChanged(string propertyName)

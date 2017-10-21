@@ -13,7 +13,7 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
         /// Applies filters to rule sets tree
         /// </summary>
         /// <param name="ruleSet">Initial rule set for applying filters</param>
-        /// <returns>The lowest level of generated rule sets</returns>
+        /// <returns>Generated rule sets</returns>
         RuleSetSubset[] ApplyFilterSeries(RuleSetSubset ruleSet);
         RuleSetSubset ApplySingleFilter(IRuleFilter filter, RuleSetSubset ruleSet);
     }

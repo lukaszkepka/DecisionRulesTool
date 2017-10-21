@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.IO.Parsers.Factory
 {
-    class DataSetParserFactory : IFileParserFactory<DataSet>
+    public class DataSetParserFactory : IFileParserFactory<DataSet>
     {
         public IFileParser<DataSet> Create(string fileExtension)
         {
             IFileParser<DataSet> dataSetParser = default(IFileParser<DataSet>);
             switch (fileExtension)
             {
-                case "tab":
+                case BaseFileFormat.FileExtensions.RSESDataset:
                     dataSetParser = new RsesDataSetParser();
                     break;
-                case "rls":
+                case BaseFileFormat.FileExtensions._4emkaDataset:
                     dataSetParser = new _4eMkaDataSetParser();
                     break;
                 default:

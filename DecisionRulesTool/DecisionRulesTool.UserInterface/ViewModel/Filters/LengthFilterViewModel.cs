@@ -60,8 +60,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             }
         }
         #endregion Properties
-
-
+        
         public LengthFilterViewModel(RuleSetSubset rootRuleSet) : base(rootRuleSet)
         {
             SetFilterBounds();

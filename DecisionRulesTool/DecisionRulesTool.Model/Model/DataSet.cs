@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,12 +22,12 @@ namespace DecisionRulesTool.Model.Model
 
         public DataSet()
         {
-            Attributes = new HashSet<Attribute>();
-            Objects = new HashSet<Object>();
+            Attributes = new List<Attribute>();
+            Objects = new List<Object>();
         }
 
         public string Name { get; set; }
-        public virtual ICollection<Attribute> Attributes { get; private set; }
-        public virtual ICollection<Object> Objects { get; private set; }
+        public ICollection<Attribute> Attributes { get; private set; }
+        public ICollection<Object> Objects { get; private set; }
     }
 }
