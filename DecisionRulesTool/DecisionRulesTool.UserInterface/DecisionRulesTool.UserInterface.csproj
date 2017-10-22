@@ -90,7 +90,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Behaviours\ColumnsBindingBehaviour.cs" />
     <Compile Include="Model\Converters\AttributeModeToStringConverter.cs" />
+    <Compile Include="Model\Converters\AttributeToDataGridColumnConverter.cs" />
     <Compile Include="Model\Converters\BoolToVisibleOrHidden.cs" />
     <Compile Include="Model\Converters\RelationToStringConverter.cs" />
     <Compile Include="Model\CustomControls\TabControlReorderBehaviour.cs" />

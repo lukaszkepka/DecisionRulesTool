@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace DecisionRulesTool.UserInterface.Model.Converters
 {
-    class BoolToVisibleOrHidden : IValueConverter
+    internal class BoolToVisibleOrHidden : IValueConverter
     {
         #region Constructors
         /// <summary>
