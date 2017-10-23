@@ -1,20 +1,28 @@
 ﻿using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.Model.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
+namespace DecisionRulesTool.Model.RuleFilters.Appliers
 {
     public abstract class BaseFilterApplier : IRuleFilterApplier
     {
+        protected readonly IRuleSetSubsetFactory ruleSetSubsetFactory;
+
+        public BaseFilterApplier(IRuleSetSubsetFactory ruleSetSubsetFactory)
+        {
+            this.ruleSetSubsetFactory = ruleSetSubsetFactory;
+        }
+
         public abstract IList<IRuleFilter> GenerateSeries();
 
         public virtual RuleSetSubset ApplySingleFilter(IRuleFilter filter, RuleSetSubset ruleSet)
         {
             //Use filter to generate new subset
-            RuleSetSubset subset = new RuleSetSubset(ruleSet);
+            RuleSetSubset subset = ruleSetSubsetFactory.Create(ruleSet);
             subset.AddFilter(filter);
             subset.ApplyFilters();
 

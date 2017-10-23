@@ -11,6 +11,7 @@ namespace DecisionRulesTool.Model.RuleTester
     public class RefuseConflict : BaseDecisionResolverStrategy
     {
         public override ConflictResolvingMethod ResolvingMethod { get; } = ConflictResolvingMethod.RefuseConflicts;
+
         public RefuseConflict(DataSet testSet, Attribute decisionAttribute) : base(testSet, decisionAttribute)
         {
         }

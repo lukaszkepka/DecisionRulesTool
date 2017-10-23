@@ -4,22 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        xmlns:helper="clr-namespace:DecisionRulesTool.UserInterface.Utils"
         xmlns:converters="clr-namespace:DecisionRulesTool.UserInterface.Model.Converters"
-        xmlns:local="clr-namespace:DecisionRulesTool.UserInterface"
-        xmlns:utils="clr-namespace:DecisionRulesTool.UserInterface.Utils"
-        xmlns:filters="clr-namespace:DecisionRulesTool.Model.RuleFilters;assembly=DecisionRulesToolModel"  
         xmlns:behaviours="clr-namespace:DecisionRulesTool.UserInterface.Model.Behaviours"
-        xmlns:model="clr-namespace:DecisionRulesTool.Model.Model;assembly=DecisionRulesToolModel"
         mc:Ignorable="d"
         Title="" Height="500" Width="500">
-
 
     <Window.Resources>
         <converters:AttributeToDataGridColumnConverter  x:Key="attributeToDataGridColumnConverter" />
     </Window.Resources>
-
-
 
     <Grid DataContext="{Binding TestSet}" x:Name="TestSetGrid">
         <DockPanel Grid.Column="0">

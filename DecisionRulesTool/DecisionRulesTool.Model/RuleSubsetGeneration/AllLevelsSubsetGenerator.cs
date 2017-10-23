@@ -1,4 +1,5 @@
 ﻿using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.RuleFilters.Appliers;
 using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using System;
 using System.Collections.Generic;

@@ -1,11 +1,12 @@
 ﻿using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.Model.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
+namespace DecisionRulesTool.Model.RuleFilters.Appliers
 {
     public abstract class ValueBasedFiltersApplier : BaseFilterApplier
     {
@@ -13,7 +14,7 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
         public int MinLength { get; }
         public int MaxLength { get; }
 
-        public ValueBasedFiltersApplier(int minLength, int maxLength, Relation relation)
+        public ValueBasedFiltersApplier(int minLength, int maxLength, Relation relation, IRuleSetSubsetFactory ruleSetSubsetFactory) : base(ruleSetSubsetFactory)
         {
             MinLength = minLength;
             MaxLength = maxLength;

@@ -27,7 +27,7 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
         public bool ShowDialog(BaseDialogViewModel dialogViewModel)
         {
             bool result = false;
-            Window window = GetWindow(dialogViewModel);
+            Window window = GetDialogWindow(dialogViewModel);
             if (window != null)
             {
                 window.DataContext = dialogViewModel;

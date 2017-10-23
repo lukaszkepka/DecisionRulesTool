@@ -10,8 +10,7 @@ namespace DecisionRulesTool.Model.RuleTester
     public interface IDecisionResolverStrategy
     {
         ConflictResolvingMethod ResolvingMethod { get; }
-
-        void AddDecision(Object dataObject, Rule rule);
         ClassificationResult[] RunClassification();
+        void AddDecision(Object dataObject, Rule rule);
     }
 }

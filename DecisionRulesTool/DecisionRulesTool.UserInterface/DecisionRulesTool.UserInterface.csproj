@@ -94,12 +94,16 @@
     <Compile Include="Model\Converters\AttributeModeToStringConverter.cs" />
     <Compile Include="Model\Converters\AttributeToDataGridColumnConverter.cs" />
     <Compile Include="Model\Converters\BoolToVisibleOrHidden.cs" />
+    <Compile Include="Model\Converters\ConflictResolvingMethodToStringConverter.cs" />
     <Compile Include="Model\Converters\RelationToStringConverter.cs" />
     <Compile Include="Model\CustomControls\TabControlReorderBehaviour.cs" />
     <Compile Include="Model\DataTemplateSelectors\FilterViewModelTemplateSelector.cs" />
+    <Compile Include="Model\Factory\RuleSetSubsetViewItemFactory.cs" />
     <Compile Include="Model\ISelectable.cs" />
+    <Compile Include="Model\RuleSetSubsetViewItem.cs" />
     <Compile Include="Model\SelectableItem.cs" />
     <Compile Include="Model\SelectableItemExtension.cs" />
+    <Compile Include="ViewModel\RuleSetPickerViewModel.cs" />
     <Compile Include="Services\TestSetLoaderService.cs" />
     <Compile Include="ViewModel\TestConfigurationViewModel.cs" />
     <Compile Include="ViewModel\Dialog\ProgressDialogViewModel.cs" />
@@ -109,20 +113,23 @@
     <Compile Include="ViewModel\Filters\RelationFilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\SupportValueFilterViewModel.cs" />
     <Compile Include="ViewModel\TestSetViewModel.cs" />
-    <Compile Include="ViewModel\vm.cs" />
     <Compile Include="View\Dialogs\ProgressDialog.xaml.cs">
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Dialogs\RuleSetPickerDialog.xaml.cs">
+      <DependentUpon>RuleSetPickerDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialogs\TestSetDialog.xaml.cs">
       <DependentUpon>TestSetDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\test.xaml.cs">
-      <DependentUpon>test.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TestConfigurationWindow.xaml.cs">
       <DependentUpon>TestConfigurationWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="View\Dialogs\GenerateSubsetsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\RuleSetPickerDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -159,10 +166,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\Dialogs\ProgressDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\test.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

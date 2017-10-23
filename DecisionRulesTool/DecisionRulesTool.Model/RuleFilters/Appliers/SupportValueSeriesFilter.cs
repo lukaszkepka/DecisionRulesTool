@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using DecisionRulesTool.Model.Comparers;
 using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.Model.Factory;
 
-namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
+namespace DecisionRulesTool.Model.RuleFilters.Appliers
 {
     public class SupportValueFilterApplier : ValueBasedFiltersApplier
     {
-        public SupportValueFilterApplier(int minLength, int maxLength, Relation relation) : base(minLength, maxLength, relation)
+        public SupportValueFilterApplier(int minLength, int maxLength, Relation relation, IRuleSetSubsetFactory ruleSetSubsetFactory) : base(minLength, maxLength, relation, ruleSetSubsetFactory)
         {
         }
 

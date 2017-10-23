@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using DecisionRulesTool.Model.Utils;
+using DecisionRulesTool.Model.Model.Factory;
+using DecisionRulesTool.Model.RuleFilters.Appliers;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
@@ -61,7 +63,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         }
         #endregion Properties
         
-        public LengthFilterViewModel(RuleSetSubset rootRuleSet) : base(rootRuleSet)
+        public LengthFilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory) : base(rootRuleSet, ruleSetSubsetFactory)
         {
             SetFilterBounds();
         }
@@ -71,7 +73,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             IRuleFilterApplier ruleFilterApplier = default(IRuleFilterApplier);
             if(isEnabled)
             {
-                ruleFilterApplier = new LengthFilterApplier(minLengthFilter, maxLengthFilter, SelectedRelation);
+                ruleFilterApplier = new LengthFilterApplier(minLengthFilter, maxLengthFilter, SelectedRelation, ruleSetSubsetFactory);
             }
             return ruleFilterApplier;
         }

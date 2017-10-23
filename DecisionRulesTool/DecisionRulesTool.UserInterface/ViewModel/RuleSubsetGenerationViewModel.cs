@@ -13,11 +13,13 @@ using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.UserInterface.ViewModel.Filters;
 using System.Collections.ObjectModel;
 using DecisionRulesTool.Model.RuleSubsetGeneration;
+using DecisionRulesTool.Model.Model.Factory;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
     public class RuleSubsetGenerationViewModel : BaseDialogViewModel
     {
+        private IRuleSetSubsetFactory ruleSetSubsetFactory;
         private IList<FilterViewModel> filterViewModels;
         private FilterViewModel selectedFilterViewModel;
         private RuleSetSubset rootRuleSet;
@@ -49,8 +51,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         }
         #endregion
 
-        public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet)
+        public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory)
         {
+            this.ruleSetSubsetFactory = ruleSetSubsetFactory;
             this.rootRuleSet = rootRuleSet;
 
             InitializeFilterViewModels();
@@ -79,9 +82,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             this.filterViewModels = new ObservableCollection<FilterViewModel>()
             {
-                new SupportValueFilterViewModel(rootRuleSet),
-                new LengthFilterViewModel(rootRuleSet),
-                new AttributePresenceFilterViewModel(rootRuleSet)
+                new SupportValueFilterViewModel(rootRuleSet, ruleSetSubsetFactory),
+                new LengthFilterViewModel(rootRuleSet, ruleSetSubsetFactory),
+                new AttributePresenceFilterViewModel(rootRuleSet, ruleSetSubsetFactory)
             };
 
             SelectedFilterViewModel = filterViewModels[1];

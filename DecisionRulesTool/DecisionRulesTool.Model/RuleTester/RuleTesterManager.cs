@@ -29,10 +29,10 @@ namespace DecisionRulesTool.Model.RuleTester
             testRequests = new List<TestRequest>();
         }
 
-        public virtual IEnumerable<TestRequest> GenerateTests(DataSet[] testSets, RuleSet ruleSet, ConflictResolvingMethod conflictResolvingMethod = ConflictResolvingMethod.MajorityVoting)
+        public virtual IEnumerable<TestRequest> GenerateTests(DataSet testSet, IEnumerable<RuleSet> ruleSets, ConflictResolvingMethod conflictResolvingMethod = ConflictResolvingMethod.MajorityVoting)
         {
             IList<TestRequest> testRequests = new List<TestRequest>();
-            foreach (DataSet testSet in testSets)
+            foreach (RuleSet ruleSet in ruleSets)
             {
                 testRequests.Add(new TestRequest(ruleSet, testSet, conflictResolvingMethod));
             }
@@ -64,7 +64,6 @@ namespace DecisionRulesTool.Model.RuleTester
         {
             testRequests.Clear();
         }
-
     }
 }
 

@@ -1,20 +1,15 @@
-﻿using DecisionRulesTool.Model.Model;
-using System;
+﻿using System.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DecisionRulesTool.Model.RuleFilters.Appliers;
+using DecisionRulesTool.Model.RuleFilters;
 
 namespace DecisionRulesTool.Model.Model
 {
-    using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
-    using Model;
-    using RuleFilters;
 
     public class RuleSetSubset : RuleSet
     {
-        private RuleSetSubset rootRuleSet;
-        private List<IRuleFilter> ruleFilters;
+        protected RuleSetSubset rootRuleSet;
+        protected List<IRuleFilter> ruleFilters;
 
         public RuleSetSubset RootRuleSet
         {
@@ -27,8 +22,8 @@ namespace DecisionRulesTool.Model.Model
                 rootRuleSet = value;
             }
         }
-        public RuleSetSubset InitialRuleSet { get; private set; }
-        public IList<RuleSetSubset> Subsets { get; private set; }
+        public RuleSetSubset InitialRuleSet { get; protected set; }
+        public IList<RuleSetSubset> Subsets { get; protected set; }
         public IEnumerable<IRuleFilter> Filters => ruleFilters;
 
         //
@@ -60,7 +55,6 @@ namespace DecisionRulesTool.Model.Model
             {
                 FilterAppliers = new List<IRuleFilterApplier>();
             }
-
         }
 
         public RuleSetSubset(string name) : base(name)
@@ -68,12 +62,21 @@ namespace DecisionRulesTool.Model.Model
             Initialize();
         }
 
+        /// <summary>
+        /// Constructor used for filling basic RuleSet class fields
+        /// </summary>
+        /// <param name="ruleSet">RuleSet used for initializing fields</param>
         public RuleSetSubset(RuleSet ruleSet) : base(ruleSet.Name, ruleSet.Attributes, ruleSet.Rules, ruleSet.DecisionAttribute)
         {
             Initialize();
-            RootRuleSet = this;
         }
 
+        /// <summary>
+        /// Constructor that creates new subset as child of initialRuleSet.
+        /// Field InitialSubset is set to initialRuleSet and RootRuleSet is
+        /// set to initialRuleSet rootRuleSet
+        /// </summary>
+        /// <param name="initialRuleSet"></param>
         public RuleSetSubset(RuleSetSubset initialRuleSet) : this(initialRuleSet, initialRuleSet.RootRuleSet)
         {
             Initialize();

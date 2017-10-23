@@ -1,4 +1,6 @@
 ﻿using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.Model.Factory;
+using DecisionRulesTool.Model.RuleFilters.Appliers;
 using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
     public abstract class FilterViewModel : BaseWindowViewModel
     {
+        protected IRuleSetSubsetFactory ruleSetSubsetFactory;
         protected RuleSetSubset rootRuleSet;
         protected bool isEnabled;
         protected string name;
@@ -41,9 +44,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         }
         #endregion IsEnabled
 
-        public FilterViewModel(RuleSetSubset rootRuleSet)
+        public FilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory)
         {
             this.rootRuleSet = rootRuleSet;
+            this.ruleSetSubsetFactory = ruleSetSubsetFactory;
+
             name = this.ToString();
         }
 

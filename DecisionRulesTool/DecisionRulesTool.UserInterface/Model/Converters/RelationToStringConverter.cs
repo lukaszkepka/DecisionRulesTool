@@ -48,27 +48,8 @@ namespace DecisionRulesTool.UserInterface.Model.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Relation relation = Relation.Undefined;
-            //switch (value.ToString())
-            //{
-            //    case "=":
-            //        relation = Relation.Equality;
-            //        break;
-            //    case ">":
-            //        relation = Relation.Greather;
-            //        break;
-            //    case ">=":
-            //        relation = Relation.GreatherOrEqual;
-            //        break;
-            //    case "<":
-            //        relation = Relation.Less;
-            //        break;
-            //    case "<=":
-            //        relation = Relation.LessOrEqual;
-            //        break;
-            //}
-        
-            Enum.TryParse<Relation>(value.ToString(), out relation);
+            Enum.TryParse(value.ToString(), out relation);
             return relation;
         }
-}
+    }
 }

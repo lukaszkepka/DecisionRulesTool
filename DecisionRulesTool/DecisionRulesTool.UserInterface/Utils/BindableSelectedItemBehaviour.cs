@@ -15,8 +15,14 @@ namespace DecisionRulesTool.UserInterface.Utils
 
         public object SelectedItem
         {
-            get { return (object)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get
+            {
+                return (object)GetValue(SelectedItemProperty);
+            }
+            set
+            {
+                SetValue(SelectedItemProperty, value);
+            }
         }
 
         public static readonly DependencyProperty SelectedItemProperty =
@@ -29,8 +35,13 @@ namespace DecisionRulesTool.UserInterface.Utils
             var tree = behavior.AssociatedObject;
             if (tree == null) return;
             if (e.NewValue == null)
+            {
                 foreach (var item in tree.Items.OfType<TreeViewItem>())
+                {
                     item.SetValue(TreeViewItem.IsSelectedProperty, false);
+                }
+            }
+
             if (e.NewValue is TreeViewItem treeViewItem)
             {
                 treeViewItem.SetValue(TreeViewItem.IsSelectedProperty, true);

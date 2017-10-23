@@ -13,6 +13,7 @@ namespace DecisionRulesTool.Model.RuleTester
     public class WeightedVoting : MajorityVoting
     {
         public override ConflictResolvingMethod ResolvingMethod { get; } = ConflictResolvingMethod.WeightedVoting;
+
         public WeightedVoting(DataSet testSet, Attribute decisionAttribute) : base(testSet, decisionAttribute)
         {
         }

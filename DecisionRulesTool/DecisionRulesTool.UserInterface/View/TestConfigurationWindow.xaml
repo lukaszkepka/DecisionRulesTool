@@ -47,7 +47,7 @@
             <DockPanel>
                 <DockPanel Height="30" DockPanel.Dock="Top">
                     <ToolBar DockPanel.Dock="Top">
-                        <Button Content="Load Test Set">
+                        <Button Content="Load">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding LoadTestSets}"/>
@@ -58,6 +58,13 @@
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding ViewTestSet}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button Content="Add RuleSet">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding AddRuleSets}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
@@ -87,30 +94,43 @@
                     <ToolBar DockPanel.Dock="Top">
                     </ToolBar>
                 </DockPanel>
-                <TreeView x:Name="TestRequests"
+
+                <ListView x:Name="testRequestsView"
                           DockPanel.Dock="Bottom"
                           ScrollViewer.CanContentScroll="True"
                           ScrollViewer.VerticalScrollBarVisibility="Visible"
                           ScrollViewer.HorizontalScrollBarVisibility="Visible"
                           BorderThickness="0"
-                          ItemsSource="{Binding RuleSets}">
+                          ItemsSource="{Binding TestRequests}">
 
-                    <i:Interaction.Behaviors>
-                        <utils:BindableSelectedItemBehavior SelectedItem="{Binding SelectedRuleSet, Mode=TwoWay}"/>
-                    </i:Interaction.Behaviors>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Stretch"
+                                        Margin="0,5,0,0">
+                                <DockPanel>
+                                    <Label DockPanel.Dock="Left"
+                                       Content="Rule Set : "/>
+                                    <Label DockPanel.Dock="Left"
+                                       Content="{Binding RuleSet.Name}"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <Label DockPanel.Dock="Left"
+                                       Content="Test Set : "/>
+                                    <Label DockPanel.Dock="Left"
+                                       Content="{Binding TestSet.Name}"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <Label DockPanel.Dock="Left"
+                                       Content="Conflict Resolving Method : "/>
+                                    <Label DockPanel.Dock="Left"
+                                       Content="{Binding ResolvingMethod}"/>
+                                </DockPanel>
+                            </StackPanel>
 
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate
-                                  DataType="{x:Type model:RuleSetSubset}"
-                                  ItemsSource="{Binding Subsets}">
-
-                            <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding DisplayAs}"/>
-
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListView>
             </DockPanel>
         </GroupBox>
-
     </Grid>
 </Window>

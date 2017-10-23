@@ -19,20 +19,31 @@ namespace DecisionRulesTool.UserInterface.Services
             Window newWindow = null;
             switch (viewModel)
             {
+                case TestConfigurationViewModel testConfigurationViewModel:
+                    newWindow = new TestConfigurationWindow();
+                    break;
+                default:
+                    break;
+            }
+            return newWindow;
+        }
+
+        protected Window GetDialogWindow(BaseDialogViewModel viewModel)
+        {
+            Window newWindow = null;
+            switch (viewModel)
+            {
                 case RuleSubsetGenerationViewModel ruleSubsetGenerationViewModel:
                     newWindow = new GenerateSubsetsDialog();
                     break;
                 case ProgressDialogViewModel progressDialogViewModel:
                     newWindow = new ProgressDialog();
                     break;
-                case TestConfigurationViewModel testConfigurationViewModel:
-                    newWindow = new TestConfigurationWindow();
-                    break;
                 case TestSetViewModel testSetViewModel:
                     newWindow = new TestSetDialog();
                     break;
-                case StudentViewModel s:
-                    newWindow = new test();
+                case RuleSetPickerViewModel ruleSetPickerViewModel:
+                    newWindow = new RuleSetPickerDialog();
                     break;
                 default:
                     break;
@@ -58,7 +69,7 @@ namespace DecisionRulesTool.UserInterface.Services
             switch (windowName)
             {
                 case "GenerateSubsetsDialog":
-                   // newViewModel = new RuleSubsetGenerationViewModel();
+                    // newViewModel = new RuleSubsetGenerationViewModel();
                     break;
 
                 //case "CategoryWindow":

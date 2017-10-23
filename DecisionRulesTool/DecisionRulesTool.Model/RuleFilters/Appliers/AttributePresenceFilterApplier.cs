@@ -1,18 +1,19 @@
-﻿using DecisionRulesTool.Model.Utils;
+﻿using DecisionRulesTool.Model.Model.Factory;
+using DecisionRulesTool.Model.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
+namespace DecisionRulesTool.Model.RuleFilters.Appliers
 {
     public class AttributePresenceFilterApplier : BaseFilterApplier
     { 
         private AttributePresenceFilter.Mode mode;
         private string[] attributeNames;
 
-        public AttributePresenceFilterApplier(AttributePresenceFilter.Mode mode, string[] attributeNames)
+        public AttributePresenceFilterApplier(AttributePresenceFilter.Mode mode, string[] attributeNames, IRuleSetSubsetFactory ruleSetSubsetFactory) : base(ruleSetSubsetFactory)
         {
             this.mode = mode;
             this.attributeNames = attributeNames;

@@ -8,6 +8,8 @@ using DecisionRulesTool.Model.RuleFilters;
 using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.UserInterface.Model;
 using System.Collections.ObjectModel;
+using DecisionRulesTool.Model.Model.Factory;
+using DecisionRulesTool.Model.RuleFilters.Appliers;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
@@ -46,10 +48,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         }
         #endregion Properties
 
-        public AttributePresenceFilterViewModel(RuleSetSubset rootRuleSet) : base(rootRuleSet)
+        public AttributePresenceFilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory) : base(rootRuleSet, ruleSetSubsetFactory)
         {
             InitializeAvailableModes();
-
 
             attributes = new ObservableCollection<SelectableItem<string>>(rootRuleSet.Attributes.Select(x => new SelectableItem<string>(x.Name)));
         }
@@ -65,7 +66,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             IRuleFilterApplier ruleFilterApplier = default(IRuleFilterApplier);
             if (isEnabled)
             {
-                ruleFilterApplier =  new AttributePresenceFilterApplier(availableModes[selectedModeIndex], Attributes.GetSelectedItems().ToArray());
+                ruleFilterApplier =  new AttributePresenceFilterApplier(availableModes[selectedModeIndex], Attributes.GetSelectedItems().ToArray(), ruleSetSubsetFactory);
             }
             return ruleFilterApplier;
         }

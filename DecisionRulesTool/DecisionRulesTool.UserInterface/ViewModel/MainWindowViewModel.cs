@@ -6,13 +6,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using System;
+using DecisionRulesTool.UserInterface.Model.Factory;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
     public class MainWindowViewModel : BaseWindowViewModel
     {
         private ICollection<RuleSetSubset> ruleSets;
-        private ICollection<string> logs;
         private RuleSetSubset selectedRuleSet;
 
         public ICommand DeleteSubset { get; private set; }
@@ -47,25 +47,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 OnPropertyChanged("RuleSets");
             }
         }
-
-        public ICollection<string> Logs
-        {
-            get
-            {
-                return logs;
-            }
-            set
-            {
-                logs = value;
-                OnPropertyChanged("Logs");
-            }
-        }
         #endregion
 
         public MainWindowViewModel() : base()
         {
             RuleSets = new ObservableCollection<RuleSetSubset>();
-            Logs = new ObservableCollection<string>();
             InitializeCommands();
         }
 
@@ -73,7 +59,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                TestConfigurationViewModel testConfigurationViewModel = new TestConfigurationViewModel();
+                TestConfigurationViewModel testConfigurationViewModel = new TestConfigurationViewModel(RuleSets);
                 windowNavigatorService.SwitchContext(testConfigurationViewModel);
             }
             catch(Exception ex)
@@ -113,7 +99,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             foreach (var ruleSet in ruleSetLoaderService.LoadRuleSets())
             {
-                RuleSets.Add(new RuleSetSubset(ruleSet));
+                RuleSets.Add(new RuleSetSubsetViewItem(ruleSet));
             }
 
             if (RuleSets.Any())
@@ -130,7 +116,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             if (SelectedRuleSet != null)
             {
-                var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet);
+                var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet, new RuleSetSubsetViewItemFactory());
                 if (dialogService.ShowDialog(optionsViewModel) == true)
                 {
                     IRuleSubsetGenerator ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
