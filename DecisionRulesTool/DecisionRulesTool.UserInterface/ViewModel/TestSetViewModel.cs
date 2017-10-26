@@ -28,7 +28,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         }
         #endregion
 
-        public List<Attribute> Attributes { get; set; }
+        public List<Attribute> Attributes { get; private set; }
 
         public TestSetViewModel(DataSet testSet)
         {

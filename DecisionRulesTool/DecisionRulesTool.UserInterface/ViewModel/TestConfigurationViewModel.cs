@@ -18,7 +18,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public ICommand LoadTestSets { get; private set; }
         public ICommand ViewTestSet { get; private set; }
-        public ICommand AddRuleSets { get; private set; }
+        public ICommand RunTests { get; private set; }
+        public ICommand SelectRuleSet { get; private set; }
+        public ICommand UnselectRuleSet { get; private set; }
+        public ICommand GenerateTestRequests { get; private set; }
 
         #region Properties
         public ICollection<TestRequest> TestRequests
@@ -65,7 +68,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
             this.loadedRuleSets = loadedRuleSets;
             this.testRequests = new ObservableCollection<TestRequest>();
-            this.TestSets = new ObservableCollection<DataSet>();
+            this.testSets = new ObservableCollection<DataSet>();
         }
 
         public void OnLoadTestSets()
@@ -97,21 +100,17 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void OnAddRuleSets()
+        private void OnGenerateTestRequests()
         {
             try
             {
-                RuleSetPickerViewModel ruleSetPickerViewModel = new RuleSetPickerViewModel(loadedRuleSets, SelectedTestSet);
-                dialogService.ShowDialog(ruleSetPickerViewModel);
+                TestRequestGeneratorViewModel testRequestGeneratorViewModel = new TestRequestGeneratorViewModel(loadedRuleSets, SelectedTestSet);
+                dialogService.ShowDialog(testRequestGeneratorViewModel);
 
-                var t = ruleSetPickerViewModel.GetSelectedRuleSets();
-
-                RuleTesterManager ruleManager = new RuleTesterManager();
-                foreach (var item in ruleManager.GenerateTests(SelectedTestSet, t))
+                foreach (var testRequest in testRequestGeneratorViewModel.GetTestRequests())
                 {
-                    testRequests.Add(item);
+                    testRequests.Add(testRequest);
                 }
-
             }
             catch (Exception ex)
             {
@@ -119,11 +118,29 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
+        private void OnUnselectRuleSet()
+        {
+            
+        }
+
+        private void OnSelectRuleSet()
+        {
+            
+        }
+
         private void InitializeCommands()
         {
+            RunTests = new RelayCommand(OnRunTests);
             LoadTestSets = new RelayCommand(OnLoadTestSets);
             ViewTestSet = new RelayCommand(OnViewTestSet);
-            AddRuleSets = new RelayCommand(OnAddRuleSets);
+            SelectRuleSet = new RelayCommand(OnSelectRuleSet);
+            UnselectRuleSet = new RelayCommand(OnUnselectRuleSet);
+            GenerateTestRequests = new RelayCommand(OnGenerateTestRequests);
+        }
+
+        private void OnRunTests()
+        {
+            windowNavigatorService.SwitchContext(new TestManagerViewModel(testRequests));
         }
     }
 }

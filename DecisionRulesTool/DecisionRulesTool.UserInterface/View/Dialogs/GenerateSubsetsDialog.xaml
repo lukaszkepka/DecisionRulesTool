@@ -214,8 +214,6 @@
             <Button Grid.Column="1" Content="Apply"  VerticalAlignment="Center" Width="Auto"  Command="{Binding Apply}"/>
             <Button Grid.Column="3" Content="Cancel"  VerticalAlignment="Center" Width="Auto" Command="{Binding Cancel}"/>
         </Grid>
-
-
     </Grid>
 
 

@@ -1,19 +1,12 @@
-﻿using System;
+﻿using System.Windows.Input;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DecisionRulesTool.UserInterface.Services.Dialog;
-using System.Windows.Input;
-using DecisionRulesTool.UserInterface.Model;
-using DecisionRulesTool.Model.RuleFilters;
-using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
-using DecisionRulesTool.Model.Model;
-using DecisionRulesTool.Model.Utils;
-using DecisionRulesTool.UserInterface.ViewModel.Filters;
 using System.Collections.ObjectModel;
-using DecisionRulesTool.Model.RuleSubsetGeneration;
+using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Model.Factory;
+using DecisionRulesTool.Model.RuleSubsetGeneration;
+using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
+using DecisionRulesTool.UserInterface.Model;
+using DecisionRulesTool.UserInterface.ViewModel.Filters;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {

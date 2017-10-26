@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DecisionRulesTool.Model.Utils;
+using NSubstitute;
 
 namespace DecisionRulesTool.Te.RuleTester
 {
@@ -16,6 +18,8 @@ namespace DecisionRulesTool.Te.RuleTester
     [TestFixture]
     public class RefuseConflictsTests : ITestDataProvider<RuleSet>
     {
+        private IProgressNotifier progressNotifier = Substitute.For<IProgressNotifier>();
+
         [Test]
         public void RunClassification_AllExamplesPositive()
         {
@@ -26,14 +30,14 @@ namespace DecisionRulesTool.Te.RuleTester
             RuleSet r1 = GetData();
 
             RuleTesterManager ruleTesterManager = new RuleTesterManager();
-            var testRequests = ruleTesterManager.GenerateTests(new[] { testSet }, r1, ConflictResolvingMethod.RefuseConflicts);
+            var testRequests = ruleTesterManager.GenerateTests(testSet, new[] { r1 }, new[] { ConflictResolvingMethod.RefuseConflicts });
 
             foreach (var item in testRequests)
             {
                 ruleTesterManager.AddTestRequest(item);
             }
 
-            var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker()));
+            var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
 
             Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(BaseDecisionResolverStrategy.PositiveClassification))));
         }
@@ -48,14 +52,14 @@ namespace DecisionRulesTool.Te.RuleTester
             RuleSet r1 = GetData();
 
             RuleTesterManager ruleTesterManager = new RuleTesterManager();
-            var testRequests = ruleTesterManager.GenerateTests(new[] { testSet }, r1, ConflictResolvingMethod.RefuseConflicts);
+            var testRequests = ruleTesterManager.GenerateTests(testSet, new[] { r1 }, new[] { ConflictResolvingMethod.RefuseConflicts });
 
             foreach (var item in testRequests)
             {
                 ruleTesterManager.AddTestRequest(item);
             }
 
-            var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker()));
+            var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
 
             Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(BaseDecisionResolverStrategy.NegativeClassification))));
         }
@@ -70,14 +74,14 @@ namespace DecisionRulesTool.Te.RuleTester
             RuleSet r1 = GetData();
 
             RuleTesterManager ruleTesterManager = new RuleTesterManager();
-            var testRequests = ruleTesterManager.GenerateTests(new[] { testSet }, r1, ConflictResolvingMethod.RefuseConflicts);
+            var testRequests = ruleTesterManager.GenerateTests(testSet, new[] { r1 }, new[] { ConflictResolvingMethod.RefuseConflicts });
 
             foreach (var item in testRequests)
             {
                 ruleTesterManager.AddTestRequest(item);
             }
 
-            var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker()));
+            var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
 
             Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(BaseDecisionResolverStrategy.BadClassification))));
         }
@@ -92,14 +96,14 @@ namespace DecisionRulesTool.Te.RuleTester
             RuleSet r1 = GetData();
 
             RuleTesterManager ruleTesterManager = new RuleTesterManager();
-            var testRequests = ruleTesterManager.GenerateTests(new[] { testSet }, r1, ConflictResolvingMethod.RefuseConflicts);
+            var testRequests = ruleTesterManager.GenerateTests(testSet, new[] { r1 }, new[] { ConflictResolvingMethod.RefuseConflicts });
 
             foreach (var item in testRequests)
             {
                 ruleTesterManager.AddTestRequest(item);
             }
 
-            var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker()));
+            var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
 
             Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(BaseDecisionResolverStrategy.NoCoverage))));
         }

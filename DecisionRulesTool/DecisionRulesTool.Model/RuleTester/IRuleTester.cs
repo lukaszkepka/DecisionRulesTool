@@ -15,7 +15,6 @@ namespace DecisionRulesTool.Model.RuleTester
     public interface IRuleTester
     {
         IEnumerable<TestResult> RunTesting(IEnumerable<TestRequest> testRequests);
-
     }
 }
 

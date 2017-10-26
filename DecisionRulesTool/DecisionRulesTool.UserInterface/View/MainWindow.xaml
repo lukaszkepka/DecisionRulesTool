@@ -14,8 +14,11 @@
         Title="Decision Rules Tool" Height="500" Width="800" WindowState="Maximized">
 
     <Window.Resources>
-        <converters:ConditionsToStringConverter  x:Key="conditionsToStringConverter" />
-        <converters:DecisionsToStringConverter  x:Key="decisionsToStringConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ViewResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid>

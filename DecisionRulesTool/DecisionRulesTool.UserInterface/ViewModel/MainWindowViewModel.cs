@@ -72,6 +72,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             dialogService.ShowWarningMessage("Functionality not implemented yet");
         }
+
         private void OnEditFilters()
         {
             dialogService.ShowWarningMessage("Functionality not implemented yet");
@@ -142,8 +143,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         private void InitializeCommands()
         {
             SaveRuleSetToFile = new RelayCommand(OnSaveRuleSetToFile);
-            LoadRuleSets = new RelayCommand(OnLoadRuleSet);
             GenerateSubsets = new RelayCommand(OnGenerateSubsets);
+            LoadRuleSets = new RelayCommand(OnLoadRuleSet);
             EditFilters = new RelayCommand(OnEditFilters);
             DeleteSubset = new RelayCommand(OnDeleteSubset);
             ConfigureTests = new RelayCommand(OnConfigureTests);

@@ -10,20 +10,23 @@ using System.Text;
 namespace DecisionRulesTool.Model.RuleTester
 {
     using Model;
+    using System.Threading;
     using Utils;
 
     public class RuleTester : IRuleTester
     {
+        private readonly IProgressNotifier progressNotifier;
         private readonly IConditionChecker conditionChecker;
         private readonly DecisionResolverFactory decisionResolverFactory;
 
-        public RuleTester(IConditionChecker conditionChecker)
+        public RuleTester(IConditionChecker conditionChecker, IProgressNotifier progressNotifier)
         {
+            this.progressNotifier = progressNotifier;
             this.conditionChecker = conditionChecker;
             decisionResolverFactory = new DecisionResolverFactory();
         }
 
-        public RuleTester(IConditionChecker conditionChecker, DecisionResolverFactory decisionResolverFactory) : this(conditionChecker)
+        public RuleTester(IConditionChecker conditionChecker, IProgressNotifier progressNotifier, DecisionResolverFactory decisionResolverFactory) : this(conditionChecker, progressNotifier)
         {
             this.conditionChecker = conditionChecker;
             this.decisionResolverFactory = decisionResolverFactory;
@@ -53,14 +56,19 @@ namespace DecisionRulesTool.Model.RuleTester
             return new ConfusionMatrix();
         }
 
-        private ClassificationResult[] GetDecisions(TestRequest testRequest)
+        private ClassificationResult[] HandleTestRequest(TestRequest testRequest)
         {
             IDecisionResolverStrategy decisionResolver = decisionResolverFactory.Instantiate(testRequest);
-            foreach (Rule rule in testRequest.RuleSet.Rules)
+            for (int i = 0; i < testRequest.RuleSet.Rules.Count; i++)
             {
+                Rule rule = testRequest.RuleSet.Rules[i];
                 TestSingleRule(rule, testRequest.TestSet, decisionResolver);
+
+                testRequest.Progress = (int)((i / (double)testRequest.RuleSet.Rules.Count) * 100);
+                Thread.Sleep(1);
             }
 
+            testRequest.Progress = 100;
             return decisionResolver.RunClassification();
         }
 
@@ -69,7 +77,7 @@ namespace DecisionRulesTool.Model.RuleTester
             IList<TestResult> testResults = new List<TestResult>();
             foreach (TestRequest testRequest in testRequests)
             {
-                ClassificationResult[] classificationResults = GetDecisions(testRequest);
+                ClassificationResult[] classificationResults = HandleTestRequest(testRequest);
                 ConfusionMatrix confusionMatrix = ComputeConfusionMatrix(classificationResults, testRequest.TestSet);
                 TestResult testResult = new TestResult()
                 {

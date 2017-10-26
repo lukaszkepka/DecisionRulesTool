@@ -22,6 +22,9 @@ namespace DecisionRulesTool.UserInterface.Services
                 case TestConfigurationViewModel testConfigurationViewModel:
                     newWindow = new TestConfigurationWindow();
                     break;
+                case TestManagerViewModel testManagerViewModel:
+                    newWindow = new TestManagerWindow();
+                    break;
                 default:
                     break;
             }
@@ -42,8 +45,11 @@ namespace DecisionRulesTool.UserInterface.Services
                 case TestSetViewModel testSetViewModel:
                     newWindow = new TestSetDialog();
                     break;
-                case RuleSetPickerViewModel ruleSetPickerViewModel:
+                case TestRequestGeneratorViewModel ruleSetPickerViewModel:
                     newWindow = new RuleSetPickerDialog();
+                    break;
+                case TestRequestGeneratorOptionsViewModel testRequestGeneratorOptionsViewModel:
+                    newWindow = new TestRequestGeneratorOptionsDialog();
                     break;
                 default:
                     break;
@@ -60,35 +66,6 @@ namespace DecisionRulesTool.UserInterface.Services
                 newWindow.Show();
                 viewModel.CloseRequest += (sender, e) => newWindow.Close();
             }
-        }
-
-        public virtual void NavigateToWindow(string windowName)
-        {
-            BaseWindowViewModel newViewModel = null;
-
-            switch (windowName)
-            {
-                case "GenerateSubsetsDialog":
-                    // newViewModel = new RuleSubsetGenerationViewModel();
-                    break;
-
-                //case "CategoryWindow":
-                //    newViewModel = new CategoryViewModel();
-                //    break;
-
-                //case "GoalWindow":
-                //    newViewModel = new GoalViewModel();
-                //    break;
-
-                //case "EntryWindow":
-                //    newViewModel = new EntryViewModel();
-                //    break;
-
-                default:
-                    throw new NotImplementedException();
-            }
-
-            SwitchContext(newViewModel);
         }
     }
 }

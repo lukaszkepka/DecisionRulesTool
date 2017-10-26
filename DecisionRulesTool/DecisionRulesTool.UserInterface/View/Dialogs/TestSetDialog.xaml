@@ -10,21 +10,29 @@
         Title="" Height="500" Width="500">
 
     <Window.Resources>
-        <converters:AttributeToDataGridColumnConverter  x:Key="attributeToDataGridColumnConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../ViewResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid DataContext="{Binding TestSet}" x:Name="TestSetGrid">
+        
         <DockPanel Grid.Column="0">
             <DockPanel Height="30" DockPanel.Dock="Top">
                 <ToolBar DockPanel.Dock="Top">
+                    
                     <StackPanel Orientation="Horizontal" Margin="10 0 10 0">
                         <TextBlock Text= "Dataset Name : " VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </StackPanel>
+                    
                     <StackPanel Orientation="Horizontal" Margin="10 0 10 0">
                         <TextBlock Text= "Objects Count : " VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Text="{Binding Objects.Count}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </StackPanel>
+                    
                 </ToolBar>
             </DockPanel>
 
