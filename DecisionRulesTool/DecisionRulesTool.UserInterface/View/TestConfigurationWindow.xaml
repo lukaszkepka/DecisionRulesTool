@@ -7,11 +7,12 @@
         xmlns:helper="clr-namespace:DecisionRulesTool.UserInterface.Utils"
         xmlns:converters="clr-namespace:DecisionRulesTool.UserInterface.Model.Converters"
         xmlns:local="clr-namespace:DecisionRulesTool.UserInterface"
+        xmlns:wpftoolkit="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:utils="clr-namespace:DecisionRulesTool.UserInterface.Utils"
         xmlns:filters="clr-namespace:DecisionRulesTool.Model.RuleFilters;assembly=DecisionRulesToolModel"      
         xmlns:model="clr-namespace:DecisionRulesTool.Model.Model;assembly=DecisionRulesToolModel"
         mc:Ignorable="d"
-        Title="Decision Rules Tool" Height="500" Width="800" WindowState="Maximized">
+        Title="Decision Rules Tool - Test Configurator" Height="500" Width="800" WindowState="Maximized">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -20,7 +21,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -42,104 +42,229 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="Run Tests">
+                <Button Content="Rule Set Manager">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding RunTests}"/>
+                            <i:InvokeCommandAction Command="{Binding MoveToRuleSetManager}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Content="Test Configurator">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding MoveToTestConfigurator}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Content="Test Result Viewer">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding MoveToTestResultViewer}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
             </ToolBar>
         </DockPanel>
 
-        <GroupBox Grid.Column="0" Grid.Row="1" Header="Test sets">
-            <DockPanel>
-                <DockPanel Height="30" DockPanel.Dock="Top">
-                    <ToolBar DockPanel.Dock="Top">
-                        <Button Content="Load">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding LoadTestSets}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                        <Button Content="View">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding ViewTestSet}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                        <Button Content="Generate Test Requests">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding GenerateTestRequests}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                    </ToolBar>
-                </DockPanel>
-                <ListView x:Name="LoadedTestSets"
-                          DockPanel.Dock="Bottom"
-                          ScrollViewer.CanContentScroll="True"
-                          ScrollViewer.VerticalScrollBarVisibility="Visible"
-                          ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                          BorderThickness="0"
-                          SelectedItem="{Binding SelectedTestSet, Mode=TwoWay}"
-                          ItemsSource="{Binding TestSets}">
+        <TabControl Grid.Column="0" Grid.Row="1">
+            <TabItem Header="Test sets">
+                <DockPanel>
+                    <DockPanel Height="30" DockPanel.Dock="Top">
+                        <ToolBar DockPanel.Dock="Top">
+                            <Button Content="Load">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding LoadTestSets}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Content="View">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding ViewTestSet}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Content="Generate Test Requests">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding GenerateTestRequests}" CommandParameter="FromTestSet"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </ToolBar>
+                    </DockPanel>
+                    <ListView x:Name="LoadedTestSets"
+                              DockPanel.Dock="Bottom"
+                              ScrollViewer.CanContentScroll="True"
+                              ScrollViewer.VerticalScrollBarVisibility="Visible"
+                              ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                              BorderThickness="0"
+                              SelectedItem="{Binding SelectedTestSet, Mode=TwoWay}"
+                              ItemsSource="{Binding TestSets}">
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding Name}"/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </DockPanel>
-        </GroupBox>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Rule sets">
+                <DockPanel>
+                    <DockPanel Height="30" DockPanel.Dock="Top">
+                        <ToolBar DockPanel.Dock="Top">
+                            <Button Content="Load">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding LoadTestSets}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Content="View">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding ViewTestSet}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Content="Generate Test Requests">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding GenerateTestRequests}" CommandParameter="FromRuleSet"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </ToolBar>
+                    </DockPanel>
+                    <TreeView x:Name="LoadedRuleSetsTreeView"
+                              DockPanel.Dock="Bottom"
+                              ScrollViewer.CanContentScroll="True"
+                              ScrollViewer.VerticalScrollBarVisibility="Visible"
+                              ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                              BorderThickness="0"                          
+                              ItemsSource="{Binding RuleSets}">
+
+                        <i:Interaction.Behaviors>
+                            <utils:BindableSelectedItemBehavior SelectedItem="{Binding SelectedRuleSet, Mode=TwoWay}"/>
+                        </i:Interaction.Behaviors>
+
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate
+                                DataType="{x:Type model:RuleSetSubset}"
+                                ItemsSource="{Binding Subsets}">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding DisplayAs}"/>
+                                </StackPanel>
+
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
 
         <GroupBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Header="Test Requests">
             <DockPanel>
                 <DockPanel Height="30" DockPanel.Dock="Top">
                     <ToolBar DockPanel.Dock="Top">
+                        <wpftoolkit:DropDownButton  Content="View" Margin="5 0 5 0" Background="AliceBlue" BorderThickness="0">
+                            <wpftoolkit:DropDownButton.DropDownContent>
+                                <StackPanel>
+                                    <Button Content="All" 
+                                            Background="AliceBlue" 
+                                            BorderThickness="0" 
+                                            Width="150" 
+                                            Command="{Binding FilterTestRequests}"
+                                            CommandParameter="All"
+                                            Click="FilterTestRequests_All" />
+                                    <Button Content="For selected rule set" 
+                                            Background="AliceBlue" 
+                                            BorderThickness="0" 
+                                            Width="150" 
+                                            Command="{Binding FilterTestRequests}"
+                                            CommandParameter="ForSelectedRuleSet"
+                                            Click="FilterTestRequests_ForSelectedRuleSet" />
+                                    <Button Content="For selected test set" 
+                                            Background="AliceBlue" 
+                                            BorderThickness="0" 
+                                            Width="150" 
+                                            Command="{Binding FilterTestRequests}"
+                                            CommandParameter="ForSelectedTestSet"
+                                            Click="FilterTestRequests_ForSelectedTestSet" />
+                                </StackPanel>
+                            </wpftoolkit:DropDownButton.DropDownContent>
+                        </wpftoolkit:DropDownButton>
                     </ToolBar>
                 </DockPanel>
 
                 <ListBox x:Name="testRequestsView"
-                          BorderThickness="1"
-                          DockPanel.Dock="Bottom"
-                          ScrollViewer.VerticalScrollBarVisibility="Visible"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          ItemsSource="{Binding TestRequests}">
+                         BorderThickness="1"
+                         DockPanel.Dock="Bottom"
+                         ScrollViewer.VerticalScrollBarVisibility="Visible"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ItemsSource="{Binding FilteredTestRequests}"
+                         SelectedItem="{Binding SelectedTestRequest}">
 
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal"></WrapPanel>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-                    
+
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel HorizontalAlignment="Stretch"
-                                        Height="100"
+                                        Height="150"
                                         Width="250"
+                                        Background="Azure"
+                                        Grid.Column="2"
+                                        Grid.Row="1"
                                         Margin="0,5,0,0">
+
+                                <ToolBar VerticalAlignment="Top">
+                                    <ToolBar.Resources>
+                                        <Style TargetType="{x:Type ToolBarPanel}">
+                                            <Setter Property="Orientation" Value="Vertical"/>
+                                        </Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Background" Value="AliceBlue"/>
+                                        </Style>
+                                    </ToolBar.Resources>
+
+                                    <DockPanel>
+                                        <ToolBarPanel Orientation="Horizontal" >
+                                        </ToolBarPanel>
+                                        <Button DockPanel.Dock="Right" 
+                                                HorizontalAlignment="Right" 
+                                                Content="Delete"
+                                                Visibility="{Binding Path=IsSelected, 
+                                                Converter={StaticResource boolToVisConverter}, 
+                                                RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                Command="{Binding Path=DataContext.DeleteSelectedTestRequest, ElementName=testRequestsView}"/>
+                                    </DockPanel>
+                                </ToolBar>
+
                                 <DockPanel>
                                     <Label DockPanel.Dock="Left"
-                                       Content="Rule Set : "/>
+                                           Content="Rule Set : "/>
                                     <Label DockPanel.Dock="Left"
-                                       Content="{Binding RuleSet.Name}"/>
+                                           Content="{Binding RuleSet.Name}"/>
                                 </DockPanel>
                                 <DockPanel>
                                     <Label DockPanel.Dock="Left"
-                                       Content="Test Set : "/>
+                                           Content="Test Set : "/>
                                     <Label DockPanel.Dock="Left"
-                                       Content="{Binding TestSet.Name}"/>
+                                           Content="{Binding TestSet.Name}"/>
                                 </DockPanel>
                                 <DockPanel>
                                     <Label DockPanel.Dock="Left"
-                                       Content="Conflict Resolving Method : "/>
+                                           Content="Conflict Resolving Method : "/>
                                     <Label DockPanel.Dock="Left"
-                                       Content="{Binding ResolvingMethod}"/>
+                                           Content="{Binding ResolvingMethod}"/>
                                 </DockPanel>
                             </StackPanel>
 

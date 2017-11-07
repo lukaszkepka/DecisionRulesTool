@@ -23,5 +23,23 @@ namespace DecisionRulesTool.UserInterface.View
         {
             InitializeComponent();
         }
+
+        private void FilterTestRequests_All(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            context.FilterTestRequests.Execute("All");
+        }
+
+        private void FilterTestRequests_ForSelectedRuleSet(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            context.FilterTestRequests.Execute("ForSelectedRuleSet");
+        }
+
+        private void FilterTestRequests_ForSelectedTestSet(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            context.FilterTestRequests.Execute("ForSelectedTestSet");
+        }
     }
 }

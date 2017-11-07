@@ -23,5 +23,10 @@ namespace DecisionRulesTool.UserInterface.View
         {
             InitializeComponent();
         }
+
+        private void TestSetDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            this.TestSetDataGrid.UpdateLayout();
+        }
     }
 }

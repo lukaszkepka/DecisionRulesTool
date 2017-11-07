@@ -6,69 +6,48 @@ using System.Linq;
 using System.Windows.Input;
 using System;
 using DecisionRulesTool.Model.RuleTester;
+using PropertyChanged;
+using Unity;
+using DecisionRulesTool.UserInterface.Services;
+using DecisionRulesTool.UserInterface.Model.Commands;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    public class TestConfigurationViewModel : BaseWindowViewModel
+    [AddINotifyPropertyChangedInterface]
+    public class TestConfiguratorViewModel : BaseWindowViewModel
     {
-        private ICollection<TestRequest> testRequests;
-        private ICollection<RuleSetSubset> loadedRuleSets;
-        private ICollection<DataSet> testSets;
-        private DataSet selectedTestSet;
+        private ICollection<TestRequest> generatedTestRequests;
 
+        #region Commands
         public ICommand LoadTestSets { get; private set; }
         public ICommand ViewTestSet { get; private set; }
         public ICommand RunTests { get; private set; }
-        public ICommand SelectRuleSet { get; private set; }
-        public ICommand UnselectRuleSet { get; private set; }
+        public ICommand FilterTestRequests { get; private set; }
         public ICommand GenerateTestRequests { get; private set; }
-
-        #region Properties
-        public ICollection<TestRequest> TestRequests
-        {
-            get
-            {
-                return testRequests;
-            }
-            set
-            {
-                testRequests = value.ToList();
-                OnPropertyChanged("TestRequests");
-            }
-        }
-        public ICollection<DataSet> TestSets
-        {
-            get
-            {
-                return testSets;
-            }
-            set
-            {
-                testSets = value;
-                OnPropertyChanged("TestSets");
-            }
-        }
-        public DataSet SelectedTestSet
-        {
-            get
-            {
-                return selectedTestSet;
-            }
-            set
-            {
-                selectedTestSet = value;
-                OnPropertyChanged("SelectedTestSet");
-            }
-        }
+        public ICommand DeleteSelectedTestRequest { get; private set; }
         #endregion
 
-        public TestConfigurationViewModel(ICollection<RuleSetSubset> loadedRuleSets)
+        #region Properties
+        public ICollection<RuleSetSubset> RuleSets { get; private set; }
+        public ICollection<TestRequest> FilteredTestRequests { get; private set; }
+        public ICollection<DataSet> TestSets { get; private set; }
+        public RuleSetSubset SelectedRuleSet { get; set; }
+        public TestRequest SelectedTestRequest { get; set; }
+        public DataSet SelectedTestSet { get; set; }
+        #endregion
+
+        public TestConfiguratorViewModel(ICollection<RuleSetSubset> loadedRuleSets, IUnityContainer container) : base(container)
         {
             InitializeCommands();
 
-            this.loadedRuleSets = loadedRuleSets;
-            this.testRequests = new ObservableCollection<TestRequest>();
-            this.testSets = new ObservableCollection<DataSet>();
+            this.RuleSets = new ObservableCollection<RuleSetSubset>(loadedRuleSets);
+            this.TestSets = new ObservableCollection<DataSet>();
+            this.generatedTestRequests = new ObservableCollection<TestRequest>();
+        }
+
+        protected override void OnMoveToTestResultViewer()
+        {
+            windowNavigatorService.SwitchContext(new TestResultViewerViewModel(generatedTestRequests, containter));
         }
 
         public void OnLoadTestSets()
@@ -87,11 +66,12 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             //      so it will be refreshed without creating new collection
             TestSets = new ObservableCollection<DataSet>(TestSets);
         }
+
         private void OnViewTestSet()
         {
             try
             {
-                TestSetViewModel testSetDialogViewModel = new TestSetViewModel(SelectedTestSet);
+                TestSetViewModel testSetDialogViewModel = new TestSetViewModel(SelectedTestSet, containter);
                 dialogService.ShowDialog(testSetDialogViewModel);
             }
             catch (Exception ex)
@@ -100,16 +80,19 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void OnGenerateTestRequests()
+        private void OnGenerateTestRequests(object generationType)
         {
             try
             {
-                TestRequestGeneratorViewModel testRequestGeneratorViewModel = new TestRequestGeneratorViewModel(loadedRuleSets, SelectedTestSet);
-                dialogService.ShowDialog(testRequestGeneratorViewModel);
+                TestRequestGeneratorViewModel testRequestGeneratorViewModel = InstantiateTestRequestGeneratorViewModel(generationType);
 
-                foreach (var testRequest in testRequestGeneratorViewModel.GetTestRequests())
+                if (testRequestGeneratorViewModel != null && dialogService.ShowDialog(testRequestGeneratorViewModel) == true)
                 {
-                    testRequests.Add(testRequest);
+                    foreach (var testRequest in testRequestGeneratorViewModel.GenerateTestRequests())
+                    {
+                        generatedTestRequests.Add(testRequest);
+                    }
+                    OnFilterTestRequests("All");
                 }
             }
             catch (Exception ex)
@@ -118,29 +101,55 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void OnUnselectRuleSet()
-        {
-            
-        }
-
-        private void OnSelectRuleSet()
-        {
-            
-        }
-
         private void InitializeCommands()
         {
-            RunTests = new RelayCommand(OnRunTests);
             LoadTestSets = new RelayCommand(OnLoadTestSets);
             ViewTestSet = new RelayCommand(OnViewTestSet);
-            SelectRuleSet = new RelayCommand(OnSelectRuleSet);
-            UnselectRuleSet = new RelayCommand(OnUnselectRuleSet);
-            GenerateTestRequests = new RelayCommand(OnGenerateTestRequests);
+            GenerateTestRequests = new ParameterCommand(OnGenerateTestRequests);
+            FilterTestRequests = new ParameterCommand(OnFilterTestRequests);
+            DeleteSelectedTestRequest = new RelayCommand(OnDeleteSelectedTestRequest);
         }
 
-        private void OnRunTests()
+        private void OnFilterTestRequests(object filterType)
         {
-            windowNavigatorService.SwitchContext(new TestManagerViewModel(testRequests));
+            switch (filterType?.ToString())
+            {
+                case "All":
+                    FilteredTestRequests = generatedTestRequests;
+                    break;
+                case "ForSelectedRuleSet":
+                    FilteredTestRequests = new ObservableCollection<TestRequest>(testRequestService.Filter(SelectedRuleSet, generatedTestRequests));
+                    break;
+                case "ForSelectedTestSet":
+                    FilteredTestRequests = new ObservableCollection<TestRequest>(testRequestService.Filter(SelectedTestSet, generatedTestRequests));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void OnDeleteSelectedTestRequest()
+        {
+            generatedTestRequests.Remove(SelectedTestRequest);
+        }
+
+        private TestRequestGeneratorViewModel InstantiateTestRequestGeneratorViewModel(object generationType)
+        {
+            TestRequestGeneratorViewModel testRequestGeneratorViewModel = null;
+
+            switch (generationType.ToString())
+            {
+                case "FromRuleSet":
+                    testRequestGeneratorViewModel = new TestRequestFromRuleSetGeneratorViewModel(TestSets, SelectedRuleSet, containter);
+                    break;
+                case "FromTestSet":
+                    testRequestGeneratorViewModel = new TestRequestFromTestSetGeneratorViewModel(RuleSets, SelectedTestSet, containter);
+                    break;
+                default:
+                    break;
+            }
+
+            return testRequestGeneratorViewModel;
         }
     }
 }

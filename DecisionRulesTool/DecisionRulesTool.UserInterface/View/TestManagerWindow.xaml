@@ -12,7 +12,7 @@
         xmlns:model="clr-namespace:DecisionRulesTool.Model.Model;assembly=DecisionRulesToolModel"
         xmlns:behaviours="clr-namespace:DecisionRulesTool.UserInterface.Model.Behaviours"
         mc:Ignorable="d"
-        Title="Decision Rules Tool - Test Manager" Height="500" Width="800">
+        Title="Decision Rules Tool - Test Result Viewer" Height="500" Width="800">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -34,7 +34,7 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-            <ToolBar DockPanel.Dock="Top">
+            <ToolBar DockPanel.Dock="Top" DataContext="{Binding ToolBarViewModel}">
                 <Button Content="Options">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -42,10 +42,24 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="Run Tests">
+                <Button Content="Rule Set Manager">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding RunTests}"/>
+                            <i:InvokeCommandAction Command="{Binding MoveToRuleSetManager}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Content="Test Configurator">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding MoveToTestConfigurator}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Content="Test Result Viewer">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding MoveToTestResultViewer}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -54,7 +68,7 @@
 
         <GroupBox Grid.Column="0" Grid.Row="1" Header="Test Requests">
             <DockPanel>
-                <DockPanel Height="30" DockPanel.Dock="Top">
+                <DockPanel Height="60" DockPanel.Dock="Top">
                     <ToolBar DockPanel.Dock="Top">
                         <Button Content="View">
                             <i:Interaction.Triggers>
@@ -64,14 +78,31 @@
                             </i:Interaction.Triggers>
                         </Button>
                     </ToolBar>
+                    <DockPanel DockPanel.Dock="Top" Height="30">
+                        <Label DockPanel.Dock="Left"
+                               Content="Progress : "/>
+                        <Label DockPanel.Dock="Left"
+                               Content="{Binding Progress, Mode=OneWay}"/>
+                        <Label DockPanel.Dock="Left"
+                               Content=" % "/>
+                        <ProgressBar Value="{Binding Progress, Mode=OneWay}"  
+                                     Height="10"
+                                     Width="Auto"
+                                     Background="AliceBlue"
+                                     Margin="5 0 5 0"
+                                     Minimum="0" 
+                                     Maximum="100" 
+                                     SmallChange="0.01"/>
+                    </DockPanel>
                 </DockPanel>
+
                 <ListBox x:Name="testRequestsView"
-                          BorderThickness="1"
-                          DockPanel.Dock="Bottom"
-                          ScrollViewer.VerticalScrollBarVisibility="Visible"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          SelectedItem="{Binding SelectedTestRequest}"
-                          ItemsSource="{Binding TestRequests}">
+                         BorderThickness="1"
+                         DockPanel.Dock="Bottom"
+                         ScrollViewer.VerticalScrollBarVisibility="Visible"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         SelectedItem="{Binding SelectedTestRequest}"
+                         ItemsSource="{Binding RuleTesterManager.TestRequests}">
 
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -82,43 +113,77 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel HorizontalAlignment="Stretch"
-                                        Height="100"
-                                        Width="250"
+                                        Height="150"
+                                        Width="300"
+                                        Background="Azure"
+                                        Grid.Column="2"
+                                        Grid.Row="1"
                                         Margin="0,5,0,0">
+
+                                <ToolBar VerticalAlignment="Top">
+                                    <ToolBar.Resources>
+                                        <Style TargetType="{x:Type ToolBarPanel}">
+                                            <Setter Property="Orientation" Value="Vertical"/>
+                                        </Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Background" Value="AliceBlue"/>
+                                        </Style>
+                                    </ToolBar.Resources>
+
+                                    <DockPanel>
+                                        <ToolBarPanel Orientation="Horizontal" >
+                                        </ToolBarPanel>
+                                        <Button DockPanel.Dock="Right" 
+                                                HorizontalAlignment="Right" 
+                                                Content="Delete"
+                                                Visibility="{Binding Path=IsSelected, 
+                                                Converter={StaticResource boolToVisConverter}, 
+                                                RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                Command="{Binding Path=DataContext.DeleteSelectedTestRequest, ElementName=testRequestsView}"/>
+                                    </DockPanel>
+                                </ToolBar>
+
                                 <DockPanel>
                                     <Label DockPanel.Dock="Left"
-                                       Content="Rule Set : "/>
+                                           Content="Rule Set : "/>
                                     <Label DockPanel.Dock="Left"
-                                       Content="{Binding RuleSet.Name}"/>
+                                           Content="{Binding RuleSet.Name}"/>
                                 </DockPanel>
                                 <DockPanel>
                                     <Label DockPanel.Dock="Left"
-                                       Content="Test Set : "/>
+                                           Content="Test Set : "/>
                                     <Label DockPanel.Dock="Left"
-                                       Content="{Binding TestSet.Name}"/>
+                                           Content="{Binding TestSet.Name}"/>
                                 </DockPanel>
                                 <DockPanel>
                                     <Label DockPanel.Dock="Left"
-                                       Content="Conflict Resolving Method : "/>
+                                           Content="Conflict Resolving Method : "/>
                                     <Label DockPanel.Dock="Left"
-                                       Content="{Binding ResolvingMethod}"/>
+                                           Content="{Binding ResolvingMethod}"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <Label DockPanel.Dock="Left"
+                                           Content="Progress : "/>
+                                    <Label DockPanel.Dock="Left"
+                                           Content="{Binding Progress, Mode=OneWay}"/>
+                                    <Label DockPanel.Dock="Left"
+                                           Content=" %"/>
                                 </DockPanel>
                                 <DockPanel Background="AliceBlue">
                                     <ProgressBar Value="{Binding Progress, Mode=OneWay}"  
-                                             Width="205" 
-                                             Height="10"
-                                             Background="AliceBlue"
-                                             Minimum="0" Maximum="100" SmallChange="0.01"/>
+                                                 Height="10"
+                                                 Background="AliceBlue"
+                                                 Minimum="0" Maximum="100" SmallChange="0.01"/>
                                 </DockPanel>
                             </StackPanel>
-
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
         </GroupBox>
 
-        <GroupBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Header="Test Result">
+        <GroupBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Header="Test Results">
             <DockPanel>
                 <DockPanel Height="30" DockPanel.Dock="Top">
                     <ToolBar DockPanel.Dock="Top">
@@ -126,14 +191,11 @@
                 </DockPanel>
 
                 <DataGrid x:Name="TestSetDataGrid"
-                      DockPanel.Dock="Top"
-                      ColumnWidth="100"
-                      AutoGenerateColumns="False"
-                      DataContext="{Binding SelectedTestRequest}">
-
-                    <i:Interaction.Behaviors>
-                        <behaviours:ColumnsBindingBehaviour Columns="{Binding DataContext.Attributes, Converter={StaticResource attributeToDataGridColumnConverter}, ElementName=TestSetGrid}"/>
-                    </i:Interaction.Behaviors>
+                          DockPanel.Dock="Top"
+                          ColumnWidth="100"
+                          AutoGenerateColumns="True"                    
+                          ItemsSource="{Binding TestResultDataTable}"
+                          MouseDoubleClick="TestSetDataGrid_MouseDoubleClick">
 
                 </DataGrid>
             </DockPanel>

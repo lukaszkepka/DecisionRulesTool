@@ -11,38 +11,37 @@ namespace DecisionRulesTool.Model.Utils
         public const int MinValue = 0;
         public const int MaxValue = 100;
 
-        public int Progress { get; private set; }
-
         public void OnProgressChanged(int interval)
         {
-            int newValue = Progress + interval;
-            if (newValue >= MaxValue)
-            {
-                ProgressChanged?.Invoke(this, Progress);
-            }
-            else
-            {
-                if (newValue < MinValue)
-                {
-                    Progress = MinValue;
-                }
-                else
-                {
-                    Progress = newValue;
-                }
-                ProgressChanged?.Invoke(this, Progress);
-            }
+            //int newValue = Progress + interval;
+            //if (newValue >= MaxValue)
+            //{
+            //    ProgressChanged?.Invoke(this, Progress);
+            //}
+            //else
+            //{
+            //    if (newValue < MinValue)
+            //    {
+            //        Progress = MinValue;
+            //    }
+            //    else
+            //    {
+            //        Progress = newValue;
+            //    }
+            //    ProgressChanged?.Invoke(this, Progress);
+            //}
+            ProgressChanged?.Invoke(this, interval);
         }
 
         public void OnCompleted()
         {
-            Progress = MaxValue;
+            OnProgressChanged(MaxValue);
             Completed?.Invoke(this, EventArgs.Empty);
         }
 
         public void OnStart()
         {
-            Progress = MinValue;
+            OnProgressChanged(MinValue);
         }
 
         public event EventHandler<int> ProgressChanged;

@@ -1,5 +1,7 @@
-﻿using DecisionRulesTool.UserInterface.View;
+﻿using DecisionRulesTool.UserInterface.Services.Interfaces;
+using DecisionRulesTool.UserInterface.View;
 using DecisionRulesTool.UserInterface.View.Dialogs;
+using DecisionRulesTool.UserInterface.View.Dialogs.TestRequestGenerator;
 using DecisionRulesTool.UserInterface.ViewModel;
 using DecisionRulesTool.UserInterface.ViewModel.Dialog;
 using Microsoft.Win32;
@@ -12,17 +14,20 @@ using System.Windows;
 
 namespace DecisionRulesTool.UserInterface.Services
 {
-    public class WindowNavigatorService
+    public class WindowNavigatorService : IWindowNavigatorService
     {
         protected Window GetWindow(BaseWindowViewModel viewModel)
         {
             Window newWindow = null;
             switch (viewModel)
             {
-                case TestConfigurationViewModel testConfigurationViewModel:
+                case RuleSetManagerViewModel ruleSetManagerViewModel:
+                    newWindow = new MainWindow();
+                    break;
+                case TestConfiguratorViewModel testConfigurationViewModel:
                     newWindow = new TestConfigurationWindow();
                     break;
-                case TestManagerViewModel testManagerViewModel:
+                case TestResultViewerViewModel testManagerViewModel:
                     newWindow = new TestManagerWindow();
                     break;
                 default:
@@ -39,14 +44,14 @@ namespace DecisionRulesTool.UserInterface.Services
                 case RuleSubsetGenerationViewModel ruleSubsetGenerationViewModel:
                     newWindow = new GenerateSubsetsDialog();
                     break;
-                case ProgressDialogViewModel progressDialogViewModel:
-                    newWindow = new ProgressDialog();
-                    break;
                 case TestSetViewModel testSetViewModel:
                     newWindow = new TestSetDialog();
                     break;
-                case TestRequestGeneratorViewModel ruleSetPickerViewModel:
-                    newWindow = new RuleSetPickerDialog();
+                case TestRequestFromRuleSetGeneratorViewModel testRequestFromRuleSetGeneratorViewModel:
+                    newWindow = new TestRequestFromRuleSetGeneratorDialog();
+                    break;
+                case TestRequestFromTestSetGeneratorViewModel testRequestFromRuleSetGeneratorViewModel:
+                    newWindow = new TestRequestFromTestSetGeneratorDialog();
                     break;
                 case TestRequestGeneratorOptionsViewModel testRequestGeneratorOptionsViewModel:
                     newWindow = new TestRequestGeneratorOptionsDialog();

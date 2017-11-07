@@ -8,7 +8,6 @@ namespace DecisionRulesTool.Model.Utils
 {
     public interface IProgressNotifier
     {
-        int Progress { get; }
         void OnProgressChanged(int interval);
         void OnCompleted();
         void OnStart();

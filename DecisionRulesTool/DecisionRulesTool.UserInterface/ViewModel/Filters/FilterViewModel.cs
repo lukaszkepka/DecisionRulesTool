@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
@@ -44,7 +45,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         }
         #endregion IsEnabled
 
-        public FilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory)
+        public FilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, IUnityContainer container) : base(container)
         {
             this.rootRuleSet = rootRuleSet;
             this.ruleSetSubsetFactory = ruleSetSubsetFactory;

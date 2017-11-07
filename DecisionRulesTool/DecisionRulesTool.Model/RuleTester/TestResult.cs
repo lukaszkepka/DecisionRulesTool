@@ -11,8 +11,6 @@ namespace DecisionRulesTool.Model.RuleTester
         public virtual string[] ClassificationResults { get; set; }
         public virtual string[] DecisionValues { get; set; }
         public virtual ConfusionMatrix ConfusionMatrix { get; set; }
-        public virtual TestRequest TestRequest { get; set; }
-
     }
 }
 

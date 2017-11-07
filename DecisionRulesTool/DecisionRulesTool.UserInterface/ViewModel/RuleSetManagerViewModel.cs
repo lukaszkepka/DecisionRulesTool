@@ -7,10 +7,16 @@ using System.Linq;
 using System.Windows.Input;
 using System;
 using DecisionRulesTool.UserInterface.Model.Factory;
+using DecisionRulesTool.Model.RuleTester;
+using Unity;
+using DecisionRulesTool.Model.Parsers;
+using DecisionRulesTool.Model;
+using DecisionRulesTool.Model.IO.Parsers.Factory;
+using DecisionRulesTool.Model.IO;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    public class MainWindowViewModel : BaseWindowViewModel
+    public class RuleSetManagerViewModel : BaseWindowViewModel
     {
         private ICollection<RuleSetSubset> ruleSets;
         private RuleSetSubset selectedRuleSet;
@@ -49,20 +55,27 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         }
         #endregion
 
-        public MainWindowViewModel() : base()
+        public RuleSetManagerViewModel(ICollection<RuleSetSubset> ruleSets, IUnityContainer container) : base(container)
         {
-            RuleSets = new ObservableCollection<RuleSetSubset>();
+            this.RuleSets = ruleSets;
+            //TODO Delete
+            string filePath = $"{Globals.RsesFilesDirectory}/Rules/male.rul";
+            IFileParserFactory<RuleSet> fileParserFactory = new RuleSetParserFactory();
+            IFileParser<RuleSet> ruleSetParser = fileParserFactory.Create(BaseFileFormat.FileExtensions.RSESRuleSet);
+            RuleSetSubset ruleSet = new RuleSetSubsetViewItem(ruleSetParser.ParseFile(filePath));
+            ruleSets.Add(ruleSet);
+            //END TODO
             InitializeCommands();
         }
 
-        private void OnConfigureTests()
+        protected override void OnMoveToTestConfigurator()
         {
             try
             {
-                TestConfigurationViewModel testConfigurationViewModel = new TestConfigurationViewModel(RuleSets);
+                TestConfiguratorViewModel testConfigurationViewModel = new TestConfiguratorViewModel(RuleSets, containter);
                 windowNavigatorService.SwitchContext(testConfigurationViewModel);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 dialogService.ShowInformationMessage($"Exception thrown : {ex.Message}");
             }
@@ -117,7 +130,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             if (SelectedRuleSet != null)
             {
-                var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet, new RuleSetSubsetViewItemFactory());
+                var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet, new RuleSetSubsetViewItemFactory(), containter);
                 if (dialogService.ShowDialog(optionsViewModel) == true)
                 {
                     IRuleSubsetGenerator ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
@@ -147,7 +160,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             LoadRuleSets = new RelayCommand(OnLoadRuleSet);
             EditFilters = new RelayCommand(OnEditFilters);
             DeleteSubset = new RelayCommand(OnDeleteSubset);
-            ConfigureTests = new RelayCommand(OnConfigureTests);
+            //ConfigureTests = new RelayCommand(OnConfigureTests);
         }
     }
 }

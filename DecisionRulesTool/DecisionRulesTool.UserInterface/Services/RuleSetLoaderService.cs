@@ -5,6 +5,7 @@ using DecisionRulesTool.Model.IO.Parsers.Factory;
 using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Parsers;
 using DecisionRulesTool.UserInterface.Services.Dialog;
+using DecisionRulesTool.UserInterface.Services.Interfaces;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ using System.Windows;
 
 namespace DecisionRulesTool.UserInterface.Services
 {
-    public class RuleSetLoaderService
+    public class RuleSetLoaderService : IRuleSetLoaderService
     {
         private readonly string ruleSetsFilter =
             $"RSES filter (*{BaseFileFormat.FileExtensions.RSESRuleSet})|*{BaseFileFormat.FileExtensions.RSESRuleSet}|" +

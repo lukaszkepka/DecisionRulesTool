@@ -14,8 +14,11 @@
         Title="Rule Subset Generation Options" Height="500" Width="550">
 
     <Window.Resources>
-        <converters:RelationToStringConverter  x:Key="relationToStringConverter" />
-        <converters:BoolToVisibleOrHidden x:Key="boolToVisConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../ViewResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid>

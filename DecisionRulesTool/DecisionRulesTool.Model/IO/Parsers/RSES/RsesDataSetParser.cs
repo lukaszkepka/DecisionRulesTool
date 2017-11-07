@@ -9,7 +9,6 @@ namespace DecisionRulesTool.Model.Parsers.RSES
 {
     using IO;
     using Model;
-    using System.Globalization;
 
     public class RsesDataSetParser : RsesFileParser<DataSet>
     {
@@ -17,7 +16,7 @@ namespace DecisionRulesTool.Model.Parsers.RSES
 
         private void ParseHeader(StreamReader fileStream, DataSet dataSet)
         {
-            dataSet.Name = GetSectionValue(fileStream, fileFormat.DatasetFileHeader);
+            dataSet.Name = GetSectionValue(fileStream, fileFormat.DatasetFileHeader).Trim('"');
         }
 
         private void ParseAttributes(StreamReader fileStream, DataSet dataSet)

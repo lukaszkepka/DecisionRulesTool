@@ -38,6 +38,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.1.2\lib\net45\CommonServiceLocator.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>True</Private>
@@ -128,6 +131,27 @@
     <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.1.2\lib\net45\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Configuration, Version=5.0.2.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.1.2\lib\net45\Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.1.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.1.2\lib\net45\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception, Version=5.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.1.2\lib\net45\Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception.Configuration, Version=5.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.1.2\lib\net45\Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RegistrationByConvention, Version=2.0.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.1.2\lib\net45\Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ServiceLocation, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.1.2\lib\net45\Unity.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -156,12 +180,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Behaviours\ColumnsBindingBehaviour.cs" />
+    <Compile Include="Model\Commands\ParameterCommand.cs" />
     <Compile Include="Model\Converters\AttributeModeToStringConverter.cs" />
     <Compile Include="Model\Converters\AttributeToDataGridColumnConverter.cs" />
     <Compile Include="Model\Converters\BoolToVisibleOrHidden.cs" />
     <Compile Include="Model\Converters\ConflictResolvingMethodToStringConverter.cs" />
     <Compile Include="Model\Converters\RelationToStringConverter.cs" />
     <Compile Include="Model\CustomControls\TabControlReorderBehaviour.cs" />
+    <Compile Include="Model\CustomDataTable.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Model\DataTemplateSelectors\FilterViewModelTemplateSelector.cs" />
     <Compile Include="Model\Factory\RuleSetSubsetViewItemFactory.cs" />
     <Compile Include="Model\ISelectable.cs" />
@@ -173,7 +201,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\Interfaces\IRuleSetLoaderService.cs" />
+    <Compile Include="Services\Interfaces\IRuleSetSubsetService.cs" />
+    <Compile Include="Services\Interfaces\ITestSetLoaderService.cs" />
+    <Compile Include="Services\Interfaces\IWindowNavigatorService.cs" />
+    <Compile Include="Services\Interfaces\ITestRequestService.cs" />
+    <Compile Include="Services\RuleSetSubsetService.cs" />
+    <Compile Include="Services\TestRequestService.cs" />
+    <Compile Include="ViewModel\AggregatedTestRequestViewModel.cs" />
+    <Compile Include="ViewModel\ApplicationViewModel.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\RuleSetManagerViewModel.cs" />
     <Compile Include="ViewModel\TestManagerViewModel.cs" />
+    <Compile Include="ViewModel\TestRequestFromRuleSetGeneratorViewModel.cs" />
+    <Compile Include="ViewModel\TestRequestFromTestSetGeneratorViewModel1.cs" />
     <Compile Include="ViewModel\TestRequestGeneratorOptionsViewModel.cs" />
     <Compile Include="ViewModel\TestRequestGeneratorViewModel.cs" />
     <Compile Include="Services\TestSetLoaderService.cs" />
@@ -185,13 +226,12 @@
     <Compile Include="ViewModel\Filters\RelationFilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\SupportValueFilterViewModel.cs" />
     <Compile Include="ViewModel\TestSetViewModel.cs" />
-    <Compile Include="View\Dialogs\ProgressDialog.xaml.cs">
-      <DependentUpon>ProgressDialog.xaml</DependentUpon>
+    <Compile Include="ViewModel\ToolbarViewModel.cs" />
+    <Compile Include="View\Dialogs\TestRequestGenerator\TestRequestFromRuleSetGeneratorDialog.xaml.cs">
+      <DependentUpon>TestRequestFromRuleSetGeneratorDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\TestRequestGeneratorDialog.xaml.cs">
-      <DependentUpon>TestRequestGeneratorDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Dialogs\TestRequestGeneratorOptionsDialog.xaml.cs">
+    <Compile Include="View\Dialogs\TestRequestGenerator\TestRequestFromTestSetGeneratorDialog.cs" />
+    <Compile Include="View\Dialogs\TestRequestGenerator\TestRequestGeneratorOptionsDialog.xaml.cs">
       <DependentUpon>TestRequestGeneratorOptionsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Dialogs\TestSetDialog.xaml.cs">
@@ -207,11 +247,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\TestRequestGeneratorDialog.xaml">
+    <Page Include="View\Dialogs\TestRequestGenerator\TestRequestFromRuleSetGeneratorDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\TestRequestGeneratorOptionsDialog.xaml">
+    <Page Include="View\Dialogs\TestRequestGenerator\TestRequestFromTestSetGeneratorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\TestRequestGenerator\TestRequestGeneratorOptionsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,7 +263,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MainWindow.xaml">
+    <Page Include="View\RuleSetManagerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -227,7 +271,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\RelayCommand.cs" />
+    <Compile Include="Model\Commands\RelayCommand.cs" />
     <Compile Include="Services\Dialog\OpenFileDialogSettings.cs" />
     <Compile Include="Services\RuleSetLoaderService.cs" />
     <Compile Include="Services\ServicesRepository.cs" />
@@ -238,19 +282,14 @@
     <Compile Include="ViewModel\Dialog\BaseDialogViewModel.cs" />
     <Compile Include="ViewModel\BaseWindowViewModel.cs" />
     <Compile Include="Services\Dialog\DialogService.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\RuleSubsetGenerationViewModel.cs" />
     <Compile Include="View\Dialogs\GenerateSubsetsDialog.xaml.cs">
       <DependentUpon>GenerateSubsetsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="View\RuleSetManagerWindow.xaml.cs">
+      <DependentUpon>RuleSetManagerWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\Dialogs\ProgressDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\TestConfigurationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -311,6 +350,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets" Condition="Exists('..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets')" />

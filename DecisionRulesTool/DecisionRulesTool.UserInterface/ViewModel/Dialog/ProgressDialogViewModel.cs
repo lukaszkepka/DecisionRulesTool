@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
 {
@@ -15,7 +16,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
         {
             get
             {
-                return progressNotifier.Progress;
+                return 0;
+                //return progressNotifier.Progress;
             }
             private set
             {
@@ -23,7 +25,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
             }
         }
 
-        public ProgressDialogViewModel(IProgressNotifier progressNotifier)
+        public ProgressDialogViewModel(IProgressNotifier progressNotifier, IUnityContainer container) : base(container)
         {
             this.progressNotifier = progressNotifier;
 

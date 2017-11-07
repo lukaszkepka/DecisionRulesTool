@@ -5,27 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
     public class TestRequestGeneratorOptionsViewModel : BaseDialogViewModel
     {
-        public ICommand Apply { get; private set; }
-
-        public TestRequestGeneratorOptionsViewModel()
+        public TestRequestGeneratorOptionsViewModel(IUnityContainer container) : base(container)
         {
-            InitializeCommands();
-        }
-
-        private void InitializeCommands()
-        {
-            Apply = new RelayCommand(OnApply);
-        }
-
-        public void OnApply()
-        {
-            Result = true;
-            OnCloseRequest();
         }
     }
 }

@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DecisionRulesTool.UserInterface.View
+namespace DecisionRulesTool.UserInterface.View.Dialogs.TestRequestGenerator
 {
     /// <summary>
-    /// Interaction logic for ProgressDialog.xaml
+    /// Interaction logic for TestRequestFromRuleSetGeneratorDialog.xaml
     /// </summary>
-    public partial class ProgressDialog : Window
+    public partial class TestRequestFromRuleSetGeneratorDialog : Window
     {
-        public ProgressDialog()
+        public TestRequestFromRuleSetGeneratorDialog()
         {
             InitializeComponent();
         }

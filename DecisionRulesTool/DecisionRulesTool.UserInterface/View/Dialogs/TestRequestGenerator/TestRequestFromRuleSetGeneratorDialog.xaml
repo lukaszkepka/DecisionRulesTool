@@ -1,0 +1,143 @@
+﻿<Window x:Class="DecisionRulesTool.UserInterface.View.Dialogs.TestRequestGenerator.TestRequestFromRuleSetGeneratorDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DecisionRulesTool.UserInterface.View.Dialogs"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:helper="clr-namespace:DecisionRulesTool.UserInterface.Utils"
+        xmlns:converters="clr-namespace:DecisionRulesTool.UserInterface.Model.Converters"
+        xmlns:utils="clr-namespace:DecisionRulesTool.UserInterface.Utils"
+        xmlns:filters="clr-namespace:DecisionRulesTool.Model.RuleFilters;assembly=DecisionRulesToolModel"      
+        xmlns:wpftoolkit="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+        xmlns:model="clr-namespace:DecisionRulesTool.Model.Model;assembly=DecisionRulesToolModel"
+        mc:Ignorable="d"
+        Title="Decision Rules Tool - Test Request Generator" 
+        Height="500" 
+        Width="650" 
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterOwner">
+
+    <Window.Resources>
+        <converters:ConflictResolvingMethodToStringConverter x:Key="conflictResolvingMethodToStringConverter"/>
+    </Window.Resources>
+
+    <Border Padding="5" >
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="45" />
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Column="0" Grid.ColumnSpan="5">
+                <DockPanel Height="30" DockPanel.Dock="Top">
+                    <ToolBar DockPanel.Dock="Top">
+                        <Button Content="Settings">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ShowSettings}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </ToolBar>
+                </DockPanel>
+                <DockPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <GroupBox x:Name="loadedRuleSetsGroupBox" 
+                                  Header="Loaded test sets"
+                                  Grid.Column="0">
+                            <DockPanel>
+                                <DockPanel x:Name="LoadedRuleSetsToolBar"
+                                           DockPanel.Dock="Top"
+                                           Height="30">
+                                    <ToolBar x:Name="root" DockPanel.Dock="Top" />
+                                </DockPanel>
+                                <ListView x:Name="LoadedTestSets"
+                          DockPanel.Dock="Bottom"
+                          ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                          BorderThickness="0"
+                          ItemsSource="{Binding TestSets}">
+
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Margin="5,0,0,0" FontWeight="Bold" IsChecked="{Binding IsSelected}" Content="{Binding Item.Name}"/>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </DockPanel>
+                        </GroupBox>
+                        <GroupBox x:Name="optionsGroupBox" 
+                                  Header="Options"
+                                  Grid.Column="1">
+                            <DockPanel>
+                                <DockPanel x:Name="optionsToolBar"
+                                           DockPanel.Dock="Top"
+                                           Height="30">
+                                    <ToolBar DockPanel.Dock="Top">
+                                    </ToolBar>
+                                </DockPanel>
+                                <StackPanel>
+                                    <StackPanel x:Name="conflictResolvingMethodOption" 
+                                                Margin="10 5 10 0">
+
+                                        <TextBlock Text="Conflict Resolving Method :" 
+                                                   Margin="0 5 0 5"/>
+
+                                        <ItemsControl ItemsSource="{Binding ConflictResolvingMethods}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" 
+                                                                Margin="0 5 0 5">
+
+                                                        <CheckBox x:Name="conflictResolvingMethodCheckBox"
+                                                                  IsChecked="{Binding IsSelected}"                                                       
+                                                                  Margin="0 0 3 0" />
+
+                                                        <TextBlock Text = "{Binding Path=Item, Converter = {StaticResource conflictResolvingMethodToStringConverter}}" 
+                                                                   TextAlignment="Center">
+                                                
+                                                            <!--<i:Interaction.Triggers>
+                                                                 <i:EventTrigger EventName="Click"
+                                                                 SourceName="conflictResolvingMethodCheckBox"  >
+                                                                 <i:EventTrigger Event/>
+                                                                 </i:EventTrigger>
+                                                                 </i:Interaction.Triggers>-->
+
+                                                        </TextBlock>
+
+                                                    </StackPanel>
+                                                </DataTemplate >
+                                            </ItemsControl.ItemTemplate >
+                                        </ItemsControl>
+
+                                    </StackPanel>
+                                </StackPanel>
+                            </DockPanel>
+                        </GroupBox>
+                    </Grid>
+                </DockPanel>
+            </DockPanel>
+
+            <Button Grid.Column="1" Grid.Row="1" Content="Apply"  
+                    VerticalAlignment="Center" Width="Auto"  Command="{Binding Apply}"/>
+
+            <Button Grid.Column="3" Grid.Row="1" Content="Cancel"  
+                    VerticalAlignment="Center" Width="Auto" Command="{Binding Cancel}"/>
+
+        </Grid>
+    </Border>
+</Window>

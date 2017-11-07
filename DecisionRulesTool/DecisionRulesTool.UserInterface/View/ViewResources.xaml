@@ -6,10 +6,44 @@
                     xmlns:utils="clr-namespace:DecisionRulesTool.UserInterface.Utils"
                     xmlns:filters="clr-namespace:DecisionRulesTool.Model.RuleFilters;assembly=DecisionRulesToolModel"      
                     xmlns:model="clr-namespace:DecisionRulesTool.Model.Model;assembly=DecisionRulesToolModel"
+                            xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                     xmlns:behaviours="clr-namespace:DecisionRulesTool.UserInterface.Model.Behaviours">
 
     <converters:ConditionsToStringConverter  x:Key="conditionsToStringConverter" />
     <converters:DecisionsToStringConverter  x:Key="decisionsToStringConverter" />
     <converters:AttributeToDataGridColumnConverter  x:Key="attributeToDataGridColumnConverter" />
-    
+    <converters:RelationToStringConverter  x:Key="relationToStringConverter" />
+    <converters:BoolToVisibleOrHidden x:Key="boolToVisConverter"/>
+
+    <ToolBar DockPanel.Dock="Top" DataContext="{Binding ToolBarViewModel}" x:Key="ToolBar">
+        <Button Content="Options">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding SaveRuleSetToFile}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="Rule Set Manager">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding MoveToRuleSetManager}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="Test Configurator">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding MoveToTestConfigurator}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="Test Result Viewer">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding MoveToTestResultViewer}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+    </ToolBar>
+
 </ResourceDictionary>

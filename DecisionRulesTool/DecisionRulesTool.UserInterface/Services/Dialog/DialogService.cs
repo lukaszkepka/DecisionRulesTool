@@ -59,10 +59,5 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
             return filePaths;
         }
 
-        internal void ShowProgressDialog()
-        {
-            ProgressDialog a = new ProgressDialog();
-            a.Show();
-        }
     }
 }

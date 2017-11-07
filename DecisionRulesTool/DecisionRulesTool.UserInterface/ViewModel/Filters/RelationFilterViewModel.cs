@@ -7,6 +7,7 @@ using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.Model.Model.Factory;
+using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
@@ -50,7 +51,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         }
         #endregion Properties
 
-        public RelationFilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory) : base(rootRuleSet, ruleSetSubsetFactory)
+        public RelationFilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, IUnityContainer container) : base(rootRuleSet, ruleSetSubsetFactory, container)
         {
             InitializeRelations();
         }

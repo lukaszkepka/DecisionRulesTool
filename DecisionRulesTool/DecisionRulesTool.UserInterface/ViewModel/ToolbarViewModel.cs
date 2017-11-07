@@ -1,10 +1,6 @@
-﻿using DecisionRulesTool.Model.IO.Parsers.Factory;
-using DecisionRulesTool.UserInterface.Model;
-using DecisionRulesTool.UserInterface.Services;
-using DecisionRulesTool.UserInterface.Services.Dialog;
+﻿using DecisionRulesTool.UserInterface.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,15 +9,16 @@ using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    public abstract class BaseWindowViewModel : BaseViewModel
+    /// <summary>
+    /// Responsible for handling commands available in window common toolbar
+    /// </summary>
+    public class ToolbarViewModel : BaseViewModel
     {
         public ICommand MoveToTestConfigurator { get; private set; }
         public ICommand MoveToTestResultViewer { get; private set; }
         public ICommand MoveToRuleSetManager { get; private set; }
 
-        public event EventHandler CloseRequest;
-
-        public BaseWindowViewModel(IUnityContainer container) : base(container)
+        public ToolbarViewModel(IUnityContainer container) : base(container)
         {
             InitializeCommands();
         }
@@ -67,11 +64,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             {
                 dialogService.ShowInformationMessage($"Exception thrown : {ex.Message}");
             }
-        }
-
-        protected void OnCloseRequest()
-        {
-            CloseRequest?.Invoke(this, EventArgs.Empty);
         }
     }
 }

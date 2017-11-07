@@ -26,9 +26,6 @@ namespace DecisionRulesTool.UserInterface
         public MainWindow()
         {
             InitializeComponent();
-            var viewModel = new MainWindowViewModel();
-            viewModel.CloseRequest += (sender, e) => Close();
-            DataContext = viewModel;
         }
     }
 }

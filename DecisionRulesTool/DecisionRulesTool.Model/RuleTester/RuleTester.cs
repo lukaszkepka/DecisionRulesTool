@@ -64,16 +64,20 @@ namespace DecisionRulesTool.Model.RuleTester
                 Rule rule = testRequest.RuleSet.Rules[i];
                 TestSingleRule(rule, testRequest.TestSet, decisionResolver);
 
-                testRequest.Progress = (int)((i / (double)testRequest.RuleSet.Rules.Count) * 100);
-                Thread.Sleep(1);
+                testRequest.Progress = GetTesterProgress(i, testRequest.RuleSet.Rules.Count);
             }
 
-            testRequest.Progress = 100;
+            testRequest.Progress = TestRequest.MaxProgress;
             return decisionResolver.RunClassification();
         }
 
         public virtual IEnumerable<TestResult> RunTesting(IEnumerable<TestRequest> testRequests)
         {
+            int completedTestRequestCount = 0;
+            int testRequestsCount = testRequests.Count();
+            //Send notification that process has started
+            progressNotifier.OnStart();
+
             IList<TestResult> testResults = new List<TestResult>();
             foreach (TestRequest testRequest in testRequests)
             {
@@ -84,13 +88,21 @@ namespace DecisionRulesTool.Model.RuleTester
                     DecisionValues = classificationResults.Select(x => x.DecisionValue).ToArray(),
                     ClassificationResults = classificationResults.Select(x => x.Result).ToArray(),
                     ConfusionMatrix = confusionMatrix,
-                    TestRequest = testRequest,
                 };
 
+                //Send notification that process has completed testing another test request
+                progressNotifier.OnProgressChanged(GetTesterProgress(++completedTestRequestCount, testRequestsCount));
+
+                testRequest.TestResult = testResult;
                 testResults.Add(testResult);
             }
+
+            //Send notification that process has been completed
+            progressNotifier.OnCompleted();
             return testResults;
         }
+
+        private int GetTesterProgress(int actualIteration, int maxIterations) => (int)((actualIteration / (double)maxIterations) * 100);
 
     }
 }

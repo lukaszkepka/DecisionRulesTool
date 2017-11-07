@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using DecisionRulesTool.Model.RuleFilters.Appliers;
 using DecisionRulesTool.Model.RuleFilters;
+using PropertyChanged;
 
 namespace DecisionRulesTool.Model.Model
 {
-
+    [AddINotifyPropertyChangedInterface]
     public class RuleSetSubset : RuleSet
     {
         protected RuleSetSubset rootRuleSet;

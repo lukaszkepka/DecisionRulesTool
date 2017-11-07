@@ -2,6 +2,7 @@
 using DecisionRulesTool.Model.RuleFilters;
 using DecisionRulesTool.Model.RuleFilters.TestSeries;
 using DecisionRulesTool.Model.RuleTester.Series;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace DecisionRulesTool.Model.RuleTester
     /// <summary>
     /// Class responsible for creating test request and running rule testing
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class RuleTesterManager
     {
         private IList<TestRequest> testRequests;
@@ -27,6 +29,11 @@ namespace DecisionRulesTool.Model.RuleTester
         public RuleTesterManager()
         {
             testRequests = new List<TestRequest>();
+        }
+
+        public RuleTesterManager(IEnumerable<TestRequest> testRequests)
+        {
+            this.testRequests = testRequests.ToList();
         }
 
         public virtual IEnumerable<TestRequest> GenerateTests(DataSet testSet, IEnumerable<RuleSet> ruleSets, IEnumerable<ConflictResolvingMethod> conflictResolvingMethods)

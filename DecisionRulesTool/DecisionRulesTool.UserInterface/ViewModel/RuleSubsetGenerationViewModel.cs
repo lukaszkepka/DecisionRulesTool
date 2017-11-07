@@ -7,6 +7,7 @@ using DecisionRulesTool.Model.RuleSubsetGeneration;
 using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using DecisionRulesTool.UserInterface.Model;
 using DecisionRulesTool.UserInterface.ViewModel.Filters;
+using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
@@ -17,8 +18,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         private FilterViewModel selectedFilterViewModel;
         private RuleSetSubset rootRuleSet;
 
-        public ICommand Apply { get; private set; }
-        public ICommand Cancel { get; private set; }
         public ICommand MoveViewModelLeft { get; private set; }
         public ICommand MoveViewModelRight { get; private set; }
 
@@ -44,7 +43,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         }
         #endregion
 
-        public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory)
+        public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, IUnityContainer container) : base(container)
         {
             this.ruleSetSubsetFactory = ruleSetSubsetFactory;
             this.rootRuleSet = rootRuleSet;
@@ -65,8 +64,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void InitializeCommands()
         {
-            Apply = new RelayCommand(OnApply);
-            Cancel = new RelayCommand(OnCancel);
             MoveViewModelLeft = new RelayCommand(OnMoveViewModelLeft);
             MoveViewModelRight = new RelayCommand(OnMoveViewModelRight);
         }
@@ -75,9 +72,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             this.filterViewModels = new ObservableCollection<FilterViewModel>()
             {
-                new SupportValueFilterViewModel(rootRuleSet, ruleSetSubsetFactory),
-                new LengthFilterViewModel(rootRuleSet, ruleSetSubsetFactory),
-                new AttributePresenceFilterViewModel(rootRuleSet, ruleSetSubsetFactory)
+                new SupportValueFilterViewModel(rootRuleSet, ruleSetSubsetFactory, containter),
+                new LengthFilterViewModel(rootRuleSet, ruleSetSubsetFactory, containter),
+                new AttributePresenceFilterViewModel(rootRuleSet, ruleSetSubsetFactory, containter)
             };
 
             SelectedFilterViewModel = filterViewModels[1];
@@ -117,18 +114,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
 
             SelectedFilterViewModel = viewModel;
-        }
-
-        public void OnApply()
-        {
-            Result = true;
-            OnCloseRequest();
-        }
-
-        public void OnCancel()
-        {
-            Result = false;
-            OnCloseRequest();
         }
     }
 }
