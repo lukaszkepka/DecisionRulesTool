@@ -16,7 +16,9 @@ namespace DecisionRulesTool.UserInterface
     using DecisionRulesTool.Model.Model;
     using DecisionRulesTool.Model.Parsers;
     using DecisionRulesTool.UserInterface.Model;
+    using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
     using System;
+    using Unity;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -73,7 +75,7 @@ namespace DecisionRulesTool.UserInterface
             SimpleIoc.Default.Register<IRuleSetLoaderService, RuleSetLoaderService>();
             SimpleIoc.Default.Register<IRuleSetSubsetService, RuleSetSubsetService>();
 
-            SimpleIoc.Default.Register<ApplicationContextViewModel>();
+            SimpleIoc.Default.Register<MainWindowViewModel>();
             SimpleIoc.Default.Register<RuleSetManagerViewModel>();
             SimpleIoc.Default.Register<TestConfiguratorViewModel>();
             SimpleIoc.Default.Register<TestResultViewerViewModel>();
@@ -87,7 +89,7 @@ namespace DecisionRulesTool.UserInterface
             InitializeContainer();
 
             var windowNavigatorService = SimpleIoc.Default.GetInstance<IWindowNavigatorService>();
-            windowNavigatorService.SwitchContext(SimpleIoc.Default.GetInstance<RuleSetManagerViewModel>());
+            windowNavigatorService.SwitchContext(SimpleIoc.Default.GetInstance<MainWindowViewModel>());
 
 
             // var t  = SimpleIoc.Default.GetInstance<TestConfiguratorViewModel>();

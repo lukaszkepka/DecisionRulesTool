@@ -10,11 +10,12 @@ using PropertyChanged;
 using Unity;
 using DecisionRulesTool.UserInterface.Services;
 using GalaSoft.MvvmLight.Command;
+using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class TestConfiguratorViewModel : ApplicationContextViewModel
+    public class TestConfiguratorViewModel : ApplicationViewModel
     {
         public enum TestRequestFilter
         {

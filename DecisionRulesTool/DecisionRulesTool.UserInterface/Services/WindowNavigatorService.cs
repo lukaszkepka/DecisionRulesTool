@@ -4,6 +4,7 @@ using DecisionRulesTool.UserInterface.View.Dialogs;
 using DecisionRulesTool.UserInterface.View.Dialogs.TestRequestGenerator;
 using DecisionRulesTool.UserInterface.ViewModel;
 using DecisionRulesTool.UserInterface.ViewModel.Dialog;
+using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -21,14 +22,8 @@ namespace DecisionRulesTool.UserInterface.Services
             Window newWindow = null;
             switch (viewModel)
             {
-                case RuleSetManagerViewModel ruleSetManagerViewModel:
+                case MainWindowViewModel mainWindowViewModel:
                     newWindow = new MainWindow();
-                    break;
-                case TestConfiguratorViewModel testConfigurationViewModel:
-                    newWindow = new TestConfigurationWindow();
-                    break;
-                case TestResultViewerViewModel testManagerViewModel:
-                    newWindow = new TestResultViewer();
                     break;
                 default:
                     break;

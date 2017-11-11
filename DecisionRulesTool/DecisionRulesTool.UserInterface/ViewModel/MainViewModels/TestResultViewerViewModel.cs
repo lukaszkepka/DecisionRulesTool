@@ -19,10 +19,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 {
     using DecisionRulesTool.Model.Model;
     using DecisionRulesTool.UserInterface.Services;
+    using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
     using System.Collections.ObjectModel;
 
     [AddINotifyPropertyChangedInterface]
-    public class TestResultViewerViewModel : ApplicationContextViewModel
+    public class TestResultViewerViewModel : ApplicationViewModel
     {
         private TestRequest selectedTestRequest;
         private TestRequestsAggregate selectedTestRequestAggregate;

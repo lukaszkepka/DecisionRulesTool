@@ -218,7 +218,8 @@
     <Compile Include="Services\RuleSetSubsetService.cs" />
     <Compile Include="Services\TestRequestService.cs" />
     <Compile Include="ViewModel\AggregatedTestRequestViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModels\ApplicationContextViewModel.cs" />
+    <Compile Include="ViewModel\Base\ApplicationViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MainViewModels\RuleSetManagerViewModel.cs" />
     <Compile Include="Model\TestRequestsAggregate.cs" />
     <Compile Include="ViewModel\MainViewModels\TestResultViewerViewModel.cs" />
@@ -236,6 +237,15 @@
     <Compile Include="ViewModel\Filters\SupportValueFilterViewModel.cs" />
     <Compile Include="ViewModel\TestSetViewModel.cs" />
     <Compile Include="ViewModel\ToolbarViewModel.cs" />
+    <Compile Include="View\Controls\RuleSetManagerTab.xaml.cs">
+      <DependentUpon>RuleSetManagerTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TestConfigurationTab.xaml.cs">
+      <DependentUpon>TestConfigurationTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TestResultViewerTab.xaml.cs">
+      <DependentUpon>TestResultViewerTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialogs\TestRequestGenerator\TestRequestFromRuleSetGeneratorDialog.xaml.cs">
       <DependentUpon>TestRequestFromRuleSetGeneratorDialog.xaml</DependentUpon>
     </Compile>
@@ -246,12 +256,21 @@
     <Compile Include="View\Dialogs\TestSetDialog.xaml.cs">
       <DependentUpon>TestSetDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TestConfigurationWindow.xaml.cs">
-      <DependentUpon>TestConfigurationWindow.xaml</DependentUpon>
+    <Compile Include="View\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TestResultViewer.xaml.cs">
-      <DependentUpon>TestResultViewer.xaml</DependentUpon>
-    </Compile>
+    <Page Include="View\Controls\RuleSetManagerTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TestConfigurationTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TestResultViewerTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Dialogs\GenerateSubsetsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -272,9 +291,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\RuleSetManagerWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -287,25 +306,13 @@
     <Compile Include="Utils\BindableSelectedItemBehaviour.cs" />
     <Compile Include="Model\Converters\ConditionsToStringConverter.cs" />
     <Compile Include="Model\Converters\DecisionsToStringConverter.cs" />
-    <Compile Include="ViewModel\Dialog\BaseDialogViewModel.cs" />
-    <Compile Include="ViewModel\BaseWindowViewModel.cs" />
+    <Compile Include="ViewModel\Base\BaseDialogViewModel.cs" />
+    <Compile Include="ViewModel\Base\BaseWindowViewModel.cs" />
     <Compile Include="Services\Dialog\DialogService.cs" />
     <Compile Include="ViewModel\RuleSubsetGenerationViewModel.cs" />
     <Compile Include="View\Dialogs\GenerateSubsetsDialog.xaml.cs">
       <DependentUpon>GenerateSubsetsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\RuleSetManagerWindow.xaml.cs">
-      <DependentUpon>RuleSetManagerWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="View\TestConfigurationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\TestResultViewer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\ViewResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

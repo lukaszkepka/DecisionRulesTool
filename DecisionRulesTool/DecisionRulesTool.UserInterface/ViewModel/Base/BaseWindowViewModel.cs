@@ -2,6 +2,7 @@
 using DecisionRulesTool.UserInterface.Model;
 using DecisionRulesTool.UserInterface.Services;
 using DecisionRulesTool.UserInterface.Services.Dialog;
+using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -15,15 +16,13 @@ using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    public abstract class BaseWindowViewModel : ViewModelBase
+    public abstract class BaseWindowViewModel : ApplicationViewModel
     {
-        protected ServicesRepository servicesRepository;
-
         public event EventHandler CloseRequest;
 
-        public BaseWindowViewModel(ServicesRepository servicesRepository)
+        public BaseWindowViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository) 
+            : base(applicationCache, servicesRepository)
         {
-            this.servicesRepository = servicesRepository;
         }
 
         protected void OnCloseRequest()

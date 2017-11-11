@@ -11,16 +11,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DecisionRulesTool.UserInterface.View
+namespace DecisionRulesTool.UserInterface.View.Controls
 {
     /// <summary>
-    /// Interaction logic for TestConfigurationWindow.xaml
+    /// Interaction logic for TestConfigurationTab.xaml
     /// </summary>
-    public partial class TestConfigurationWindow : Window
+    public partial class TestConfigurationTab : UserControl
     {
-        public TestConfigurationWindow()
+        public TestConfigurationTab()
         {
             InitializeComponent();
         }

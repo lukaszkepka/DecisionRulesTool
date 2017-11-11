@@ -47,7 +47,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         #endregion IsEnabled
 
         public FilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, ServicesRepository servicesRepository) 
-            : base(servicesRepository)
+            : base(null, servicesRepository)
         {
             this.rootRuleSet = rootRuleSet;
             this.ruleSetSubsetFactory = ruleSetSubsetFactory;

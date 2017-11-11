@@ -15,10 +15,11 @@ using DecisionRulesTool.Model.IO.Parsers.Factory;
 using DecisionRulesTool.Model.IO;
 using GalaSoft.MvvmLight.Command;
 using DecisionRulesTool.UserInterface.Services;
+using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    public class RuleSetManagerViewModel : ApplicationContextViewModel
+    public class RuleSetManagerViewModel : ApplicationViewModel
     {
         private RuleSetSubset selectedRuleSet;
 
