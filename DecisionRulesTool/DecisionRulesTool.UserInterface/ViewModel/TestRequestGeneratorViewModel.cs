@@ -2,6 +2,7 @@
 using DecisionRulesTool.Model.RuleTester;
 using DecisionRulesTool.UserInterface.Model;
 using DecisionRulesTool.UserInterface.Services;
+using GalaSoft.MvvmLight.Command;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public ICommand ShowSettings { get; private set; }
         #endregion
 
-        public TestRequestGeneratorViewModel(IUnityContainer container) : base(container)
+        public TestRequestGeneratorViewModel(ServicesRepository servicesRepository) 
+            : base(servicesRepository)
         {
-            this.SettingsViewModel = new TestRequestGeneratorOptionsViewModel(containter);
+            this.SettingsViewModel = new TestRequestGeneratorOptionsViewModel(servicesRepository);
             InitializeCommands();
             InitializeConflictResolvingMethods();         
         }
@@ -46,11 +48,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                dialogService.ShowDialog(SettingsViewModel);
+                servicesRepository.DialogService.ShowDialog(SettingsViewModel);
             }
             catch(Exception ex)
             {
-                dialogService.ShowInformationMessage($"Exception thrown : {ex.Message}");
+                servicesRepository.DialogService.ShowInformationMessage($"Exception thrown : {ex.Message}");
             }
         }
 

@@ -28,7 +28,7 @@ namespace DecisionRulesTool.UserInterface.Services
                     newWindow = new TestConfigurationWindow();
                     break;
                 case TestResultViewerViewModel testManagerViewModel:
-                    newWindow = new TestManagerWindow();
+                    newWindow = new TestResultViewer();
                     break;
                 default:
                     break;

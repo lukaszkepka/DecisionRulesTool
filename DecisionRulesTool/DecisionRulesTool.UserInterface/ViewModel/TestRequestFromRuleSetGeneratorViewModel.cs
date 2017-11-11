@@ -23,7 +23,8 @@ namespace DecisionRulesTool.UserInterface.Services
         public RuleSet RuleSet { get; }
         #endregion Properties
 
-        public TestRequestFromRuleSetGeneratorViewModel(ICollection<DataSet> testSets, RuleSet ruleSet, IUnityContainer container) : base(container)
+        public TestRequestFromRuleSetGeneratorViewModel(ICollection<DataSet> testSets, RuleSet ruleSet, ServicesRepository servicesRepository)
+            : base(servicesRepository)
         {
             this.RuleSet = ruleSet;
             InitializeTestSets(testSets);

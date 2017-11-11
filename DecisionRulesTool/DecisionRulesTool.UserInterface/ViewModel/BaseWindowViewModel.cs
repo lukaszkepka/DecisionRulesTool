@@ -2,6 +2,8 @@
 using DecisionRulesTool.UserInterface.Model;
 using DecisionRulesTool.UserInterface.Services;
 using DecisionRulesTool.UserInterface.Services.Dialog;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,60 +15,15 @@ using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    public abstract class BaseWindowViewModel : BaseViewModel
+    public abstract class BaseWindowViewModel : ViewModelBase
     {
-        public ICommand MoveToTestConfigurator { get; private set; }
-        public ICommand MoveToTestResultViewer { get; private set; }
-        public ICommand MoveToRuleSetManager { get; private set; }
+        protected ServicesRepository servicesRepository;
 
         public event EventHandler CloseRequest;
 
-        public BaseWindowViewModel(IUnityContainer container) : base(container)
+        public BaseWindowViewModel(ServicesRepository servicesRepository)
         {
-            InitializeCommands();
-        }
-
-        private void InitializeCommands()
-        {
-            MoveToRuleSetManager = new RelayCommand(OnMoveToRuleSetManager);
-            MoveToTestConfigurator = new RelayCommand(OnMoveToTestConfigurator);
-            MoveToTestResultViewer = new RelayCommand(OnMoveToTestResultViewer);
-        }
-
-        protected virtual void OnMoveToTestConfigurator()
-        {
-            try
-            {
-                windowNavigatorService.SwitchContext(containter.Resolve<TestConfiguratorViewModel>());
-            }
-            catch (Exception ex)
-            {
-                dialogService.ShowInformationMessage($"Exception thrown : {ex.Message}");
-            }
-        }
-
-        protected virtual void OnMoveToTestResultViewer()
-        {
-            try
-            {
-                windowNavigatorService.SwitchContext(containter.Resolve<TestResultViewerViewModel>());
-            }
-            catch (Exception ex)
-            {
-                dialogService.ShowInformationMessage($"Exception thrown : {ex.Message}");
-            }
-        }
-
-        protected virtual void OnMoveToRuleSetManager()
-        {
-            try
-            {
-                windowNavigatorService.SwitchContext(containter.Resolve<RuleSetManagerViewModel>());
-            }
-            catch (Exception ex)
-            {
-                dialogService.ShowInformationMessage($"Exception thrown : {ex.Message}");
-            }
+            this.servicesRepository = servicesRepository;
         }
 
         protected void OnCloseRequest()

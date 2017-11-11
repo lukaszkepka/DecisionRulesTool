@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.RuleSubsetGeneration
-{
+{   
     public class LowestLevelSubsetGenerator : BaseRuleSetSubsetGenerator
     {
         public LowestLevelSubsetGenerator(RuleSetSubset rootRuleSet) : base(rootRuleSet)

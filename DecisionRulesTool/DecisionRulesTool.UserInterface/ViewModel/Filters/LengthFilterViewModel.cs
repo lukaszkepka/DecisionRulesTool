@@ -9,6 +9,7 @@ using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.Model.Model.Factory;
 using DecisionRulesTool.Model.RuleFilters.Appliers;
 using Unity;
+using DecisionRulesTool.UserInterface.Services;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
@@ -36,7 +37,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
                 {
                     minLengthFilter = value;
                 }
-                OnPropertyChanged("MinLengthFilter");
+                RaisePropertyChanged("MinLengthFilter");
             }
         }
         public int MaxLengthFilter
@@ -59,12 +60,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
                 {
                     maxLengthFilter = value;
                 }
-                OnPropertyChanged("MaxLengthFilter");
+                RaisePropertyChanged("MaxLengthFilter");
             }
         }
         #endregion Properties
         
-        public LengthFilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, IUnityContainer container) : base(rootRuleSet, ruleSetSubsetFactory, container)
+        public LengthFilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, ServicesRepository servicesRepository) 
+            : base(rootRuleSet, ruleSetSubsetFactory, servicesRepository)
         {
             SetFilterBounds();
         }

@@ -11,7 +11,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 {
     public class TestRequestGeneratorOptionsViewModel : BaseDialogViewModel
     {
-        public TestRequestGeneratorOptionsViewModel(IUnityContainer container) : base(container)
+        public TestRequestGeneratorOptionsViewModel(Services.ServicesRepository servicesRepository) 
+            : base(servicesRepository)
         {
         }
     }

@@ -8,6 +8,7 @@ using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.Model.Model.Factory;
 using Unity;
+using DecisionRulesTool.UserInterface.Services;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
@@ -26,7 +27,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             set
             {
                 availableRelations = value;
-                OnPropertyChanged("AvailableRelations");
+                RaisePropertyChanged("AvailableRelations");
             }
         }
         public Relation SelectedRelation
@@ -46,12 +47,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             {
 
                 selectedRelationIndex = value;
-                OnPropertyChanged("SelectedRelationIndex");
+                RaisePropertyChanged("SelectedRelationIndex");
             }
         }
         #endregion Properties
 
-        public RelationFilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, IUnityContainer container) : base(rootRuleSet, ruleSetSubsetFactory, container)
+        public RelationFilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, ServicesRepository servicesRepository)
+            : base(rootRuleSet, ruleSetSubsetFactory, servicesRepository)
         {
             InitializeRelations();
         }

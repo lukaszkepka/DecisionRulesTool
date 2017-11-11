@@ -1,6 +1,9 @@
 ﻿using DecisionRulesTool.UserInterface.Model;
+using DecisionRulesTool.UserInterface.Services;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +19,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public bool Result { get; protected set; }
 
-        public BaseDialogViewModel(IUnityContainer container) : base(container)
+        public BaseDialogViewModel(ServicesRepository servicesRepository) : base(servicesRepository)
         {
             InitializeCommands();
         }

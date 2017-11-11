@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DecisionRulesTool.UserInterface.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,19 +28,19 @@ namespace DecisionRulesTool.UserInterface.View
         private void FilterTestRequests_All(object sender, RoutedEventArgs e)
         {
             dynamic context = DataContext;
-            context.FilterTestRequests.Execute("All");
+            context.FilterTestRequests.Execute(TestConfiguratorViewModel.TestRequestFilter.All);
         }
 
         private void FilterTestRequests_ForSelectedRuleSet(object sender, RoutedEventArgs e)
         {
             dynamic context = DataContext;
-            context.FilterTestRequests.Execute("ForSelectedRuleSet");
+            context.FilterTestRequests.Execute(TestConfiguratorViewModel.TestRequestFilter.ForSelcetedRuleSet);
         }
 
         private void FilterTestRequests_ForSelectedTestSet(object sender, RoutedEventArgs e)
         {
             dynamic context = DataContext;
-            context.FilterTestRequests.Execute("ForSelectedTestSet");
+            context.FilterTestRequests.Execute(TestConfiguratorViewModel.TestRequestFilter.ForSelectedTestSet);
         }
     }
 }

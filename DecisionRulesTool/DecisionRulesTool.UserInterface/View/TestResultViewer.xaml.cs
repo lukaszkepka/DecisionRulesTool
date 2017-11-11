@@ -17,16 +17,16 @@ namespace DecisionRulesTool.UserInterface.View
     /// <summary>
     /// Interaction logic for TestRunnerWindow.xaml
     /// </summary>
-    public partial class TestManagerWindow : Window
+    public partial class TestResultViewer : Window
     {
-        public TestManagerWindow()
+        public TestResultViewer()
         {
             InitializeComponent();
         }
 
         private void TestSetDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            this.TestSetDataGrid.UpdateLayout();
+            this.TestResultDataGrid.UpdateLayout();
         }
     }
 }

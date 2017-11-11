@@ -10,6 +10,8 @@ using DecisionRulesTool.Model.RuleTester;
 using DecisionRulesTool.UserInterface.Model;
 using System.Collections.ObjectModel;
 using PropertyChanged;
+using GalaSoft.MvvmLight.Command;
+using DecisionRulesTool.UserInterface.Services;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
@@ -22,7 +24,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public ICommand UnselectRuleSets { get; private set; }
         public ICollection<RuleSetSubset> RuleSets { get; private set; }
 
-        public TestRequestFromTestSetGeneratorViewModel(ICollection<RuleSetSubset> ruleSets, DataSet testSet, IUnityContainer container) : base(container)
+        public TestRequestFromTestSetGeneratorViewModel(ICollection<RuleSetSubset> ruleSets, DataSet testSet, ServicesRepository servicesRepository)
+            : base(servicesRepository)
         {
             this.testSet = testSet;
             InitializeCommands();
@@ -49,12 +52,12 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void OnSelectRuleSets()
         {
-            ruleSetSubsetService.SelectAllSubsets(RuleSets);
+            servicesRepository.RuleSetSubsetService.SelectAllSubsets(RuleSets);
         }
 
         private void OnUnselectRuleSets()
         {
-            ruleSetSubsetService.UnselectEmptySubsets(RuleSets);
+            servicesRepository.RuleSetSubsetService.UnselectEmptySubsets(RuleSets);
         }
 
         public override IEnumerable<TestRequest> GenerateTestRequests()

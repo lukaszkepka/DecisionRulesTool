@@ -13,12 +13,13 @@ using DecisionRulesTool.Model.Parsers;
 using DecisionRulesTool.Model;
 using DecisionRulesTool.Model.IO.Parsers.Factory;
 using DecisionRulesTool.Model.IO;
+using GalaSoft.MvvmLight.Command;
+using DecisionRulesTool.UserInterface.Services;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    public class RuleSetManagerViewModel : BaseWindowViewModel
+    public class RuleSetManagerViewModel : ApplicationContextViewModel
     {
-        private ICollection<RuleSetSubset> ruleSets;
         private RuleSetSubset selectedRuleSet;
 
         public ICommand DeleteSubset { get; private set; }
@@ -26,7 +27,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public ICommand LoadRuleSets { get; private set; }
         public ICommand SaveRuleSetToFile { get; private set; }
         public ICommand GenerateSubsets { get; private set; }
-        public ICommand ConfigureTests { get; private set; }
 
         #region Properties
         public RuleSetSubset SelectedRuleSet
@@ -38,57 +38,41 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             set
             {
                 selectedRuleSet = value;
-                OnPropertyChanged("SelectedRuleSet");
+                RaisePropertyChanged("SelectedRuleSet");
             }
         }
+
+        /// <summary>
+        /// Wrapper property for application's cache rule set collection
+        /// </summary>
         public ICollection<RuleSetSubset> RuleSets
         {
             get
             {
-                return ruleSets;
+                return applicationCache.RuleSets;
             }
             set
             {
-                ruleSets = value;
-                OnPropertyChanged("RuleSets");
+                applicationCache.RuleSets = value;
+                RaisePropertyChanged("RuleSets");
             }
         }
         #endregion
 
-        public RuleSetManagerViewModel(ICollection<RuleSetSubset> ruleSets, IUnityContainer container) : base(container)
+        public RuleSetManagerViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository)
+            : base(applicationCache, servicesRepository)
         {
-            this.RuleSets = ruleSets;
-            //TODO Delete
-            string filePath = $"{Globals.RsesFilesDirectory}/Rules/male.rul";
-            IFileParserFactory<RuleSet> fileParserFactory = new RuleSetParserFactory();
-            IFileParser<RuleSet> ruleSetParser = fileParserFactory.Create(BaseFileFormat.FileExtensions.RSESRuleSet);
-            RuleSetSubset ruleSet = new RuleSetSubsetViewItem(ruleSetParser.ParseFile(filePath));
-            ruleSets.Add(ruleSet);
-            //END TODO
             InitializeCommands();
-        }
-
-        protected override void OnMoveToTestConfigurator()
-        {
-            try
-            {
-                TestConfiguratorViewModel testConfigurationViewModel = new TestConfiguratorViewModel(RuleSets, containter);
-                windowNavigatorService.SwitchContext(testConfigurationViewModel);
-            }
-            catch (Exception ex)
-            {
-                dialogService.ShowInformationMessage($"Exception thrown : {ex.Message}");
-            }
         }
 
         private void OnSaveRuleSetToFile()
         {
-            dialogService.ShowWarningMessage("Functionality not implemented yet");
+            servicesRepository.DialogService.ShowWarningMessage("Functionality not implemented yet");
         }
 
         private void OnEditFilters()
         {
-            dialogService.ShowWarningMessage("Functionality not implemented yet");
+            servicesRepository.DialogService.ShowWarningMessage("Functionality not implemented yet");
         }
 
         private void OnDeleteSubset()
@@ -96,7 +80,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             var parentRuleSet = SelectedRuleSet.InitialRuleSet;
             if (parentRuleSet == null)
             {
-                ruleSets.Remove(SelectedRuleSet);
+                RuleSets.Remove(SelectedRuleSet);
             }
             else
             {
@@ -111,7 +95,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public void OnLoadRuleSet()
         {
-            foreach (var ruleSet in ruleSetLoaderService.LoadRuleSets())
+            foreach (var ruleSet in servicesRepository.RuleSetLoaderService.LoadRuleSets())
             {
                 RuleSets.Add(new RuleSetSubsetViewItem(ruleSet));
             }
@@ -130,13 +114,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             if (SelectedRuleSet != null)
             {
-                var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet, new RuleSetSubsetViewItemFactory(), containter);
-                if (dialogService.ShowDialog(optionsViewModel) == true)
+                var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet, new RuleSetSubsetViewItemFactory(), servicesRepository);
+                if (servicesRepository.DialogService.ShowDialog(optionsViewModel) == true)
                 {
                     IRuleSubsetGenerator ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
                     ruleSubsetGenerator.GenerateSubsets();
 
-                    dialogService.ShowInformationMessage("Operation completed successfully");
+                    servicesRepository.DialogService.ShowInformationMessage("Operation completed successfully");
                 }
                 else
                 {
@@ -144,7 +128,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
             else
             {
-                dialogService.ShowWarningMessage("To generate rule subsets, you must first select initial rule set from 'Loaded rule sets' panel");
+                servicesRepository.DialogService.ShowWarningMessage("To generate rule subsets, you must first select initial rule set from 'Loaded rule sets' panel");
             }
 
 
@@ -160,7 +144,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             LoadRuleSets = new RelayCommand(OnLoadRuleSet);
             EditFilters = new RelayCommand(OnEditFilters);
             DeleteSubset = new RelayCommand(OnDeleteSubset);
-            //ConfigureTests = new RelayCommand(OnConfigureTests);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
     using DecisionRulesTool.Model.Model;
+    using DecisionRulesTool.UserInterface.Services;
     using Unity;
 
     public class TestSetViewModel : BaseDialogViewModel
@@ -24,14 +25,15 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             set
             {
                 testSet = value;
-                OnPropertyChanged("TestSet");
+                RaisePropertyChanged("TestSet");
             }
         }
         #endregion
 
         public List<Attribute> Attributes { get; private set; }
 
-        public TestSetViewModel(DataSet testSet, IUnityContainer container) : base(container)
+        public TestSetViewModel(DataSet testSet, ServicesRepository servicesRepository)
+            : base(servicesRepository)
         {
             this.testSet = testSet;
             Attributes = testSet.Attributes.ToList();

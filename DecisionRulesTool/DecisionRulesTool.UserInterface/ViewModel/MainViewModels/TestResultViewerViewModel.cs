@@ -1,7 +1,9 @@
 ﻿using DecisionRulesTool.Model.Comparers;
+using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.RuleTester;
 using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.UserInterface.Model;
+using GalaSoft.MvvmLight.Command;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -15,16 +17,29 @@ using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
+    using DecisionRulesTool.Model.Model;
+    using DecisionRulesTool.UserInterface.Services;
+    using System.Collections.ObjectModel;
+
     [AddINotifyPropertyChangedInterface]
-    public class TestResultViewerViewModel : BaseWindowViewModel
+    public class TestResultViewerViewModel : ApplicationContextViewModel
     {
         private TestRequest selectedTestRequest;
+        private TestRequestsAggregate selectedTestRequestAggregate;
         private IProgressNotifier ruleTesterProgressNotifier;
         private IRuleTester ruleTester;
 
         #region Properties
+        public ICollection<TestRequestsAggregate> AggregatedTestRequests { get; private set; }
+        public IEnumerable<TestRequest> FilteredTestRequests
+        {
+            get
+            {
+                return SelectedTestRequestAggregate.TestRequests;
+            }
+        }
         public RuleTesterManager RuleTesterManager { get; private set; }
-        public CustomDataTable TestResultDataTable { get; private set; }
+        public DataTable TestResultDataTable { get; private set; }
         public TestRequest SelectedTestRequest
         {
             get
@@ -37,6 +52,18 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 FillTestResultDataTable(selectedTestRequest);
             }
         }
+        public TestRequestsAggregate SelectedTestRequestAggregate
+        {
+            get
+            {
+                return selectedTestRequestAggregate;
+            }
+            set
+            {
+                selectedTestRequestAggregate = value;
+
+            }
+        }
         public int Progress { get; private set; }
         #endregion
 
@@ -44,19 +71,21 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public ICommand Run { get; private set; }
         #endregion
 
-        public TestResultViewerViewModel(ICollection<TestRequest> testRequests, IUnityContainer container) : base(container)
+        public TestResultViewerViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository)
+            : base(applicationCache, servicesRepository)
         {
             this.ruleTesterProgressNotifier = new ProgressNotifier();
             this.ruleTester = new RuleTester(new ConditionChecker(), ruleTesterProgressNotifier);
-            this.RuleTesterManager = new RuleTesterManager(testRequests);
+            this.RuleTesterManager = new RuleTesterManager(applicationCache.TestRequests);
 
             InitializeCommands();
             InitializeTestResultDataTable();
+            InitializeTestRequestAggregate();
         }
 
         private void InitializeTestResultDataTable()
         {
-            TestResultDataTable = new CustomDataTable();
+            TestResultDataTable = new DataTable();
 
             DataColumn resultColumn = new DataColumn("Result", typeof(string));
             DataColumn decisionValueColumn = new DataColumn("Decision", typeof(string));
@@ -70,28 +99,18 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             Run = new RelayCommand(OnRunTesting);
         }
 
+        private void InitializeTestRequestAggregate()
+        {
+            AggregatedTestRequests = new ObservableCollection<TestRequestsAggregate>();
+
+            foreach (var groupedTestRequest in applicationCache.TestRequests.GroupBy(x => x.TestSet, y => y))
+            {
+                AggregatedTestRequests.Add(new TestRequestsAggregate(groupedTestRequest.Key, groupedTestRequest.ToList()));
+            }
+        }
+
         private void FillTestResultDataTable(TestRequest selectedTestRequest)
         {
-            //TestResultDataTable.Rows.Clear();
-            //TestResultDataTable.Columns.Clear();
-
-            //InitializeTestResultDataTable();
-            //int rowsCount = selectedTestRequest.TestSet.Objects.Count;
-
-            //foreach (var attribute in selectedTestRequest.TestSet.Attributes)
-            //{
-            //    DataColumn attributeColumn = new DataColumn(attribute.Name, typeof(object));
-            //    TestResultDataTable.Columns.Add(attributeColumn);
-            //}
-
-            //for (int i = 0; i < rowsCount; i++)
-            //{
-            //    TestResultDataTable.Rows.Add(
-            //        selectedTestRequest.TestResult?.ClassificationResults[i],
-            //        selectedTestRequest.TestResult?.DecisionValues[i],
-            //        selectedTestRequest.TestSet.Objects.ElementAt(i).Values);
-            //}
-
             int rowsCount = selectedTestRequest.TestSet.Objects.Count;
             var t = TestResultDataTable;
 
@@ -112,7 +131,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
             for (int i = 0; i < rowsCount; i++)
             {
-                var a = new[] 
+                var a = new[]
                 {
                     selectedTestRequest.TestResult?.ClassificationResults[i],
                     selectedTestRequest.TestResult?.DecisionValues[i],

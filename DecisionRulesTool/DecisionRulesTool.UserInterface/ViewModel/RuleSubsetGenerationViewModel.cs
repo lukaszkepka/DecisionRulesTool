@@ -8,6 +8,8 @@ using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using DecisionRulesTool.UserInterface.Model;
 using DecisionRulesTool.UserInterface.ViewModel.Filters;
 using Unity;
+using GalaSoft.MvvmLight.Command;
+using DecisionRulesTool.UserInterface.Services;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
@@ -38,12 +40,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             set
             {
                 selectedFilterViewModel = value;
-                OnPropertyChanged("SelectedFilterViewModel");
+                RaisePropertyChanged("SelectedFilterViewModel");
             }
         }
         #endregion
 
-        public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, IUnityContainer container) : base(container)
+        public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, ServicesRepository servicesRepository) 
+            : base(servicesRepository)
         {
             this.ruleSetSubsetFactory = ruleSetSubsetFactory;
             this.rootRuleSet = rootRuleSet;
@@ -72,9 +75,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             this.filterViewModels = new ObservableCollection<FilterViewModel>()
             {
-                new SupportValueFilterViewModel(rootRuleSet, ruleSetSubsetFactory, containter),
-                new LengthFilterViewModel(rootRuleSet, ruleSetSubsetFactory, containter),
-                new AttributePresenceFilterViewModel(rootRuleSet, ruleSetSubsetFactory, containter)
+                new SupportValueFilterViewModel(rootRuleSet, ruleSetSubsetFactory, servicesRepository),
+                new LengthFilterViewModel(rootRuleSet, ruleSetSubsetFactory, servicesRepository),
+                new AttributePresenceFilterViewModel(rootRuleSet, ruleSetSubsetFactory, servicesRepository)
             };
 
             SelectedFilterViewModel = filterViewModels[1];

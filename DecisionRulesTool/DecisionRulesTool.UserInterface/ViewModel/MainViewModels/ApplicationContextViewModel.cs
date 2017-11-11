@@ -1,9 +1,12 @@
-﻿using DecisionRulesTool.UserInterface.Model;
+﻿using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.RuleTester;
+using DecisionRulesTool.UserInterface.Model;
 using DecisionRulesTool.UserInterface.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,18 +15,18 @@ using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    /// <summary>
-    /// Responsible for handling commands available in window common toolbar
-    /// </summary>
-    public class ToolbarViewModel : ViewModelBase
+    public class ApplicationContextViewModel : BaseWindowViewModel
     {
-        public ServicesRepository servicesRepository;
+        protected ApplicationCache applicationCache;
+
         public ICommand MoveToTestConfigurator { get; private set; }
         public ICommand MoveToTestResultViewer { get; private set; }
         public ICommand MoveToRuleSetManager { get; private set; }
 
-        public ToolbarViewModel() : base()
+        public ApplicationContextViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository)
+            : base(servicesRepository)
         {
+            this.applicationCache = applicationCache;
             InitializeCommands();
         }
 
@@ -38,7 +41,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                //ServicesRepository.WindowNavigatorService.SwitchContext(containter.Resolve<TestConfiguratorViewModel>());
+                servicesRepository.WindowNavigatorService.SwitchContext(new TestConfiguratorViewModel(applicationCache, servicesRepository));
+                OnCloseRequest();
             }
             catch (Exception ex)
             {
@@ -50,7 +54,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                //ServicesRepository.WindowNavigatorService.SwitchContext(containter.Resolve<TestResultViewerViewModel>());
+                servicesRepository.WindowNavigatorService.SwitchContext(new TestResultViewerViewModel(applicationCache, servicesRepository));
+                OnCloseRequest();
             }
             catch (Exception ex)
             {
@@ -62,7 +67,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                //ServicesRepository.WindowNavigatorService.SwitchContext(containter.Resolve<RuleSetManagerViewModel>());
+                servicesRepository.WindowNavigatorService.SwitchContext(new RuleSetManagerViewModel(applicationCache, servicesRepository));
+                OnCloseRequest();
             }
             catch (Exception ex)
             {

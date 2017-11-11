@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using DecisionRulesTool.Model.Model.Factory;
 using DecisionRulesTool.Model.RuleFilters.Appliers;
 using Unity;
+using DecisionRulesTool.UserInterface.Services;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {
@@ -37,7 +38,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             set
             {
                 selectedModeIndex = value;
-                OnPropertyChanged("SelectedModeIndex");
+                RaisePropertyChanged("SelectedModeIndex");
             }
         }
         public ICollection<SelectableItem<string>> Attributes
@@ -49,10 +50,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         }
         #endregion Properties
 
-        public AttributePresenceFilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, IUnityContainer container) : base(rootRuleSet, ruleSetSubsetFactory, container)
-        {
+        public AttributePresenceFilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, ServicesRepository servicesRepository)
+            : base(rootRuleSet, ruleSetSubsetFactory, servicesRepository)
+        { 
             InitializeAvailableModes();
-
             attributes = new ObservableCollection<SelectableItem<string>>(rootRuleSet.Attributes.Select(x => new SelectableItem<string>(x.Name)));
         }
 

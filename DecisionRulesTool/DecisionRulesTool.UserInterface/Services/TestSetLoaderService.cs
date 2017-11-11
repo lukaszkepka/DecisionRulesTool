@@ -27,9 +27,9 @@ namespace DecisionRulesTool.UserInterface.Services
             $"All files (*.*)|*.*";
 
         private IFileParserFactory<DataSet> fileParserFactory;
-        private DialogService dialogService;
+        private IDialogService dialogService;
 
-        public TestSetLoaderService(IFileParserFactory<DataSet> fileParserFactory, DialogService dialogService)
+        public TestSetLoaderService(IFileParserFactory<DataSet> fileParserFactory, IDialogService dialogService)
         {
             this.dialogService = dialogService;
             this.fileParserFactory = fileParserFactory;

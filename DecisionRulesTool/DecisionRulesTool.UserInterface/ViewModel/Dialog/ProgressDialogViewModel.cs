@@ -1,4 +1,5 @@
 ﻿using DecisionRulesTool.Model.Utils;
+using DecisionRulesTool.UserInterface.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
             }
             private set
             {
-                OnPropertyChanged("Progress");
+                RaisePropertyChanged("Progress");
             }
         }
 
-        public ProgressDialogViewModel(IProgressNotifier progressNotifier, IUnityContainer container) : base(container)
+        public ProgressDialogViewModel(IProgressNotifier progressNotifier, ServicesRepository servicesRepository) : base(servicesRepository)
         {
             this.progressNotifier = progressNotifier;
 

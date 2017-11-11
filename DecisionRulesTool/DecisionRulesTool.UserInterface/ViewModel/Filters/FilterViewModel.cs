@@ -2,6 +2,7 @@
 using DecisionRulesTool.Model.Model.Factory;
 using DecisionRulesTool.Model.RuleFilters.Appliers;
 using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
+using DecisionRulesTool.UserInterface.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             set
             {
                 name = value;
-                OnPropertyChanged("Name");
+                RaisePropertyChanged("Name");
             }
         }
         public bool IsEnabled
@@ -40,12 +41,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             set
             {
                 isEnabled = value;
-                OnPropertyChanged("IsEnabled");
+                RaisePropertyChanged("IsEnabled");
             }
         }
         #endregion IsEnabled
 
-        public FilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, IUnityContainer container) : base(container)
+        public FilterViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, ServicesRepository servicesRepository) 
+            : base(servicesRepository)
         {
             this.rootRuleSet = rootRuleSet;
             this.ruleSetSubsetFactory = ruleSetSubsetFactory;

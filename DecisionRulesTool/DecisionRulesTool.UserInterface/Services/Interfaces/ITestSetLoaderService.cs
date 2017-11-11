@@ -1,12 +1,14 @@
-﻿using System;
+﻿using DecisionRulesTool.Model.IO.Parsers.Factory;
+using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.UserInterface.Services.Dialog;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DecisionRulesTool.UserInterface.Services.Interfaces
 {
-    interface ITestSetLoaderService
+    public interface ITestSetLoaderService
     {
+        ICollection<DataSet> LoadDataSets();
     }
 }

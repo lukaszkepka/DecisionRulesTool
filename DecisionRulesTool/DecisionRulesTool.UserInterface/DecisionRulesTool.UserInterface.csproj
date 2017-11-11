@@ -190,28 +190,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\ApplicationCache.cs" />
     <Compile Include="Model\Behaviours\ColumnsBindingBehaviour.cs" />
-    <Compile Include="Model\Commands\ParameterCommand.cs" />
     <Compile Include="Model\Converters\AttributeModeToStringConverter.cs" />
     <Compile Include="Model\Converters\AttributeToDataGridColumnConverter.cs" />
     <Compile Include="Model\Converters\BoolToVisibleOrHidden.cs" />
     <Compile Include="Model\Converters\ConflictResolvingMethodToStringConverter.cs" />
     <Compile Include="Model\Converters\RelationToStringConverter.cs" />
     <Compile Include="Model\CustomControls\TabControlReorderBehaviour.cs" />
-    <Compile Include="Model\CustomDataTable.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Model\DataTemplateSelectors\FilterViewModelTemplateSelector.cs" />
     <Compile Include="Model\Factory\RuleSetSubsetViewItemFactory.cs" />
-    <Compile Include="Model\ISelectable.cs" />
+    <Compile Include="Model\Utils\ISelectable.cs" />
     <Compile Include="Model\RuleSetSubsetViewItem.cs" />
-    <Compile Include="Model\SelectableItem.cs" />
-    <Compile Include="Model\SelectableItemExtension.cs" />
+    <Compile Include="Model\Utils\SelectableItem.cs" />
+    <Compile Include="Model\Utils\SelectableItemExtension.cs" />
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\Dialog\Interfaces\IDialogInterface.cs" />
     <Compile Include="Services\Interfaces\IRuleSetLoaderService.cs" />
     <Compile Include="Services\Interfaces\IRuleSetSubsetService.cs" />
     <Compile Include="Services\Interfaces\ITestSetLoaderService.cs" />
@@ -220,17 +218,16 @@
     <Compile Include="Services\RuleSetSubsetService.cs" />
     <Compile Include="Services\TestRequestService.cs" />
     <Compile Include="ViewModel\AggregatedTestRequestViewModel.cs" />
-    <Compile Include="ViewModel\ApplicationViewModel.cs" />
-    <Compile Include="ViewModel\BaseViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\RuleSetManagerViewModel.cs" />
-    <Compile Include="ViewModel\TestManagerViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModels\ApplicationContextViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModels\RuleSetManagerViewModel.cs" />
+    <Compile Include="Model\TestRequestsAggregate.cs" />
+    <Compile Include="ViewModel\MainViewModels\TestResultViewerViewModel.cs" />
     <Compile Include="ViewModel\TestRequestFromRuleSetGeneratorViewModel.cs" />
     <Compile Include="ViewModel\TestRequestFromTestSetGeneratorViewModel1.cs" />
     <Compile Include="ViewModel\TestRequestGeneratorOptionsViewModel.cs" />
     <Compile Include="ViewModel\TestRequestGeneratorViewModel.cs" />
     <Compile Include="Services\TestSetLoaderService.cs" />
-    <Compile Include="ViewModel\TestConfigurationViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModels\TestConfigurationViewModel.cs" />
     <Compile Include="ViewModel\Dialog\ProgressDialogViewModel.cs" />
     <Compile Include="ViewModel\Filters\AttributePresenceFilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\FilterViewModel.cs" />
@@ -239,7 +236,6 @@
     <Compile Include="ViewModel\Filters\SupportValueFilterViewModel.cs" />
     <Compile Include="ViewModel\TestSetViewModel.cs" />
     <Compile Include="ViewModel\ToolbarViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\Dialogs\TestRequestGenerator\TestRequestFromRuleSetGeneratorDialog.xaml.cs">
       <DependentUpon>TestRequestFromRuleSetGeneratorDialog.xaml</DependentUpon>
     </Compile>
@@ -253,8 +249,8 @@
     <Compile Include="View\TestConfigurationWindow.xaml.cs">
       <DependentUpon>TestConfigurationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TestManagerWindow.xaml.cs">
-      <DependentUpon>TestManagerWindow.xaml</DependentUpon>
+    <Compile Include="View\TestResultViewer.xaml.cs">
+      <DependentUpon>TestResultViewer.xaml</DependentUpon>
     </Compile>
     <Page Include="View\Dialogs\GenerateSubsetsDialog.xaml">
       <SubType>Designer</SubType>
@@ -284,7 +280,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\Commands\RelayCommand.cs" />
     <Compile Include="Services\Dialog\OpenFileDialogSettings.cs" />
     <Compile Include="Services\RuleSetLoaderService.cs" />
     <Compile Include="Services\ServicesRepository.cs" />
@@ -307,7 +302,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TestManagerWindow.xaml">
+    <Page Include="View\TestResultViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -364,9 +359,7 @@
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Utils\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets" Condition="Exists('..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

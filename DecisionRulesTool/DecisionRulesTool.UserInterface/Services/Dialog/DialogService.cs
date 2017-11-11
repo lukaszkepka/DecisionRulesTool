@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace DecisionRulesTool.UserInterface.Services.Dialog
 {
-    public class DialogService : WindowNavigatorService
+    public class DialogService : WindowNavigatorService, IDialogService
     {
         public void ShowInformationMessage(string message)
         {
