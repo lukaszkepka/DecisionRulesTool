@@ -14,9 +14,17 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Collections.Specialized;
 using DecisionRulesTool.UserInterface.Utils;
+using System;
+using ClosedXML.Excel;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
+    using DecisionRulesTool.Model.RuleTester.Result;
+    using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
+    using DecisionRulesTool.UserInterface.Services.Dialog;
+    using DecisionRulesTool.UserInterface.Utils;
+    using System.Windows;
+
     [AddINotifyPropertyChangedInterface]
     public class TestResultViewerViewModel : ApplicationViewModel
     {
@@ -67,6 +75,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         #region Commands
         public ICommand Run { get; private set; }
+        public ICommand SaveToFile { get; private set; }
         #endregion
 
         public TestResultViewerViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository)
@@ -93,7 +102,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             TestResultDataTable = new DataTable();
 
             DataColumn resultColumn = new DataColumn("Result", typeof(string));
-            DataColumn decisionValueColumn = new DataColumn("Decision", typeof(string));
+            DataColumn decisionValueColumn = new DataColumn("Prediction", typeof(string));
 
             TestResultDataTable.Columns.Add(resultColumn);
             TestResultDataTable.Columns.Add(decisionValueColumn);
@@ -102,7 +111,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         private void InitializeCommands()
         {
             Run = new RelayCommand(OnRunTesting);
+            SaveToFile = new RelayCommand(OnSaveToFile);
         }
+
+
 
         private void InitializeTestRequestAggregate()
         {
@@ -116,70 +128,53 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void FillTestResultDataTable(TestRequest selectedTestRequest)
         {
-            int rowsCount = selectedTestRequest.TestSet.Objects.Count;
-            var t = TestResultDataTable;
-
-            TestResultDataTable.Columns.Clear();
-            TestResultDataTable.Rows.Clear();
-
-            DataColumn resultColumn = new DataColumn("Result", typeof(string));
-            DataColumn decisionValueColumn = new DataColumn("Decision", typeof(string));
-
-            TestResultDataTable.Columns.Add(resultColumn);
-            TestResultDataTable.Columns.Add(decisionValueColumn);
-
-            foreach (var attribute in selectedTestRequest.TestSet.Attributes)
+            try
             {
-                DataColumn attributeColumn = new DataColumn(attribute.Name, typeof(object));
-                TestResultDataTable.Columns.Add(attributeColumn);
+                TestResultDataTable = servicesRepository.TestResultConverter.ConvertClassificationTable(selectedTestRequest);
             }
-
-            for (int i = 0; i < rowsCount; i++)
+            catch(Exception ex)
             {
-                var a = new[]
-                {
-                    selectedTestRequest.TestResult?.ClassificationResults[i],
-                    selectedTestRequest.TestResult?.DecisionValues[i],
-                }.Concat(selectedTestRequest.TestSet.Objects.ElementAt(i).Values).ToArray();
-                TestResultDataTable.Rows.Add(a);
-            }
-
-
-            TestResultDataTable = null;
-            TestResultDataTable = t;
+                MessageBox.Show(ex.Message);
+            }            
         }
 
         private void FillConfusionMatrixDataTable(TestRequest selectedTestRequest)
         {
-            DataTable confusionMatrixTable = new DataTable();
-
-            var confusionMatrix = SelectedTestRequest.TestResult.ConfusionMatrix;
-
-            string[] decisionClasses = SelectedTestRequest.RuleSet.DecisionAttribute.AvailableValues;
-
-
-            confusionMatrixTable.Columns.Add(new DataColumn("\\"));
-            decisionClasses.ForEach(x => confusionMatrixTable.Columns.Add(new DataColumn(x)));
-
-            foreach (var realDecision in decisionClasses)
+            try
             {
-                List<object> values = new List<object>()
-                {
-                    realDecision
-                };
-
-                foreach (var predictedDecision in decisionClasses)
-                {
-                    values.Add(confusionMatrix.GetConfusionValue(realDecision, predictedDecision));
-                }
-
-                confusionMatrixTable.Rows.Add(values.ToArray());
+                ConfusionMatrix = servicesRepository.TestResultConverter.ConvertConfusionMatrix(selectedTestRequest);
             }
-
-
-            ConfusionMatrix = confusionMatrixTable;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
+        private void OnSaveToFile()
+        {
+            if(TestResultDataTable.Rows.Count > 0)
+            {
+                SaveFileDialogSettings settings = new SaveFileDialogSettings()
+                {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    ExtensionFilter = $"Excel(*.xlsx)|*.xlsx"
+                };
+
+                string filePath = servicesRepository.DialogService.SaveFileDialog(settings);
+                if (filePath != null)
+                {
+                    XLWorkbook wb = new XLWorkbook();
+                    DataTable dt = TestResultDataTable;
+                    wb.Worksheets.Add(dt, "Labels");
+
+                    DataTable cm = ConfusionMatrix;
+                    wb.Worksheets.Add(cm, "Confusion Matrix");
+
+                    wb.SaveAs(filePath);
+                }
+
+            }
+        }
 
         public void OnRunTesting()
         {

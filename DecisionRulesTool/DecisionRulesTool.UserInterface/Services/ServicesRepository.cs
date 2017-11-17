@@ -1,5 +1,7 @@
 ﻿using DecisionRulesTool.Model.IO.Parsers.Factory;
 using DecisionRulesTool.Model.Model;
+using DecisionRulesTool.Model.RuleTester.Result;
+using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
 using DecisionRulesTool.UserInterface.Services.Dialog;
 using DecisionRulesTool.UserInterface.Services.Interfaces;
 using Microsoft.Practices.ServiceLocation;
@@ -64,7 +66,7 @@ namespace DecisionRulesTool.UserInterface.Services
         {
             get
             {
-                return serviceLocator.GetInstance< ITestSetLoaderService>();
+                return serviceLocator.GetInstance<ITestSetLoaderService>();
             }
         }
 
@@ -81,6 +83,14 @@ namespace DecisionRulesTool.UserInterface.Services
             get
             {
                 return serviceLocator.GetInstance<IRuleSetSubsetService>();
+            }
+        }
+
+        public ITestResultConverter<System.Data.DataTable> TestResultConverter
+        {
+            get
+            {
+                return serviceLocator.GetInstance<ITestResultConverter<System.Data.DataTable>>();
             }
         }
     }

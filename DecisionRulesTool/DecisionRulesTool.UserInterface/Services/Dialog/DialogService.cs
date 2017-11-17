@@ -59,5 +59,22 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
             return filePaths;
         }
 
+        public string SaveFileDialog(SaveFileDialogSettings options)
+        {
+            string filePath = null; 
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = options.ExtensionFilter,
+                InitialDirectory = options.InitialDirectory
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                filePath = saveFileDialog.FileName;
+            }
+
+            return filePath;
+        }
     }
 }

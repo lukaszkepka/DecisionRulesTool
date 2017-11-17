@@ -15,5 +15,6 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
         void ShowMessageBox(string caption, string message, MessageBoxButton buttons);
         bool ShowDialog(BaseDialogViewModel dialogViewModel);
         string[] OpenFileDialog(OpenFileDialogSettings options);
+        string SaveFileDialog(SaveFileDialogSettings options);
     }
 }

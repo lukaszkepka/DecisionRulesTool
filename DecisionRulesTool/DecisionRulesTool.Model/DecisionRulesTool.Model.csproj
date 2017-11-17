@@ -129,9 +129,11 @@
     <Compile Include="Model\RuleSetSubset.cs" />
     <Compile Include="RuleFilters\SupportValueFilter.cs" />
     <Compile Include="RuleSubsetGeneration\LowestLevelSubsetGenerator.cs" />
+    <Compile Include="RuleTester\Result\Interfaces\ITestResultConverter.cs" />
     <Compile Include="RuleTester\Result\Interfaces\ITestResultGroupConverter.cs" />
     <Compile Include="RuleTester\Result\TestRequestsGroup.cs" />
     <Compile Include="RuleTester\Result\TestResultAggregator.cs" />
+    <Compile Include="RuleTester\Result\TestResultToDataTableConverter.cs" />
     <Compile Include="RuleTester\Series\TestSeriesGenerator.cs" />
     <Compile Include="RuleTester\Series\TestSeriesRequest.cs" />
     <Compile Include="RuleTester\Series\TestSeriesRequestBuilder.cs" />

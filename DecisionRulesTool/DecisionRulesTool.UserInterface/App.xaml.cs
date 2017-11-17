@@ -15,6 +15,8 @@ namespace DecisionRulesTool.UserInterface
     using DecisionRulesTool.Model.IO;
     using DecisionRulesTool.Model.Model;
     using DecisionRulesTool.Model.Parsers;
+    using DecisionRulesTool.Model.RuleTester.Result;
+    using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
     using DecisionRulesTool.UserInterface.Model;
     using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
     using System;
@@ -66,6 +68,7 @@ namespace DecisionRulesTool.UserInterface
         {
             SimpleIoc.Default.Register<IServiceLocator>(() => SimpleIoc.Default);
 
+            SimpleIoc.Default.Register<ITestResultConverter<System.Data.DataTable>, TestResultToDataTableConverter>();
             SimpleIoc.Default.Register<IFileParserFactory<RuleSet>, RuleSetParserFactory>();
             SimpleIoc.Default.Register<IFileParserFactory<DataSet>, DataSetParserFactory>();
             SimpleIoc.Default.Register<ITestRequestService, TestRequestService>();
@@ -90,9 +93,6 @@ namespace DecisionRulesTool.UserInterface
 
             var windowNavigatorService = SimpleIoc.Default.GetInstance<IWindowNavigatorService>();
             windowNavigatorService.SwitchContext(SimpleIoc.Default.GetInstance<MainWindowViewModel>());
-
-
-            // var t  = SimpleIoc.Default.GetInstance<TestConfiguratorViewModel>();
         }
 
     }
