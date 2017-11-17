@@ -43,5 +43,34 @@ namespace DecisionRulesTool.UserInterface.View.Controls
             dynamic context = DataContext;
             context.FilterTestRequests.Execute(TestConfiguratorViewModel.TestRequestFilter.ForSelectedTestSet);
         }
+
+        private void ItemsControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+
+        }
+
+        private void testRequestCollection_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var p = (ListBox)sender;
+            for (int i = 0; i < p.Items.Count; i++)
+            {
+                var lbi = (ListBoxItem)p.ItemContainerGenerator.ContainerFromIndex(i);
+                lbi.Width = (p.ActualWidth / 3) - 10;
+            }
+        }
+
+        private void testRequestCollection_Loaded(object sender, RoutedEventArgs e)
+        {
+            var p = (ListBox)sender;
+            for (int i = 0; i < p.Items.Count; i++)
+            {
+                var lbi = (ListBoxItem)p.ItemContainerGenerator.ContainerFromIndex(i);
+                if (lbi != null)
+                {
+                    lbi.Width = (p.ActualWidth / 3) - 10;
+                }
+            }
+        }
     }
 }

@@ -51,8 +51,8 @@ namespace DecisionRulesTool.UserInterface
             var testRequests = new ObservableCollection<TestRequest>();
             foreach (ConflictResolvingMethod conflictResolvingMethod in Enum.GetValues(typeof(ConflictResolvingMethod)))
             {
-                testRequests.Add(new TestRequest(ruleSets[0], testSets[0], conflictResolvingMethod));
-                testRequests.Add(new TestRequest(ruleSets[1], testSets[1], conflictResolvingMethod));
+                testRequests.Add(new TestRequest(ruleSet1, testSets[0], conflictResolvingMethod));
+                testRequests.Add(new TestRequest(ruleSet2, testSets[1], conflictResolvingMethod));
             }
 
             return new ApplicationCache()

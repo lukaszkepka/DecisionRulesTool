@@ -22,7 +22,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="rootGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -166,13 +166,13 @@
                     </ToolBar>
                 </DockPanel>
 
-                <ListBox x:Name="testRequestsView"
+                <ListBox x:Name="testRequestCollection"
                          BorderThickness="1"
                          DockPanel.Dock="Bottom"
                          ScrollViewer.VerticalScrollBarVisibility="Visible"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          ItemsSource="{Binding FilteredTestRequests}"
-                         SelectedItem="{Binding SelectedTestRequest}">
+                         SelectedItem="{Binding SelectedTestRequest}" MouseDoubleClick="testRequestCollection_MouseDoubleClick" Loaded="testRequestCollection_Loaded">
 
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -180,15 +180,20 @@
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
 
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel HorizontalAlignment="Stretch"
-                                        Height="150"
-                                        Width="250"
-                                        Background="Azure"
-                                        Grid.Column="2"
-                                        Grid.Row="1"
-                                        Margin="0,5,0,0">
+                            <ItemsControl HorizontalAlignment="Stretch"
+                                          Height="150"
+                                          Background="Azure"
+                                          Grid.Column="2"
+                                          Grid.Row="1"
+                                          Margin="0,5,0,0" MouseDoubleClick="ItemsControl_MouseDoubleClick">
 
                                 <ToolBar VerticalAlignment="Top">
                                     <ToolBar.Resources>
@@ -220,6 +225,22 @@
                                     <Label DockPanel.Dock="Left"
                                            Content="{Binding RuleSet.Name}"/>
                                 </DockPanel>
+                                <Label DockPanel.Dock="Left"
+                                       Content="Applied Filters : "/>
+                                <ItemsControl ItemsSource="{Binding RuleSet.Filters}">
+
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Content="{Binding .}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0" Background="AliceBlue" Margin="6 0 6 0"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                                 <DockPanel>
                                     <Label DockPanel.Dock="Left"
                                            Content="Test Set : "/>
@@ -232,8 +253,7 @@
                                     <Label DockPanel.Dock="Left"
                                            Content="{Binding ResolvingMethod}"/>
                                 </DockPanel>
-                            </StackPanel>
-
+                            </ItemsControl>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

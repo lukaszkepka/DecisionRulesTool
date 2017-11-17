@@ -163,6 +163,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 string filePath = servicesRepository.DialogService.SaveFileDialog(settings);
                 if (filePath != null)
                 {
+                    //TODO : Remove to test result saver class
                     XLWorkbook wb = new XLWorkbook();
                     DataTable dt = TestResultDataTable;
                     wb.Worksheets.Add(dt, "Labels");
