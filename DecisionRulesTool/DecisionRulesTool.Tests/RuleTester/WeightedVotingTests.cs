@@ -37,7 +37,7 @@ namespace DecisionRulesTool.Te.RuleTester
 
             var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
 
-            Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(BaseDecisionResolverStrategy.PositiveClassification))));
+            Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(ClassificationResult.PositiveClassification))));
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace DecisionRulesTool.Te.RuleTester
 
             var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
 
-            Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(BaseDecisionResolverStrategy.NegativeClassification))));
+            Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(ClassificationResult.NegativeClassification))));
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace DecisionRulesTool.Te.RuleTester
 
             var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
 
-            Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(BaseDecisionResolverStrategy.BadClassification))));
+            Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(ClassificationResult.BadClassification))));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace DecisionRulesTool.Te.RuleTester
 
             var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
 
-            Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(BaseDecisionResolverStrategy.NoCoverage))));
+            Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(ClassificationResult.NoCoverage))));
         }
 
         public RuleSet GetData()

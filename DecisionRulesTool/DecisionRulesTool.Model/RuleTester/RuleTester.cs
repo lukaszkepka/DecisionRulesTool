@@ -51,9 +51,19 @@ namespace DecisionRulesTool.Model.RuleTester
             }
         }
 
-        private ConfusionMatrix ComputeConfusionMatrix(ClassificationResult[] decisionValues, DataSet testSet)
+        private ConfusionMatrix ComputeConfusionMatrix(ClassificationResult[] decisionValues, DataSet testSet, Attribute decisionAttribute)
         {
-            return new ConfusionMatrix();
+            int i = 0;
+            ConfusionMatrix confusionMatrix = new ConfusionMatrix(decisionAttribute);
+
+            foreach (var testSetObject in testSet.Objects)
+            {
+                string realClass = testSetObject[decisionAttribute].ToString();
+                string predictedClass = decisionValues[i++].DecisionValue;
+                confusionMatrix.IncrementPredictionCount(realClass, predictedClass);
+            }
+
+            return confusionMatrix;
         }
 
         private ClassificationResult[] HandleTestRequest(TestRequest testRequest)
@@ -81,20 +91,23 @@ namespace DecisionRulesTool.Model.RuleTester
             IList<TestResult> testResults = new List<TestResult>();
             foreach (TestRequest testRequest in testRequests)
             {
-                ClassificationResult[] classificationResults = HandleTestRequest(testRequest);
-                ConfusionMatrix confusionMatrix = ComputeConfusionMatrix(classificationResults, testRequest.TestSet);
-                TestResult testResult = new TestResult()
+                if (testRequest.Progress < 100)
                 {
-                    DecisionValues = classificationResults.Select(x => x.DecisionValue).ToArray(),
-                    ClassificationResults = classificationResults.Select(x => x.Result).ToArray(),
-                    ConfusionMatrix = confusionMatrix,
-                };
+                    ClassificationResult[] classificationResults = HandleTestRequest(testRequest);
+                    ConfusionMatrix confusionMatrix = ComputeConfusionMatrix(classificationResults, testRequest.TestSet, testRequest.RuleSet.DecisionAttribute);
+                    TestResult testResult = new TestResult()
+                    {
+                        DecisionValues = classificationResults.Select(x => x.DecisionValue).ToArray(),
+                        ClassificationResults = classificationResults.Select(x => x.Result).ToArray(),
+                        ConfusionMatrix = confusionMatrix,
+                    };
 
+                    testRequest.TestResult = testResult;
+                    testResults.Add(testResult);
+                }
+                
                 //Send notification that process has completed testing another test request
                 progressNotifier.OnProgressChanged(GetTesterProgress(++completedTestRequestCount, testRequestsCount));
-
-                testRequest.TestResult = testResult;
-                testResults.Add(testResult);
             }
 
             //Send notification that process has been completed

@@ -54,7 +54,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
             set
             {
-                applicationCache.RuleSets = value;
+                applicationCache.RuleSets = new ObservableCollection<RuleSetSubset>(value);
                 RaisePropertyChanged("RuleSets");
             }
         }

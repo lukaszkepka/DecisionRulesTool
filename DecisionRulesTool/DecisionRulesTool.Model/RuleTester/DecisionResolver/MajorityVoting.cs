@@ -27,7 +27,7 @@ namespace DecisionRulesTool.Model.RuleTester
 
             if (isInvalidClassification)
             {
-                decision = BadClassification;
+                decision = ClassificationResult.BadClassification;
             }
             else
             {

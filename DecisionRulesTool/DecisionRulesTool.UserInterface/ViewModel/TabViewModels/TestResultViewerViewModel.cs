@@ -1,27 +1,22 @@
 ﻿using DecisionRulesTool.Model.Comparers;
-using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.RuleTester;
 using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.UserInterface.Model;
+using DecisionRulesTool.UserInterface.Services;
+using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
+using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
 using PropertyChanged;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Unity;
+using System.Collections.Specialized;
+using DecisionRulesTool.UserInterface.Utils;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    using DecisionRulesTool.Model.Model;
-    using DecisionRulesTool.UserInterface.Services;
-    using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
-    using System.Collections.ObjectModel;
-
     [AddINotifyPropertyChangedInterface]
     public class TestResultViewerViewModel : ApplicationViewModel
     {
@@ -41,6 +36,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         }
         public RuleTesterManager RuleTesterManager { get; private set; }
         public DataTable TestResultDataTable { get; private set; }
+        public DataTable ConfusionMatrix { get; private set; }
         public TestRequest SelectedTestRequest
         {
             get
@@ -51,6 +47,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             {
                 selectedTestRequest = value;
                 FillTestResultDataTable(selectedTestRequest);
+                FillConfusionMatrixDataTable(selectedTestRequest);
             }
         }
         public TestRequestsAggregate SelectedTestRequestAggregate
@@ -82,6 +79,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             InitializeCommands();
             InitializeTestResultDataTable();
             InitializeTestRequestAggregate();
+
+            applicationCache.TestRequests.CollectionChanged += OnTestRequestCollectionChanged;
+        }
+
+        private void OnTestRequestCollectionChanged(object sender, NotifyCollectionChangedEventArgs eventArgs)
+        {
+            InitializeTestRequestAggregate();
         }
 
         private void InitializeTestResultDataTable()
@@ -106,7 +110,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
             foreach (var groupedTestRequest in applicationCache.TestRequests.GroupBy(x => x.TestSet, y => y))
             {
-                AggregatedTestRequests.Add(new TestRequestsAggregate(groupedTestRequest.Key, groupedTestRequest.ToList()));
+                AggregatedTestRequests.Add(new TestRequestsAggregate(groupedTestRequest.Key, groupedTestRequest));
             }
         }
 
@@ -144,6 +148,38 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             TestResultDataTable = null;
             TestResultDataTable = t;
         }
+
+        private void FillConfusionMatrixDataTable(TestRequest selectedTestRequest)
+        {
+            DataTable confusionMatrixTable = new DataTable();
+
+            var confusionMatrix = SelectedTestRequest.TestResult.ConfusionMatrix;
+
+            string[] decisionClasses = SelectedTestRequest.RuleSet.DecisionAttribute.AvailableValues;
+
+
+            confusionMatrixTable.Columns.Add(new DataColumn("\\"));
+            decisionClasses.ForEach(x => confusionMatrixTable.Columns.Add(new DataColumn(x)));
+
+            foreach (var realDecision in decisionClasses)
+            {
+                List<object> values = new List<object>()
+                {
+                    realDecision
+                };
+
+                foreach (var predictedDecision in decisionClasses)
+                {
+                    values.Add(confusionMatrix.GetConfusionValue(realDecision, predictedDecision));
+                }
+
+                confusionMatrixTable.Rows.Add(values.ToArray());
+            }
+
+
+            ConfusionMatrix = confusionMatrixTable;
+        }
+
 
         public void OnRunTesting()
         {

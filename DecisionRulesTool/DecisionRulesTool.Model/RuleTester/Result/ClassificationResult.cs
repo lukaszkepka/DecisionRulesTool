@@ -10,6 +10,11 @@ namespace DecisionRulesTool.Model.RuleTester
     [DebuggerDisplay("ToString()")]
     public struct ClassificationResult
     {
+        public const string NoCoverage = "No Coverage";
+        public const string BadClassification = "Bad Classification";
+        public const string PositiveClassification = "Positive";
+        public const string NegativeClassification = "Negative";
+
         public string DecisionValue { get; set; }
         public string Result { get; set; }
 

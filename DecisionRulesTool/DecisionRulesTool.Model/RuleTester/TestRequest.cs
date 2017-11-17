@@ -9,10 +9,10 @@ using System.Text;
 
 namespace DecisionRulesTool.Model.RuleTester
 {
-    [AddINotifyPropertyChangedInterface]
-    public class TestRequest
+    public class TestRequest : INotifyPropertyChanged
     {
         public const int MaxProgress = 100;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public RuleSet RuleSet { get; }
         public DataSet TestSet { get; }

@@ -6,6 +6,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 {
     using DecisionRulesTool.Model.Model;
     using PropertyChanged;
+    using System.ComponentModel;
     using System.Linq;
 
     [AddINotifyPropertyChangedInterface]
@@ -13,34 +14,35 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     {
         public DataSet TestSet { get; }
 
-        public ICollection<TestRequest> TestRequests { get; }
+        public IEnumerable<TestRequest> TestRequests { get; }
 
-        public int Progress
-        {
-            get
-            {
-                int progressSum = TestRequests.Sum(x => x.Progress);
-                if (progressSum == TestRequests.Count * TestRequest.MaxProgress)
-                {
-                    return TestRequest.MaxProgress;
-                }
-                else
-                {
-                    return (int)((double)TestRequests.Sum(x => x.Progress) / TestRequests.Count);
-                }
-            }
-        }
+        public int Progress { get; set; }
 
-        public TestRequestsAggregate(DataSet testSet, ICollection<TestRequest> testRequests)
+        public TestRequestsAggregate(DataSet testSet, IEnumerable<TestRequest> testRequests)
         {
             this.TestSet = testSet;
             this.TestRequests = testRequests;
 
-            //foreach (var item in testRequests)
-            //{
-            //    dynamic t = item;
-            //    t.PropertyChanged += 
-            //}
+            foreach (var item in testRequests)
+            {
+                item.PropertyChanged += Item_PropertyChanged;
+            }
+        }
+
+        private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName.Equals("Progress"))
+            {
+                int progressSum = TestRequests.Sum(x => x.Progress);
+                if (progressSum == TestRequests.Count() * TestRequest.MaxProgress)
+                {
+                    Progress = TestRequest.MaxProgress;
+                }
+                else
+                {
+                    Progress = (int)((double)TestRequests.Sum(x => x.Progress) / TestRequests.Count());
+                }
+            }
         }
     }
 }

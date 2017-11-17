@@ -18,7 +18,7 @@ namespace DecisionRulesTool.Model.RuleTester
 
         protected override string ResolveConflict(KeyValuePair<Object, int[]> decisionItem)
         {
-            return BadClassification;
+            return ClassificationResult.BadClassification;
         }
     }
 }

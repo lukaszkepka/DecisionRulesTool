@@ -45,7 +45,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
             set
             {
-                applicationCache.RuleSets = value;
+                applicationCache.RuleSets  = new ObservableCollection<RuleSetSubset>(value);
                 RaisePropertyChanged("RuleSets");
             }
         }
@@ -61,7 +61,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
             set
             {
-                applicationCache.TestSets = value;
+                applicationCache.TestSets = new ObservableCollection<DataSet>(value);
                 RaisePropertyChanged("TestSets");
             }
         }
@@ -77,7 +77,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
             set
             {
-                applicationCache.TestRequests = value;
+                applicationCache.TestRequests = new ObservableCollection<TestRequest>(value); 
                 RaisePropertyChanged("TestRequests");
             }
         }

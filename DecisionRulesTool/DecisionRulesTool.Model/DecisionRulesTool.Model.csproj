@@ -129,13 +129,16 @@
     <Compile Include="Model\RuleSetSubset.cs" />
     <Compile Include="RuleFilters\SupportValueFilter.cs" />
     <Compile Include="RuleSubsetGeneration\LowestLevelSubsetGenerator.cs" />
+    <Compile Include="RuleTester\Result\Interfaces\ITestResultGroupConverter.cs" />
+    <Compile Include="RuleTester\Result\TestRequestsGroup.cs" />
+    <Compile Include="RuleTester\Result\TestResultAggregator.cs" />
     <Compile Include="RuleTester\Series\TestSeriesGenerator.cs" />
     <Compile Include="RuleTester\Series\TestSeriesRequest.cs" />
     <Compile Include="RuleTester\Series\TestSeriesRequestBuilder.cs" />
-    <Compile Include="RuleTester\ClassificationResult.cs" />
+    <Compile Include="RuleTester\Result\ClassificationResult.cs" />
     <Compile Include="RuleTester\ConflictResolverFactory.cs" />
     <Compile Include="RuleTester\ConflictResolvingMethod.cs" />
-    <Compile Include="RuleTester\ConfusionMatrix.cs" />
+    <Compile Include="RuleTester\Result\ConfusionMatrix.cs" />
     <Compile Include="RuleTester\DecisionResolver\BaseDecisionResolverStrategy.cs" />
     <Compile Include="RuleTester\DecisionResolver\IDecisionResolverStrategy.cs" />
     <Compile Include="RuleTester\IRuleTester.cs" />
@@ -144,7 +147,7 @@
     <Compile Include="RuleTester\RuleTester.cs" />
     <Compile Include="RuleTester\RuleTesterManager.cs" />
     <Compile Include="RuleTester\TestRequest.cs" />
-    <Compile Include="RuleTester\TestResult.cs" />
+    <Compile Include="RuleTester\Result\TestResult.cs" />
     <Compile Include="RuleTester\DecisionResolver\WeightedVoting.cs" />
     <Compile Include="Utils\CombinationGenerator.cs" />
     <Compile Include="Utils\Extensions.cs" />
@@ -157,6 +160,10 @@
     <Folder Include="Logger\" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\DecisionRulesTool.Diagrams\DependencyValidation1.layerdiagram">
+      <Link>DependencyValidation1.layerdiagram</Link>
+      <Visible>False</Visible>
+    </AdditionalFiles>
     <None Include="App.config" />
     <None Include="Configuration\NLog.config" />
     <None Include="packages.config" />

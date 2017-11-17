@@ -196,6 +196,7 @@
     <Compile Include="Model\Converters\AttributeToDataGridColumnConverter.cs" />
     <Compile Include="Model\Converters\BoolToVisibleOrHidden.cs" />
     <Compile Include="Model\Converters\ConflictResolvingMethodToStringConverter.cs" />
+    <Compile Include="Model\Converters\DecisionToColorConverter.cs" />
     <Compile Include="Model\Converters\RelationToStringConverter.cs" />
     <Compile Include="Model\CustomControls\TabControlReorderBehaviour.cs" />
     <Compile Include="Model\DataTemplateSelectors\FilterViewModelTemplateSelector.cs" />
@@ -217,33 +218,35 @@
     <Compile Include="Services\Interfaces\ITestRequestService.cs" />
     <Compile Include="Services\RuleSetSubsetService.cs" />
     <Compile Include="Services\TestRequestService.cs" />
-    <Compile Include="ViewModel\AggregatedTestRequestViewModel.cs" />
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="ViewModel\Base\ApplicationViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModels\RuleSetManagerViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\TabViewModels\RuleSetManagerViewModel.cs" />
     <Compile Include="Model\TestRequestsAggregate.cs" />
-    <Compile Include="ViewModel\MainViewModels\TestResultViewerViewModel.cs" />
-    <Compile Include="ViewModel\TestRequestFromRuleSetGeneratorViewModel.cs" />
-    <Compile Include="ViewModel\TestRequestFromTestSetGeneratorViewModel1.cs" />
-    <Compile Include="ViewModel\TestRequestGeneratorOptionsViewModel.cs" />
-    <Compile Include="ViewModel\TestRequestGeneratorViewModel.cs" />
+    <Compile Include="ViewModel\TabViewModels\TestResultViewerViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\TestRequestFromRuleSetGeneratorViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\TestRequestFromTestSetGeneratorViewModel1.cs" />
+    <Compile Include="ViewModel\Dialog\TestRequestGeneratorOptionsViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\TestRequestGeneratorViewModel.cs" />
     <Compile Include="Services\TestSetLoaderService.cs" />
-    <Compile Include="ViewModel\MainViewModels\TestConfigurationViewModel.cs" />
+    <Compile Include="ViewModel\TabViewModels\TestConfigurationViewModel.cs" />
     <Compile Include="ViewModel\Dialog\ProgressDialogViewModel.cs" />
     <Compile Include="ViewModel\Filters\AttributePresenceFilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\FilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\LengthFilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\RelationFilterViewModel.cs" />
     <Compile Include="ViewModel\Filters\SupportValueFilterViewModel.cs" />
-    <Compile Include="ViewModel\TestSetViewModel.cs" />
-    <Compile Include="ViewModel\ToolbarViewModel.cs" />
-    <Compile Include="View\Controls\RuleSetManagerTab.xaml.cs">
+    <Compile Include="ViewModel\Dialog\TestSetViewModel.cs" />
+    <Compile Include="View\Controls\ConfusionMatrix.xaml.cs">
+      <DependentUpon>ConfusionMatrix.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\Tab\RuleSetManagerTab.xaml.cs">
       <DependentUpon>RuleSetManagerTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\TestConfigurationTab.xaml.cs">
+    <Compile Include="View\Controls\Tab\TestConfigurationTab.xaml.cs">
       <DependentUpon>TestConfigurationTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\TestResultViewerTab.xaml.cs">
+    <Compile Include="View\Controls\Tab\TestResultViewerTab.xaml.cs">
       <DependentUpon>TestResultViewerTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Dialogs\TestRequestGenerator\TestRequestFromRuleSetGeneratorDialog.xaml.cs">
@@ -259,15 +262,19 @@
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\Controls\RuleSetManagerTab.xaml">
+    <Page Include="View\Controls\ConfusionMatrix.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\TestConfigurationTab.xaml">
+    <Page Include="View\Controls\Tab\RuleSetManagerTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\TestResultViewerTab.xaml">
+    <Page Include="View\Controls\Tab\TestConfigurationTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\Tab\TestResultViewerTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -309,7 +316,7 @@
     <Compile Include="ViewModel\Base\BaseDialogViewModel.cs" />
     <Compile Include="ViewModel\Base\BaseWindowViewModel.cs" />
     <Compile Include="Services\Dialog\DialogService.cs" />
-    <Compile Include="ViewModel\RuleSubsetGenerationViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\RuleSubsetGenerationViewModel.cs" />
     <Compile Include="View\Dialogs\GenerateSubsetsDialog.xaml.cs">
       <DependentUpon>GenerateSubsetsDialog.xaml</DependentUpon>
     </Compile>

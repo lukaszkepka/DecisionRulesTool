@@ -12,11 +12,6 @@ namespace DecisionRulesTool.Model.RuleTester.DecisionResolver
 
     public abstract class BaseDecisionResolverStrategy : IDecisionResolverStrategy
     {
-        public const string NoCoverage = "NO COVERAGE";
-        public const string BadClassification = "BAD CLASSIFICATION";
-        public const string PositiveClassification = "POSITIVE";
-        public const string NegativeClassification = "NEGATIVE";
-
         protected readonly IDictionary<Object, int[]> decisionMatrix;
         protected readonly string[] decisionValues;
         protected readonly int decisionAttributeIndex;
@@ -90,7 +85,7 @@ namespace DecisionRulesTool.Model.RuleTester.DecisionResolver
 
             if (decisionItem.Value.Sum() == 0)
             {
-                decision = NoCoverage;
+                decision = ClassificationResult.NoCoverage;
             }
             else
             {
@@ -108,11 +103,11 @@ namespace DecisionRulesTool.Model.RuleTester.DecisionResolver
             {
                 if (actualDecisionValue.Equals(decisionValue))
                 {
-                    result = PositiveClassification;
+                    result = ClassificationResult.PositiveClassification;
                 }
                 else
                 {
-                    result = NegativeClassification;
+                    result = ClassificationResult.NegativeClassification;
                 }
             }
             else
