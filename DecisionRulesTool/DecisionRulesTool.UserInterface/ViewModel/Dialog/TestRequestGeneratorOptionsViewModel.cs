@@ -1,4 +1,5 @@
 ﻿using DecisionRulesTool.UserInterface.Model;
+using DecisionRulesTool.UserInterface.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 {
     public class TestRequestGeneratorOptionsViewModel : BaseDialogViewModel
     {
-        public TestRequestGeneratorOptionsViewModel(Services.ServicesRepository servicesRepository) 
-            : base(servicesRepository)
+        public TestRequestGeneratorOptionsViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository) 
+            : base(applicationCache, servicesRepository)
         {
         }
     }

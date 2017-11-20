@@ -1,7 +1,6 @@
 ﻿using DecisionRulesTool.UserInterface.Services.Interfaces;
 using DecisionRulesTool.UserInterface.View;
 using DecisionRulesTool.UserInterface.View.Dialogs;
-using DecisionRulesTool.UserInterface.View.Dialogs.TestRequestGenerator;
 using DecisionRulesTool.UserInterface.ViewModel;
 using DecisionRulesTool.UserInterface.ViewModel.Dialog;
 using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
@@ -36,20 +35,17 @@ namespace DecisionRulesTool.UserInterface.Services
             Window newWindow = null;
             switch (viewModel)
             {
+                case GroupedTestResultViewModel groupedTestResultViewModel:
+                    newWindow = new GroupedTestResultWindow();
+                    break;
                 case RuleSubsetGenerationViewModel ruleSubsetGenerationViewModel:
                     newWindow = new GenerateSubsetsDialog();
                     break;
                 case TestSetViewModel testSetViewModel:
                     newWindow = new TestSetDialog();
                     break;
-                case TestRequestFromRuleSetGeneratorViewModel testRequestFromRuleSetGeneratorViewModel:
-                    newWindow = new TestRequestFromRuleSetGeneratorDialog();
-                    break;
-                case TestRequestFromTestSetGeneratorViewModel testRequestFromRuleSetGeneratorViewModel:
-                    newWindow = new TestRequestFromTestSetGeneratorDialog();
-                    break;
-                case TestRequestGeneratorOptionsViewModel testRequestGeneratorOptionsViewModel:
-                    newWindow = new TestRequestGeneratorOptionsDialog();
+                case TestRequestGeneratorViewModel testRequestGeneratorOptionsViewModel:
+                    newWindow = new TestRequestGeneratorDialog();
                     break;
                 default:
                     break;
@@ -64,7 +60,7 @@ namespace DecisionRulesTool.UserInterface.Services
             {
                 newWindow.DataContext = viewModel;
                 newWindow.Show();
-                viewModel.CloseRequest += (sender, e) => newWindow.Close();
+                viewModel.CloseRequest += (sender, e) => { newWindow.Close(); };
             }
         }
     }

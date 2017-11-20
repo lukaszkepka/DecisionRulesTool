@@ -1,6 +1,7 @@
 ﻿using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.RuleTester;
 using DecisionRulesTool.UserInterface.Model;
+using DecisionRulesTool.UserInterface.Model.Exceptions;
 using DecisionRulesTool.UserInterface.Services;
 using GalaSoft.MvvmLight.Command;
 using PropertyChanged;
@@ -14,28 +15,48 @@ using Unity;
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public abstract class TestRequestGeneratorViewModel : BaseDialogViewModel
+    public class TestRequestGeneratorViewModel : BaseDialogViewModel
     {
+        #region Fields
+        private IEnumerable<DataSet> testSets;
+        #endregion
+
         #region Properties
-        public ICollection<SelectableItem<ConflictResolvingMethod>> ConflictResolvingMethods { get; private set; }
         public TestRequestGeneratorOptionsViewModel SettingsViewModel { get; }
+        public ICollection<SelectableItem<ConflictResolvingMethod>> ConflictResolvingMethods { get; private set; }
+        public ICollection<RuleSetSubset> RuleSets { get; private set; }
+        public IEnumerable<DataSet> TestSets
+        {
+            get
+            {
+                return testSets;
+            }
+            set
+            {
+                SetTestSets(value);
+            }
+        }
         #endregion
 
         #region Commands
+        public ICommand SelectRuleSets { get; private set; }
+        public ICommand UnselectRuleSets { get; private set; }
         public ICommand ShowSettings { get; private set; }
         #endregion
 
-        public TestRequestGeneratorViewModel(ServicesRepository servicesRepository) 
-            : base(servicesRepository)
+        public TestRequestGeneratorViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository)
+            : base(applicationCache, servicesRepository)
         {
-            this.SettingsViewModel = new TestRequestGeneratorOptionsViewModel(servicesRepository);
+            this.SettingsViewModel = new TestRequestGeneratorOptionsViewModel(applicationCache, servicesRepository);
             InitializeCommands();
-            InitializeConflictResolvingMethods();         
+            InitializeConflictResolvingMethods();
         }
 
         private void InitializeCommands()
         {
             ShowSettings = new RelayCommand(OnShowSettings);
+            SelectRuleSets = new RelayCommand(OnSelectRuleSets);
+            UnselectRuleSets = new RelayCommand(OnUnselectRuleSets);
         }
 
         private void InitializeConflictResolvingMethods()
@@ -50,18 +71,106 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             {
                 servicesRepository.DialogService.ShowDialog(SettingsViewModel);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 servicesRepository.DialogService.ShowInformationMessage($"Exception thrown : {ex.Message}");
             }
         }
 
-        protected List<ConflictResolvingMethod> GetSelectedConflictResolvingStrategies()
+        private void SetTestSets(IEnumerable<DataSet> testSets)
+        {
+            if (testSets.Any())
+            {
+                DataSet sampleTestSet = testSets.First();
+                bool areTestSetsCompatible = true;
+                if (testSets.Count() > 1)
+                {
+                    foreach (var testSet in testSets)
+                    {
+                        if (!testSet.IsCompatibleWith(sampleTestSet))
+                        {
+                            areTestSetsCompatible = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (areTestSetsCompatible)
+                {
+                    FilterRuleSetsApplicableFor(sampleTestSet);
+                    this.testSets = testSets;
+                }
+                else
+                {
+                    throw new IncompatibleTestSetsException("Selected test sets aren't compatible");
+                }
+            }
+        }
+
+        private void FilterRuleSetsApplicableFor(DataSet testSet)
+        {
+            this.RuleSets = new ObservableCollection<RuleSetSubset>();
+            foreach (var ruleSet in applicationCache.RuleSets)
+            {
+                if (ruleSet.Attributes.SequenceEqual(testSet.Attributes))
+                {
+                    this.RuleSets.Add(ruleSet);
+                }
+            }
+        }
+
+        public IEnumerable<TestRequest> GenerateTestRequests()
+        {
+            IList<TestRequest> testRequests = new List<TestRequest>();
+            foreach (DataSet testSet in TestSets)
+            {
+                foreach (RuleSet ruleSet in GetSelectedRuleSets())
+                {
+                    foreach (ConflictResolvingMethod conflictResolvingMethod in GetSelectedConflictResolvingStrategies())
+                    {
+                        testRequests.Add(new TestRequest(ruleSet, testSet, conflictResolvingMethod));
+                    }
+                }
+            }
+            return testRequests;
+        }
+
+        private List<RuleSet> GetSelectedRuleSets(ICollection<RuleSetSubset> ruleSets)
+        {
+            List<RuleSet> result = new List<RuleSet>();
+            if (ruleSets.Any())
+            {
+                foreach (var ruleSet in ruleSets)
+                {
+                    if (((RuleSetSubsetViewItem)ruleSet).IsSelected)
+                    {
+                        result.Add(ruleSet);
+                    }
+                    result.AddRange(GetSelectedRuleSets(ruleSet.Subsets));
+                }
+            }
+            return result;
+        }
+
+        private List<RuleSet> GetSelectedRuleSets()
+        {
+            return GetSelectedRuleSets(RuleSets);
+        }
+
+        private List<ConflictResolvingMethod> GetSelectedConflictResolvingStrategies()
         {
             return ConflictResolvingMethods.Where(x => x.IsSelected).Select(x => x.Item).ToList();
         }
 
-        public abstract IEnumerable<TestRequest> GenerateTestRequests();
+        private void OnSelectRuleSets()
+        {
+            servicesRepository.RuleSetSubsetService.SelectAllSubsets(RuleSets);
+        }
+
+        private void OnUnselectRuleSets()
+        {
+            servicesRepository.RuleSetSubsetService.UnselectEmptySubsets(RuleSets);
+        }
 
     }
 }

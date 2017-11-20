@@ -39,7 +39,7 @@
                 <DockPanel Height="30" DockPanel.Dock="Top">
                     <ToolBar DockPanel.Dock="Top">
                         <Button Content="Run Testing" Command="{Binding Run}"/>
-                        <Button Content="Group Results" Command="{Binding GroupResults}"/>
+                        <Button Content="Group Results" Command="{Binding ShowGroupedTestResults}"/>
                     </ToolBar>
                 </DockPanel>
                 <DataGrid x:Name="testSetsList"
@@ -103,7 +103,7 @@
                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      SelectedItem="{Binding SelectedTestRequest}"
-                     ItemsSource="{Binding FilteredTestRequests}">
+                     ItemsSource="{Binding FilteredTestRequests}" MouseDoubleClick="testRequestsView_MouseDoubleClick" LayoutUpdated="testRequestsView_LayoutUpdated">
 
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -111,15 +111,20 @@
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
 
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel HorizontalAlignment="Stretch"
-                                    Height="150"
-                                    Width="300"
-                                    Background="Azure"
-                                    Grid.Column="2"
-                                    Grid.Row="1"
-                                    Margin="0,5,0,0">
+                        <ItemsControl HorizontalAlignment="Stretch"
+                                      Height="150"
+                                      Background="Azure"
+                                      Grid.Column="2"
+                                      Grid.Row="1"
+                                      Margin="0,5,0,0">
 
                             <ToolBar VerticalAlignment="Top">
                                 <ToolBar.Resources>
@@ -177,7 +182,7 @@
                                              Background="AliceBlue"
                                              Minimum="0" Maximum="100" SmallChange="0.01"/>
                             </DockPanel>
-                        </StackPanel>
+                        </ItemsControl>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -199,7 +204,14 @@
                                   AutoGenerateColumns="True"                    
                                   ItemsSource="{Binding TestResultDataTable}"
                                   CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
                                   MouseDoubleClick="TestSetDataGrid_MouseDoubleClick">
+
+                            <!--<DataGrid.Col>
+                                <Style TargetType="DataGridColumn">
+                                    <Setter Property="Width" Value="SizeToCells"/>
+                                </Style>
+                            </DataGrid.Col>-->
 
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">

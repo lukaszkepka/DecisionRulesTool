@@ -45,8 +45,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         }
         #endregion
 
-        public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, ServicesRepository servicesRepository) 
-            : base(servicesRepository)
+        public RuleSubsetGenerationViewModel(RuleSetSubset rootRuleSet, IRuleSetSubsetFactory ruleSetSubsetFactory, ApplicationCache applicationCache, ServicesRepository servicesRepository) 
+            : base(applicationCache, servicesRepository)
         {
             this.ruleSetSubsetFactory = ruleSetSubsetFactory;
             this.rootRuleSet = rootRuleSet;

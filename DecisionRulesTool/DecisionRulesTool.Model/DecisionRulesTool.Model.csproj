@@ -73,6 +73,9 @@
     <Compile Include="Exceptions\FileFormatNotSupportedException.cs" />
     <Compile Include="Exceptions\InvalidFileBodyException.cs" />
     <Compile Include="IO\BaseFileFormat.cs" />
+    <Compile Include="IO\FileSavers\4eMka\_4eMkaRulesSaver.cs" />
+    <Compile Include="IO\FileSavers\Factory\IFileSaverFactory.cs" />
+    <Compile Include="IO\FileSavers\Factory\RuleSetFileSaverFactory.cs" />
     <Compile Include="IO\Parsers\4eMka\4eMkaDataSetParser.cs" />
     <Compile Include="IO\Parsers\Factory\DataSetParserFactory.cs" />
     <Compile Include="IO\Parsers\Factory\IFileParserFactory.cs" />
@@ -136,7 +139,6 @@
     <Compile Include="RuleTester\Result\TestResultToDataTableConverter.cs" />
     <Compile Include="RuleTester\Series\TestSeriesGenerator.cs" />
     <Compile Include="RuleTester\Series\TestSeriesRequest.cs" />
-    <Compile Include="RuleTester\Series\TestSeriesRequestBuilder.cs" />
     <Compile Include="RuleTester\Result\ClassificationResult.cs" />
     <Compile Include="RuleTester\ConflictResolverFactory.cs" />
     <Compile Include="RuleTester\ConflictResolvingMethod.cs" />
@@ -188,6 +190,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

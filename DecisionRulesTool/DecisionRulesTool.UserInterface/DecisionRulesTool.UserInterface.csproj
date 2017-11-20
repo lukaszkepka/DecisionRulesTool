@@ -209,9 +209,11 @@
     <Compile Include="Model\Converters\BoolToVisibleOrHidden.cs" />
     <Compile Include="Model\Converters\ConflictResolvingMethodToStringConverter.cs" />
     <Compile Include="Model\Converters\DecisionToColorConverter.cs" />
+    <Compile Include="Model\Converters\FiltersToStringConverter.cs" />
     <Compile Include="Model\Converters\RelationToStringConverter.cs" />
     <Compile Include="Model\CustomControls\TabControlReorderBehaviour.cs" />
     <Compile Include="Model\DataTemplateSelectors\FilterViewModelTemplateSelector.cs" />
+    <Compile Include="Model\Exceptions\IncompatibleTestSetsException.cs" />
     <Compile Include="Model\Factory\RuleSetSubsetViewItemFactory.cs" />
     <Compile Include="Model\Utils\ISelectable.cs" />
     <Compile Include="Model\RuleSetSubsetViewItem.cs" />
@@ -233,12 +235,11 @@
     <Compile Include="Services\TestRequestService.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="ViewModel\Base\ApplicationViewModel.cs" />
+    <Compile Include="ViewModel\GroupedTestResultViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\TabViewModels\RuleSetManagerViewModel.cs" />
     <Compile Include="Model\TestRequestsAggregate.cs" />
     <Compile Include="ViewModel\TabViewModels\TestResultViewerViewModel.cs" />
-    <Compile Include="ViewModel\Dialog\TestRequestFromRuleSetGeneratorViewModel.cs" />
-    <Compile Include="ViewModel\Dialog\TestRequestFromTestSetGeneratorViewModel1.cs" />
     <Compile Include="ViewModel\Dialog\TestRequestGeneratorOptionsViewModel.cs" />
     <Compile Include="ViewModel\Dialog\TestRequestGeneratorViewModel.cs" />
     <Compile Include="Services\TestSetLoaderService.cs" />
@@ -262,15 +263,14 @@
     <Compile Include="View\Controls\Tab\TestResultViewerTab.xaml.cs">
       <DependentUpon>TestResultViewerTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\TestRequestGenerator\TestRequestFromRuleSetGeneratorDialog.xaml.cs">
-      <DependentUpon>TestRequestFromRuleSetGeneratorDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Dialogs\TestRequestGenerator\TestRequestFromTestSetGeneratorDialog.cs" />
-    <Compile Include="View\Dialogs\TestRequestGenerator\TestRequestGeneratorOptionsDialog.xaml.cs">
-      <DependentUpon>TestRequestGeneratorOptionsDialog.xaml</DependentUpon>
+    <Compile Include="View\Dialogs\TestRequestGeneratorDialog.xaml.cs">
+      <DependentUpon>TestRequestGeneratorDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Dialogs\TestSetDialog.xaml.cs">
       <DependentUpon>TestSetDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GroupedTestResultWindow.xaml.cs">
+      <DependentUpon>GroupedTestResultWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -295,19 +295,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\TestRequestGenerator\TestRequestFromRuleSetGeneratorDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Dialogs\TestRequestGenerator\TestRequestFromTestSetGeneratorDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Dialogs\TestRequestGenerator\TestRequestGeneratorOptionsDialog.xaml">
+    <Page Include="View\Dialogs\TestRequestGeneratorDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Dialogs\TestSetDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GroupedTestResultWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -360,6 +356,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <AdditionalFiles Include="..\DecisionRulesTool.Diagrams\DependencyValidation1.layerdiagram">
+      <Link>DependencyValidation1.layerdiagram</Link>
+      <Visible>False</Visible>
+    </AdditionalFiles>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

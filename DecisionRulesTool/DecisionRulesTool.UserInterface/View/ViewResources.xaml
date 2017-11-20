@@ -8,5 +8,6 @@
     <converters:RelationToStringConverter  x:Key="relationToStringConverter" />
     <converters:BoolToVisibleOrHidden x:Key="boolToVisConverter"/>
     <converters:DecisionToColorConverter x:Key="decisionToColorConverter"/>
-    
+    <converters:FiltersToStringConverter x:Key="filtersToStringConverter" />
+
 </ResourceDictionary>

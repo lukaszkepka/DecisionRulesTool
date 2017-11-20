@@ -29,5 +29,37 @@ namespace DecisionRulesTool.UserInterface.View.Controls
         {
             this.TestResultDataGrid.UpdateLayout();
         }
+
+        private void ResizeTestRequests(object sender)
+        {
+            var p = (ListBox)sender;
+            if (p != null && p.Items != null)
+            {
+                for (int i = 0; i < p.Items.Count; i++)
+                {
+                    var lbi = (ListBoxItem)p.ItemContainerGenerator.ContainerFromIndex(i);
+                    if (lbi != null)
+                    {
+                        lbi.Width = p.ActualWidth - 30;
+                    }
+                }
+
+            }
+        }
+
+        private void ItemsControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //
+        }
+
+        private void testRequestsView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ResizeTestRequests(sender);
+        }
+
+        private void testRequestsView_LayoutUpdated(object sender, EventArgs e)
+        {
+            ResizeTestRequests(sender);
+        }
     }
 }

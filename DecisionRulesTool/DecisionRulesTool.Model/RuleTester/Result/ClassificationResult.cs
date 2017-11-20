@@ -11,7 +11,7 @@ namespace DecisionRulesTool.Model.RuleTester
     public struct ClassificationResult
     {
         public const string NoCoverage = "No Coverage";
-        public const string BadClassification = "Bad Classification";
+        public const string Ambigious = "Ambigious";
         public const string PositiveClassification = "Positive";
         public const string NegativeClassification = "Negative";
 

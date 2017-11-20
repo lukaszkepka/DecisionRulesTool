@@ -11,6 +11,8 @@ using Unity;
 using DecisionRulesTool.UserInterface.Services;
 using GalaSoft.MvvmLight.Command;
 using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
+using GalaSoft.MvvmLight.Ioc;
+using DecisionRulesTool.UserInterface.Model.Exceptions;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
@@ -33,7 +35,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         #endregion
 
         #region Properties
-
         /// <summary>
         /// Wrapper property for application's cache rule set collection
         /// </summary>
@@ -45,7 +46,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
             set
             {
-                applicationCache.RuleSets  = new ObservableCollection<RuleSetSubset>(value);
+                applicationCache.RuleSets = new ObservableCollection<RuleSetSubset>(value);
                 RaisePropertyChanged("RuleSets");
             }
         }
@@ -77,7 +78,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
             set
             {
-                applicationCache.TestRequests = new ObservableCollection<TestRequest>(value); 
+                applicationCache.TestRequests = new ObservableCollection<TestRequest>(value);
                 RaisePropertyChanged("TestRequests");
             }
         }
@@ -118,7 +119,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                TestSetViewModel testSetDialogViewModel = new TestSetViewModel(SelectedTestSet, servicesRepository);
+                TestSetViewModel testSetDialogViewModel = new TestSetViewModel(SelectedTestSet, applicationCache, servicesRepository);
                 servicesRepository.DialogService.ShowDialog(testSetDialogViewModel);
             }
             catch (Exception ex)
@@ -127,11 +128,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void OnGenerateTestRequests(object generationType)
+        private void OnGenerateTestRequests()
         {
             try
             {
-                TestRequestGeneratorViewModel testRequestGeneratorViewModel = InstantiateTestRequestGeneratorViewModel(generationType);
+                TestRequestGeneratorViewModel testRequestGeneratorViewModel = InstantiateTestRequestGeneratorViewModel();
 
                 if (testRequestGeneratorViewModel != null && servicesRepository.DialogService.ShowDialog(testRequestGeneratorViewModel) == true)
                 {
@@ -142,6 +143,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                     OnFilterTestRequests(TestRequestFilter.All);
                 }
             }
+            catch(IncompatibleTestSetsException ex)
+            {
+                servicesRepository.DialogService.ShowWarningMessage(ex.Message);
+            }
             catch (Exception ex)
             {
                 servicesRepository.DialogService.ShowInformationMessage($"Exception thrown : {ex.Message})");
@@ -150,10 +155,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void InitializeCommands()
         {
-            LoadTestSets = new RelayCommand(OnLoadTestSets);
             ViewTestSet = new RelayCommand(OnViewTestSet);
-            GenerateTestRequests = new RelayCommand<object>(OnGenerateTestRequests);
+            LoadTestSets = new RelayCommand(OnLoadTestSets);
             FilterTestRequests = new RelayCommand<TestRequestFilter>(OnFilterTestRequests);
+            GenerateTestRequests = new RelayCommand(OnGenerateTestRequests);
             DeleteSelectedTestRequest = new RelayCommand(OnDeleteSelectedTestRequest);
         }
 
@@ -165,10 +170,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                     FilteredTestRequests = TestRequests;
                     break;
                 case TestRequestFilter.ForSelectedTestSet:
-                    FilteredTestRequests = new ObservableCollection<TestRequest>(servicesRepository.TestRequestService.Filter(SelectedRuleSet, TestRequests));
+                    FilteredTestRequests = new ObservableCollection<TestRequest>(servicesRepository.TestRequestService.Filter(SelectedTestSet, TestRequests));
                     break;
                 case TestRequestFilter.ForSelcetedRuleSet:
-                    FilteredTestRequests = new ObservableCollection<TestRequest>(servicesRepository.TestRequestService.Filter(SelectedTestSet, TestRequests));
+                    FilteredTestRequests = new ObservableCollection<TestRequest>(servicesRepository.TestRequestService.Filter(SelectedRuleSet, TestRequests));
                     break;
                 default:
                     break;
@@ -180,23 +185,16 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             TestRequests.Remove(SelectedTestRequest);
         }
 
-        private TestRequestGeneratorViewModel InstantiateTestRequestGeneratorViewModel(object generationType)
+        private TestRequestGeneratorViewModel InstantiateTestRequestGeneratorViewModel()
         {
-            TestRequestGeneratorViewModel testRequestGeneratorViewModel = null;
+            TestRequestGeneratorViewModel viewModel = SimpleIoc.Default.GetInstance<TestRequestGeneratorViewModel>();
+            viewModel.TestSets = GetSelectedTestSets();
+            return viewModel;
+        }
 
-            switch (generationType.ToString())
-            {
-                case "FromRuleSet":
-                    testRequestGeneratorViewModel = new TestRequestFromRuleSetGeneratorViewModel(TestSets, SelectedRuleSet, servicesRepository);
-                    break;
-                case "FromTestSet":
-                    testRequestGeneratorViewModel = new TestRequestFromTestSetGeneratorViewModel(RuleSets, SelectedTestSet, servicesRepository);
-                    break;
-                default:
-                    break;
-            }
-
-            return testRequestGeneratorViewModel;
+        private IEnumerable<DataSet> GetSelectedTestSets()
+        {
+            return this.TestSets.Where(x => x.IsSelected);
         }
     }
 }

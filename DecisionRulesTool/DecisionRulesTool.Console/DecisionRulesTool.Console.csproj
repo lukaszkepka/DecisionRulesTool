@@ -124,6 +124,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\DecisionRulesTool.Diagrams\DependencyValidation1.layerdiagram">
+      <Link>DependencyValidation1.layerdiagram</Link>
+      <Visible>False</Visible>
+    </AdditionalFiles>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>

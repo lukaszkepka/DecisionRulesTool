@@ -8,6 +8,7 @@ using System.Windows.Controls;
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
     using DecisionRulesTool.Model.Model;
+    using DecisionRulesTool.UserInterface.Model;
     using DecisionRulesTool.UserInterface.Services;
     using Unity;
 
@@ -28,12 +29,12 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 RaisePropertyChanged("TestSet");
             }
         }
+        public List<Attribute> Attributes { get; private set; }
         #endregion
 
-        public List<Attribute> Attributes { get; private set; }
 
-        public TestSetViewModel(DataSet testSet, ServicesRepository servicesRepository)
-            : base(servicesRepository)
+        public TestSetViewModel(DataSet testSet, ApplicationCache applicationCache, ServicesRepository servicesRepository)
+            : base(applicationCache, servicesRepository)
         {
             this.testSet = testSet;
             Attributes = testSet.Attributes.ToList();

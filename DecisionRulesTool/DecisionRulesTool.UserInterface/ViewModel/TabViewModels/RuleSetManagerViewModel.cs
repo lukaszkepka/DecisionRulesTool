@@ -23,11 +23,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     {
         private RuleSetSubset selectedRuleSet;
 
+        #region Commands
         public ICommand DeleteSubset { get; private set; }
         public ICommand EditFilters { get; private set; }
         public ICommand LoadRuleSets { get; private set; }
         public ICommand SaveRuleSetToFile { get; private set; }
         public ICommand GenerateSubsets { get; private set; }
+        #endregion
 
         #region Properties
         public RuleSetSubset SelectedRuleSet
@@ -115,7 +117,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             if (SelectedRuleSet != null)
             {
-                var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet, new RuleSetSubsetViewItemFactory(), servicesRepository);
+                var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet, new RuleSetSubsetViewItemFactory(), applicationCache, servicesRepository);
                 if (servicesRepository.DialogService.ShowDialog(optionsViewModel) == true)
                 {
                     IRuleSubsetGenerator ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();

@@ -50,17 +50,7 @@ namespace DecisionRulesTool.UserInterface.View.Controls
 
         }
 
-        private void testRequestCollection_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var p = (ListBox)sender;
-            for (int i = 0; i < p.Items.Count; i++)
-            {
-                var lbi = (ListBoxItem)p.ItemContainerGenerator.ContainerFromIndex(i);
-                lbi.Width = (p.ActualWidth / 3) - 10;
-            }
-        }
-
-        private void testRequestCollection_Loaded(object sender, RoutedEventArgs e)
+        private void ResizeTestRequests(object sender)
         {
             var p = (ListBox)sender;
             for (int i = 0; i < p.Items.Count; i++)
@@ -71,6 +61,16 @@ namespace DecisionRulesTool.UserInterface.View.Controls
                     lbi.Width = (p.ActualWidth / 3) - 10;
                 }
             }
+        }
+
+        private void testRequestCollection_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ResizeTestRequests(sender);
+        }
+
+        private void testRequestCollection_Loaded(object sender, RoutedEventArgs e)
+        {
+            ResizeTestRequests(sender);
         }
     }
 }

@@ -18,8 +18,8 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             {
                 int rowsCount = testRequest.TestSet.Objects.Count;
 
+                classificationTable.Columns.Add(new DataColumn("lp", typeof(string)));
                 classificationTable.Columns.Add(new DataColumn("Result", typeof(string)));
-                classificationTable.Columns.Add(new DataColumn("Prediction", typeof(string)));
 
                 foreach (var attribute in testRequest.TestSet.Attributes)
                 {
@@ -30,8 +30,8 @@ namespace DecisionRulesTool.Model.RuleTester.Result
                 {
                     var resultRow = new object[]
                     {
+                       i.ToString(),
                         testRequest.TestResult.ClassificationResults[i],
-                        testRequest.TestResult.DecisionValues[i]
                     };
 
                     var row = resultRow.Concat(testRequest.TestSet.Objects.ElementAt(i).Values).ToArray();
@@ -46,28 +46,30 @@ namespace DecisionRulesTool.Model.RuleTester.Result
         public DataTable ConvertConfusionMatrix(TestRequest testRequest)
         {
             DataTable confusionMatrixTable = new DataTable();
-
-            var confusionMatrix = testRequest.TestResult.ConfusionMatrix;
-
-            string[] decisionClasses = testRequest.RuleSet.DecisionAttribute.AvailableValues;
-
-
-            confusionMatrixTable.Columns.Add(new DataColumn("\\"));
-            decisionClasses.ForEach(x => confusionMatrixTable.Columns.Add(new DataColumn(x)));
-
-            foreach (var realDecision in decisionClasses)
+            if (testRequest.TestResult != null)
             {
-                List<object> values = new List<object>()
+                var confusionMatrix = testRequest.TestResult.ConfusionMatrix;
+
+                string[] decisionClasses = testRequest.RuleSet.DecisionAttribute.AvailableValues;
+
+
+                confusionMatrixTable.Columns.Add(new DataColumn("\\"));
+                decisionClasses.ForEach(x => confusionMatrixTable.Columns.Add(new DataColumn(x)));
+
+                foreach (var realDecision in decisionClasses)
+                {
+                    List<object> values = new List<object>()
                 {
                     realDecision
                 };
 
-                foreach (var predictedDecision in decisionClasses)
-                {
-                    values.Add(confusionMatrix.GetConfusionValue(realDecision, predictedDecision));
-                }
+                    foreach (var predictedDecision in decisionClasses)
+                    {
+                        values.Add(confusionMatrix.GetConfusionValue(realDecision, predictedDecision));
+                    }
 
-                confusionMatrixTable.Rows.Add(values.ToArray());
+                    confusionMatrixTable.Rows.Add(values.ToArray());
+                }
             }
 
             return confusionMatrixTable;

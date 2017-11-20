@@ -1,4 +1,5 @@
 ﻿using DecisionRulesTool.Model.Utils;
+using DecisionRulesTool.UserInterface.Model;
 using DecisionRulesTool.UserInterface.Services;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
             }
         }
 
-        public ProgressDialogViewModel(IProgressNotifier progressNotifier, ServicesRepository servicesRepository) : base(servicesRepository)
+        public ProgressDialogViewModel(IProgressNotifier progressNotifier, ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             this.progressNotifier = progressNotifier;
 

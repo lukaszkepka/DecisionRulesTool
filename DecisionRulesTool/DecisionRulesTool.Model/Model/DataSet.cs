@@ -9,6 +9,9 @@ namespace DecisionRulesTool.Model.Model
 {
     public class DataSet
     {
+        public bool IsSelected { get; set; }
+
+
         public DataSet(string name, ICollection<Attribute> attributes, ICollection<Object> objects) : this(name)
         {
             Attributes = attributes;
@@ -29,5 +32,10 @@ namespace DecisionRulesTool.Model.Model
         public string Name { get; set; }
         public ICollection<Attribute> Attributes { get; private set; }
         public ICollection<Object> Objects { get; private set; }
+
+        public bool IsCompatibleWith(DataSet testSet)
+        {
+            return Attributes.SequenceEqual(testSet.Attributes);
+        }
     }
 }

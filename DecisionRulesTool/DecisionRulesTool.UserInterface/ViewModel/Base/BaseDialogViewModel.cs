@@ -19,7 +19,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public bool Result { get; protected set; }
 
-        public BaseDialogViewModel(ServicesRepository servicesRepository) : base(null, servicesRepository)
+        public BaseDialogViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             InitializeCommands();
         }

@@ -83,7 +83,7 @@ namespace DecisionRulesTool.Te.RuleTester
 
             var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
 
-            Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(ClassificationResult.BadClassification))));
+            Assert.IsTrue(testResults.All(x => x.ClassificationResults.All(y => y.Equals(ClassificationResult.Ambigious))));
         }
 
         [Test]

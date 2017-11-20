@@ -76,6 +76,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         #region Commands
         public ICommand Run { get; private set; }
         public ICommand SaveToFile { get; private set; }
+        public ICommand ShowGroupedTestResults { get; private set; }
         #endregion
 
         public TestResultViewerViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository)
@@ -112,17 +113,23 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             Run = new RelayCommand(OnRunTesting);
             SaveToFile = new RelayCommand(OnSaveToFile);
+            ShowGroupedTestResults = new RelayCommand(InShowGroupedTestResults);
         }
 
-
+        private void InShowGroupedTestResults()
+        {
+            servicesRepository.DialogService.ShowDialog(new GroupedTestResultViewModel(SelectedTestRequestAggregate, applicationCache, servicesRepository));
+        }
 
         private void InitializeTestRequestAggregate()
         {
             AggregatedTestRequests = new ObservableCollection<TestRequestsAggregate>();
 
+            RuleTesterManager.Clear();
             foreach (var groupedTestRequest in applicationCache.TestRequests.GroupBy(x => x.TestSet, y => y))
             {
                 AggregatedTestRequests.Add(new TestRequestsAggregate(groupedTestRequest.Key, groupedTestRequest));
+                RuleTesterManager.AddTestRequests(groupedTestRequest);
             }
         }
 
@@ -132,10 +139,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             {
                 TestResultDataTable = servicesRepository.TestResultConverter.ConvertClassificationTable(selectedTestRequest);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }            
+            }
         }
 
         private void FillConfusionMatrixDataTable(TestRequest selectedTestRequest)
@@ -152,7 +159,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void OnSaveToFile()
         {
-            if(TestResultDataTable.Rows.Count > 0)
+            if (TestResultDataTable.Rows.Count > 0)
             {
                 SaveFileDialogSettings settings = new SaveFileDialogSettings()
                 {

@@ -65,6 +65,14 @@ namespace DecisionRulesTool.Model.RuleTester
             testRequests.Add(testRequest);
         }
 
+        public virtual void AddTestRequests(IEnumerable<TestRequest> testRequests)
+        {
+            foreach (var testRequest in testRequests)
+            {
+                AddTestRequest(testRequest);
+            }
+        }
+
         public virtual void DeleteTestRequest(int index)
         {
             testRequests.RemoveAt(index);

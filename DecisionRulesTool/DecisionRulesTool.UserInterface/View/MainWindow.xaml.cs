@@ -23,5 +23,7 @@ namespace DecisionRulesTool.UserInterface.View
         {
             InitializeComponent();
         }
+
+
     }
 }

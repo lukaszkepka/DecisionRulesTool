@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.FileSavers
 {
-    interface IFileSaver<T>
+    public interface IFileSaver<T>
     {
         FileStream OpenFile(string path);
         void Save(T content, string path);

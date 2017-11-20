@@ -23,11 +23,11 @@ namespace DecisionRulesTool.Model.RuleTester
         {
             string decision = string.Empty;
             int maxValue = decisionItem.Value.Max();
-            bool isInvalidClassification = decisionItem.Value.Count(x => x == maxValue) > 1 ? true : false;
+            bool isDraw = decisionItem.Value.Count(x => x == maxValue) > 1 ? true : false;
 
-            if (isInvalidClassification)
+            if (isDraw)
             {
-                decision = ClassificationResult.BadClassification;
+                decision = ClassificationResult.Ambigious;
             }
             else
             {
