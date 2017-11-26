@@ -10,15 +10,16 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     using System.Linq;
 
     [AddINotifyPropertyChangedInterface]
-    public class TestRequestsAggregate
+    public class TestRequestGroup
     {
+        public bool IsSelected { get; set; }
         public DataSet TestSet { get; }
 
-        public IEnumerable<TestRequest> TestRequests { get; }
+        public ICollection<TestRequest> TestRequests { get; }
 
         public int Progress { get; set; }
 
-        public TestRequestsAggregate(DataSet testSet, IEnumerable<TestRequest> testRequests)
+        public TestRequestGroup(DataSet testSet, ICollection<TestRequest> testRequests)
         {
             this.TestSet = testSet;
             this.TestRequests = testRequests;
@@ -27,6 +28,12 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             {
                 item.PropertyChanged += Item_PropertyChanged;
             }
+        }
+
+        public void AddTestRequest(TestRequest testRequest)
+        {
+            TestRequests.Add(testRequest);
+            testRequest.PropertyChanged += Item_PropertyChanged;
         }
 
         private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)

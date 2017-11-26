@@ -50,20 +50,19 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             {
                 var confusionMatrix = testRequest.TestResult.ConfusionMatrix;
 
-                string[] decisionClasses = testRequest.RuleSet.DecisionAttribute.AvailableValues;
-
+                string[] decisionClasses = ClassificationResult.GetDecisionClasses(testRequest.RuleSet.DecisionAttribute);
 
                 confusionMatrixTable.Columns.Add(new DataColumn("\\"));
                 decisionClasses.ForEach(x => confusionMatrixTable.Columns.Add(new DataColumn(x)));
 
-                foreach (var realDecision in decisionClasses)
+                foreach (var predictedDecision in decisionClasses)
                 {
                     List<object> values = new List<object>()
-                {
-                    realDecision
-                };
+                    {
+                        predictedDecision
+                    };
 
-                    foreach (var predictedDecision in decisionClasses)
+                    foreach (var realDecision in decisionClasses)
                     {
                         values.Add(confusionMatrix.GetConfusionValue(realDecision, predictedDecision));
                     }

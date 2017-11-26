@@ -8,23 +8,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.UserInterface.ViewModel
+namespace DecisionRulesTool.UserInterface.ViewModel.Results
 {
     [AddINotifyPropertyChangedInterface]
-    public class GroupedTestResultViewModel : BaseDialogViewModel
+    public class AlgorithmsToTestSetsResultViewModel : BaseWindowViewModel
     {
-        public TestRequestsAggregate TestRequestsAggregate { get; private set; }
+        private TestRequestGroup aggregatedTestResult;
+
         public DataTable GropedTestResult { get; private set; }
 
-        public GroupedTestResultViewModel(TestRequestsAggregate aggregatedTestResult, ApplicationCache applicationCache,  ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public AlgorithmsToTestSetsResultViewModel(TestRequestGroup aggregatedTestResult, ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
-            TestRequestsAggregate = aggregatedTestResult;
+            this.aggregatedTestResult = aggregatedTestResult;
             A();
         }
 
         public void A()
         {
-            var testRequest = TestRequestsAggregate.TestRequests.FirstOrDefault();
+            var testRequest = aggregatedTestResult.TestRequests.FirstOrDefault();
 
             GropedTestResult = new DataTable();
             if (testRequest.TestResult != null)
@@ -37,7 +38,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 }
 
                 int j = 0;
-                foreach (var item in TestRequestsAggregate.TestRequests)
+                foreach (var item in aggregatedTestResult.TestRequests)
                 {
 
                     GropedTestResult.Columns.Add(new DataColumn($"Result_{j}", typeof(string)));
@@ -48,7 +49,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 {
                     var row = (testRequest.TestSet.Objects.ElementAt(i).Values);
 
-                    foreach (var item in TestRequestsAggregate.TestRequests)
+                    foreach (var item in aggregatedTestResult.TestRequests)
                     {
                         row = row.Concat(
                         new object[]
@@ -61,11 +62,5 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
             }
         }
-
-
-
-
-
     }
 }
-

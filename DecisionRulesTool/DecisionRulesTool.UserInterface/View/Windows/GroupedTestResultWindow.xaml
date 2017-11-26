@@ -1,0 +1,110 @@
+﻿<Window x:Class="DecisionRulesTool.UserInterface.View.GroupedTestResultWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:helper="clr-namespace:DecisionRulesTool.UserInterface.Utils"
+        xmlns:converters="clr-namespace:DecisionRulesTool.UserInterface.Model.Converters"
+        xmlns:local="clr-namespace:DecisionRulesTool.UserInterface"
+        xmlns:controls="clr-namespace:DecisionRulesTool.UserInterface.View.Controls"
+        xmlns:utils="clr-namespace:DecisionRulesTool.UserInterface.Utils"
+        xmlns:wpftoolkit="clr-namespace:Xceed.Wpf.Toolkit.Core;assembly=Xceed.Wpf.Toolkit"
+        xmlns:filters="clr-namespace:DecisionRulesTool.Model.RuleFilters;assembly=DecisionRulesToolModel"      
+        xmlns:model="clr-namespace:DecisionRulesTool.Model.Model;assembly=DecisionRulesToolModel"
+        mc:Ignorable="d"
+        Title="Decision Rules Tool - Rule Set Manager" Height="500" Width="800" WindowState="Maximized">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../ViewResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <TabControl>
+        <TabItem Header="G1" DataContext="{Binding G1}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ListBox Grid.Row="0"
+                         ItemsSource="{Binding}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="COLUMN1"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <DataGrid x:Name="G1DataGrid"
+                          Grid.Row="1"
+                          DockPanel.Dock="Top"
+                          ColumnWidth="100"
+                          AutoGenerateColumns="True"                    
+                          CanUserAddRows="False"
+                          ItemsSource="{Binding GropedTestResult}">
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Background" Value="{Binding ., Mode=OneWay, Converter={StaticResource decisionToColorConverter}}" />
+                        </Style>
+                    </DataGrid.RowStyle>
+                </DataGrid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="G2" DataContext="{Binding G2}">
+            <ScrollViewer>
+                <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Row="0" Text="Rule Sets : " 
+                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+                <ListBox ItemsSource="{Binding GroupedRuleSetResults}"
+                         Grid.Row="1">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="52.85">
+                                <TextBlock Text="{Binding ConflictResolvingMethod}" />
+                                <TextBlock Text="{Binding RuleSet.Name}"/>
+                                <TextBlock TextWrapping="WrapWithOverflow"
+                                           Text="{Binding RuleSet.Filters, Converter={StaticResource filtersToStringConverter}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <DataGrid x:Name="G2DataGrid"
+                          Grid.Row="0"
+                          Grid.RowSpan="2"
+                          Grid.Column="1"
+                          DockPanel.Dock="Top"
+                          ColumnWidth="100"
+                          AutoGenerateColumns="True"                    
+                          ItemsSource="{Binding GropedTestResult}"
+                          CanUserAddRows="False">
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Background" Value="{Binding ., Mode=OneWay, Converter={StaticResource decisionToColorConverter}}" />
+                        </Style>
+                    </DataGrid.RowStyle>
+                </DataGrid>
+            </Grid>
+            </ScrollViewer>
+        </TabItem>
+    </TabControl>
+</Window>

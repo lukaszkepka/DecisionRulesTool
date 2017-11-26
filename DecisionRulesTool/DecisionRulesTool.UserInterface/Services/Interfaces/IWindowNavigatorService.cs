@@ -9,6 +9,7 @@ namespace DecisionRulesTool.UserInterface.Services.Interfaces
 {
     public interface IWindowNavigatorService
     {
+        void ShowWindow(BaseWindowViewModel windowViewModel);
         void SwitchContext(BaseWindowViewModel viewModel);
     }
 }

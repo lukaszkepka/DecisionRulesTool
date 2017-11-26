@@ -1,9 +1,11 @@
 ﻿using DecisionRulesTool.UserInterface.Services.Interfaces;
 using DecisionRulesTool.UserInterface.View;
 using DecisionRulesTool.UserInterface.View.Dialogs;
+using DecisionRulesTool.UserInterface.View.Windows;
 using DecisionRulesTool.UserInterface.ViewModel;
 using DecisionRulesTool.UserInterface.ViewModel.Dialog;
 using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
+using DecisionRulesTool.UserInterface.ViewModel.Windows;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,9 @@ namespace DecisionRulesTool.UserInterface.Services
             Window newWindow = null;
             switch (viewModel)
             {
+                case TestResultViewModel testResultViewModel:
+                    newWindow = new TestResultWindow();
+                    break;
                 case MainWindowViewModel mainWindowViewModel:
                     newWindow = new MainWindow();
                     break;
@@ -51,6 +56,18 @@ namespace DecisionRulesTool.UserInterface.Services
                     break;
             }
             return newWindow;
+        }
+
+        public virtual void ShowWindow(BaseWindowViewModel windowViewModel)
+        {
+            Window window = GetWindow(windowViewModel);
+            if (window != null)
+            {
+                window.DataContext = windowViewModel;
+                window.Topmost = true;
+                window.Show();
+
+            }
         }
 
         public virtual void SwitchContext(BaseWindowViewModel viewModel)

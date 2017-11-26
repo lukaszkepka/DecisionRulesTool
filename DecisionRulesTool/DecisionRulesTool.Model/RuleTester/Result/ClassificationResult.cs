@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.RuleTester
 {
+    using DecisionRulesTool.Model.Model;
+
     [DebuggerDisplay("ToString()")]
     public struct ClassificationResult
     {
@@ -21,6 +23,11 @@ namespace DecisionRulesTool.Model.RuleTester
         public override string ToString()
         {
             return $"{DecisionValue}, {Result}";
+        }
+
+        public static string[] GetDecisionClasses(Attribute decisionAttribute)
+        {
+            return decisionAttribute.AvailableValues.Concat(new[] { Ambigious, NoCoverage }).ToArray();
         }
     }
 }

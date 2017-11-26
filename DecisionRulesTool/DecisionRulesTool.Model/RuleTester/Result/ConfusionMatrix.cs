@@ -22,10 +22,11 @@ namespace DecisionRulesTool.Model.RuleTester
         public ConfusionMatrix(Attribute decisionAttribute)
         {
             decisionClassRows = new List<DecisionClassRow>();
+            string[] availableValues = ClassificationResult.GetDecisionClasses(decisionAttribute);
 
-            for (int i = 0; i < decisionAttribute.AvailableValues.Length; i++)
+            for (int i = 0; i < availableValues.Count(); i++)
             {
-                decisionClassRows.Add(new DecisionClassRow(decisionAttribute.AvailableValues, i));
+                decisionClassRows.Add(new DecisionClassRow(availableValues, i));
             }
         }
 

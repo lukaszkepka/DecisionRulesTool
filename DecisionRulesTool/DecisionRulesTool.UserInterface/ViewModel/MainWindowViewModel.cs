@@ -18,16 +18,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     public class MainWindowViewModel : BaseWindowViewModel
     {
         public RuleSetManagerViewModel RuleSetManagerViewModel { get; }
-        public TestConfiguratorViewModel TestConfiguratorViewModel { get; }
-        public TestResultViewerViewModel TestResultViewerViewModel { get; }
+        public TestManagerViewModel TestManagerViewModel { get; }
 
-        public MainWindowViewModel(RuleSetManagerViewModel ruleSetManagerViewModel, TestConfiguratorViewModel testConfiguratorViewModel,
-                                   TestResultViewerViewModel testResultViewerViewModel, ApplicationCache applicationCache,
-                                   ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public MainWindowViewModel(RuleSetManagerViewModel ruleSetManagerViewModel, TestManagerViewModel testManagerViewModel,
+                                   ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             this.RuleSetManagerViewModel = ruleSetManagerViewModel;
-            this.TestConfiguratorViewModel = testConfiguratorViewModel;
-            this.TestResultViewerViewModel = testResultViewerViewModel;
+            this.TestManagerViewModel = testManagerViewModel;
 
             InitializeCommands();
         }

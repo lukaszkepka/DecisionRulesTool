@@ -18,7 +18,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ViewResources.xaml"/>
+                <ResourceDictionary Source="../ViewResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -49,11 +49,8 @@
             <TabItem Header="Rule Set Manager">
                 <controls:RuleSetManagerTab DataContext="{Binding RuleSetManagerViewModel, Mode=OneWay}"/>
             </TabItem>
-            <TabItem Header="Test Configurator">
-                <controls:TestConfigurationTab DataContext="{Binding TestConfiguratorViewModel, Mode=OneWay}"/>
-            </TabItem>
-            <TabItem Header="Result Viewer">
-                <controls:TestResultViewerTab DataContext="{Binding TestResultViewerViewModel, Mode=OneWay}"/>
+            <TabItem Header="Test Manager">
+                <controls:TestManagerTab DataContext="{Binding TestManagerViewModel, Mode=OneWay}"/>
             </TabItem>
         </TabControl>
 

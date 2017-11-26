@@ -17,37 +17,52 @@ using System.Windows.Shapes;
 namespace DecisionRulesTool.UserInterface.View.Controls
 {
     /// <summary>
-    /// Interaction logic for TestConfigurationTab.xaml
+    /// Interaction logic for TestManagerTab.xaml
     /// </summary>
-    public partial class TestConfigurationTab : UserControl
+    public partial class TestManagerTab : UserControl
     {
-        public TestConfigurationTab()
+        public TestManagerTab()
         {
             InitializeComponent();
+        }
+
+        private void TestSetDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //this.TestResultDataGrid.UpdateLayout();
         }
 
         private void FilterTestRequests_All(object sender, RoutedEventArgs e)
         {
             dynamic context = DataContext;
-            context.FilterTestRequests.Execute(TestConfiguratorViewModel.TestRequestFilter.All);
+            context.FilterTestRequests.Execute(TestManagerViewModel.TestRequestFilter.All);
         }
 
         private void FilterTestRequests_ForSelectedRuleSet(object sender, RoutedEventArgs e)
         {
             dynamic context = DataContext;
-            context.FilterTestRequests.Execute(TestConfiguratorViewModel.TestRequestFilter.ForSelcetedRuleSet);
+            context.FilterTestRequests.Execute(TestManagerViewModel.TestRequestFilter.ForSelcetedRuleSet);
         }
 
         private void FilterTestRequests_ForSelectedTestSet(object sender, RoutedEventArgs e)
         {
             dynamic context = DataContext;
-            context.FilterTestRequests.Execute(TestConfiguratorViewModel.TestRequestFilter.ForSelectedTestSet);
+            context.FilterTestRequests.Execute(TestManagerViewModel.TestRequestFilter.ForSelectedTestSet);
         }
 
         private void ItemsControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
 
+        }
+
+        private void testRequestCollection_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ResizeTestRequests(sender);
+        }
+
+        private void testRequestCollection_Loaded(object sender, RoutedEventArgs e)
+        {
+            ResizeTestRequests(sender);
         }
 
         private void ResizeTestRequests(object sender)
@@ -61,16 +76,6 @@ namespace DecisionRulesTool.UserInterface.View.Controls
                     lbi.Width = (p.ActualWidth / 3) - 10;
                 }
             }
-        }
-
-        private void testRequestCollection_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ResizeTestRequests(sender);
-        }
-
-        private void testRequestCollection_Loaded(object sender, RoutedEventArgs e)
-        {
-            ResizeTestRequests(sender);
         }
     }
 }

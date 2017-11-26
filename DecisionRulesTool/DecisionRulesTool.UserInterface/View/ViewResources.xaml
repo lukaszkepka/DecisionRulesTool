@@ -9,5 +9,6 @@
     <converters:BoolToVisibleOrHidden x:Key="boolToVisConverter"/>
     <converters:DecisionToColorConverter x:Key="decisionToColorConverter"/>
     <converters:FiltersToStringConverter x:Key="filtersToStringConverter" />
+    <converters:RuleSetConflictResolvingMethodConverter x:Key="ruleSetConflictResolvingMethodConverter"/>
 
 </ResourceDictionary>

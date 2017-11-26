@@ -25,44 +25,35 @@ namespace DecisionRulesTool.UserInterface.View.Controls
             InitializeComponent();
         }
 
+        private void ResizeColumns()
+        {
+            //const int firstColumnWidth = 150;
+            //if (dataGrid.ActualWidth > 0 && dataGrid.ActualHeight > 0 && dataGrid.Columns.Any())
+            //{
+            //    for (int i = 0; i < dataGrid.Columns.Count; i++)
+            //    {
+            //        double width = (dataGrid.ActualWidth - firstColumnWidth) / (dataGrid.Columns.Count - 1);
+            //        if (i == 0)
+            //        {
+            //            width = firstColumnWidth;
+            //        }
+
+            //        dataGrid.Columns[i].Width = width;
+            //    }
+
+
+            //    dataGrid.RowHeight = dataGrid.ActualHeight / dataGrid.Columns.Count;
+            //}
+        }
+
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            if (dataGrid.ActualWidth > 0 && dataGrid.ActualHeight > 0 && dataGrid.Columns.Any())
-            {
-                for (int i = 0; i < dataGrid.Columns.Count; i++)
-                {
-                    double width = (dataGrid.ActualWidth - 75) / (dataGrid.Columns.Count - 1);
-                    if (i == 0)
-                    {
-                        width = 75;
-                    }
-
-                    dataGrid.Columns[i].Width = width;
-                }
-
-
-                dataGrid.RowHeight = dataGrid.ActualHeight / dataGrid.Columns.Count;
-            }
+            ResizeColumns();
         }
 
         private void dataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (dataGrid.ActualWidth > 0 && dataGrid.ActualHeight > 0)
-            {
-                for (int i = 0; i < dataGrid.Columns.Count; i++)
-                {
-                    double width = (dataGrid.ActualWidth - 75) / (dataGrid.Columns.Count - 1);
-                    if (i == 0)
-                    {
-                        width = 75;
-                    }
-
-                    dataGrid.Columns[i].Width = width;
-                }
-
-
-                dataGrid.RowHeight = dataGrid.ActualHeight / dataGrid.Columns.Count;
-            }
+            ResizeColumns();
         }
     }
 }
