@@ -21,7 +21,7 @@ namespace DecisionRulesTool.UserInterface.Model.Converters
             {
                 if (dataRowView.Row.ItemArray.Length > 0)
                 {
-                    switch (dataRowView.Row[1])
+                    switch (dataRowView.Row[2])
                     {
                         case ClassificationResult.PositiveClassification:
                             solidColorBrush.Color = Color.FromRgb(134, 240, 72);

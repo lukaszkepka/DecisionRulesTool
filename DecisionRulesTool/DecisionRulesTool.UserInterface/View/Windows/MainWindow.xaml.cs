@@ -24,6 +24,18 @@ namespace DecisionRulesTool.UserInterface.View
             InitializeComponent();
         }
 
+        private void TabItem_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            int h = 1;
+        }
 
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //if (e.AddedItems.Count > 0 && e.AddedItems[0] == this.resultViewerTab)
+            //{
+            //    dynamic dataContext = resultViewerTab.DataContext;
+            //    dataContext.TestResultComparisionViewModel.CalculateResultTable.Execute(null);
+            //}
+        }
     }
 }

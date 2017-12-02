@@ -23,6 +23,10 @@ using DecisionRulesTool.Model.Comparers;
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
     using DecisionRulesTool.Model.Model;
+    using DecisionRulesTool.Model.Parsers;
+    using DecisionRulesTool.Model.RuleTester.Result;
+    using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
+    using DecisionRulesTool.UserInterface.ViewModel.Results;
     using DecisionRulesTool.UserInterface.ViewModel.Windows;
 
     [AddINotifyPropertyChangedInterface]
@@ -48,8 +52,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public ICommand FilterTestRequests { get; private set; }
         public ICommand GenerateTestRequests { get; private set; }
         public ICommand DeleteSelectedTestRequest { get; private set; }
-
-
+        public ICommand LoadTestResult { get; private set; }
         public ICommand ShowTestResults { get; private set; }
         #endregion
 
@@ -123,22 +126,47 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             Run = new RelayCommand(OnRunTesting);
             //SaveToFile = new RelayCommand(OnSaveToFile);
-            ShowGroupedTestResults = new RelayCommand(OnShowGroupedTestResults);
-            ShowTestResults = new RelayCommand<TestRequest>(OnShowTestResults);
+            ShowGroupedTestResults = new RelayCommand(OnShowResultsForTestSet);
+            ShowTestResults = new RelayCommand<TestRequest>(OnShowSingleTestResult);
 
             ViewTestSet = new RelayCommand(OnViewTestSet);
             LoadTestSets = new RelayCommand(OnLoadTestSets);
+            LoadTestResult = new RelayCommand(OnLoadTestResult);
             FilterTestRequests = new RelayCommand<TestRequestFilter>(OnFilterTestRequests);
             GenerateTestRequests = new RelayCommand(OnGenerateTestRequests);
             DeleteSelectedTestRequest = new RelayCommand(OnDeleteSelectedTestRequest);
         }
 
+        private void OnLoadTestResult()
+        {
+            IFileParser<TestRequest> testResultLoader = new TestResultLoader();
 
+            OpenFileDialogSettings settings = new OpenFileDialogSettings()
+            {
+
+            };
+
+            string[] paths = servicesRepository.DialogService.OpenFileDialog(settings);
+            foreach (string path in paths)
+            {
+                try
+                {
+                    AddTestRequest(testResultLoader.ParseFile(path));
+                }
+                catch(Exception ex)
+                {
+                    servicesRepository.DialogService.ShowInformationMessage(ex.Message);
+                }
+            }
+        }
 
         private async void RunTestsAsync(RuleTesterManager ruleTesterManager)
         {
             ruleTesterProgressNotifier.ProgressChanged += (s, progress) => { Progress = progress; };
             await Task.Factory.StartNew(() => ruleTesterManager.RunTesting(ruleTester));
+            //Refactor:
+            SimpleIoc.Default.GetInstance<TestResultComparisionViewModel>().OnCalculateResultTable();
+            //
             ruleTesterProgressNotifier.ProgressChanged -= (s, progress) => { Progress = progress; }; ;
         }
 
@@ -151,7 +179,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private IEnumerable<TestRequest> GetNotCompletedTestRequests()
         {
-            return TestRequestGroups.SelectMany(x => x.TestRequests).Where(x => x.Progress < 100);
+            return TestRequestGroups.SelectMany(x => x.TestRequests).Where(x => x.Progress < 100 && x.IsReadOnly == false);
         }
 
         private IEnumerable<DataSet> GetSelectedTestSets()
@@ -167,12 +195,17 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void AddTestRequest(TestRequest testRequest)
         {
-            var f = TestRequestGroups.FirstOrDefault(x => x.TestSet == testRequest.TestSet);
-            if (f != null)
+            var testRequestGroup = TestRequestGroups.FirstOrDefault(x => x.TestSet.Name.Equals(testRequest.TestSet.Name));
+            if (testRequestGroup != null)
             {
+                testRequest.TestSet = testRequestGroup.TestSet;
                 applicationCache.TestRequests.Add(testRequest);
-                f.AddTestRequest(testRequest);
-            }          
+                testRequestGroup.AddTestRequest(testRequest);
+            }
+            else
+            {
+
+            }
         }
 
         public void OnLoadTestSets()
@@ -226,10 +259,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             applicationCache.TestRequests.Remove(SelectedTestRequest);
         }
 
-        private void OnShowGroupedTestResults()
-        {
-            servicesRepository.DialogService.ShowDialog(new GroupedTestResultViewModel(SelectedTestRequestGroup, applicationCache, servicesRepository));
-        }
 
         public void OnRunTesting()
         {
@@ -243,7 +272,18 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void OnShowTestResults(TestRequest testRequest)
+        /// <summary>
+        /// Opens window with classification results grouped for single test set
+        /// </summary>
+        private void OnShowResultsForTestSet()
+        {
+            servicesRepository.DialogService.ShowDialog(new AlgorithmsToTestSetsResultViewModel(SelectedTestRequestGroup, applicationCache, servicesRepository));
+        }
+
+        /// <summary>
+        /// Opens window with classification results for single test request
+        /// </summary>
+        private void OnShowSingleTestResult(TestRequest testRequest)
         {
             try
             {

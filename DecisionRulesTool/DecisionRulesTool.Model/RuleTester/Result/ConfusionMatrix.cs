@@ -17,16 +17,59 @@ namespace DecisionRulesTool.Model.RuleTester
 
     public class ConfusionMatrix
     {
-        private ICollection<DecisionClassRow> decisionClassRows;
+        private int globalCount;
+        private ICollection<RealDecisionRow> decisionClassRows;
 
         public ConfusionMatrix(Attribute decisionAttribute)
         {
-            decisionClassRows = new List<DecisionClassRow>();
+            decisionClassRows = new List<RealDecisionRow>();
             string[] availableValues = ClassificationResult.GetDecisionClasses(decisionAttribute);
 
             for (int i = 0; i < availableValues.Count(); i++)
             {
-                decisionClassRows.Add(new DecisionClassRow(availableValues, i));
+                decisionClassRows.Add(new RealDecisionRow(availableValues, i));
+            }
+        }
+
+        public void Initialize(int[,] values)
+        {
+            int j = 0;
+            string[] availableValues = decisionClassRows.Select(x => x.DecisionClass).ToArray();
+
+            foreach (var item in decisionClassRows)
+            {
+                for (int i = 0; i < availableValues.Length; i++)
+                {
+                    item.SetPredictionCount(availableValues[i], values[i, j]);
+                }
+                j++;
+            }
+        }
+
+        public decimal Coverage
+        {
+            get
+            {
+                int noCoverageCount = 0;
+                foreach (var realDecisionRow in decisionClassRows)
+                {
+                    noCoverageCount += realDecisionRow[ClassificationResult.NoCoverage];
+                }
+                return (decimal)(globalCount - noCoverageCount) / globalCount;
+            }
+        }
+
+        public decimal Accuary
+        {
+            get
+            {
+                int truePositivesNegativesCount = 0;
+                int i = 0;
+                foreach (var realDecisionRow in decisionClassRows)
+                {
+                    truePositivesNegativesCount += realDecisionRow[i++];
+                }
+                return (decimal)(truePositivesNegativesCount) / globalCount;
             }
         }
 
@@ -37,16 +80,17 @@ namespace DecisionRulesTool.Model.RuleTester
 
         public void IncrementPredictionCount(string realClass, string predictedClass)
         {
+            globalCount++;
             decisionClassRows.FirstOrDefault(x => x.DecisionClass.Equals(realClass)).IncrementPredictionCount(predictedClass);
         }
 
-        public class DecisionClassRow
+        public class RealDecisionRow
         {
             private IDictionary<string, int> predictionHistogram;
 
             public string DecisionClass { get; }
 
-            public DecisionClassRow(string[] decisionClasses, int classIndex)
+            public RealDecisionRow(string[] decisionClasses, int classIndex)
             {
                 DecisionClass = decisionClasses[classIndex];
                 predictionHistogram = new Dictionary<string, int>();
@@ -62,6 +106,37 @@ namespace DecisionRulesTool.Model.RuleTester
                 get
                 {
                     return predictionHistogram[decisionClass];
+                }
+            }
+
+            public int this[int decisionIndex]
+            {
+                get
+                {
+                    var key = predictionHistogram.Keys.ElementAt(decisionIndex);
+                    return predictionHistogram[key];
+                }
+            }
+
+            public int Count()
+            {
+                int count = 0;
+                foreach (var key in predictionHistogram.Keys)
+                {
+                    count += predictionHistogram[key];
+                }
+                return count;
+            }
+
+            public void SetPredictionCount(string decisionClass, int value)
+            {
+                if (predictionHistogram.ContainsKey(decisionClass))
+                {
+                    predictionHistogram[decisionClass] = value;
+                }
+                else
+                {
+                    Debug.WriteLine($"Decision class : {decisionClass} is not valid for confusion matrix");
                 }
             }
 

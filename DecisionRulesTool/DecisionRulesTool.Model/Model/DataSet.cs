@@ -11,7 +11,6 @@ namespace DecisionRulesTool.Model.Model
     {
         public bool IsSelected { get; set; }
 
-
         public DataSet(string name, ICollection<Attribute> attributes, ICollection<Object> objects) : this(name)
         {
             Attributes = attributes;
@@ -36,6 +35,11 @@ namespace DecisionRulesTool.Model.Model
         public bool IsCompatibleWith(DataSet testSet)
         {
             return Attributes.SequenceEqual(testSet.Attributes);
+        }
+
+        public object GetShortenName()
+        {
+            return Name;
         }
     }
 }

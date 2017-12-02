@@ -11,9 +11,9 @@ namespace DecisionRulesTool.Model.RuleTester
         public virtual string[] ClassificationResults { get; set; }
         public virtual string[] DecisionValues { get; set; }
         public virtual ConfusionMatrix ConfusionMatrix { get; set; }
-        public int Coverage { get; set; }
-        public int RelativePrecision { get; set; }
-        public int GlobalPrecision { get; set; }
+        public decimal Coverage { get; set; }
+        public decimal Accuary { get; set; }
+        public decimal TotalAccuary { get; set; }
     }
 }
 

@@ -13,6 +13,7 @@ namespace DecisionRulesTool.Model.IO
     {
         public static class FileExtensions
         {
+            public const string ExcelFile = ".xlsx";
             public const string RSESRuleSet = ".rul";
             public const string RSESDataset = ".tab";
             public const string _4emkaRuleSet = ".rls";

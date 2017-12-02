@@ -5,6 +5,7 @@ using DecisionRulesTool.UserInterface.View.Windows;
 using DecisionRulesTool.UserInterface.ViewModel;
 using DecisionRulesTool.UserInterface.ViewModel.Dialog;
 using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
+using DecisionRulesTool.UserInterface.ViewModel.Results;
 using DecisionRulesTool.UserInterface.ViewModel.Windows;
 using Microsoft.Win32;
 using System;
@@ -40,7 +41,7 @@ namespace DecisionRulesTool.UserInterface.Services
             Window newWindow = null;
             switch (viewModel)
             {
-                case GroupedTestResultViewModel groupedTestResultViewModel:
+                case AlgorithmsToTestSetsResultViewModel groupedTestResultViewModel:
                     newWindow = new GroupedTestResultWindow();
                     break;
                 case RuleSubsetGenerationViewModel ruleSubsetGenerationViewModel:

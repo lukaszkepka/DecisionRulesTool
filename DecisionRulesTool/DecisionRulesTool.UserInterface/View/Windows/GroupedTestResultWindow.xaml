@@ -21,90 +21,43 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <TabControl>
-        <TabItem Header="G1" DataContext="{Binding G1}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <ListBox Grid.Row="0"
-                         ItemsSource="{Binding}">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="COLUMN1"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <DataGrid x:Name="G1DataGrid"
-                          Grid.Row="1"
-                          DockPanel.Dock="Top"
-                          ColumnWidth="100"
-                          AutoGenerateColumns="True"                    
-                          CanUserAddRows="False"
-                          ItemsSource="{Binding GropedTestResult}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Setter Property="FontWeight" Value="Bold" />
-                            <Setter Property="Background" Value="{Binding ., Mode=OneWay, Converter={StaticResource decisionToColorConverter}}" />
-                        </Style>
-                    </DataGrid.RowStyle>
-                </DataGrid>
-            </Grid>
-        </TabItem>
-        <TabItem Header="G2" DataContext="{Binding G2}">
-            <ScrollViewer>
-                <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="23"/>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <ToolBar Grid.Row="0">
+            <Button Content="Save To Excel" Command="{Binding SaveToFile}" />
+        </ToolBar>
 
-                <TextBox Grid.Row="0" Text="Rule Sets : " 
-                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <ListBox Grid.Row="1"
+                 ItemsSource="{Binding}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="COLUMN1"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <DataGrid x:Name="G1DataGrid"
+                  Grid.Row="1"
+                  DockPanel.Dock="Top"
+                  ColumnWidth="100"
+                  AutoGenerateColumns="True"                    
+                  CanUserAddRows="False"
+                  ItemsSource="{Binding GropedTestResult}">
 
-                <ListBox ItemsSource="{Binding GroupedRuleSetResults}"
-                         Grid.Row="1">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Height="52.85">
-                                <TextBlock Text="{Binding ConflictResolvingMethod}" />
-                                <TextBlock Text="{Binding RuleSet.Name}"/>
-                                <TextBlock TextWrapping="WrapWithOverflow"
-                                           Text="{Binding RuleSet.Filters, Converter={StaticResource filtersToStringConverter}}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <DataGrid x:Name="G2DataGrid"
-                          Grid.Row="0"
-                          Grid.RowSpan="2"
-                          Grid.Column="1"
-                          DockPanel.Dock="Top"
-                          ColumnWidth="100"
-                          AutoGenerateColumns="True"                    
-                          ItemsSource="{Binding GropedTestResult}"
-                          CanUserAddRows="False">
-
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Setter Property="FontWeight" Value="Bold" />
-                            <Setter Property="Background" Value="{Binding ., Mode=OneWay, Converter={StaticResource decisionToColorConverter}}" />
-                        </Style>
-                    </DataGrid.RowStyle>
-                </DataGrid>
-            </Grid>
-            </ScrollViewer>
-        </TabItem>
-    </TabControl>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="Background" Value="{Binding ., Mode=OneWay, Converter={StaticResource decisionToColorConverter}}" />
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
+    </Grid>
 </Window>

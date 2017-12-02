@@ -46,9 +46,17 @@ namespace DecisionRulesTool.Model.RuleTester.DecisionResolver
         {
             foreach (Decision decision in rule.Decisions)
             {
-                int index = GetDecisionValueIndex(decision);
+                AddDecision(dataObject, decision);
+            }
+        }
+
+        public virtual void AddDecision(Object dataObject, Decision decision)
+        {
+            int index = GetDecisionValueIndex(decision);
+            if (index >= 0)
+            {
                 decisionMatrix[dataObject][index]++;
-            }  
+            }
         }
 
         public virtual ClassificationResult[] RunClassification()

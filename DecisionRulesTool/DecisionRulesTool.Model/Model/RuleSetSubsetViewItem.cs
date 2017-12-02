@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DecisionRulesTool.UserInterface.Model
+namespace DecisionRulesTool.Model.Model
 {
     public class RuleSetSubsetViewItem : RuleSetSubset
     {
         public bool IsSelected { get; set; }
 
         public bool IsExpanded { get; set; }
+
+
 
         public RuleSetSubsetViewItem(string name) : base(name)
         {

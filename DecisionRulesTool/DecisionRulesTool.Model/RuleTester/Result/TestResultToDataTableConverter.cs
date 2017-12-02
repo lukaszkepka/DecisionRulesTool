@@ -19,6 +19,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
                 int rowsCount = testRequest.TestSet.Objects.Count;
 
                 classificationTable.Columns.Add(new DataColumn("lp", typeof(string)));
+                classificationTable.Columns.Add(new DataColumn("Predicted Value", typeof(string)));
                 classificationTable.Columns.Add(new DataColumn("Result", typeof(string)));
 
                 foreach (var attribute in testRequest.TestSet.Attributes)
@@ -31,7 +32,8 @@ namespace DecisionRulesTool.Model.RuleTester.Result
                     var resultRow = new object[]
                     {
                        i.ToString(),
-                        testRequest.TestResult.ClassificationResults[i],
+                       testRequest.TestResult.DecisionValues[i],
+                       testRequest.TestResult.ClassificationResults[i],
                     };
 
                     var row = resultRow.Concat(testRequest.TestSet.Objects.ElementAt(i).Values).ToArray();
@@ -53,7 +55,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
                 string[] decisionClasses = ClassificationResult.GetDecisionClasses(testRequest.RuleSet.DecisionAttribute);
 
                 confusionMatrixTable.Columns.Add(new DataColumn("\\"));
-                decisionClasses.ForEach(x => confusionMatrixTable.Columns.Add(new DataColumn(x)));
+                decisionClasses.ForEach(x => confusionMatrixTable.Columns.Add(new DataColumn(x, typeof(int))));
 
                 foreach (var predictedDecision in decisionClasses)
                 {

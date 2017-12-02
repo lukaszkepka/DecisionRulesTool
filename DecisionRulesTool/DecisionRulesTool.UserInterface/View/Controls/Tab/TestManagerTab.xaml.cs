@@ -1,4 +1,5 @@
-﻿using DecisionRulesTool.UserInterface.ViewModel;
+﻿using DecisionRulesTool.Model.RuleTester;
+using DecisionRulesTool.UserInterface.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,12 +38,6 @@ namespace DecisionRulesTool.UserInterface.View.Controls
             context.FilterTestRequests.Execute(TestManagerViewModel.TestRequestFilter.All);
         }
 
-        private void FilterTestRequests_ForSelectedRuleSet(object sender, RoutedEventArgs e)
-        {
-            dynamic context = DataContext;
-            context.FilterTestRequests.Execute(TestManagerViewModel.TestRequestFilter.ForSelcetedRuleSet);
-        }
-
         private void FilterTestRequests_ForSelectedTestSet(object sender, RoutedEventArgs e)
         {
             dynamic context = DataContext;
@@ -51,8 +46,11 @@ namespace DecisionRulesTool.UserInterface.View.Controls
 
         private void ItemsControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
-
+            dynamic context = DataContext;
+            if(((dynamic)e.Source).DataContext is TestRequest testRequest)
+            {
+                context.ShowTestResults.Execute(testRequest);
+            }
         }
 
         private void testRequestCollection_MouseDoubleClick(object sender, MouseButtonEventArgs e)

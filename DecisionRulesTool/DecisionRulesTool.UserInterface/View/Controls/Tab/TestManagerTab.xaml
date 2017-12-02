@@ -26,28 +26,20 @@
     <Grid x:Name="rootGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
 
-        <GroupBox Header="Test Sets">
+        <GroupBox Header="Test Sets" Grid.Column="0">
             <DockPanel>
-                <DockPanel Height="30" DockPanel.Dock="Top">
-                    <ToolBar DockPanel.Dock="Top">
-                        <Button Content="Load" Command="{Binding LoadTestSets}"/>
-                        <Button Content="View" Command="{Binding ViewTestSet}"/>
-                        <Button Content="Generate Test Requests" Command="{Binding GenerateTestRequests}"/>
-                        <Button Content="Run Testing" Command="{Binding Run}"/>
-                        <Button Content="Group Results" Command="{Binding ShowGroupedTestResults}"/>
-                    </ToolBar>
-                </DockPanel>
-
+                <ToolBar Height="30" DockPanel.Dock="Top">
+                    <Button Content="Load" Command="{Binding LoadTestSets}"/>
+                    <Button Content="View" Command="{Binding ViewTestSet}"/>
+                    <Button Content="Generate Test Requests" Command="{Binding GenerateTestRequests}"/>
+                    <Button Content="Run Testing" Command="{Binding Run}"/>
+                    <Button Content="Group Results" Command="{Binding ShowGroupedTestResults}"/>
+                </ToolBar>
                 <DataGrid x:Name="LoadedTestSets"
                           IsReadOnly="True"
-                          BorderThickness="1"
                           AutoGenerateColumns="False"
                           DockPanel.Dock="Bottom"
                           ScrollViewer.VerticalScrollBarVisibility="Visible"
@@ -68,13 +60,11 @@
                             <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         </Style>
                     </DataGrid.ColumnHeaderStyle>
-
                     <DataGrid.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="BorderThickness" Value="0"/>
                         </Style>
                     </DataGrid.CellStyle>
-
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Width="*" Binding="{Binding TestSet.Name}"/>
                         <DataGridTemplateColumn Header="Progress" Width="2*">
@@ -91,7 +81,7 @@
                                         <ProgressBar Value="{Binding Progress, Mode=OneWay}"  
                                                      Height="10"
                                                      Width="auto"
-                                                     Background="AliceBlue"
+                                                     Background="White"
                                                      Margin="5 0 5 0"
                                                      Minimum="0" 
                                                      Maximum="100" 
@@ -106,166 +96,86 @@
             </DockPanel>
         </GroupBox >
 
-        <GroupBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Header="Test Requests">
+        <GroupBox Header="Test Requests" Grid.Column="1" >
             <DockPanel>
-                <DockPanel Height="30" DockPanel.Dock="Top">
-                    <ToolBar DockPanel.Dock="Top">
-                        <wpftoolkit:DropDownButton  Content="View" Margin="5 0 5 0" Background="AliceBlue" BorderThickness="0">
-                            <wpftoolkit:DropDownButton.DropDownContent>
-                                <StackPanel>
-                                    <Button Content="All" 
-                                            Background="AliceBlue" 
-                                            BorderThickness="0" 
-                                            Width="150" 
-                                            Command="{Binding FilterTestRequests}"
-                                            CommandParameter="All"
-                                            Click="FilterTestRequests_All" />
-                                    <Button Content="For selected rule set" 
-                                            Background="AliceBlue" 
-                                            BorderThickness="0" 
-                                            Width="150" 
-                                            Command="{Binding FilterTestRequests}"
-                                            CommandParameter="ForSelectedRuleSet"
-                                            Click="FilterTestRequests_ForSelectedRuleSet" />
-                                    <Button Content="For selected test set" 
-                                            Background="AliceBlue" 
-                                            BorderThickness="0" 
-                                            Width="150" 
-                                            Command="{Binding FilterTestRequests}"
-                                            CommandParameter="ForSelectedTestSet"
-                                            Click="FilterTestRequests_ForSelectedTestSet" />
-                                </StackPanel>
-                            </wpftoolkit:DropDownButton.DropDownContent>
-                        </wpftoolkit:DropDownButton>
-                    </ToolBar>
-                </DockPanel>
+                <ToolBar DockPanel.Dock="Top" Height="30">
+                    <wpftoolkit:DropDownButton  Content="View" Margin="5 0 5 0" Background="AliceBlue" BorderThickness="0">
+                        <wpftoolkit:DropDownButton.DropDownContent>
+                            <StackPanel>
+                                <Button Content="All" 
+                                        Background="AliceBlue" 
+                                        BorderThickness="0" 
+                                        Width="150" 
+                                        Command="{Binding FilterTestRequests}"
+                                        CommandParameter="All"
+                                        Click="FilterTestRequests_All" />
+                                <Button Content="For selected test set" 
+                                        Background="AliceBlue" 
+                                        BorderThickness="0" 
+                                        Width="150" 
+                                        Command="{Binding FilterTestRequests}"
+                                        CommandParameter="ForSelectedTestSet"
+                                        Click="FilterTestRequests_ForSelectedTestSet" />
+                            </StackPanel>
+                        </wpftoolkit:DropDownButton.DropDownContent>
+                    </wpftoolkit:DropDownButton>
+                    <Button Content="Load" Command="{Binding LoadTestResult}"/>
+                    <Button Content="Save All" />
+                </ToolBar>
+                <DataGrid DockPanel.Dock="Bottom"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding FilteredTestRequests}"
+                          VirtualizingStackPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          RowDetailsVisibilityMode="Visible"                        
+                          AutoGenerateColumns="False">
 
-                <ListBox x:Name="testRequestCollection"
-                         BorderThickness="1"
-                         DockPanel.Dock="Bottom"
-                         ScrollViewer.VerticalScrollBarVisibility="Visible"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         ItemsSource="{Binding FilteredTestRequests}"
-                         SelectedItem="{Binding SelectedTestRequest}" MouseDoubleClick="testRequestCollection_MouseDoubleClick" Loaded="testRequestCollection_Loaded">
-
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal"></WrapPanel>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         </Style>
-                    </ListBox.ItemContainerStyle>
+                    </DataGrid.Resources>
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <ItemsControl HorizontalAlignment="Stretch"
-                                          Height="175"
-                                          Background="Azure"
-                                          Grid.Column="2"
-                                          Grid.Row="1"
-                                          Margin="0,5,0,0">
-
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDoubleClick">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.ShowTestResults, ElementName=rootGrid}" CommandParameter="{Binding}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
-                                <ItemsControl.Resources>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="Margin" Value="5 0 0 5" />
-                                    </Style>
-                                </ItemsControl.Resources>
-
-                                <ToolBar VerticalAlignment="Top">
-                                    <ToolBar.Resources>
-                                        <Style TargetType="{x:Type ToolBarPanel}">
-                                            <Setter Property="Orientation" Value="Vertical"/>
-                                        </Style>
-                                        <Style TargetType="{x:Type Button}">
-                                            <Setter Property="BorderThickness" Value="0"/>
-                                            <Setter Property="Background" Value="AliceBlue"/>
-                                        </Style>
-                                    </ToolBar.Resources>
-
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Test Set"                                         
+                                            Binding="{Binding TestSet.Name}" />
+                        <DataGridTextColumn Header="Rule Set" 
+                                            Binding="{Binding RuleSet.Name}" />
+                        <DataGridTextColumn Header="Applied Filters" 
+                                            Width="350"
+                                            Binding="{Binding RuleSet.FiltersInfo}" />
+                        <DataGridTextColumn Header="Conflict Resolving Method" 
+                                            Binding="{Binding ResolvingMethod}" />
+                        <DataGridTemplateColumn Width="175" Header="Progress">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
                                     <DockPanel>
-                                        <ToolBarPanel Orientation="Horizontal" >
-                                        </ToolBarPanel>
-                                        <Button DockPanel.Dock="Right" 
-                                                HorizontalAlignment="Right" 
-                                                Content="Delete"
-                                                Visibility="{Binding Path=IsSelected, 
-                                                Converter={StaticResource boolToVisConverter}, 
-                                                RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
-                                                Command="{Binding Path=DataContext.DeleteSelectedTestRequest, ElementName=testRequestCollection}"/>
-
+                                        <Label DockPanel.Dock="Left"
+                                               Content="{Binding Progress, Mode=OneWay}"/>
+                                        <Label DockPanel.Dock="Left"
+                                               Content=" %"/>
+                                        <ProgressBar Height="10" Width="100" Value="{Binding Progress, Mode=OneWay}"  />
                                     </DockPanel>
-                                </ToolBar>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
 
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <EventSetter Event="MouseDoubleClick" Handler="ItemsControl_MouseDoubleClick"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
+                                    <Setter Property="Background" Value="DarkGray"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
 
-                                <Border Margin="3">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-
-                                        <TextBlock Grid.Column="0" Grid.Row="0"
-                                                   Text="Conflict Resolving Method : "/>
-                                        <TextBlock Grid.Column="1" Grid.Row="0"
-                                                   Text="{Binding ResolvingMethod}"/>
-                                        <TextBlock Grid.Column="0" Grid.Row="1"
-                                                   Text="Test Set : "/>
-                                        <TextBlock Grid.Column="1" Grid.Row="1"
-                                                   Text="{Binding TestSet.Name}"/>
-                                        <TextBlock Grid.Column="0" Grid.Row="2"
-                                                   Text="Rule Set : "/>
-                                        <TextBlock Grid.Column="1" Grid.Row="2"
-                                                   Text="{Binding RuleSet.Name}"/>
-
-                                        <TextBlock DockPanel.Dock="Left" 
-                                                   Grid.Column="0" Grid.Row="3"
-                                                   Text="Applied Filters : "/>
-                                        <TextBlock DockPanel.Dock="Left"
-                                                   Grid.Column="1" Grid.Row="3"
-                                                   TextWrapping="WrapWithOverflow"
-                                                   Text="{Binding RuleSet.Filters, Converter={StaticResource filtersToStringConverter}}"/>
-
-                                        <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4">
-                                            <Label Grid.Column="0" 
-                                                   Content="Progress : "/>
-                                            <Label DockPanel.Dock="Left"
-                                                   Content="{Binding Progress, Mode=OneWay}"/>
-                                            <Label DockPanel.Dock="Left"
-                                                   Content=" %"/>
-                                            <DockPanel Background="Azure">
-                                                <ProgressBar Value="{Binding Progress, Mode=OneWay}"  
-                                                             Height="10"
-                                                             Background="Azure"
-                                                             Minimum="0" Maximum="100" SmallChange="0.01"/>
-                                            </DockPanel>
-                                        </DockPanel>
-                                    </Grid>
-                                </Border>
-
-                            </ItemsControl>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                </DataGrid>
             </DockPanel>
         </GroupBox>
     </Grid>

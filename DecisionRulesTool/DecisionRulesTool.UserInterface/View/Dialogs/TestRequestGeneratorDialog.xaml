@@ -39,15 +39,7 @@
 
             <DockPanel Grid.Column="0" Grid.ColumnSpan="5">
                 <DockPanel Height="30" DockPanel.Dock="Top">
-                    <ToolBar DockPanel.Dock="Top">
-                        <Button Content="Settings">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding ShowSettings}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                    </ToolBar>
+                    <ToolBar DockPanel.Dock="Top"/>
                 </DockPanel>
                 <DockPanel>
                     <Grid>
@@ -171,21 +163,9 @@
                                                                 Margin="0 5 0 5">
 
                                                         <CheckBox x:Name="conflictResolvingMethodCheckBox"
-                                                                  IsChecked="{Binding IsSelected}"                                                       
+                                                                  IsChecked="{Binding IsSelected}"     
+                                                                  Content="{Binding Path=Item, Converter = {StaticResource conflictResolvingMethodToStringConverter}}"
                                                                   Margin="0 0 3 0" />
-
-                                                        <TextBlock Text = "{Binding Path=Item, Converter = {StaticResource conflictResolvingMethodToStringConverter}}" 
-                                                                   TextAlignment="Center">
-                                                
-                                                            <!--<i:Interaction.Triggers>
-                                                                 <i:EventTrigger EventName="Click"
-                                                                 SourceName="conflictResolvingMethodCheckBox"  >
-                                                                 <i:EventTrigger Event/>
-                                                                 </i:EventTrigger>
-                                                                 </i:Interaction.Triggers>-->
-
-                                                        </TextBlock>
-
                                                     </StackPanel>
                                                 </DataTemplate >
                                             </ItemsControl.ItemTemplate >

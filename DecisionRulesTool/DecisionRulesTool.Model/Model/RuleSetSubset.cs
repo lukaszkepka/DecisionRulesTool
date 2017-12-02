@@ -12,6 +12,7 @@ namespace DecisionRulesTool.Model.Model
         protected RuleSetSubset rootRuleSet;
         protected List<IRuleFilter> ruleFilters;
 
+        public string FiltersInfo { get; set; }
         public RuleSetSubset RootRuleSet
         {
             get
@@ -117,6 +118,7 @@ namespace DecisionRulesTool.Model.Model
                 }
             }
 
+            this.FiltersInfo = ruleFilters.Select(x => x.ToString()).Aggregate((x, y) => $"{x}, {y}");
             this.Attributes = filteredRuleSet.Attributes;
             this.Rules = filteredRuleSet.Rules;
         }

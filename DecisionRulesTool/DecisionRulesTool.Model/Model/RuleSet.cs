@@ -33,6 +33,11 @@ namespace DecisionRulesTool.Model.Model
             DecisionAttribute = decisionAttribute;
         }
 
+        public string GetShortenName()
+        {
+            return Name;
+        }
+
         public override bool Equals(object obj)
         {
             bool result = false;
