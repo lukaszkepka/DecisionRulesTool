@@ -1,5 +1,5 @@
 ﻿
-#define TEST
+#define TEST7
 
 using DecisionRulesTool.Model.RuleTester;
 using DecisionRulesTool.UserInterface.Services;
@@ -36,35 +36,35 @@ namespace DecisionRulesTool.UserInterface
         {
             //Rule sets
             var ruleSets = new ObservableCollection<RuleSetSubset>();
-            #if TEST
+#if TEST
             IFileParserFactory<RuleSet> fileParserFactory = new RuleSetParserFactory();
             IFileParser<RuleSet> ruleSetParser = fileParserFactory.Create(BaseFileFormat.FileExtensions.RSESRuleSet);
             RuleSetSubset ruleSet1 = new RuleSetSubsetViewItem(ruleSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Rules/male.rul"));
             RuleSetSubset ruleSet2 = new RuleSetSubsetViewItem(ruleSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Rules/female.rul"));
             ruleSets.Add(ruleSet1);
             ruleSets.Add(ruleSet2);
-            #endif
+#endif
 
             //Test sets
             var testSets = new ObservableCollection<DataSet>();
-            #if DEBUG
+#if TEST
             IFileParserFactory<DataSet> fileParserFactory1 = new DataSetParserFactory();
             IFileParser<DataSet> dataSetParser = fileParserFactory1.Create(BaseFileFormat.FileExtensions.RSESDataset);
             DataSet dataSet1 = dataSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Sets/mts.tab");
             DataSet dataSet2 = dataSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Sets/fts.tab");
             testSets.Add(dataSet1);
             testSets.Add(dataSet2);
-            #endif
+#endif
 
             //Test requests
             var testRequests = new ObservableCollection<TestRequest>();
-            #if DEBUG
+#if TEST
             foreach (ConflictResolvingMethod conflictResolvingMethod in Enum.GetValues(typeof(ConflictResolvingMethod)))
             {
                 testRequests.Add(new TestRequest(ruleSet1, testSets[0], conflictResolvingMethod));
                 testRequests.Add(new TestRequest(ruleSet2, testSets[1], conflictResolvingMethod));
             }
-            #endif
+#endif
 
 
 

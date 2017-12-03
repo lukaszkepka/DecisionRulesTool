@@ -18,8 +18,6 @@ namespace DecisionRulesTool.Model.IO.Parsers._4eMka
 
         public override DataSet ParseFile(StreamReader fileStream)
         {
-            LogManager.GetCurrentClassLogger().Info("Testowa informacja!");
-
             DataSet dataSet = default(DataSet);
             using (fileStream)
             {

@@ -154,7 +154,8 @@
                                 <DataTemplate>
                                     <DockPanel>
                                         <Label DockPanel.Dock="Left"
-                                               Content="{Binding Progress, Mode=OneWay}"/>
+                                               Width="30"
+                                               Content="{Binding Progress, Mode=OneWay, StringFormat={}{0, 3}}"/>
                                         <Label DockPanel.Dock="Left"
                                                Content=" %"/>
                                         <ProgressBar Height="10" Width="100" Value="{Binding Progress, Mode=OneWay}"  />

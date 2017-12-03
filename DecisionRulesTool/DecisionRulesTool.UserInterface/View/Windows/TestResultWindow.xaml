@@ -23,7 +23,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid>
+    <Grid x:Name="rootGrid">
         <DockPanel>
             <DockPanel Height="30" DockPanel.Dock="Top">
                 <ToolBar DockPanel.Dock="Top">
@@ -58,6 +58,41 @@
                 </TabItem>
                 <TabItem Header="Confusion Matrix">
                     <controls:ConfusionMatrix DataContext="{Binding}"/>
+                </TabItem>
+                <TabItem Header="Summary">
+                    <StackPanel>
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type ItemsControl}">
+                                <Setter Property="ItemsPanel">
+                                    <Setter.Value>
+                                        <ItemsPanelTemplate>
+                                            
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                        </Grid>
+                                        </ItemsPanelTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </StackPanel.Resources>
+                        
+                        <ItemsControl HorizontalAlignment="Left" Width="500">
+                            <TextBlock Grid.Column="0" Text="Coverage : " />
+                            <TextBlock Grid.Column="1" Text="{Binding Coverage, StringFormat={}{0:P2}}"/>
+                        </ItemsControl>
+                        <ItemsControl HorizontalAlignment="Left" Width="200">
+                            <TextBlock Grid.Column="0" Text="Accuracy : "/>
+                            <TextBlock Grid.Column="1" Text="{Binding Accuracy,StringFormat={}{0:P}}"/>
+                        </ItemsControl>
+                        <ItemsControl HorizontalAlignment="Left" Width="200">
+                            <TextBlock Grid.Column="0" Text="TotalAccuracy : "/>
+                            <TextBlock Grid.Column="1" Text="{Binding TotalAccuracy, StringFormat={}{0:P}}"/>
+                        </ItemsControl>
+                    </StackPanel>
+
                 </TabItem>
             </TabControl>
 

@@ -52,12 +52,17 @@ namespace DecisionRulesTool.UserInterface.Services
 
             foreach (string filePath in dialogService.OpenFileDialog(options))
             {
+                string fileName = Path.GetFileNameWithoutExtension(filePath);
                 string fileExtension = Path.GetExtension(filePath);
 
                 try
                 {
                     IFileParser<DataSet> testSetParser = fileParserFactory.Create(fileExtension);
                     DataSet testSet = testSetParser.ParseFile(filePath);
+                    if(fileExtension.Equals(BaseFileFormat.FileExtensions._4emkaDataset))
+                    {
+                        testSet.Name = fileName;
+                    }
                     testSets.Add(testSet);
                 }
                 catch (FileFormatNotSupportedException fileFormatException)

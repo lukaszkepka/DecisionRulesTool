@@ -50,7 +50,7 @@
                   ColumnWidth="100"
                   AutoGenerateColumns="True"                    
                   CanUserAddRows="False"
-                  ItemsSource="{Binding GropedTestResult}">
+                  ItemsSource="{Binding GroupedTestResultTable}">
 
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">

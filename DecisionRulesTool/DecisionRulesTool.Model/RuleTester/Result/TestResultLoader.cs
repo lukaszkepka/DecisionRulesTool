@@ -83,8 +83,8 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             IXLWorksheet summaryWorksheet = workBook.Worksheet("Summary");
             DataTable summaryDataTable = summaryWorksheet.Table(0)?.AsNativeDataTable();
             decimal coverage = Convert.ToDecimal(summaryDataTable.Rows[0]["Coverage"]);
-            decimal accuary = Convert.ToDecimal(summaryDataTable.Rows[0]["Accuary"]);
-            decimal totalAccuary = Convert.ToDecimal(summaryDataTable.Rows[0]["Total Accuary"]);
+            decimal accuary = Convert.ToDecimal(summaryDataTable.Rows[0]["Accuracy"]);
+            decimal totalAccuary = Convert.ToDecimal(summaryDataTable.Rows[0]["Total Accuracy"]);
 
 
             foreach (DataRow row in labelsDataTable.Rows)
@@ -137,11 +137,17 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             string filters = metaDataRow["Filters"].ToString();
             string testSetName = metaDataRow["Test Set"].ToString();
             string ruleSetName = metaDataRow["Rule Set"].ToString();
+            int decisionAttributeIndex = Convert.ToInt32(metaDataRow["Decision Attribute Index"].ToString());
             string conflictResolvingMethod = metaDataRow["Conflict Resolving Method"].ToString();
 
             Model.DataSet testSet = ReadDataSet(workBook, testSetName);
+            Model.RuleSet ruleSet = new Model.RuleSetSubsetViewItem(ruleSetName)
+            {
+                FiltersInfo = filters,
+                DecisionAttribute = testSet.Attributes.ElementAt(decisionAttributeIndex)
+            };
 
-            TestRequest testRequest = new TestRequest(new Model.RuleSetSubsetViewItem(ruleSetName) { FiltersInfo = filters, DecisionAttribute = decisionAttribute }, testSet, (ConflictResolvingMethod)Enum.Parse(typeof(ConflictResolvingMethod), conflictResolvingMethod))
+            TestRequest testRequest = new TestRequest(ruleSet, testSet, (ConflictResolvingMethod)Enum.Parse(typeof(ConflictResolvingMethod), conflictResolvingMethod))
             {
                 Progress = 100,
                 IsReadOnly = true

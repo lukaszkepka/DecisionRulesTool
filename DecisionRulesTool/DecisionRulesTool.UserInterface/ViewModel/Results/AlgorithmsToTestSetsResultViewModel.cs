@@ -22,7 +22,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
     {
         private TestRequestGroup testRequestGroup;
 
-        public DataTable GropedTestResult { get; private set; }
+        public DataTable GroupedTestResultTable { get; private set; }
 
         public ICommand SaveToFile { get; private set; }
 
@@ -40,7 +40,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
 
         private void OnSaveToFile()
         {
-            if (GropedTestResult.Rows.Count > 0)
+            if (GroupedTestResultTable.Rows.Count > 0)
             {
                 SaveFileDialogSettings settings = new SaveFileDialogSettings()
                 {
@@ -53,7 +53,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
                 {
                     //TODO : Remove to test result saver class
                     XLWorkbook excelWorkbook = new XLWorkbook();
-                    excelWorkbook.Worksheets.Add(GropedTestResult, $"Classification results for {testRequestGroup.TestSet.Name}");
+                    excelWorkbook.Worksheets.Add(GroupedTestResultTable, $"Classification results for {testRequestGroup.TestSet.Name}");
                     excelWorkbook.SaveAs(filePath);
                 }
             }
@@ -61,35 +61,36 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
 
         public void FillResultDataTable()
         {
-            var testRequest = testRequestGroup.TestRequests.FirstOrDefault();
+            IEnumerable<TestRequest> completedTests = testRequestGroup.TestRequests.Where(x => x.IsCompleted);
 
-            GropedTestResult = new DataTable();
-            if (testRequest.TestResult != null)
+            GroupedTestResultTable = new DataTable();
+            if (completedTests.Any())
             {
-                int rowsCount = testRequest.TestSet.Objects.Count;
+                TestRequest exampleTest = completedTests.First();
+                int rowsCount = exampleTest.TestSet.Objects.Count;
 
-                foreach (var attribute in testRequest.TestSet.Attributes)
+                foreach (var attribute in exampleTest.TestSet.Attributes)
                 {
-                    GropedTestResult.Columns.Add(new DataColumn(attribute.Name, typeof(object)));
+                    GroupedTestResultTable.Columns.Add(new DataColumn(attribute.Name, typeof(object)));
                 }
 
-                foreach (var item in testRequestGroup.TestRequests)
+                foreach (var completedTest in completedTests)
                 {
-                    GropedTestResult.Columns.Add(new DataColumn($"{item.GetShortenName()}", typeof(string)));
+                    GroupedTestResultTable.Columns.Add(new DataColumn($"{completedTest.GetShortenName()}", typeof(string)));
                 }
 
-                GropedTestResult.Columns.Add(new DataColumn($"Final Result", typeof(string)));
+                GroupedTestResultTable.Columns.Add(new DataColumn($"Result", typeof(string)));
 
                 for (int i = 0; i < rowsCount; i++)
                 {
                     List<object> partlyResults = new List<object>();
-                    Object dataObject = testRequest.TestSet.Objects.ElementAt(i);
-                    MajorityVoting majorityVoting = new MajorityVoting(testRequest.TestSet, testRequest.RuleSet.DecisionAttribute);
+                    Object dataObject = exampleTest.TestSet.Objects.ElementAt(i);
+                    MajorityVoting majorityVoting = new MajorityVoting(exampleTest.TestSet, exampleTest.RuleSet.DecisionAttribute);
 
-                    foreach (var item in testRequestGroup.TestRequests)
+                    foreach (var completedTest in completedTests)
                     {
-                        string partlyResult = item.TestResult.ClassificationResults[i];
-                        string partlyDecisionValue = item.TestResult.DecisionValues[i];
+                        string partlyResult = completedTest.TestResult.ClassificationResults[i];
+                        string partlyDecisionValue = completedTest.TestResult.DecisionValues[i];
 
                         majorityVoting.AddDecision(dataObject, new Decision(DecisionType.Undefined, null, partlyDecisionValue));
                         partlyResults.Add(partlyResult);
@@ -99,7 +100,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
                     partlyResults.Add(finalClassificationResult[i].Result);
 
                     object[] finalRow = dataObject.Values.Concat(partlyResults).ToArray();
-                    GropedTestResult.Rows.Add(finalRow);
+                    GroupedTestResultTable.Rows.Add(finalRow);
                 }
             }
         }

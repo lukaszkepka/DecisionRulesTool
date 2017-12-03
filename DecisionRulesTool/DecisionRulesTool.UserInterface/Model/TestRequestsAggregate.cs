@@ -19,6 +19,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public int Progress { get; set; }
 
+
+
         public TestRequestGroup(DataSet testSet, ICollection<TestRequest> testRequests)
         {
             this.TestSet = testSet;
@@ -38,7 +40,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName.Equals("Progress"))
+            if (e.PropertyName.Equals("Progress"))
             {
                 int progressSum = TestRequests.Sum(x => x.Progress);
                 if (progressSum == TestRequests.Count() * TestRequest.MaxProgress)

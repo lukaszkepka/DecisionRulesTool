@@ -22,10 +22,10 @@ namespace DecisionRulesTool.Model.Parsers._4eMka
 
         protected void MoveStreamToSection(StreamReader streamReader, string sectionName)
         {
-            string fileLine = streamReader.ReadLine();
+            string fileLine = streamReader.ReadLine().Trim();
             while (!streamReader.EndOfStream && !fileLine.Equals(sectionName))
             {
-                fileLine = streamReader.ReadLine();
+                fileLine = streamReader.ReadLine().Trim();
             }
 
             if (streamReader.EndOfStream)

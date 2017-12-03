@@ -13,9 +13,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ToolBar DockPanel.Dock="Top" Grid.Row="0">
-            <Button Content="Save To Excel" Command="{Binding SaveToFile}" />
-        </ToolBar>
+        <ToolBar DockPanel.Dock="Top" Grid.Row="0"/>
+
         <Grid Grid.Row="1" >
             <Grid>
                 <Grid.RowDefinitions>
@@ -42,7 +41,7 @@
                      <TextBlock Text="{Binding ConflictResolvingMethod}" />
                      <TextBlock Text="{Binding RuleSet.Name}"/>
                      <TextBlock TextWrapping="WrapWithOverflow"
-                     Text="{Binding RuleSet.Filters, Converter={StaticResource filtersToStringConverter}}"/>
+                     Text="{Binding RuleSet.FiltersInfo}"/>
                      </StackPanel>
                      </DataTemplate>
                      </ListBox.ItemTemplate>

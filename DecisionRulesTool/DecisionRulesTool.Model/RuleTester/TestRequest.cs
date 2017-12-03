@@ -20,6 +20,13 @@ namespace DecisionRulesTool.Model.RuleTester
         public int Progress { get; set; }
         public TestResult TestResult { get; set; }
         public bool IsReadOnly { get; set; }
+        public bool IsCompleted
+        {
+            get
+            {
+                return Progress == MaxProgress;
+            }
+        }
 
         public TestRequest(RuleSet ruleSet, DataSet testSet, ConflictResolvingMethod resolvingMethod)
         {

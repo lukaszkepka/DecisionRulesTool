@@ -25,6 +25,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
         #endregion
 
         #region Properties
+        public decimal Coverage { get; private set; }
+        public decimal Accuracy { get; private set; }
+        public decimal TotalAccuracy { get; private set; }
         public DataTable TestResultDataTable { get; private set; }
         public DataTable ConfusionMatrix { get; private set; }
         #endregion
@@ -38,6 +41,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
         {
             this.testRequest = testRequest;
             InitializeCommands();
+            InitializeSummary();
             FillTestResultDataTable();
             FillConfusionMatrixDataTable();
         }
@@ -47,6 +51,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
         private void InitializeCommands()
         {
             SaveToFile = new RelayCommand(OnSaveToFile);
+        }
+
+        private void InitializeSummary()
+        {
+            this.Coverage = testRequest.TestResult.Coverage;
+            this.Accuracy = testRequest.TestResult.Accuracy;
+            this.TotalAccuracy = testRequest.TestResult.TotalAccuracy;
         }
 
         private void FillTestResultDataTable()
@@ -89,17 +100,22 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
 
                 DataTable sm = new DataTable();
                 sm.Columns.Add(new DataColumn("Coverage", typeof(decimal)));
-                sm.Columns.Add(new DataColumn("Accuary", typeof(decimal)));
-                sm.Columns.Add(new DataColumn("Total accuary", typeof(decimal)));
+                sm.Columns.Add(new DataColumn("Accuracy", typeof(decimal)));
+                sm.Columns.Add(new DataColumn("Total Accuracy", typeof(decimal)));
                 sm.Rows.Add(new object[] { testRequest.TestResult.Coverage, testRequest.TestResult.Accuracy, testRequest.TestResult.TotalAccuracy });
                 wb.Worksheets.Add(sm, "Summary");
 
                 DataTable metaData = new DataTable();
                 metaData.Columns.Add(new DataColumn("Test Set", typeof(string)));
                 metaData.Columns.Add(new DataColumn("Rule Set", typeof(string)));
+                metaData.Columns.Add(new DataColumn("Decision Attribute Index", typeof(string)));
                 metaData.Columns.Add(new DataColumn("Filters", typeof(string)));
                 metaData.Columns.Add(new DataColumn("Conflict Resolving Method", typeof(string)));
-                metaData.Rows.Add(new object[] { testRequest.TestSet.Name, testRequest.RuleSet.Name, filtersToStringConverter.Convert(((RuleSetSubsetViewItem)testRequest.RuleSet).Filters, typeof(string), null, CultureInfo.CurrentCulture), testRequest.ResolvingMethod });
+
+                int decisionAttributeIndex = testRequest.TestSet.Attributes.Select((x, i) => new Tuple<int, string>(i, x.Name)).FirstOrDefault(x => x.Item2.Equals(testRequest.RuleSet.DecisionAttribute.Name)).Item1;
+
+
+                metaData.Rows.Add(new object[] { testRequest.TestSet.Name, testRequest.RuleSet.Name, decisionAttributeIndex, filtersToStringConverter.Convert(((RuleSetSubsetViewItem)testRequest.RuleSet).Filters, typeof(string), null, CultureInfo.CurrentCulture), testRequest.ResolvingMethod });
 
                 DataTable testSetMetaData = new DataTable();
                 testSetMetaData.Columns.Add(new DataColumn("Column Name", typeof(string)));

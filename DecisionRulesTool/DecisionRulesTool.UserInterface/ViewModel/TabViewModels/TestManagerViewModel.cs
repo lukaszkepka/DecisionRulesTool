@@ -148,10 +148,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 foreach (var testRequest in applicationCache.TestRequests.Where(x => x.Progress == 100))
                 {
                     TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationCache, servicesRepository);
-                    //  testResultViewModel.SaveResultToFile($"{folderPath}\\{DateTime.Now.ToString("yyyyMMdd")}{testRequest.GetShortenName()}");
-                    testResultViewModel.SaveResultToFile($"{folderPath}\\{DateTime.Now.ToString("yyyyMMdd")}.xlsx");
+                    testResultViewModel.SaveResultToFile($"{folderPath}\\{DateTime.Now.ToString("yyyyMMdd")}{testRequest.GetShortenName()}.xlsx");
                 }
 
+                servicesRepository.DialogService.ShowInformationMessage("Saving results completed successfully");
             }
         }
 
@@ -161,7 +161,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
             OpenFileDialogSettings settings = new OpenFileDialogSettings()
             {
-
+                Multiselect = true
             };
 
             string[] paths = servicesRepository.DialogService.OpenFileDialog(settings);
@@ -217,20 +217,30 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             if (testRequestGroup != null)
             {
                 testRequest.TestSet = testRequestGroup.TestSet;
-                applicationCache.TestRequests.Add(testRequest);
-                testRequestGroup.AddTestRequest(testRequest);
+
             }
             else
             {
-
+                AddTestSet(testRequest.TestSet);
+                testRequestGroup = TestRequestGroups.FirstOrDefault(x => x.TestSet.Name.Equals(testRequest.TestSet.Name));
             }
+
+            applicationCache.TestRequests.Add(testRequest);
+            testRequestGroup.AddTestRequest(testRequest);
         }
 
         public void OnLoadTestSets()
         {
             foreach (var testSet in servicesRepository.DataSetLoaderService.LoadDataSets())
             {
-                AddTestSet(testSet);
+                if(applicationCache.TestSets.Any(x => x.Name.Equals(testSet.Name)))
+                {
+                    servicesRepository.DialogService.ShowInformationMessage($"Test Set with name {testSet.Name} is already loaded");
+                }
+                else
+                {
+                    AddTestSet(testSet);
+                }
             }
         }
 
