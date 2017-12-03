@@ -101,8 +101,8 @@ namespace DecisionRulesTool.Model.RuleTester
                         ClassificationResults = classificationResults.Select(x => x.Result).ToArray(),
                         ConfusionMatrix = confusionMatrix,
                         Coverage = confusionMatrix.Coverage,
-                        Accuary = confusionMatrix.Accuary,
-                        TotalAccuary = confusionMatrix.Coverage * confusionMatrix.Accuary
+                        Accuracy = confusionMatrix.Accuary,
+                        TotalAccuracy = confusionMatrix.Coverage * confusionMatrix.Accuary
                     };
 
                     testRequest.TestResult = testResult;

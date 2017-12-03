@@ -4,6 +4,7 @@ using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace DecisionRulesTool.UserInterface.Services.Dialog
 {
@@ -11,17 +12,17 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
     {
         public void ShowInformationMessage(string message)
         {
-            MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Windows.MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void ShowWarningMessage(string message)
         {
-            MessageBox.Show(message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            System.Windows.MessageBox.Show(message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         public void ShowMessageBox(string caption, string message, MessageBoxButton buttons)
         {
-            MessageBox.Show(message, caption, buttons);
+            System.Windows.MessageBox.Show(message, caption, buttons);
         }
 
         public bool ShowDialog(BaseDialogViewModel dialogViewModel)
@@ -43,7 +44,7 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
         {
             string[] filePaths = new string[0];
 
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
             {
                 Multiselect = options.Multiselect,
                 Filter = options.Filter,
@@ -61,9 +62,9 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
 
         public string SaveFileDialog(SaveFileDialogSettings options)
         {
-            string filePath = null; 
+            string filePath = null;
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog
             {
                 Filter = options.ExtensionFilter,
                 InitialDirectory = options.InitialDirectory
@@ -75,6 +76,22 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
             }
 
             return filePath;
+        }
+
+        public string BrowseFolderDialog(string initialPath)
+        {
+            string folderPath = string.Empty;
+            var folderDialog = new FolderBrowserDialog()
+            {
+                SelectedPath = initialPath
+            };
+
+            if (folderDialog.ShowDialog() == DialogResult.OK)
+            {
+                folderPath = folderDialog.SelectedPath;
+            }
+
+            return folderPath;
         }
     }
 }

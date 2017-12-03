@@ -28,6 +28,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
     using DecisionRulesTool.UserInterface.ViewModel.Results;
     using DecisionRulesTool.UserInterface.ViewModel.Windows;
+    using System.IO;
 
     [AddINotifyPropertyChangedInterface]
     public class TestManagerViewModel : ApplicationViewModel
@@ -54,6 +55,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public ICommand DeleteSelectedTestRequest { get; private set; }
         public ICommand LoadTestResult { get; private set; }
         public ICommand ShowTestResults { get; private set; }
+        public ICommand SaveAllResults { get; private set; }
         #endregion
 
         #region Properties
@@ -129,12 +131,28 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             ShowGroupedTestResults = new RelayCommand(OnShowResultsForTestSet);
             ShowTestResults = new RelayCommand<TestRequest>(OnShowSingleTestResult);
 
+            SaveAllResults = new RelayCommand(OnSaveAllResults);
             ViewTestSet = new RelayCommand(OnViewTestSet);
             LoadTestSets = new RelayCommand(OnLoadTestSets);
             LoadTestResult = new RelayCommand(OnLoadTestResult);
             FilterTestRequests = new RelayCommand<TestRequestFilter>(OnFilterTestRequests);
             GenerateTestRequests = new RelayCommand(OnGenerateTestRequests);
             DeleteSelectedTestRequest = new RelayCommand(OnDeleteSelectedTestRequest);
+        }
+
+        private void OnSaveAllResults()
+        {
+            string folderPath = servicesRepository.DialogService.BrowseFolderDialog(Environment.CurrentDirectory);
+            if (!string.IsNullOrEmpty(folderPath))
+            {
+                foreach (var testRequest in applicationCache.TestRequests.Where(x => x.Progress == 100))
+                {
+                    TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationCache, servicesRepository);
+                    //  testResultViewModel.SaveResultToFile($"{folderPath}\\{DateTime.Now.ToString("yyyyMMdd")}{testRequest.GetShortenName()}");
+                    testResultViewModel.SaveResultToFile($"{folderPath}\\{DateTime.Now.ToString("yyyyMMdd")}.xlsx");
+                }
+
+            }
         }
 
         private void OnLoadTestResult()
@@ -153,7 +171,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 {
                     AddTestRequest(testResultLoader.ParseFile(path));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     servicesRepository.DialogService.ShowInformationMessage(ex.Message);
                 }

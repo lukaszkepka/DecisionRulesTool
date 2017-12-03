@@ -120,7 +120,7 @@
                         </wpftoolkit:DropDownButton.DropDownContent>
                     </wpftoolkit:DropDownButton>
                     <Button Content="Load" Command="{Binding LoadTestResult}"/>
-                    <Button Content="Save All" />
+                    <Button Content="Save All" Command="{Binding SaveAllResults}"/>
                 </ToolBar>
                 <DataGrid DockPanel.Dock="Bottom"
                           IsReadOnly="True"

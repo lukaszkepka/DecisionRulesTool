@@ -80,19 +80,27 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             List<string> decisions = new List<string>();
             List<string> results = new List<string>();
 
+            IXLWorksheet summaryWorksheet = workBook.Worksheet("Summary");
+            DataTable summaryDataTable = summaryWorksheet.Table(0)?.AsNativeDataTable();
+            decimal coverage = Convert.ToDecimal(summaryDataTable.Rows[0]["Coverage"]);
+            decimal accuary = Convert.ToDecimal(summaryDataTable.Rows[0]["Accuary"]);
+            decimal totalAccuary = Convert.ToDecimal(summaryDataTable.Rows[0]["Total Accuary"]);
+
+
             foreach (DataRow row in labelsDataTable.Rows)
             {
                 decisions.Add(row[1].ToString());
                 results.Add(row[2].ToString());
             }
 
-
-
             return new TestResult()
             {
                 ConfusionMatrix = confusionMatrix,
                 DecisionValues = decisions.ToArray(),
-                ClassificationResults = results.ToArray()
+                ClassificationResults = results.ToArray(),
+                Coverage = coverage,
+                Accuracy = accuary,
+                TotalAccuracy = totalAccuary
             };
         }
 

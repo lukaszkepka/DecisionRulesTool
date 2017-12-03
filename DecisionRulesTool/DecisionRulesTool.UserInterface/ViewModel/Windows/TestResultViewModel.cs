@@ -73,6 +73,54 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
             }
         }
 
+        public void SaveResultToFile(string filePath)
+        {
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                FiltersToStringConverter filtersToStringConverter = new FiltersToStringConverter();
+
+                //TODO : Remove to test result saver class
+                XLWorkbook wb = new XLWorkbook();
+                DataTable dt = TestResultDataTable;
+                wb.Worksheets.Add(dt, "Labels");
+
+                DataTable cm = ConfusionMatrix;
+                wb.Worksheets.Add(cm, "Confusion Matrix");
+
+                DataTable sm = new DataTable();
+                sm.Columns.Add(new DataColumn("Coverage", typeof(decimal)));
+                sm.Columns.Add(new DataColumn("Accuary", typeof(decimal)));
+                sm.Columns.Add(new DataColumn("Total accuary", typeof(decimal)));
+                sm.Rows.Add(new object[] { testRequest.TestResult.Coverage, testRequest.TestResult.Accuracy, testRequest.TestResult.TotalAccuracy });
+                wb.Worksheets.Add(sm, "Summary");
+
+                DataTable metaData = new DataTable();
+                metaData.Columns.Add(new DataColumn("Test Set", typeof(string)));
+                metaData.Columns.Add(new DataColumn("Rule Set", typeof(string)));
+                metaData.Columns.Add(new DataColumn("Filters", typeof(string)));
+                metaData.Columns.Add(new DataColumn("Conflict Resolving Method", typeof(string)));
+                metaData.Rows.Add(new object[] { testRequest.TestSet.Name, testRequest.RuleSet.Name, filtersToStringConverter.Convert(((RuleSetSubsetViewItem)testRequest.RuleSet).Filters, typeof(string), null, CultureInfo.CurrentCulture), testRequest.ResolvingMethod });
+
+                DataTable testSetMetaData = new DataTable();
+                testSetMetaData.Columns.Add(new DataColumn("Column Name", typeof(string)));
+                testSetMetaData.Columns.Add(new DataColumn("Type", typeof(string)));
+                testSetMetaData.Columns.Add(new DataColumn("Available Values", typeof(string)));
+
+                foreach (var attribute in testRequest.TestSet.Attributes)
+                {
+                    object o1 = attribute.Name;
+                    object o2 = attribute.Type;
+                    object o3 = attribute.AvailableValues.Length > 0 ? attribute.AvailableValues.Aggregate((x, y) => x + "," + y) : string.Empty;
+                    testSetMetaData.Rows.Add(new object[] { o1, o2, o3 });
+                }
+
+                wb.Worksheets.Add(metaData, "MetaData");
+                wb.Worksheets.Add(testSetMetaData, "AttributesMetaData");
+
+                wb.SaveAs(filePath);
+            }
+        }
+
         private void OnSaveToFile()
         {
             if (TestResultDataTable.Rows.Count > 0)
@@ -84,44 +132,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
                 };
 
                 string filePath = servicesRepository.DialogService.SaveFileDialog(settings);
-                if (filePath != null)
-                {
-                    FiltersToStringConverter filtersToStringConverter = new FiltersToStringConverter();
-
-                    //TODO : Remove to test result saver class
-                    XLWorkbook wb = new XLWorkbook();
-                    DataTable dt = TestResultDataTable;
-                    wb.Worksheets.Add(dt, "Labels");
-
-                    DataTable cm = ConfusionMatrix;
-                    wb.Worksheets.Add(cm, "Confusion Matrix");
-
-                    DataTable metaData = new DataTable();
-                    metaData.Columns.Add(new DataColumn("Test Set", typeof(string)));
-                    metaData.Columns.Add(new DataColumn("Rule Set", typeof(string)));
-                    metaData.Columns.Add(new DataColumn("Filters", typeof(string)));
-                    metaData.Columns.Add(new DataColumn("Conflict Resolving Method", typeof(string)));
-                    metaData.Rows.Add(new object[] { testRequest.TestSet.Name, testRequest.RuleSet.Name, filtersToStringConverter.Convert(((RuleSetSubsetViewItem)testRequest.RuleSet).Filters, typeof(string), null, CultureInfo.CurrentCulture), testRequest.ResolvingMethod });
-
-                    DataTable testSetMetaData = new DataTable();
-                    testSetMetaData.Columns.Add(new DataColumn("Column Name", typeof(string)));
-                    testSetMetaData.Columns.Add(new DataColumn("Type", typeof(string)));
-                    testSetMetaData.Columns.Add(new DataColumn("Available Values", typeof(string)));
-
-                    foreach (var attribute in testRequest.TestSet.Attributes)
-                    {
-                        object o1 = attribute.Name;
-                        object o2 = attribute.Type;
-                        object o3 = attribute.AvailableValues.Length > 0 ? attribute.AvailableValues.Aggregate((x, y) => x + "," + y) : string.Empty;
-                        testSetMetaData.Rows.Add(new object[] { o1, o2, o3 });
-                    }
-
-                    wb.Worksheets.Add(metaData, "MetaData");
-                    wb.Worksheets.Add(testSetMetaData, "AttributesMetaData");
-
-                    wb.SaveAs(filePath);
-                }
-
+                SaveResultToFile(filePath);
             }
         }
         #endregion
