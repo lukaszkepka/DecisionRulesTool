@@ -13,6 +13,7 @@ namespace DecisionRulesTool.Model.Model
         protected List<IRuleFilter> ruleFilters;
 
         public string FiltersInfo { get; set; }
+        public string FiltersShortInfo { get; set; }
         public RuleSetSubset RootRuleSet
         {
             get
@@ -73,6 +74,18 @@ namespace DecisionRulesTool.Model.Model
             Initialize();
         }
 
+        public string GetShortFiltersInfo()
+        {
+            if (ruleFilters.Any())
+            {
+                return ruleFilters.Select(x => x.GetShortName()).Aggregate((x, y) => $"{x}_{y}");
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
         /// <summary>
         /// Constructor that creates new subset as child of initialRuleSet.
         /// Field InitialSubset is set to initialRuleSet and RootRuleSet is
@@ -118,6 +131,7 @@ namespace DecisionRulesTool.Model.Model
                 }
             }
 
+            this.FiltersShortInfo = GetShortFiltersInfo();
             this.FiltersInfo = ruleFilters.Select(x => x.ToString()).Aggregate((x, y) => $"{x}, {y}");
             this.Attributes = filteredRuleSet.Attributes;
             this.Rules = filteredRuleSet.Rules;

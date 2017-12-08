@@ -46,7 +46,7 @@ namespace DecisionRulesTool.Model.RuleTester
 
         public string GetShortenName()
         {
-            return $"{RuleSet.GetShortenName()}s{SeriesNumber}_{((RuleSetSubset)RuleSet).FiltersInfo}_{TestSet.GetShortenName()}_{ResolvingMethod}";
+            return $"s{SeriesNumber}_{RuleSet.GetShortenName()}({((RuleSetSubset)RuleSet).FiltersShortInfo})_{TestSet.GetShortenName()}_{ResolvingMethod}";
         }
 
     }

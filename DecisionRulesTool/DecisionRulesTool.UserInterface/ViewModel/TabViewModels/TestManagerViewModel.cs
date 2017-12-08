@@ -194,7 +194,39 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void OnLoadTestResult()
+        private void _onLoadTestResults()
+        {
+            try
+            {
+                IFileParser<TestRequest> testResultLoader = new TestResultLoader();
+
+                OpenFileDialogSettings settings = new OpenFileDialogSettings()
+                {
+                    Multiselect = true
+                };
+
+                string[] paths = servicesRepository.DialogService.OpenFileDialog(settings);
+                int serieNumber = GetTestRequestSerieNumber();
+
+                foreach (string path in paths)
+                {
+                    try
+                    {
+                        AddTestRequest(testResultLoader.ParseFile(path), serieNumber);
+                    }
+                    catch (Exception ex)
+                    {
+                        servicesRepository.DialogService.ShowInformationMessage(ex.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during loading test results : {ex.Message}");
+            }
+        }
+
+        private  void OnLoadTestResult()
         {
             try
             {
@@ -282,19 +314,21 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             testRequestGroup.RecalculateProgress();
         }
 
+
+
         public void OnLoadTestSets()
         {
-            foreach (var testSet in servicesRepository.DataSetLoaderService.LoadDataSets())
-            {
-                if (applicationCache.TestSets.Any(x => x.Name.Equals(testSet.Name)))
+                foreach (var testSet in servicesRepository.DataSetLoaderService.LoadDataSets())
                 {
-                    servicesRepository.DialogService.ShowInformationMessage($"Test Set with name {testSet.Name} is already loaded");
+                    if (applicationCache.TestSets.Any(x => x.Name.Equals(testSet.Name)))
+                    {
+                        servicesRepository.DialogService.ShowInformationMessage($"Test Set with name {testSet.Name} is already loaded");
+                    }
+                    else
+                    {
+                        AddTestSet(testSet);
+                    }
                 }
-                else
-                {
-                    AddTestSet(testSet);
-                }
-            }
         }
 
         private void OnViewTestSet(TestRequestGroup testRequestGroup)

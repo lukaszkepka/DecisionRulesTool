@@ -135,6 +135,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             Model.Attribute decisionAttribute = ReadDecisionAttribute(confusionMatrixTable);
 
             string filters = metaDataRow["Filters"].ToString();
+            string filtersShort = metaDataRow["Filters short"].ToString();
             string testSetName = metaDataRow["Test Set"].ToString();
             string ruleSetName = metaDataRow["Rule Set"].ToString();
             int decisionAttributeIndex = Convert.ToInt32(metaDataRow["Decision Attribute Index"].ToString());
@@ -143,6 +144,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             Model.DataSet testSet = ReadDataSet(workBook, testSetName);
             Model.RuleSet ruleSet = new Model.RuleSetSubsetViewItem(ruleSetName)
             {
+                FiltersShortInfo = filtersShort,
                 FiltersInfo = filters,
                 DecisionAttribute = testSet.Attributes.ElementAt(decisionAttributeIndex)
             };

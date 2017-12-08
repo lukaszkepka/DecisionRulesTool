@@ -46,6 +46,8 @@
         </ListBox>
         <DataGrid x:Name="G1DataGrid"
                   Grid.Row="1"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling"
                   DockPanel.Dock="Top"
                   ColumnWidth="100"
                   AutoGenerateColumns="True"                    

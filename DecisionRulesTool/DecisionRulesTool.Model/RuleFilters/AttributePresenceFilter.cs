@@ -60,9 +60,14 @@ namespace DecisionRulesTool.Model.RuleFilters
             return newRuleSet;
         }
 
+        public string GetShortName()
+        {
+            return $"A({mode.ToString()})[{attributeNames.Aggregate((x, y) => x + "_" + y)}]";
+        }
+
         public override string ToString()
         {
-            return $"Attribute filter (Mode = {mode.ToString()}) {{{attributeNames.Aggregate((x,y) => x + ", " + y)}}}";
+            return $"Attribute filter (Mode = {mode.ToString()}) {{{attributeNames.Aggregate((x,y) => x + "_" + y)}}}";
         }
 
         public enum Mode

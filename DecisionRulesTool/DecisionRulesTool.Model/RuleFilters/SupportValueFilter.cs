@@ -26,6 +26,11 @@ namespace DecisionRulesTool.Model.RuleFilters
             return RuleAttributeComparer.AreInRelation(this.Relation, rule.SupportValue, this.DesiredValue);
         }
 
+        public override string GetShortName()
+        {
+            return $"S_{GetShortRelationName()}_{DesiredValue}";
+        }
+
         public override string ToString()
         {
             return $"Support {Tools.GetRelationString(this.Relation)} {this.DesiredValue}";

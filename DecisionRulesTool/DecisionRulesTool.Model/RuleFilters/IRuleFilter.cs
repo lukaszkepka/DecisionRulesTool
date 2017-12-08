@@ -16,5 +16,7 @@ namespace DecisionRulesTool.Model.RuleFilters
         /// <param name="ruleSet">Initial rule set</param>
         /// <returns>Filtered rule set</returns>
         RuleSet FilterRules(RuleSet ruleSet);
+
+        string GetShortName();
     }
 }

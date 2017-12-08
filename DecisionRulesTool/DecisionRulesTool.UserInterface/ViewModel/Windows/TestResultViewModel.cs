@@ -110,12 +110,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
                 metaData.Columns.Add(new DataColumn("Rule Set", typeof(string)));
                 metaData.Columns.Add(new DataColumn("Decision Attribute Index", typeof(string)));
                 metaData.Columns.Add(new DataColumn("Filters", typeof(string)));
+                metaData.Columns.Add(new DataColumn("Filters short", typeof(string)));
                 metaData.Columns.Add(new DataColumn("Conflict Resolving Method", typeof(string)));
 
                 int decisionAttributeIndex = testRequest.TestSet.Attributes.Select((x, i) => new Tuple<int, string>(i, x.Name)).FirstOrDefault(x => x.Item2.Equals(testRequest.RuleSet.DecisionAttribute.Name)).Item1;
 
 
-                metaData.Rows.Add(new object[] { testRequest.TestSet.Name, testRequest.RuleSet.Name, decisionAttributeIndex, filtersToStringConverter.Convert(((RuleSetSubsetViewItem)testRequest.RuleSet).Filters, typeof(string), null, CultureInfo.CurrentCulture), testRequest.ResolvingMethod });
+                metaData.Rows.Add(new object[] { testRequest.TestSet.Name, testRequest.RuleSet.Name, decisionAttributeIndex, filtersToStringConverter.Convert(((RuleSetSubsetViewItem)testRequest.RuleSet).Filters, typeof(string), null, CultureInfo.CurrentCulture), ((RuleSetSubsetViewItem)testRequest.RuleSet).FiltersShortInfo ,testRequest.ResolvingMethod });
 
                 DataTable testSetMetaData = new DataTable();
                 testSetMetaData.Columns.Add(new DataColumn("Column Name", typeof(string)));

@@ -30,5 +30,10 @@ namespace DecisionRulesTool.Model.RuleFilters
         {
             return RuleAttributeComparer.AreInRelation(Relation, rule.Conditions.Count, DesiredValue);
         }
+
+        public override string GetShortName()
+        {
+            return $"L_{GetShortRelationName()}_{DesiredValue}";
+        }
     }
 }
