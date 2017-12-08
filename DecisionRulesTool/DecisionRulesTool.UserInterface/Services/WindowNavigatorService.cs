@@ -41,6 +41,9 @@ namespace DecisionRulesTool.UserInterface.Services
             Window newWindow = null;
             switch (viewModel)
             {
+                case ApplicationOptionsViewModel applicationOptionsViewModel:
+                    newWindow = new ApplicationOptions();
+                    break;
                 case AlgorithmsToTestSetsResultViewModel groupedTestResultViewModel:
                     newWindow = new GroupedTestResultWindow();
                     break;

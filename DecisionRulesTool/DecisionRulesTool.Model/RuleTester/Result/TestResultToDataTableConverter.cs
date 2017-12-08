@@ -52,7 +52,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             {
                 var confusionMatrix = testRequest.TestResult.ConfusionMatrix;
 
-                string[] decisionClasses = ClassificationResult.GetDecisionClasses(testRequest.RuleSet.DecisionAttribute);
+                string[] decisionClasses = confusionMatrix.AvailableValues;
 
                 confusionMatrixTable.Columns.Add(new DataColumn("\\"));
                 decisionClasses.ForEach(x => confusionMatrixTable.Columns.Add(new DataColumn(x, typeof(int))));

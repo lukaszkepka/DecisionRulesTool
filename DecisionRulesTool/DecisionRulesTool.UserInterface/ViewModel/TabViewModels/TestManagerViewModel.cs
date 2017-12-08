@@ -33,8 +33,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     [AddINotifyPropertyChangedInterface]
     public class TestManagerViewModel : ApplicationViewModel
     {
-        private TestRequest selectedTestRequest;
-        private TestRequestGroup selectedTestRequestAggregate;
         private IProgressNotifier ruleTesterProgressNotifier;
         private IRuleTester ruleTester;
 
@@ -52,10 +50,14 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public ICommand ViewTestSet { get; private set; }
         public ICommand FilterTestRequests { get; private set; }
         public ICommand GenerateTestRequests { get; private set; }
-        public ICommand DeleteSelectedTestRequest { get; private set; }
+        public ICommand DeleteTestRequest { get; private set; }
         public ICommand LoadTestResult { get; private set; }
         public ICommand ShowTestResults { get; private set; }
         public ICommand SaveAllResults { get; private set; }
+
+
+        public ICommand DeleteTestRequestGroup { get; private set; }
+
         #endregion
 
         #region Properties
@@ -87,17 +89,22 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public ICollection<TestRequestGroup> TestRequestGroups { get; private set; }
         public TestRequestGroup SelectedTestRequestGroup
         {
+            get; set;
+        }
+        public int Progress { get; private set; }
+
+        public bool IsThinking { get; private set; }
+        public bool DumpResults
+        {
             get
             {
-                return selectedTestRequestAggregate;
+                return ruleTester.DumpResults;
             }
             set
             {
-                selectedTestRequestAggregate = value;
-
+                ruleTester.DumpResults = value;
             }
         }
-        public int Progress { get; private set; }
         #endregion
 
         #region Constructors
@@ -128,64 +135,117 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             Run = new RelayCommand(OnRunTesting);
             //SaveToFile = new RelayCommand(OnSaveToFile);
-            ShowGroupedTestResults = new RelayCommand(OnShowResultsForTestSet);
+            ShowGroupedTestResults = new RelayCommand<TestRequestGroup>(OnShowResultsForTestSet);
             ShowTestResults = new RelayCommand<TestRequest>(OnShowSingleTestResult);
 
             SaveAllResults = new RelayCommand(OnSaveAllResults);
-            ViewTestSet = new RelayCommand(OnViewTestSet);
+            ViewTestSet = new RelayCommand<TestRequestGroup>(OnViewTestSet);
             LoadTestSets = new RelayCommand(OnLoadTestSets);
             LoadTestResult = new RelayCommand(OnLoadTestResult);
             FilterTestRequests = new RelayCommand<TestRequestFilter>(OnFilterTestRequests);
             GenerateTestRequests = new RelayCommand(OnGenerateTestRequests);
-            DeleteSelectedTestRequest = new RelayCommand(OnDeleteSelectedTestRequest);
+            DeleteTestRequest = new RelayCommand(OnDeleteTestRequest);
+            DeleteTestRequestGroup = new RelayCommand<TestRequestGroup>(OnDeleteTestRequestGroup);
+        }
+
+        private void OnDeleteTestRequestGroup(TestRequestGroup obj)
+        {
+            try
+            {
+                TestRequestGroups.Remove(obj);
+                applicationCache.TestSets.Remove(obj.TestSet);
+
+                foreach (var item in obj.TestRequests)
+                {
+                    applicationCache.TestRequests.Remove(item);
+                }
+                UpdateNumericComparisonResultTable();
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during deleting test results : {ex.Message}");
+            }
         }
 
         private void OnSaveAllResults()
         {
-            string folderPath = servicesRepository.DialogService.BrowseFolderDialog(Environment.CurrentDirectory);
-            if (!string.IsNullOrEmpty(folderPath))
+            try
             {
-                foreach (var testRequest in applicationCache.TestRequests.Where(x => x.Progress == 100))
-                {
-                    TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationCache, servicesRepository);
-                    testResultViewModel.SaveResultToFile($"{folderPath}\\{DateTime.Now.ToString("yyyyMMdd")}{testRequest.GetShortenName()}.xlsx");
-                }
+                IsThinking = true;
+                string folderPath = servicesRepository.DialogService.BrowseFolderDialog(Environment.CurrentDirectory);
+                folderPath = Path.Combine(folderPath, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
 
-                servicesRepository.DialogService.ShowInformationMessage("Saving results completed successfully");
+                if (!string.IsNullOrEmpty(folderPath))
+                {
+                    foreach (var testRequest in applicationCache.TestRequests.Where(x => x.Progress == 100))
+                    {
+                        TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationCache, servicesRepository);
+                        testResultViewModel.SaveResultToFile($"{folderPath}\\{testRequest.GetFileName()}");
+                    }
+
+                    servicesRepository.DialogService.ShowInformationMessage("Saving results completed successfully");
+                }
+                IsThinking = false;
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during saving test results : {ex.Message}");
+                IsThinking = false;
             }
         }
 
         private void OnLoadTestResult()
         {
-            IFileParser<TestRequest> testResultLoader = new TestResultLoader();
-
-            OpenFileDialogSettings settings = new OpenFileDialogSettings()
+            try
             {
-                Multiselect = true
-            };
+                IFileParser<TestRequest> testResultLoader = new TestResultLoader();
 
-            string[] paths = servicesRepository.DialogService.OpenFileDialog(settings);
-            foreach (string path in paths)
-            {
-                try
+                OpenFileDialogSettings settings = new OpenFileDialogSettings()
                 {
-                    AddTestRequest(testResultLoader.ParseFile(path));
-                }
-                catch (Exception ex)
+                    Multiselect = true
+                };
+
+                string[] paths = servicesRepository.DialogService.OpenFileDialog(settings);
+                int serieNumber = GetTestRequestSerieNumber();
+
+                foreach (string path in paths)
                 {
-                    servicesRepository.DialogService.ShowInformationMessage(ex.Message);
+                    try
+                    {
+                        AddTestRequest(testResultLoader.ParseFile(path), serieNumber);
+                    }
+                    catch (Exception ex)
+                    {
+                        servicesRepository.DialogService.ShowInformationMessage(ex.Message);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during loading test results : {ex.Message}");
+            }
+        }
+
+        private void UpdateNumericComparisonResultTable()
+        {
+            //Refactor:
+            SimpleIoc.Default.GetInstance<TestResultComparisionViewModel>().OnCalculateResultTable();
+            //
         }
 
         private async void RunTestsAsync(RuleTesterManager ruleTesterManager)
         {
-            ruleTesterProgressNotifier.ProgressChanged += (s, progress) => { Progress = progress; };
-            await Task.Factory.StartNew(() => ruleTesterManager.RunTesting(ruleTester));
-            //Refactor:
-            SimpleIoc.Default.GetInstance<TestResultComparisionViewModel>().OnCalculateResultTable();
-            //
-            ruleTesterProgressNotifier.ProgressChanged -= (s, progress) => { Progress = progress; }; ;
+            try
+            {
+                ruleTesterProgressNotifier.ProgressChanged += (s, progress) => { Progress = progress; };
+                await Task.Factory.StartNew(() => ruleTesterManager.RunTesting(ruleTester));
+                UpdateNumericComparisonResultTable();
+                ruleTesterProgressNotifier.ProgressChanged -= (s, progress) => { Progress = progress; }; ;
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during testing error : {ex.Message}");
+            }
         }
 
         private TestRequestGeneratorViewModel InstantiateTestRequestGeneratorViewModel()
@@ -195,24 +255,16 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             return viewModel;
         }
 
-        private IEnumerable<TestRequest> GetNotCompletedTestRequests()
-        {
-            return TestRequestGroups.SelectMany(x => x.TestRequests).Where(x => x.Progress < 100 && x.IsReadOnly == false);
-        }
-
-        private IEnumerable<DataSet> GetSelectedTestSets()
-        {
-            return this.TestRequestGroups.Where(x => x.IsSelected).Select(x => x.TestSet);
-        }
-
         private void AddTestSet(DataSet testSet)
         {
             applicationCache.TestSets.Add(testSet);
             TestRequestGroups.Add(new TestRequestGroup(testSet, new ObservableCollection<TestRequest>()));
         }
 
-        private void AddTestRequest(TestRequest testRequest)
+        private void AddTestRequest(TestRequest testRequest, int serieNumber)
         {
+            testRequest.SeriesNumber = serieNumber;
+
             var testRequestGroup = TestRequestGroups.FirstOrDefault(x => x.TestSet.Name.Equals(testRequest.TestSet.Name));
             if (testRequestGroup != null)
             {
@@ -227,13 +279,14 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
             applicationCache.TestRequests.Add(testRequest);
             testRequestGroup.AddTestRequest(testRequest);
+            testRequestGroup.RecalculateProgress();
         }
 
         public void OnLoadTestSets()
         {
             foreach (var testSet in servicesRepository.DataSetLoaderService.LoadDataSets())
             {
-                if(applicationCache.TestSets.Any(x => x.Name.Equals(testSet.Name)))
+                if (applicationCache.TestSets.Any(x => x.Name.Equals(testSet.Name)))
                 {
                     servicesRepository.DialogService.ShowInformationMessage($"Test Set with name {testSet.Name} is already loaded");
                 }
@@ -244,11 +297,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void OnViewTestSet()
+        private void OnViewTestSet(TestRequestGroup testRequestGroup)
         {
             try
             {
-                TestSetViewModel testSetDialogViewModel = new TestSetViewModel(SelectedTestRequestGroup.TestSet, applicationCache, servicesRepository);
+                TestSetViewModel testSetDialogViewModel = new TestSetViewModel(testRequestGroup.TestSet, applicationCache, servicesRepository);
                 servicesRepository.DialogService.ShowDialog(testSetDialogViewModel);
             }
             catch (Exception ex)
@@ -265,9 +318,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
                 if (testRequestGeneratorViewModel != null && servicesRepository.DialogService.ShowDialog(testRequestGeneratorViewModel) == true)
                 {
+                    int serieNumber = GetTestRequestSerieNumber();
                     foreach (var testRequest in testRequestGeneratorViewModel.GenerateTestRequests())
                     {
-                        AddTestRequest(testRequest);
+                        AddTestRequest(testRequest, serieNumber);
                     }
                     OnFilterTestRequests(TestRequestFilter.All);
                 }
@@ -282,9 +336,38 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void OnDeleteSelectedTestRequest()
+        private void OnDeleteTestRequest()
         {
-            applicationCache.TestRequests.Remove(SelectedTestRequest);
+            var testRequestsToDelete = TestRequests.Where(x => x.IsSelected).ToList();
+
+            foreach (var testRequest in testRequestsToDelete)
+            {
+                if (testRequest != null)
+                {
+                    var testRequestGroup = TestRequestGroups.FirstOrDefault(x => x.TestSet.Name.Equals(testRequest.TestSet.Name));
+                    if (testRequestGroup != null)
+                    {
+                        if (testRequestGroup.TestRequests.Contains(testRequest))
+                        {
+                            testRequestGroup.TestRequests.Remove(testRequest);
+                            applicationCache.TestRequests.Remove(testRequest);
+                        }
+                    }
+                }
+            }
+           
+        }
+
+        public int GetTestRequestSerieNumber()
+        {
+            if(TestRequests.Any())
+            {
+                return TestRequests.Max(x => x.SeriesNumber) + 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
 
@@ -303,9 +386,23 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         /// <summary>
         /// Opens window with classification results grouped for single test set
         /// </summary>
-        private void OnShowResultsForTestSet()
+        private void OnShowResultsForTestSet(TestRequestGroup testRequestGroup)
         {
-            servicesRepository.DialogService.ShowDialog(new AlgorithmsToTestSetsResultViewModel(SelectedTestRequestGroup, applicationCache, servicesRepository));
+            try
+            {
+                if (testRequestGroup == null)
+                {
+                    servicesRepository.DialogService.ShowInformationMessage($"Select test set for which you want to see test results");
+                }
+                else
+                {
+                    servicesRepository.DialogService.ShowDialog(new AlgorithmsToTestSetsResultViewModel(testRequestGroup, applicationCache, servicesRepository));
+                }
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Error during grouping results for \"{SelectedTestRequestGroup?.TestSet?.Name}\" test set");
+            }
         }
 
         /// <summary>
@@ -326,17 +423,41 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void OnFilterTestRequests(TestRequestFilter filterType)
         {
-            switch (filterType)
+            try
             {
-                case TestRequestFilter.All:
-                    FilteredTestRequests = TestRequests;
-                    break;
-                case TestRequestFilter.ForSelectedTestSet:
-                    FilteredTestRequests = new ObservableCollection<TestRequest>(servicesRepository.TestRequestService.Filter(SelectedTestRequestGroup.TestSet, applicationCache.TestRequests));
-                    break;
-                default:
-                    break;
+                switch (filterType)
+                {
+                    case TestRequestFilter.All:
+                        FilteredTestRequests = TestRequests;
+                        break;
+                    case TestRequestFilter.ForSelectedTestSet:
+                        if (SelectedTestRequestGroup == null)
+                        {
+                            servicesRepository.DialogService.ShowInformationMessage($"You haven't selected any test set");
+                        }
+                        else
+                        {
+                            FilteredTestRequests = new ObservableCollection<TestRequest>(servicesRepository.TestRequestService.Filter(SelectedTestRequestGroup.TestSet, applicationCache.TestRequests));
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Error during filtering test requests");
+            }
+        }
+
+        private IEnumerable<TestRequest> GetNotCompletedTestRequests()
+        {
+            return TestRequestGroups.SelectMany(x => x.TestRequests).Where(x => x.Progress < 100 && x.IsReadOnly == false);
+        }
+
+        private IEnumerable<DataSet> GetSelectedTestSets()
+        {
+            return this.TestRequestGroups.Where(x => x.IsSelected).Select(x => x.TestSet);
         }
     }
 }

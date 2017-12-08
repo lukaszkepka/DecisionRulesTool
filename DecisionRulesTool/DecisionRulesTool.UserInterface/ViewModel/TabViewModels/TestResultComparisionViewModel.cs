@@ -47,20 +47,20 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
         public void OnCalculateResultTable()
         {
             var groupedTestResult = new DataTable();
-
-            groupedTestResult.Columns.Add(new DataColumn("Rule Sets", typeof(string)));
+            groupedTestResult.Columns.Add(new DataColumn("Rule Set", typeof(string)));
+            groupedTestResult.Columns.Add(new DataColumn("Parameters", typeof(string)));
 
             foreach (var testRequest in applicationCache.TestRequests)              
             {
                 var column = GetDataColumn(groupedTestResult, testRequest.TestSet.Name);
                 var precisionRow = GetDataRow(groupedTestResult, testRequest, "Total Accuary");
-                precisionRow[column] = string.Format("{0:P2}", testRequest.TestResult.TotalAccuracy);
+                precisionRow[column] = string.Format("{0:P2}", testRequest?.TestResult?.TotalAccuracy);
 
                 var accuaryRow = GetDataRow(groupedTestResult, testRequest, "Accuary");
-                accuaryRow[column] = string.Format("{0:P2}", testRequest.TestResult.Accuracy);
+                accuaryRow[column] = string.Format("{0:P2}", testRequest?.TestResult?.Accuracy);
 
                 var coverageRow = GetDataRow(groupedTestResult, testRequest, "Coverage");
-                coverageRow[column] = string.Format("{0:P2}", testRequest.TestResult.Coverage);
+                coverageRow[column] = string.Format("{0:P2}", testRequest?.TestResult?.Coverage);
             }
 
             GropedTestResult = groupedTestResult;
@@ -95,7 +95,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
                     if (effectiveIndex < groupedTestResult.Rows.Count)
                     {
                         dataRow = groupedTestResult.Rows[effectiveIndex];
-                        if (!dataRow[0].Equals(name))
+                        if (!dataRow[1].Equals(name))
                         {
                             dataRow = null;
                         }
@@ -103,7 +103,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
                     else
                     {
                         object[] values = new object[groupedTestResult.Columns.Count];
-                        values[0] = name;
+                        values[0] = testRequest.RuleSet.Name;
+                        values[1] = name;
                         dataRow = groupedTestResult.Rows.Add(values);
                     }
                     break;
@@ -113,7 +114,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
             if (dataRow == null)
             {
                 object[] values = new object[groupedTestResult.Columns.Count];
-                values[0] = name;
+                values[1] = name;
                 dataRow = groupedTestResult.Rows.Add(values);
                 GroupedRuleSetResults.Add(new GroupedRuleSetResult(testRequest.RuleSet, testRequest.ResolvingMethod));
             }

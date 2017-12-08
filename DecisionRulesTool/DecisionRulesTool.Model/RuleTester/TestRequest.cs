@@ -9,6 +9,7 @@ using System.Text;
 
 namespace DecisionRulesTool.Model.RuleTester
 {
+    [AddINotifyPropertyChangedInterface]
     public class TestRequest : INotifyPropertyChanged
     {
         public const int MaxProgress = 100;
@@ -20,6 +21,7 @@ namespace DecisionRulesTool.Model.RuleTester
         public int Progress { get; set; }
         public TestResult TestResult { get; set; }
         public bool IsReadOnly { get; set; }
+        public bool IsSelected { get; set; }
         public bool IsCompleted
         {
             get
@@ -28,6 +30,8 @@ namespace DecisionRulesTool.Model.RuleTester
             }
         }
 
+        public int SeriesNumber { get; set; }
+
         public TestRequest(RuleSet ruleSet, DataSet testSet, ConflictResolvingMethod resolvingMethod)
         {
             RuleSet = ruleSet;
@@ -35,9 +39,14 @@ namespace DecisionRulesTool.Model.RuleTester
             ResolvingMethod = resolvingMethod;
         }
 
+        public string GetFileName()
+        {
+            return $"{ DateTime.Now.ToString("yyyyMMdd")}{GetShortenName()}.xlsx";
+        }
+
         public string GetShortenName()
         {
-            return $"{RuleSet.GetShortenName()}_{((RuleSetSubset)RuleSet).FiltersInfo}_{TestSet.GetShortenName()}_{ResolvingMethod}";
+            return $"{RuleSet.GetShortenName()}s{SeriesNumber}_{((RuleSetSubset)RuleSet).FiltersInfo}_{TestSet.GetShortenName()}_{ResolvingMethod}";
         }
 
     }

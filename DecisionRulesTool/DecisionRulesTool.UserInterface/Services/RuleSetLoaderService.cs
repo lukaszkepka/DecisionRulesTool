@@ -67,7 +67,7 @@ namespace DecisionRulesTool.UserInterface.Services
                 catch (InvalidFileBodyException invalidFileBodyException)
                 {
                     Debug.WriteLine($"Exception thrown : {invalidFileBodyException.Message}");
-                    dialogService.ShowInformationMessage($"File body has invalid format: {invalidFileBodyException.FilePath}");
+                    dialogService.ShowErrorMessage($"File \"{Path.GetFileNameWithoutExtension(invalidFileBodyException.FilePath)}\" body has invalid format!");
                 }
             }
 

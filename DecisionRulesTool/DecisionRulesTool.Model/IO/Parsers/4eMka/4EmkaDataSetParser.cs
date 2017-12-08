@@ -9,12 +9,29 @@ using System.IO;
 
 namespace DecisionRulesTool.Model.IO.Parsers._4eMka
 {
+    using DecisionRulesTool.Model.Exceptions;
     using Model;
     using NLog;
 
     public class _4eMkaDataSetParser : _4eMkaFileParser<DataSet>
     {
         public override string SupportedFormat => BaseFileFormat.FileExtensions._4emkaDataset;
+
+        public override DataSet ParseFile(string filePath)
+        {
+            DataSet result = default(DataSet);
+            StreamReader fileStream = OpenFile(filePath);
+            try
+            {
+                result = ParseFile(fileStream);
+                result.Name = Path.GetFileNameWithoutExtension(filePath);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidFileBodyException(ex.Message, filePath);
+            }
+            return result;
+        }
 
         public override DataSet ParseFile(StreamReader fileStream)
         {

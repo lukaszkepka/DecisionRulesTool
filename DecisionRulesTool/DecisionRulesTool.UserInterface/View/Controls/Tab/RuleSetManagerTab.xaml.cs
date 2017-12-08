@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DecisionRulesTool.Model.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,43 @@ namespace DecisionRulesTool.UserInterface.View.Controls
     /// </summary>
     public partial class RuleSetManagerTab : UserControl
     {
+
+        private void TreeViewItem_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ((TreeViewItem)sender).IsSelected = true;
+            e.Handled = true;
+        }
+
         public RuleSetManagerTab()
         {
             InitializeComponent();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            if (((dynamic)e.Source).DataContext is RuleSetSubset ruleSetSubset)
+            {
+                context.DeleteRuleSet.Execute(ruleSetSubset);
+            }
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            if (((dynamic)e.Source).DataContext is RuleSetSubset ruleSetSubset)
+            {
+                context.GenerateSubsets.Execute(ruleSetSubset);
+            }
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            if (((dynamic)e.Source).DataContext is RuleSetSubset ruleSetSubset)
+            {
+                context.DeleteSubsets.Execute(ruleSetSubset);
+            }
         }
     }
 }

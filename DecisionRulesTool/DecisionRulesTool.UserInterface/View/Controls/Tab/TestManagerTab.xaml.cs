@@ -75,5 +75,47 @@ namespace DecisionRulesTool.UserInterface.View.Controls
                 }
             }
         }
+
+        private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            dynamic context = DataContext;
+            context.ViewTestSet.Execute(null);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            if (((dynamic)e.Source).DataContext is TestRequestGroup testRequestGroup)
+            {
+                context.DeleteTestRequestGroup.Execute(testRequestGroup);
+            }
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            if (((dynamic)e.Source).DataContext is TestRequestGroup testRequestGroup)
+            {
+                context.ViewTestSet.Execute(testRequestGroup);
+            }
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            if (((dynamic)e.Source).DataContext is TestRequestGroup testRequestGroup)
+            {
+                context.ShowGroupedTestResults.Execute(testRequestGroup);
+            }
+        }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            if (((dynamic)e.Source).DataContext is TestRequest testRequestGroup)
+            {
+                context.DeleteTestRequest.Execute(null);
+            }
+        }
     }
 }

@@ -20,6 +20,9 @@ namespace DecisionRulesTool.Model.RuleTester
         private int globalCount;
         private ICollection<RealDecisionRow> decisionClassRows;
 
+        public string[] AvailableValues => decisionClassRows.Select(x => x.DecisionClass).ToArray();
+
+
         public ConfusionMatrix(Attribute decisionAttribute)
         {
             decisionClassRows = new List<RealDecisionRow>();

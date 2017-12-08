@@ -15,6 +15,11 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
             System.Windows.MessageBox.Show(message, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        public void ShowErrorMessage(string message)
+        {
+            System.Windows.MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         public void ShowWarningMessage(string message)
         {
             System.Windows.MessageBox.Show(message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -93,5 +98,6 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
 
             return folderPath;
         }
+
     }
 }

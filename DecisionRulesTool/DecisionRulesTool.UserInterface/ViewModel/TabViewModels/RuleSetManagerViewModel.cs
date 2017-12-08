@@ -9,6 +9,7 @@ using DecisionRulesTool.UserInterface.Model.Factory;
 using GalaSoft.MvvmLight.Command;
 using DecisionRulesTool.UserInterface.Services;
 using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
+using System;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
@@ -17,8 +18,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         private RuleSetSubset selectedRuleSet;
 
         #region Commands
-        public ICommand DeleteSubset { get; private set; }
-        public ICommand EditFilters { get; private set; }
+        public ICommand DeleteRuleSet { get; private set; }
+        public ICommand DeleteSubsets { get; private set; }
         public ICommand LoadRuleSets { get; private set; }
         public ICommand SaveRuleSetToFile { get; private set; }
         public ICommand GenerateSubsets { get; private set; }
@@ -73,73 +74,110 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void OnDeleteSubset()
         {
-            var parentRuleSet = SelectedRuleSet.InitialRuleSet;
-            if (parentRuleSet == null)
+            try
             {
-                RuleSets.Remove(SelectedRuleSet);
-            }
-            else
-            {
-                parentRuleSet.Subsets.Remove(SelectedRuleSet);
-                SelectedRuleSet = parentRuleSet;
-            }
+                var parentRuleSet = SelectedRuleSet.InitialRuleSet;
+                if (parentRuleSet == null)
+                {
+                    RuleSets.Remove(SelectedRuleSet);
+                }
+                else
+                {
+                    parentRuleSet.Subsets.Remove(SelectedRuleSet);
+                    SelectedRuleSet = parentRuleSet;
+                }
 
-            //TODO: this line is for refresh tree view, change this
-            //      so it will be refreshed without creating new collection
-            RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
+                //TODO: this line is for refresh tree view, change this
+                //      so it will be refreshed without creating new collection
+                RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage("Error during deleting rule set");
+            }
         }
 
         public void OnLoadRuleSet()
         {
-            foreach (var ruleSet in servicesRepository.RuleSetLoaderService.LoadRuleSets())
+            try
             {
-                RuleSets.Add(new RuleSetSubsetViewItem(ruleSet));
-            }
+                foreach (var ruleSet in servicesRepository.RuleSetLoaderService.LoadRuleSets())
+                {
+                    RuleSets.Add(new RuleSetSubsetViewItem(ruleSet));
+                }
 
-            if (RuleSets.Any())
+                if (RuleSets.Any())
+                {
+                    SelectedRuleSet = RuleSets.Last();
+                }
+
+                //TODO: this line is for refresh tree view, change this
+                //      so it will be refreshed without creating new collection
+                RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
+            }
+            catch(Exception ex)
             {
-                SelectedRuleSet = RuleSets.Last();
+                servicesRepository.DialogService.ShowErrorMessage("Error during adding rule sets");
             }
-
-            //TODO: this line is for refresh tree view, change this
-            //      so it will be refreshed without creating new collection
-            RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
         }
 
-        private void OnGenerateSubsets()
+        private void OnGenerateSubsets(RuleSetSubset ruleSet)
         {
-            if (SelectedRuleSet != null)
+            try
             {
-                var optionsViewModel = new RuleSubsetGenerationViewModel(SelectedRuleSet, new RuleSetSubsetViewItemFactory(), applicationCache, servicesRepository);
-                if (servicesRepository.DialogService.ShowDialog(optionsViewModel) == true)
+                if (ruleSet != null)
                 {
-                    IRuleSubsetGenerator ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
-                    ruleSubsetGenerator.GenerateSubsets();
+                    var optionsViewModel = new RuleSubsetGenerationViewModel(ruleSet, new RuleSetSubsetViewItemFactory(), applicationCache, servicesRepository);
+                    if (servicesRepository.DialogService.ShowDialog(optionsViewModel) == true)
+                    {
+                        IRuleSubsetGenerator ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
+                        ruleSubsetGenerator.GenerateSubsets();
 
-                    servicesRepository.DialogService.ShowInformationMessage("Operation completed successfully");
+                        servicesRepository.DialogService.ShowInformationMessage("Operation completed successfully");
+                    }
+                    else
+                    {
+                    }
                 }
                 else
                 {
+                    servicesRepository.DialogService.ShowWarningMessage("To generate rule subsets, you must first select initial rule set from 'Loaded rule sets' panel");
                 }
+
+
+                //TODO: this line is for refresh tree view, change this
+                //      so it will be refreshed without creating new collection
+                RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
             }
-            else
+            catch (Exception ex)
             {
-                servicesRepository.DialogService.ShowWarningMessage("To generate rule subsets, you must first select initial rule set from 'Loaded rule sets' panel");
+                servicesRepository.DialogService.ShowErrorMessage("Error occured during generating subsets");
             }
-
-
-            //TODO: this line is for refresh tree view, change this
-            //      so it will be refreshed without creating new collection
-            RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
         }
 
         private void InitializeCommands()
         {
-            SaveRuleSetToFile = new RelayCommand(OnSaveRuleSetToFile);
-            GenerateSubsets = new RelayCommand(OnGenerateSubsets);
             LoadRuleSets = new RelayCommand(OnLoadRuleSet);
-            EditFilters = new RelayCommand(OnEditFilters);
-            DeleteSubset = new RelayCommand(OnDeleteSubset);
+            SaveRuleSetToFile = new RelayCommand(OnSaveRuleSetToFile);
+            GenerateSubsets = new RelayCommand<RuleSetSubset>(OnGenerateSubsets);
+            DeleteSubsets = new RelayCommand<RuleSetSubset>(OnDeleteSubsets);
+            DeleteRuleSet = new RelayCommand<RuleSetSubset>(OnDeleteRuleSet);
+        }
+
+        private void OnDeleteRuleSet(RuleSetSubset obj)
+        {
+            if(applicationCache.RuleSets.Contains(obj))
+            {
+                applicationCache.RuleSets.Remove(obj);
+            }
+        }
+
+        private void OnDeleteSubsets(RuleSetSubset obj)
+        {
+                obj.Subsets.Clear();
+                //TODO: this line is for refresh tree view, change this
+                //      so it will be refreshed without creating new collection
+                RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
         }
     }
 }

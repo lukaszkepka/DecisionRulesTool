@@ -12,6 +12,7 @@ namespace DecisionRulesTool.UserInterface.Services.Dialog
     {
         void ShowInformationMessage(string message);
         void ShowWarningMessage(string message);
+        void ShowErrorMessage(string message);
         void ShowMessageBox(string caption, string message, MessageBoxButton buttons);
         bool ShowDialog(BaseDialogViewModel dialogViewModel);
         string BrowseFolderDialog(string initialPath);

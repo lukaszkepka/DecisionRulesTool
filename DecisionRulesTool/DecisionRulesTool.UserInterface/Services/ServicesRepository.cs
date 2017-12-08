@@ -4,6 +4,7 @@ using DecisionRulesTool.Model.RuleTester.Result;
 using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
 using DecisionRulesTool.UserInterface.Services.Dialog;
 using DecisionRulesTool.UserInterface.Services.Interfaces;
+using DecisionRulesTool.UserInterface.ViewModel;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,14 @@ namespace DecisionRulesTool.UserInterface.Services
         public ServicesRepository(IServiceLocator serviceLocator)
         {
             this.serviceLocator = serviceLocator;
+        }
+
+        public TestManagerViewModel TestManagerViewModel
+        {
+            get
+            {
+                return serviceLocator.GetInstance<TestManagerViewModel>(); 
+            }
         }
 
         public IFileParserFactory<RuleSet> RuleSetParserFactory

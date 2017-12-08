@@ -217,6 +217,7 @@
     <Compile Include="Model\DataTemplateSelectors\FilterViewModelTemplateSelector.cs" />
     <Compile Include="Model\Exceptions\IncompatibleTestSetsException.cs" />
     <Compile Include="Model\Factory\RuleSetSubsetViewItemFactory.cs" />
+    <Compile Include="Model\TestResultSaver.cs" />
     <Compile Include="Model\Utils\ISelectable.cs" />
     <Compile Include="Model\Utils\SelectableItem.cs" />
     <Compile Include="Model\Utils\SelectableItemExtension.cs" />
@@ -236,6 +237,7 @@
     <Compile Include="Services\TestRequestService.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="ViewModel\Base\ApplicationViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\ApplicationOptionsViewModel.cs" />
     <Compile Include="ViewModel\Results\AlgorithmsToTestSetsResultViewModel.cs" />
     <Compile Include="ViewModel\Results\GroupedRuleSetResult.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
@@ -265,6 +267,9 @@
     </Compile>
     <Compile Include="View\Controls\Tab\TestResultComparisionTab.xaml.cs">
       <DependentUpon>TestResultComparisionTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialogs\ApplicationOptions.xaml.cs">
+      <DependentUpon>ApplicationOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Dialogs\TestRequestGeneratorDialog.xaml.cs">
       <DependentUpon>TestRequestGeneratorDialog.xaml</DependentUpon>
@@ -297,6 +302,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\Tab\TestResultComparisionTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\ApplicationOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

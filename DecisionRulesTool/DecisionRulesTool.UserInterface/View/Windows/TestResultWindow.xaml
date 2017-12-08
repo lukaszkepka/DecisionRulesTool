@@ -79,7 +79,7 @@
                             </Style>
                         </StackPanel.Resources>
                         
-                        <ItemsControl HorizontalAlignment="Left" Width="500">
+                        <ItemsControl HorizontalAlignment="Left" Width="200">
                             <TextBlock Grid.Column="0" Text="Coverage : " />
                             <TextBlock Grid.Column="1" Text="{Binding Coverage, StringFormat={}{0:P2}}"/>
                         </ItemsControl>

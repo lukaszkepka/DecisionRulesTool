@@ -9,15 +9,22 @@ using System.Text;
 
 namespace DecisionRulesTool.Model.RuleTester
 {
+    using DecisionRulesTool.Model.RuleTester.Result;
     using Model;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Reflection;
     using System.Threading;
     using Utils;
 
     public class RuleTester : IRuleTester
     {
+        private string dumpPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Dump";
         private readonly IProgressNotifier progressNotifier;
         private readonly IConditionChecker conditionChecker;
         private readonly DecisionResolverFactory decisionResolverFactory;
+
+        public bool DumpResults { get; set; } = true;
 
         public RuleTester(IConditionChecker conditionChecker, IProgressNotifier progressNotifier)
         {
@@ -83,6 +90,9 @@ namespace DecisionRulesTool.Model.RuleTester
 
         public virtual IEnumerable<TestResult> RunTesting(IEnumerable<TestRequest> testRequests)
         {
+            string _dumpPath = Path.Combine(dumpPath, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
+
+
             int completedTestRequestCount = 0;
             int testRequestsCount = testRequests.Count();
             //Send notification that process has started
@@ -106,6 +116,12 @@ namespace DecisionRulesTool.Model.RuleTester
                     };
 
                     testRequest.TestResult = testResult;
+
+                    if(DumpResults)
+                    {
+                        DumpResult(testRequest, _dumpPath);
+                    }
+
                     testResults.Add(testResult);
                 }
                 
@@ -116,6 +132,22 @@ namespace DecisionRulesTool.Model.RuleTester
             //Send notification that process has been completed
             progressNotifier.OnCompleted();
             return testResults;
+        }
+
+
+        private void DumpResult(TestRequest testRequest, string _dumpPath)
+        {
+            TestResultSaver resultSaver = new TestResultSaver();
+
+            try
+            {
+                string filePath = Path.Combine(_dumpPath, testRequest.GetFileName());
+                resultSaver.SaveResultToFile(filePath, testRequest);
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"FATAL ERROR DURING DUMPING RESULT : {ex.Message}");
+            }
         }
 
         private int GetTesterProgress(int actualIteration, int maxIterations) => (int)((actualIteration / (double)maxIterations) * 100);

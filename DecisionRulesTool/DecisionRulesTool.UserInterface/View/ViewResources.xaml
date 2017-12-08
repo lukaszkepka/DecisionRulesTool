@@ -11,4 +11,15 @@
     <converters:FiltersToStringConverter x:Key="filtersToStringConverter" />
     <converters:RuleSetConflictResolvingMethodConverter x:Key="ruleSetConflictResolvingMethodConverter"/>
 
+    <Style TargetType="{x:Type Window}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsThinking}" Value="True">
+                <Setter Property="Cursor" Value="Wait"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsThinking}" Value="False">
+                <Setter Property="Cursor" Value="Wait"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

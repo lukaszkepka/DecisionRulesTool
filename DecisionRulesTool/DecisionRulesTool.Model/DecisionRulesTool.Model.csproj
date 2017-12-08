@@ -155,6 +155,7 @@
     <Compile Include="RuleTester\Result\TestResultLoader.cs" />
     <Compile Include="RuleTester\Result\TestRequestsGroup.cs" />
     <Compile Include="RuleTester\Result\TestResultAggregator.cs" />
+    <Compile Include="RuleTester\Result\TestResultSaver.cs" />
     <Compile Include="RuleTester\Result\TestResultToDataTableConverter.cs" />
     <Compile Include="RuleTester\Series\TestSeriesGenerator.cs" />
     <Compile Include="RuleTester\Series\TestSeriesRequest.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Utils\ProgressNotifier.cs" />
     <Compile Include="Utils\ReferenceComparer.cs" />
     <Compile Include="Utils\Tools.cs" />
+    <Compile Include="Utils\_FiltersToStringConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logger\" />

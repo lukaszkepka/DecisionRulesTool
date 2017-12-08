@@ -38,19 +38,24 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             testRequest.PropertyChanged += Item_PropertyChanged;
         }
 
+        public void RecalculateProgress()
+        {
+            int progressSum = TestRequests.Sum(x => x.Progress);
+            if (progressSum == TestRequests.Count() * TestRequest.MaxProgress)
+            {
+                Progress = TestRequest.MaxProgress;
+            }
+            else
+            {
+                Progress = (int)((double)TestRequests.Sum(x => x.Progress) / TestRequests.Count());
+            }
+        }
+
         private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Progress"))
             {
-                int progressSum = TestRequests.Sum(x => x.Progress);
-                if (progressSum == TestRequests.Count() * TestRequest.MaxProgress)
-                {
-                    Progress = TestRequest.MaxProgress;
-                }
-                else
-                {
-                    Progress = (int)((double)TestRequests.Sum(x => x.Progress) / TestRequests.Count());
-                }
+                RecalculateProgress();
             }
         }
     }

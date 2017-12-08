@@ -1,5 +1,5 @@
 ﻿
-#define TEST7
+#define TEST
 
 using DecisionRulesTool.Model.RuleTester;
 using DecisionRulesTool.UserInterface.Services;
@@ -22,6 +22,7 @@ namespace DecisionRulesTool.UserInterface
     using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
     using DecisionRulesTool.UserInterface.Model;
     using DecisionRulesTool.UserInterface.View;
+    using DecisionRulesTool.UserInterface.ViewModel.Dialog;
     using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
     using DecisionRulesTool.UserInterface.ViewModel.Results;
     using System;
@@ -41,8 +42,13 @@ namespace DecisionRulesTool.UserInterface
             IFileParser<RuleSet> ruleSetParser = fileParserFactory.Create(BaseFileFormat.FileExtensions.RSESRuleSet);
             RuleSetSubset ruleSet1 = new RuleSetSubsetViewItem(ruleSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Rules/male.rul"));
             RuleSetSubset ruleSet2 = new RuleSetSubsetViewItem(ruleSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Rules/female.rul"));
+
+            ruleSetParser = fileParserFactory.Create(BaseFileFormat.FileExtensions._4emkaRuleSet);
+            RuleSetSubset ruleSet3 = new RuleSetSubsetViewItem(ruleSetParser.ParseFile($"{Globals._4eMkaFilesDirectory}/Rules/female_4K.rls"));
+
             ruleSets.Add(ruleSet1);
             ruleSets.Add(ruleSet2);
+            ruleSets.Add(ruleSet3);
 #endif
 
             //Test sets
@@ -52,8 +58,15 @@ namespace DecisionRulesTool.UserInterface
             IFileParser<DataSet> dataSetParser = fileParserFactory1.Create(BaseFileFormat.FileExtensions.RSESDataset);
             DataSet dataSet1 = dataSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Sets/mts.tab");
             DataSet dataSet2 = dataSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Sets/fts.tab");
+
+            dataSetParser = fileParserFactory1.Create(BaseFileFormat.FileExtensions._4emkaDataset);
+            DataSet dataSet3 = dataSetParser.ParseFile($"{Globals._4eMkaFilesDirectory}/Sets/FIn.isf");
+            DataSet dataSet4 = dataSetParser.ParseFile($"{Globals._4eMkaFilesDirectory}/Sets/FTst.isf");
+
             testSets.Add(dataSet1);
             testSets.Add(dataSet2);
+            testSets.Add(dataSet3);
+            testSets.Add(dataSet4);
 #endif
 
             //Test requests
@@ -63,6 +76,8 @@ namespace DecisionRulesTool.UserInterface
             {
                 testRequests.Add(new TestRequest(ruleSet1, testSets[0], conflictResolvingMethod));
                 testRequests.Add(new TestRequest(ruleSet2, testSets[1], conflictResolvingMethod));
+                testRequests.Add(new TestRequest(ruleSet3, testSets[2], conflictResolvingMethod));
+                testRequests.Add(new TestRequest(ruleSet3, testSets[3], conflictResolvingMethod));
             }
 #endif
 
@@ -91,6 +106,7 @@ namespace DecisionRulesTool.UserInterface
             SimpleIoc.Default.Register<IRuleSetLoaderService, RuleSetLoaderService>();
             SimpleIoc.Default.Register<IRuleSetSubsetService, RuleSetSubsetService>();
 
+            
             SimpleIoc.Default.Register<TestResultComparisionViewModel>();
             SimpleIoc.Default.Register<TestRequestGeneratorViewModel>();
             SimpleIoc.Default.Register<MainWindowViewModel>();
