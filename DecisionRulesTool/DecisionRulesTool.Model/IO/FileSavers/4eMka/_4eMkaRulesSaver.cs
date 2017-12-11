@@ -15,7 +15,7 @@ namespace DecisionRulesTool.Model.IO.FileSavers._4eMka
         {
         }
 
-        public override void Save(RuleSet content, FileStream fileStream)
+        public override void Save(RuleSet content, StreamWriter fileStream)
         {
             throw new NotImplementedException();
         }

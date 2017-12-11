@@ -217,7 +217,6 @@
     <Compile Include="Model\DataTemplateSelectors\FilterViewModelTemplateSelector.cs" />
     <Compile Include="Model\Exceptions\IncompatibleTestSetsException.cs" />
     <Compile Include="Model\Factory\RuleSetSubsetViewItemFactory.cs" />
-    <Compile Include="Model\TestResultSaver.cs" />
     <Compile Include="Model\Utils\ISelectable.cs" />
     <Compile Include="Model\Utils\SelectableItem.cs" />
     <Compile Include="Model\Utils\SelectableItemExtension.cs" />

@@ -18,6 +18,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
         protected int selectedRelationIndex;
 
         #region Properties
+        public bool GenerateChildFilters { get; set; }
         public Relation[] AvailableRelations
         {
             get

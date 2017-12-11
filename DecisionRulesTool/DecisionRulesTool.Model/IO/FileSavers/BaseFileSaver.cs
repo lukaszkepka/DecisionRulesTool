@@ -10,41 +10,46 @@ namespace DecisionRulesTool.Model.FileSavers
 {
     public abstract class BaseFileSaver<T> : IFileSaver<T>
     {
-        public FileStream OpenFile(string path)
+        public StreamWriter OpenFile(string path)
         {
-            FileStream fileStream = default(FileStream);
+            StreamWriter streamWriter = default(StreamWriter);
             try
             {
-                fileStream = File.OpenWrite(path);
+                FileStream fileStream = File.OpenWrite(path);
+                streamWriter = new StreamWriter(fileStream);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
-            return fileStream;
+            return streamWriter;
         }
 
         public void Save(T content, string path)
         {
-            FileStream fileStream = OpenFile(path);
-            if (fileStream != null)
+            using (StreamWriter fileStream = OpenFile(path))
             {
-                try
+                if (fileStream != null)
                 {
-                    Save(content, fileStream);
+                    try
+                    {
+                        Save(content, fileStream);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                        fileStream.Flush();
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Debug.WriteLine(ex.Message);
+
                 }
-            }
-            else
-            {
 
             }
         }
 
-        public abstract void Save(T content, FileStream fileStream);
+        public abstract void Save(T content, StreamWriter fileStream);
 
     }
 }

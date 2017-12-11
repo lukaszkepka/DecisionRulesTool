@@ -23,16 +23,16 @@ namespace DecisionRulesTool.Model.RuleFilters.Appliers
         public override IList<IRuleFilter> GenerateSeries()
         {
             IList<IRuleFilter> ruleFilters = new List<IRuleFilter>();
-            CombinationGenerator combinationGenerator = new CombinationGenerator();
-            IEnumerable<string[]> attributeSubsets = combinationGenerator.GenerateAllSubsets(attributeNames).OrderBy(x => x.Length);
+            //CombinationGenerator combinationGenerator = new CombinationGenerator();
+            //IEnumerable<string[]> attributeSubsets = combinationGenerator.GenerateAllSubsets(attributeNames).OrderBy(x => x.Length);
 
             //Exclude first element, which is empty subset
-            attributeSubsets = attributeSubsets.Skip(1);
+            //attributeSubsets = attributeSubsets.Skip(1);
 
-            foreach (string[] attributeSubset in attributeSubsets)
-            {
-                ruleFilters.Add(new AttributePresenceFilter(mode, attributeSubset));
-            }
+            //foreach (string[] attributeSubset in attributeSubsets)
+            //{
+                ruleFilters.Add(new AttributePresenceFilter(mode, attributeNames));
+            //}
 
             return ruleFilters;
         }

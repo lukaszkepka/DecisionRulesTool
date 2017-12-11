@@ -94,7 +94,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             IRuleFilterApplier ruleFilterApplier = default(IRuleFilterApplier);
             if (isEnabled)
             {
-                ruleFilterApplier = new SupportValueFilterApplier(minSupportFilter, maxSupportFilter, SelectedRelation, ruleSetSubsetFactory);
+                ruleFilterApplier = new SupportValueFilterApplier(minSupportFilter, maxSupportFilter, SelectedRelation, ruleSetSubsetFactory)
+                {
+                    GenerateChildFilters = this.GenerateChildFilters
+                };
             }
             return ruleFilterApplier;
         }

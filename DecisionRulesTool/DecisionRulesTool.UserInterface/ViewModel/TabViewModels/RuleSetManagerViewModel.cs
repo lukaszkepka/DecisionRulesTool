@@ -10,6 +10,9 @@ using GalaSoft.MvvmLight.Command;
 using DecisionRulesTool.UserInterface.Services;
 using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
 using System;
+using DecisionRulesTool.UserInterface.Services.Dialog;
+using DecisionRulesTool.Model.FileSavers.RSES;
+using DecisionRulesTool.Model.IO;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
@@ -64,7 +67,18 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void OnSaveRuleSetToFile()
         {
-            servicesRepository.DialogService.ShowWarningMessage("Functionality not implemented yet");
+            SaveFileDialogSettings settings = new SaveFileDialogSettings()
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                ExtensionFilter = $"RSES filter (*{BaseFileFormat.FileExtensions.RSESRuleSet})|*{BaseFileFormat.FileExtensions.RSESRuleSet}|" +
+                                  $"4EMKA filter (*{BaseFileFormat.FileExtensions._4emkaRuleSet})|*{BaseFileFormat.FileExtensions._4emkaRuleSet}|" +
+                                  $"All files (*.*)|*.*"
+            };
+
+            string filePath = servicesRepository.DialogService.SaveFileDialog(settings);
+            RsesRulesSaver rsesRulesSaver = new RsesRulesSaver();
+
+            rsesRulesSaver.Save(selectedRuleSet, filePath);
         }
 
         private void OnEditFilters()
@@ -115,7 +129,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 //      so it will be refreshed without creating new collection
                 RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 servicesRepository.DialogService.ShowErrorMessage("Error during adding rule sets");
             }
@@ -166,7 +180,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void OnDeleteRuleSet(RuleSetSubset obj)
         {
-            if(applicationCache.RuleSets.Contains(obj))
+            if (applicationCache.RuleSets.Contains(obj))
             {
                 applicationCache.RuleSets.Remove(obj);
             }
@@ -174,10 +188,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void OnDeleteSubsets(RuleSetSubset obj)
         {
-                obj.Subsets.Clear();
-                //TODO: this line is for refresh tree view, change this
-                //      so it will be refreshed without creating new collection
-                RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
+            obj.Subsets.Clear();
+            //TODO: this line is for refresh tree view, change this
+            //      so it will be refreshed without creating new collection
+            RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
         }
     }
 }

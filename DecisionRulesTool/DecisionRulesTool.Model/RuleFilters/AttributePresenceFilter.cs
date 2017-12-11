@@ -67,7 +67,7 @@ namespace DecisionRulesTool.Model.RuleFilters
 
         public override string ToString()
         {
-            return $"Attribute filter (Mode = {mode.ToString()}) {{{attributeNames.Aggregate((x,y) => x + "_" + y)}}}";
+            return $"Attribute filter (Mode = {mode.ToString()}) {{{attributeNames.Aggregate((x,y) => x + ", " + y)}}}";
         }
 
         public enum Mode

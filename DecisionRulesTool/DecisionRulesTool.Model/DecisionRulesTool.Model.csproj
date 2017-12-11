@@ -112,7 +112,6 @@
     <Compile Include="Model\RuleSet.cs" />
     <Compile Include="IO\FileSavers\BaseFileSaver.cs" />
     <Compile Include="IO\FileSavers\IFileSaver.cs" />
-    <Compile Include="IO\FileSavers\RSES\RsesDataSetSaver.cs" />
     <Compile Include="IO\FileSavers\RSES\RsesFileSaver.cs" />
     <Compile Include="IO\FileSavers\RSES\RsesRulesSaver.cs" />
     <Compile Include="Globals.cs" />

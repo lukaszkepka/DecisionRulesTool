@@ -9,8 +9,8 @@ namespace DecisionRulesTool.Model.FileSavers
 {
     public interface IFileSaver<T>
     {
-        FileStream OpenFile(string path);
+        StreamWriter OpenFile(string path);
         void Save(T content, string path);
-        void Save(T content, FileStream fileStream);
+        void Save(T content, StreamWriter fileStream);
     }
 }

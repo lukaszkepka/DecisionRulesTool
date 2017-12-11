@@ -10,6 +10,7 @@ namespace DecisionRulesTool.Model.RuleFilters.Appliers
 {
     public abstract class ValueBasedFiltersApplier : BaseFilterApplier
     {
+        public bool GenerateChildFilters { get; set; }
         public Relation RelationBetweenRulesLengths { get; }
         public int MinLength { get; }
         public int MaxLength { get; }
@@ -71,7 +72,7 @@ namespace DecisionRulesTool.Model.RuleFilters.Appliers
 
         private bool CanGenerateAdditionalFilters()
         {
-            return RelationBetweenRulesLengths != Relation.Equality;
+            return RelationBetweenRulesLengths != Relation.Equality && GenerateChildFilters;
         }
 
         public virtual int GetLowerBound(ValueBasedFilter lengthFilter)

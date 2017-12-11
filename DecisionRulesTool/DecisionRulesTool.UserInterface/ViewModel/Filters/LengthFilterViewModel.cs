@@ -76,7 +76,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Filters
             IRuleFilterApplier ruleFilterApplier = default(IRuleFilterApplier);
             if(isEnabled)
             {
-                ruleFilterApplier = new LengthFilterApplier(minLengthFilter, maxLengthFilter, SelectedRelation, ruleSetSubsetFactory);
+                ruleFilterApplier = new LengthFilterApplier(minLengthFilter, maxLengthFilter, SelectedRelation, ruleSetSubsetFactory)
+                {
+                    GenerateChildFilters = this.GenerateChildFilters
+                };
             }
             return ruleFilterApplier;
         }
