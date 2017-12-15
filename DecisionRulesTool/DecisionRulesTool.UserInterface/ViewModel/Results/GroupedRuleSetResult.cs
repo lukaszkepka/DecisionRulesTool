@@ -10,10 +10,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
 {
     public class GroupedRuleSetResult
     {
-        public RuleSetSubsetViewItem RuleSet { get; set; }
+        public RuleSetSubset RuleSet { get; set; }
         public ConflictResolvingMethod ConflictResolvingMethod { get; set; }
 
-        public GroupedRuleSetResult(RuleSetSubsetViewItem RuleSet, ConflictResolvingMethod ConflictResolvingMethod)
+        public GroupedRuleSetResult(RuleSetSubset RuleSet, ConflictResolvingMethod ConflictResolvingMethod)
         {
             this.RuleSet = RuleSet;
             this.ConflictResolvingMethod = ConflictResolvingMethod;

@@ -13,23 +13,6 @@ namespace DecisionRulesTool.Model.Utils
 
         public void OnProgressChanged(int interval)
         {
-            //int newValue = Progress + interval;
-            //if (newValue >= MaxValue)
-            //{
-            //    ProgressChanged?.Invoke(this, Progress);
-            //}
-            //else
-            //{
-            //    if (newValue < MinValue)
-            //    {
-            //        Progress = MinValue;
-            //    }
-            //    else
-            //    {
-            //        Progress = newValue;
-            //    }
-            //    ProgressChanged?.Invoke(this, Progress);
-            //}
             ProgressChanged?.Invoke(this, interval);
         }
 

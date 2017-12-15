@@ -1,18 +1,17 @@
 ﻿using ClosedXML.Excel;
 using DecisionRulesTool.Model.IO;
-using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.RuleTester.Result
 {
-    public class TestResultLoader : BaseFileParser<TestRequest>
+    using DecisionRulesTool.Model.Model;
+
+    public class TestRequestParser : BaseFileParser<TestRequest>
     {
         public override string SupportedFormat => BaseFileFormat.FileExtensions.ExcelFile;
 
@@ -33,7 +32,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             return availableValues.ToArray();
         }
 
-        public Model.DataSet ReadDataSet(XLWorkbook workBook, string name, DataTable confusionMatrixTable, int decisionAttributeIndex)
+        public DataSet ReadDataSet(XLWorkbook workBook, string name, DataTable confusionMatrixTable, int decisionAttributeIndex)
         {
             IXLWorksheet labels = workBook.Worksheet("Labels");
             IXLWorksheet attributesMetaData = workBook.Worksheet("AttributesMetaData");
@@ -41,7 +40,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             DataTable labelsDataTable = labels.Table(0)?.AsNativeDataTable();
             DataTable attributesMetaDataTable = attributesMetaData.Table(0)?.AsNativeDataTable();
 
-            Model.DataSet dataSet = new Model.DataSet(name, new List<Model.Attribute>(), new List<Model.Object>());
+            DataSet dataSet = new DataSet(name, new List<Model.Attribute>(), new List<Model.Object>());
 
             int i = 0;
             foreach (DataRow attributeMetaData in attributesMetaDataTable.Rows)
@@ -84,10 +83,6 @@ namespace DecisionRulesTool.Model.RuleTester.Result
                     throw new FormatException("File has invalid structure");
                 }
             }
-
-            //set decision attribute
-            //dataSet.Attributes.
-
             return dataSet;
         }
 
@@ -122,7 +117,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             };
         }
 
-        public ConfusionMatrix ReadConfusionMatrix(DataTable confusionMatrixTable, Model.Attribute decisionAttribute)
+        public ConfusionMatrix ReadConfusionMatrix(DataTable confusionMatrixTable, Attribute decisionAttribute)
         {
             var confusionMatrix = new ConfusionMatrix(decisionAttribute);
             int tableLength = ClassificationResult.GetDecisionClasses(decisionAttribute).Length;
@@ -158,9 +153,9 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             int decisionAttributeIndex = Convert.ToInt32(metaDataRow["Decision Attribute Index"].ToString());
             string conflictResolvingMethod = metaDataRow["Conflict Resolving Method"].ToString();
 
-            Model.DataSet testSet = ReadDataSet(workBook, testSetName, confusionMatrixTable, decisionAttributeIndex);
-            Model.Attribute decisionAttribute = testSet.Attributes.ElementAt(decisionAttributeIndex);
-            Model.RuleSet ruleSet = new Model.RuleSetSubsetViewItem(ruleSetName)
+            DataSet testSet = ReadDataSet(workBook, testSetName, confusionMatrixTable, decisionAttributeIndex);
+            Attribute decisionAttribute = testSet.Attributes.ElementAt(decisionAttributeIndex);
+            RuleSet ruleSet = new RuleSetSubset(ruleSetName)
             {
                 FiltersShortInfo = filtersShort,
                 FiltersInfo = filters,

@@ -243,6 +243,7 @@
     <Compile Include="ViewModel\Results\AlgorithmsToTestSetsResultViewModel.cs" />
     <Compile Include="ViewModel\Results\GroupedRuleSetResult.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\RuleSetSubsetViewItem.cs" />
     <Compile Include="ViewModel\TabViewModels\TestResultComparisionViewModel.cs" />
     <Compile Include="ViewModel\TabViewModels\RuleSetManagerViewModel.cs" />
     <Compile Include="Model\TestRequestsAggregate.cs" />

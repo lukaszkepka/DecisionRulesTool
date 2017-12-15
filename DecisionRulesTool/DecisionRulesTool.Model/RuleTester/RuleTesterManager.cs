@@ -1,7 +1,5 @@
 ﻿using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.RuleFilters;
-using DecisionRulesTool.Model.RuleFilters.TestSeries;
-using DecisionRulesTool.Model.RuleTester.Series;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -47,12 +45,6 @@ namespace DecisionRulesTool.Model.RuleTester
                 }
             }
             return testRequests;
-        }
-
-        public virtual IEnumerable<TestRequest> GenerateTestSeries(TestSeriesRequest testSeriesRequest, DataSet[] testSets)
-        {
-            TestSeriesGenerator testSeriesGenerator = new TestSeriesGenerator();
-            return testSeriesGenerator.GenerateTestSeries(testSeriesRequest, testSets);
         }
 
         public virtual IEnumerable<TestResult> RunTesting(IRuleTester testingStrategy)

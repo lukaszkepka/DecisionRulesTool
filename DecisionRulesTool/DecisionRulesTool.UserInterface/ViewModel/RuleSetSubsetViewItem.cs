@@ -14,7 +14,6 @@ namespace DecisionRulesTool.Model.Model
         public bool IsExpanded { get; set; }
 
 
-
         public RuleSetSubsetViewItem(string name) : base(name)
         {
         }

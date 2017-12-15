@@ -82,29 +82,5 @@ namespace DecisionRulesTool.Model.Utils
             }
             return result;
         }
-
-        //public static DecisionType ParseDecisionTypeString(string decisionTypeString)
-        //{
-        //    DecisionType decisionType = DecisionType.Undefined;
-        //    switch (decisionTypeString)
-        //    {
-        //        case "=":
-        //            decisionType = DecisionType.Equality;
-        //            break;
-        //        case ">":
-        //            decisionType = Relation.Greather;
-        //            break;
-        //        case ">=":
-        //            decisionType = Relation.GreatherOrEqual;
-        //            break;
-        //        case "<":
-        //            decisionType = Relation.Less;
-        //            break;
-        //        case "<=":
-        //            decisionType = Relation.LessOrEqual;
-        //            break;
-        //    }
-        //    return decisionType;
-        //}
     }
 }

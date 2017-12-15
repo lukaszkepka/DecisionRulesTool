@@ -17,9 +17,9 @@ namespace DecisionRulesTool.Model.RuleTester
 
         public RuleSet RuleSet { get; }
         public DataSet TestSet { get; set; }
+        public TestResult TestResult { get; set; }
         public ConflictResolvingMethod ResolvingMethod { get; }
         public int Progress { get; set; }
-        public TestResult TestResult { get; set; }
         public bool IsReadOnly { get; set; }
         public bool IsSelected { get; set; }
         public bool IsCompleted
@@ -41,7 +41,7 @@ namespace DecisionRulesTool.Model.RuleTester
 
         public string GetFileName()
         {
-            return $"{ DateTime.Now.ToString("yyyyMMdd")}{GetShortenName()}.xlsx";
+            return $"{DateTime.Now.ToString("yyyyMMdd")}{GetShortenName()}.xlsx";
         }
 
         public string GetShortenName()

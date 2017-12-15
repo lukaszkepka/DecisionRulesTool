@@ -28,7 +28,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
 
         public TestResultLoaderViewModel(Action<TestRequest, int> testRequestInserter, ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
-            this.testResultLoader = new TestResultLoader();
+            this.testResultLoader = new TestRequestParser();
             this.testRequestInserter = testRequestInserter;
         }
 

@@ -41,6 +41,23 @@ namespace DecisionRulesTool.Model.Utils
             return index;
         }
 
+        public static int IndexOf<T>(this IEnumerable<T> collection, T element)
+        {
+            int index = -1;
+
+            int i = 0;
+            foreach (var item in collection)
+            {
+                if (item.Equals(element))
+                {
+                    index = i++;
+                    break;
+                }
+            }
+
+            return index;
+        }
+
         internal static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
         {
             foreach (var item in collection)

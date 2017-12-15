@@ -95,8 +95,5 @@ namespace DecisionRulesTool.Model.FileSavers.RSES
         {
             return attribute.Type.ToString().ToLowerInvariant();
         }
-
-     
-
     }
 }

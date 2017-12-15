@@ -1,25 +1,23 @@
 ﻿
 using DecisionRulesTool.Model.Comparers;
-using DecisionRulesTool.Model.Model;
 using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DecisionRulesTool.Model.RuleTester
 {
+    using DecisionRulesTool.Model.FileSavers;
     using DecisionRulesTool.Model.RuleTester.Result;
     using Model;
     using System.Diagnostics;
     using System.IO;
     using System.Reflection;
-    using System.Threading;
     using Utils;
 
     public class RuleTester : IRuleTester
     {
-        private string dumpPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Dump";
+        private string dumpPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Backup";
         private readonly IProgressNotifier progressNotifier;
         private readonly IConditionChecker conditionChecker;
         private readonly DecisionResolverFactory decisionResolverFactory;
@@ -137,16 +135,16 @@ namespace DecisionRulesTool.Model.RuleTester
 
         private void DumpResult(TestRequest testRequest, string _dumpPath)
         {
-            TestResultSaver resultSaver = new TestResultSaver();
+            IFileSaver<TestRequest> resultSaver = new TestRequestToExcelSaver();
 
             try
             {
                 string filePath = Path.Combine(_dumpPath, testRequest.GetFileName());
-                resultSaver.SaveResultToFile(filePath, testRequest);
+                resultSaver.Save(testRequest, filePath);
             }
             catch(Exception ex)
             {
-                Debug.WriteLine($"FATAL ERROR DURING DUMPING RESULT : {ex.Message}");
+                Debug.WriteLine($"Fatal error during backuping result : {ex.Message}");
             }
         }
 

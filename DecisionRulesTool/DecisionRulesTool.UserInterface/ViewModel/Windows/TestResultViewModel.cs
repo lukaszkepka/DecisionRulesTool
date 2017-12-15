@@ -87,7 +87,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
 
         public void SaveResultToFile(string filePath)
         {
-            TestResultSaver f = new TestResultSaver();
+            TestRequestToExcelSaver f = new TestRequestToExcelSaver();
             f.SaveResultToFile(filePath, ConfusionMatrix, TestResultDataTable, testRequest);
         }
 

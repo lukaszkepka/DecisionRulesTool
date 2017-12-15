@@ -76,36 +76,44 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
 
         public void OnCalculateResultTable()
         {
-            resultTable = new DataTable();
-            resultTable.Columns.Add(new DataColumn("Rule Set", typeof(string)));
-            resultTable.Columns.Add(new DataColumn("Filters", typeof(string)));
-            resultTable.Columns.Add(new DataColumn("Conflict Resolving Method", typeof(string)));
-            resultTable.Columns.Add(new DataColumn("Parameter Name", typeof(string)));
-
-            foreach (var testSet in applicationCache.TestSets)
+            try
             {
-                resultTable.Columns.Add(new DataColumn(testSet.Name, typeof(string)));
-            }
+                resultTable = new DataTable();
+                resultTable.Columns.Add(new DataColumn("Rule Set", typeof(string)));
+                resultTable.Columns.Add(new DataColumn("Filters", typeof(string)));
+                resultTable.Columns.Add(new DataColumn("Conflict Resolving Method", typeof(string)));
+                resultTable.Columns.Add(new DataColumn("Parameter Name", typeof(string)));
 
-            var testRequestGroups = applicationCache.TestRequests.OrderBy(x => x.TestSet.Name)
-                .GroupBy(x => new GroupedRuleSetResult((RuleSetSubsetViewItem)x.RuleSet, x.ResolvingMethod), new GroupedRuleSetResultComparer());
-
-            foreach (var testRequestGroup in testRequestGroups)
-            {
-                DataRow coverageRow = CreateDataRow(testRequestGroup, resultTable, "Coverage");
-                DataRow accuaryRow = CreateDataRow(testRequestGroup, resultTable, "Accuracy");
-                DataRow totalAccuaryRow = CreateDataRow(testRequestGroup, resultTable, "Total Accuracy");
-
-                foreach (var testRequest in testRequestGroup)
+                foreach (var testSet in applicationCache.TestSets)
                 {
-                    accuaryRow[testRequest.TestSet.Name] = string.Format("{0:P2}", testRequest?.TestResult?.Accuracy);
-                    coverageRow[testRequest.TestSet.Name] = string.Format("{0:P2}", testRequest?.TestResult?.Coverage);
-                    totalAccuaryRow[testRequest.TestSet.Name] = string.Format("{0:P2}", testRequest?.TestResult?.TotalAccuracy);
+                    resultTable.Columns.Add(new DataColumn(testSet.Name, typeof(string)));
                 }
-            }
 
-            ResultView = CollectionViewSource.GetDefaultView(resultTable);
-            ResultView.GroupDescriptions.Add(new ManyPropertiesGroupDescription("Rule Set", "Filters", "Conflict Resolving Method"));
+                var testRequestGroups = applicationCache.TestRequests.OrderBy(x => x.TestSet.Name)
+                    .GroupBy(x => new GroupedRuleSetResult((RuleSetSubset)x.RuleSet, x.ResolvingMethod), new GroupedRuleSetResultComparer());
+
+                foreach (var testRequestGroup in testRequestGroups)
+                {
+                    DataRow coverageRow = CreateDataRow(testRequestGroup, resultTable, "Coverage");
+                    DataRow accuaryRow = CreateDataRow(testRequestGroup, resultTable, "Accuracy");
+                    DataRow totalAccuaryRow = CreateDataRow(testRequestGroup, resultTable, "Total Accuracy");
+
+                    foreach (var testRequest in testRequestGroup)
+                    {
+                        accuaryRow[testRequest.TestSet.Name] = string.Format("{0:P2}", testRequest?.TestResult?.Accuracy);
+                        coverageRow[testRequest.TestSet.Name] = string.Format("{0:P2}", testRequest?.TestResult?.Coverage);
+                        totalAccuaryRow[testRequest.TestSet.Name] = string.Format("{0:P2}", testRequest?.TestResult?.TotalAccuracy);
+                    }
+                }
+
+                ResultView = CollectionViewSource.GetDefaultView(resultTable);
+                ResultView.GroupDescriptions.Add(new ManyPropertiesGroupDescription("Rule Set", "Filters", "Conflict Resolving Method"));
+
+            }
+            catch(Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during calculating result table : {ex.Message}");
+            }
         }
 
         public DataRow CreateDataRow(IGrouping<GroupedRuleSetResult, TestRequest> testRequestGroup, DataTable groupedTestResult, string parameter)

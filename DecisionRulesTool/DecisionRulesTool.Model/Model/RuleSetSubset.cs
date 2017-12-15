@@ -29,7 +29,6 @@ namespace DecisionRulesTool.Model.Model
         public IList<RuleSetSubset> Subsets { get; protected set; }
         public IEnumerable<IRuleFilter> Filters => ruleFilters;
 
-        //
         public IList<IRuleFilterApplier> FilterAppliers;
 
         public override string Name { get; set; }

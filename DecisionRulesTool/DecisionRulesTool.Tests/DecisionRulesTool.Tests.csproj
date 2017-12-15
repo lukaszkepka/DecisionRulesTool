@@ -146,7 +146,6 @@
     <Compile Include="RuleFilters\AttributePresenceFilterTests.cs" />
     <Compile Include="RuleFilters\LengthFilterTests.cs" />
     <Compile Include="RuleFilters\DataProviders\RsesRulesProvider.cs" />
-    <Compile Include="RuleFilters\RuleFilterAggreagtorTests.cs" />
     <Compile Include="RuleFilters\SupportValueFilterTests.cs" />
     <Compile Include="RuleTester\MajorityVotingTests.cs" />
     <Compile Include="RuleTester\RefuseConflictsTests.cs" />
