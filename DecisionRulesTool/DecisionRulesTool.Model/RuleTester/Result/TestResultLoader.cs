@@ -65,9 +65,16 @@ namespace DecisionRulesTool.Model.RuleTester.Result
 
             foreach (DataRow row in labelsDataTable.Rows)
             {
-                var values = row.ItemArray.Skip(3);
-                Model.Object dataObject = new Model.Object(dataSet, values);
-                dataSet.Objects.Add(dataObject);
+                var values = row.ItemArray.Skip(3).ToArray();
+                if (values.Length == dataSet.Attributes.Count)
+                {
+                    Model.Object dataObject = new Model.Object(dataSet, values);
+                    dataSet.Objects.Add(dataObject);
+                }
+                else
+                {
+                    throw new FormatException("File has invalid structure");
+                }
             }
 
             return dataSet;

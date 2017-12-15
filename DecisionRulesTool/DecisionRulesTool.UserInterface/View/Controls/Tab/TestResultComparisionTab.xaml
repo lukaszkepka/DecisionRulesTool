@@ -14,7 +14,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ToolBar DockPanel.Dock="Top" Grid.Row="0"/>
+        <ToolBar DockPanel.Dock="Top" Grid.Row="0">
+            <Button Content="Save To Excel" Command="{Binding SaveToFile}" />
+        </ToolBar>
 
         <Grid Grid.Row="1" >
             <Grid>
@@ -23,40 +25,45 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Row="0" Text="Rule Sets : " HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="WhiteSmoke"  BorderThickness="0" IsReadOnly="True"/>
-                <ListBox ItemsSource="{Binding GroupedRuleSetResults}"
-                     VirtualizingStackPanel.IsVirtualizing="True"
-                     VirtualizingStackPanel.VirtualizationMode="Recycling"
-                     BorderThickness="0"                        
-                     
-                     Grid.Row="1">
-                     <ListBox.ItemTemplate>
-                     <DataTemplate>
-                     <StackPanel Height="52.85">
-                     <TextBlock Text="{Binding ConflictResolvingMethod}" />
-                     <TextBlock Text="{Binding RuleSet.Name}"/>
-                     <TextBlock TextWrapping="WrapWithOverflow"
-                     Text="{Binding RuleSet.FiltersInfo}"/>
-                     </StackPanel>
-                     </DataTemplate>
-                     </ListBox.ItemTemplate>
-                     </ListBox>
-                <GridSplitter Grid.Column="1" Width="5" Grid.Row="1" Grid.RowSpan="2"  HorizontalAlignment="Stretch" Background="WhiteSmoke"/>
                 <DataGrid x:Name="G2DataGrid"
                               Background="WhiteSmoke"
                               Grid.Row="0"
                               Grid.RowSpan="2"
-                              Grid.Column="2"
-                              ItemsSource="{Binding GropedTestResult}"
+                              Grid.Column="0"
+                              CanUserAddRows="False"
+                              ItemsSource="{Binding ResultView}"
                               VirtualizingStackPanel.IsVirtualizing="True"
                               VirtualizingStackPanel.VirtualizationMode="Recycling"
                               ScrollViewer.VerticalScrollBarVisibility="Visible"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+
+                    <DataGrid.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander>
+                                                    <Expander.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Path=Name}" />
+                                                        </StackPanel>
+                                                    </Expander.Header>
+                                                    <ItemsPresenter />
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+
                 </DataGrid>
             </Grid>
         </Grid>

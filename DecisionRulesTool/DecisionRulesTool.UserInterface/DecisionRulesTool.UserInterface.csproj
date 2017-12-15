@@ -217,6 +217,7 @@
     <Compile Include="Model\DataTemplateSelectors\FilterViewModelTemplateSelector.cs" />
     <Compile Include="Model\Exceptions\IncompatibleTestSetsException.cs" />
     <Compile Include="Model\Factory\RuleSetSubsetViewItemFactory.cs" />
+    <Compile Include="Model\ThreadSafeObservableCollection.cs" />
     <Compile Include="Model\Utils\ISelectable.cs" />
     <Compile Include="Model\Utils\SelectableItem.cs" />
     <Compile Include="Model\Utils\SelectableItemExtension.cs" />
@@ -237,6 +238,8 @@
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="ViewModel\Base\ApplicationViewModel.cs" />
     <Compile Include="ViewModel\Dialog\ApplicationOptionsViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\BaseTestResultIOViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\TestResultSaverViewModel.cs" />
     <Compile Include="ViewModel\Results\AlgorithmsToTestSetsResultViewModel.cs" />
     <Compile Include="ViewModel\Results\GroupedRuleSetResult.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
@@ -254,6 +257,7 @@
     <Compile Include="ViewModel\Filters\SupportValueFilterViewModel.cs" />
     <Compile Include="ViewModel\Dialog\TestSetViewModel.cs" />
     <Compile Include="ViewModel\TabViewModels\TestManagerViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\TestResultLoaderViewModel.cs" />
     <Compile Include="ViewModel\Windows\TestResultViewModel.cs" />
     <Compile Include="View\Controls\ConfusionMatrix.xaml.cs">
       <DependentUpon>ConfusionMatrix.xaml</DependentUpon>
@@ -272,6 +276,9 @@
     </Compile>
     <Compile Include="View\Dialogs\TestRequestGeneratorDialog.xaml.cs">
       <DependentUpon>TestRequestGeneratorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialogs\TestResultLoadingProgressWindow.xaml.cs">
+      <DependentUpon>TestResultLoadingProgressWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Dialogs\TestSetDialog.xaml.cs">
       <DependentUpon>TestSetDialog.xaml</DependentUpon>
@@ -313,6 +320,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Dialogs\TestRequestGeneratorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\TestResultLoadingProgressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

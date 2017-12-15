@@ -41,6 +41,10 @@ namespace DecisionRulesTool.UserInterface.Services
             Window newWindow = null;
             switch (viewModel)
             {
+                case TestResultLoaderViewModel testResultLoaderViewModel:
+                case TestResultSaverViewModel testResultSaverViewModel:
+                    newWindow = new TestResultLoadingProgressWindow();
+                    break;
                 case ApplicationOptionsViewModel applicationOptionsViewModel:
                     newWindow = new ApplicationOptions();
                     break;

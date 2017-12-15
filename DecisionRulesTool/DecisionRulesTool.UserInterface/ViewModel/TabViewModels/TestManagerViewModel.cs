@@ -22,10 +22,12 @@ using DecisionRulesTool.Model.Comparers;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
+    using DecisionRulesTool.Model.Exceptions;
     using DecisionRulesTool.Model.Model;
     using DecisionRulesTool.Model.Parsers;
     using DecisionRulesTool.Model.RuleTester.Result;
     using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
+    using DecisionRulesTool.UserInterface.ViewModel.Dialog;
     using DecisionRulesTool.UserInterface.ViewModel.Results;
     using DecisionRulesTool.UserInterface.ViewModel.Windows;
     using System.IO;
@@ -92,7 +94,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             get; set;
         }
         public int Progress { get; private set; }
-
         public bool IsThinking { get; private set; }
         public bool DumpResults
         {
@@ -171,90 +172,59 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                IsThinking = true;
-                string folderPath = servicesRepository.DialogService.BrowseFolderDialog(Environment.CurrentDirectory);
-                folderPath = Path.Combine(folderPath, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
+                int serieNumber = GetTestRequestSerieNumber();
 
-                if (!string.IsNullOrEmpty(folderPath))
-                {
-                    foreach (var testRequest in applicationCache.TestRequests.Where(x => x.Progress == 100))
-                    {
-                        TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationCache, servicesRepository);
-                        testResultViewModel.SaveResultToFile($"{folderPath}\\{testRequest.GetFileName()}");
-                    }
-
-                    servicesRepository.DialogService.ShowInformationMessage("Saving results completed successfully");
-                }
-                IsThinking = false;
+                TestResultSaverViewModel testResultSaverViewModel = new TestResultSaverViewModel(AddTestRequest, applicationCache, servicesRepository);
+                testResultSaverViewModel.RunSaving();
+                servicesRepository.DialogService.ShowDialog(testResultSaverViewModel);
             }
             catch (Exception ex)
             {
                 servicesRepository.DialogService.ShowErrorMessage($"Fatal error during saving test results : {ex.Message}");
-                IsThinking = false;
             }
+
+            //try
+            //{
+            //    IsThinking = true;
+            //    string folderPath = servicesRepository.DialogService.BrowseFolderDialog(Environment.CurrentDirectory);
+            //    folderPath = Path.Combine(folderPath, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
+
+            //    if (!string.IsNullOrEmpty(folderPath))
+            //    {
+            //        foreach (var testRequest in applicationCache.TestRequests.Where(x => x.Progress == 100))
+            //        {
+            //            TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationCache, servicesRepository);
+            //            testResultViewModel.SaveResultToFile($"{folderPath}\\{testRequest.GetFileName()}");
+            //        }
+
+            //        servicesRepository.DialogService.ShowInformationMessage("Saving results completed successfully");
+            //    }
+            //    IsThinking = false;
+            //}
+            //catch (Exception ex)
+            //{
+            //    servicesRepository.DialogService.ShowErrorMessage($"Fatal error during saving test results : {ex.Message}");
+            //    IsThinking = false;
+            //}
         }
 
-        private void _onLoadTestResults()
+        private void OnLoadTestResult()
         {
             try
             {
-                IFileParser<TestRequest> testResultLoader = new TestResultLoader();
-
-                OpenFileDialogSettings settings = new OpenFileDialogSettings()
-                {
-                    Multiselect = true
-                };
-
-                string[] paths = servicesRepository.DialogService.OpenFileDialog(settings);
                 int serieNumber = GetTestRequestSerieNumber();
 
-                foreach (string path in paths)
-                {
-                    try
-                    {
-                        AddTestRequest(testResultLoader.ParseFile(path), serieNumber);
-                    }
-                    catch (Exception ex)
-                    {
-                        servicesRepository.DialogService.ShowInformationMessage(ex.Message);
-                    }
-                }
+                TestResultLoaderViewModel progressViewModel = new TestResultLoaderViewModel(AddTestRequest, applicationCache, servicesRepository);
+                progressViewModel.RunLoading(serieNumber);
+                servicesRepository.DialogService.ShowDialog(progressViewModel);             
             }
             catch (Exception ex)
             {
                 servicesRepository.DialogService.ShowErrorMessage($"Fatal error during loading test results : {ex.Message}");
             }
-        }
-
-        private  void OnLoadTestResult()
-        {
-            try
+            finally
             {
-                IFileParser<TestRequest> testResultLoader = new TestResultLoader();
-
-                OpenFileDialogSettings settings = new OpenFileDialogSettings()
-                {
-                    Multiselect = true
-                };
-
-                string[] paths = servicesRepository.DialogService.OpenFileDialog(settings);
-                int serieNumber = GetTestRequestSerieNumber();
-
-                foreach (string path in paths)
-                {
-                    try
-                    {
-                        AddTestRequest(testResultLoader.ParseFile(path), serieNumber);
-                    }
-                    catch (Exception ex)
-                    {
-                        servicesRepository.DialogService.ShowInformationMessage(ex.Message);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during loading test results : {ex.Message}");
+                UpdateNumericComparisonResultTable();
             }
         }
 
@@ -318,17 +288,17 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public void OnLoadTestSets()
         {
-                foreach (var testSet in servicesRepository.DataSetLoaderService.LoadDataSets())
+            foreach (var testSet in servicesRepository.DataSetLoaderService.LoadDataSets())
+            {
+                if (applicationCache.TestSets.Any(x => x.Name.Equals(testSet.Name)))
                 {
-                    if (applicationCache.TestSets.Any(x => x.Name.Equals(testSet.Name)))
-                    {
-                        servicesRepository.DialogService.ShowInformationMessage($"Test Set with name {testSet.Name} is already loaded");
-                    }
-                    else
-                    {
-                        AddTestSet(testSet);
-                    }
+                    servicesRepository.DialogService.ShowInformationMessage($"Test Set with name {testSet.Name} is already loaded");
                 }
+                else
+                {
+                    AddTestSet(testSet);
+                }
+            }
         }
 
         private void OnViewTestSet(TestRequestGroup testRequestGroup)
@@ -389,12 +359,12 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                     }
                 }
             }
-           
+
         }
 
         public int GetTestRequestSerieNumber()
         {
-            if(TestRequests.Any())
+            if (TestRequests.Any())
             {
                 return TestRequests.Max(x => x.SeriesNumber) + 1;
             }

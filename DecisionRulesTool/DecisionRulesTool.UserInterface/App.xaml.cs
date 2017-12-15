@@ -26,6 +26,7 @@ namespace DecisionRulesTool.UserInterface
     using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
     using DecisionRulesTool.UserInterface.ViewModel.Results;
     using System;
+    using System.Linq;
     using Unity;
 
     /// <summary>
@@ -36,7 +37,7 @@ namespace DecisionRulesTool.UserInterface
         protected ApplicationCache InitializeApplicationCache()
         {
             //Rule sets
-            var ruleSets = new ObservableCollection<RuleSetSubset>();
+            var ruleSets = new ThreadSafeObservableCollection<RuleSetSubset>(Enumerable.Empty<RuleSetSubset>());
 #if TEST
             IFileParserFactory<RuleSet> fileParserFactory = new RuleSetParserFactory();
             IFileParser<RuleSet> ruleSetParser = fileParserFactory.Create(BaseFileFormat.FileExtensions.RSESRuleSet);
@@ -52,7 +53,7 @@ namespace DecisionRulesTool.UserInterface
 #endif
 
             //Test sets
-            var testSets = new ObservableCollection<DataSet>();
+            var testSets = new ThreadSafeObservableCollection<DataSet>(Enumerable.Empty<DataSet>());
 #if TEST
             IFileParserFactory<DataSet> fileParserFactory1 = new DataSetParserFactory();
             IFileParser<DataSet> dataSetParser = fileParserFactory1.Create(BaseFileFormat.FileExtensions.RSESDataset);
@@ -70,7 +71,7 @@ namespace DecisionRulesTool.UserInterface
 #endif
 
             //Test requests
-            var testRequests = new ObservableCollection<TestRequest>();
+            var testRequests = new ThreadSafeObservableCollection<TestRequest>(Enumerable.Empty<TestRequest>());
 #if TEST
             foreach (ConflictResolvingMethod conflictResolvingMethod in Enum.GetValues(typeof(ConflictResolvingMethod)))
             {

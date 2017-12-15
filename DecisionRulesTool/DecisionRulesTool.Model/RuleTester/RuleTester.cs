@@ -24,7 +24,7 @@ namespace DecisionRulesTool.Model.RuleTester
         private readonly IConditionChecker conditionChecker;
         private readonly DecisionResolverFactory decisionResolverFactory;
 
-        public bool DumpResults { get; set; } = true;
+        public bool DumpResults { get; set; }
 
         public RuleTester(IConditionChecker conditionChecker, IProgressNotifier progressNotifier)
         {

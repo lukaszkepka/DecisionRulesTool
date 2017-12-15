@@ -9,133 +9,159 @@ using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml.Serialization;
+using System.Globalization;
+using System.Windows.Controls;
+using DecisionRulesTool.UserInterface.Services.Dialog;
+using ClosedXML.Excel;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Results
 {
     [AddINotifyPropertyChangedInterface]
     public class TestResultComparisionViewModel : ApplicationViewModel
     {
-        public ICollection<RuleSetSubset> RuleSets { get; private set; }
-        public ObservableCollection<GroupedRuleSetResult> GroupedRuleSetResults { get; private set; }
-        public DataTable GropedTestResult { get; private set; }
+        private DataTable resultTable;
+
+        public ICollectionView ResultView { get; private set; }
 
         public ICommand CalculateResultTable { get; private set; }
         public ICommand SaveToFile { get; private set; }
 
-        [PreferredConstructor]
         public TestResultComparisionViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
-            this.RuleSets = new List<RuleSetSubset>();
-            this.GroupedRuleSetResults = new ObservableCollection<GroupedRuleSetResult>();
-
             CalculateResultTable = new RelayCommand(OnCalculateResultTable);
             SaveToFile = new RelayCommand(OnSaveToFile);
         }
 
         public void OnSaveToFile()
         {
+            try
+            {
+                if (resultTable != null)
+                {
+                    SaveFileDialogSettings settings = new SaveFileDialogSettings()
+                    {
+                        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        ExtensionFilter = $"Excel(*.xlsx)|*.xlsx"
+                    };
+
+                    string filePath = servicesRepository.DialogService.SaveFileDialog(settings);
+
+                    //TODO : Remove to test result saver class
+                    XLWorkbook excelWorkBook = new XLWorkbook();
+                    excelWorkBook.Worksheets.Add(resultTable, "Algorithms comparison");
+                    excelWorkBook.SaveAs(filePath);
+
+                    servicesRepository.DialogService.ShowWarningMessage($"Saving to file completed sucessfully");
+                }
+                else
+                {
+                    servicesRepository.DialogService.ShowWarningMessage($"Result table is empty");
+                }
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during saving to file : {ex.Message})");
+            }
 
         }
 
         public void OnCalculateResultTable()
         {
-            var groupedTestResult = new DataTable();
-            groupedTestResult.Columns.Add(new DataColumn("Rule Set", typeof(string)));
-            groupedTestResult.Columns.Add(new DataColumn("Parameters", typeof(string)));
+            resultTable = new DataTable();
+            resultTable.Columns.Add(new DataColumn("Rule Set", typeof(string)));
+            resultTable.Columns.Add(new DataColumn("Filters", typeof(string)));
+            resultTable.Columns.Add(new DataColumn("Conflict Resolving Method", typeof(string)));
+            resultTable.Columns.Add(new DataColumn("Parameter Name", typeof(string)));
 
-            foreach (var testRequest in applicationCache.TestRequests)              
+            foreach (var testSet in applicationCache.TestSets)
             {
-                var column = GetDataColumn(groupedTestResult, testRequest.TestSet.Name);
-                var precisionRow = GetDataRow(groupedTestResult, testRequest, "Total Accuary");
-                precisionRow[column] = string.Format("{0:P2}", testRequest?.TestResult?.TotalAccuracy);
-
-                var accuaryRow = GetDataRow(groupedTestResult, testRequest, "Accuary");
-                accuaryRow[column] = string.Format("{0:P2}", testRequest?.TestResult?.Accuracy);
-
-                var coverageRow = GetDataRow(groupedTestResult, testRequest, "Coverage");
-                coverageRow[column] = string.Format("{0:P2}", testRequest?.TestResult?.Coverage);
+                resultTable.Columns.Add(new DataColumn(testSet.Name, typeof(string)));
             }
 
-            GropedTestResult = groupedTestResult;
-        }
+            var testRequestGroups = applicationCache.TestRequests.OrderBy(x => x.TestSet.Name)
+                .GroupBy(x => new GroupedRuleSetResult((RuleSetSubsetViewItem)x.RuleSet, x.ResolvingMethod), new GroupedRuleSetResultComparer());
 
-        private DataRow GetDataRow(DataTable groupedTestResult, TestRequest testRequest, string name)
-        {
-            DataRow dataRow = null;
-            int i = 0;
-            while (i < GroupedRuleSetResults.Count)
+            foreach (var testRequestGroup in testRequestGroups)
             {
-                var t = GroupedRuleSetResults[i++];
-                if (t.RuleSet == testRequest.RuleSet && t.ConflictResolvingMethod == testRequest.ResolvingMethod)
-                {
-                    int offset = 0;
-                    switch (name)
-                    {
-                        case "Total Accuary":
-                            offset = 0;
-                            break;
-                        case "Accuary":
-                            offset = 1;
-                            break;
-                        case "Coverage":
-                            offset = 2;
-                            break;
-                        default:
-                            break;
-                    }
+                DataRow coverageRow = CreateDataRow(testRequestGroup, resultTable, "Coverage");
+                DataRow accuaryRow = CreateDataRow(testRequestGroup, resultTable, "Accuracy");
+                DataRow totalAccuaryRow = CreateDataRow(testRequestGroup, resultTable, "Total Accuracy");
 
-                    int effectiveIndex = (i - 1) * 3 + offset;
-                    if (effectiveIndex < groupedTestResult.Rows.Count)
-                    {
-                        dataRow = groupedTestResult.Rows[effectiveIndex];
-                        if (!dataRow[1].Equals(name))
-                        {
-                            dataRow = null;
-                        }
-                    }
-                    else
-                    {
-                        object[] values = new object[groupedTestResult.Columns.Count];
-                        values[0] = testRequest.RuleSet.Name;
-                        values[1] = name;
-                        dataRow = groupedTestResult.Rows.Add(values);
-                    }
-                    break;
+                foreach (var testRequest in testRequestGroup)
+                {
+                    accuaryRow[testRequest.TestSet.Name] = string.Format("{0:P2}", testRequest?.TestResult?.Accuracy);
+                    coverageRow[testRequest.TestSet.Name] = string.Format("{0:P2}", testRequest?.TestResult?.Coverage);
+                    totalAccuaryRow[testRequest.TestSet.Name] = string.Format("{0:P2}", testRequest?.TestResult?.TotalAccuracy);
                 }
             }
 
-            if (dataRow == null)
-            {
-                object[] values = new object[groupedTestResult.Columns.Count];
-                values[1] = name;
-                dataRow = groupedTestResult.Rows.Add(values);
-                GroupedRuleSetResults.Add(new GroupedRuleSetResult(testRequest.RuleSet, testRequest.ResolvingMethod));
-            }
-
-            return dataRow;
+            ResultView = CollectionViewSource.GetDefaultView(resultTable);
+            ResultView.GroupDescriptions.Add(new ManyPropertiesGroupDescription("Rule Set", "Filters", "Conflict Resolving Method"));
         }
 
-        private DataColumn GetDataColumn(DataTable groupedTestResult, string name)
+        public DataRow CreateDataRow(IGrouping<GroupedRuleSetResult, TestRequest> testRequestGroup, DataTable groupedTestResult, string parameter)
         {
-            DataColumn dataColumn;
-            if (!groupedTestResult.Columns.Contains(name))
+            object[] values = new object[groupedTestResult.Columns.Count];
+            values[0] = testRequestGroup.Key.RuleSet.Name;
+            values[1] = testRequestGroup.Key.RuleSet.FiltersInfo;
+            values[2] = testRequestGroup.Key.ConflictResolvingMethod;
+            values[3] = parameter;
+            return groupedTestResult.Rows.Add(values);
+        }
+    }
+
+    public class GroupedRuleSetResultComparer : IEqualityComparer<GroupedRuleSetResult>
+    {
+        public bool Equals(GroupedRuleSetResult x, GroupedRuleSetResult y)
+        {
+            return x.ConflictResolvingMethod == y.ConflictResolvingMethod && x.RuleSet.GetShortenName().Equals(y.RuleSet.GetShortenName()) && x.RuleSet.FiltersShortInfo.Equals(y.RuleSet.FiltersShortInfo);
+        }
+
+        public int GetHashCode(GroupedRuleSetResult obj)
+        {
+            return base.GetHashCode();
+        }
+    }
+
+    public class ManyPropertiesGroupDescription : GroupDescription
+    {
+        private string[] columnNamesToGroup;
+
+        public ManyPropertiesGroupDescription(params string[] columnNames)
+        {
+            columnNamesToGroup = columnNames;
+        }
+
+        public override object GroupNameFromItem(object item, int level, CultureInfo culture)
+        {
+            if (item is DataRowView dataRow)
             {
-                dataColumn = new DataColumn(name, typeof(string));
-                groupedTestResult.Columns.Add(dataColumn);
+                StringBuilder groupNameBuilder = new StringBuilder();
+                groupNameBuilder.Append($"{dataRow["Rule Set"].ToString()}, ");
+
+                if (!string.IsNullOrEmpty(dataRow["Filters"].ToString()))
+                {
+                    groupNameBuilder.Append($"({dataRow["Filters"].ToString()}), ");
+                }
+
+                groupNameBuilder.Append($"{dataRow["Conflict Resolving Method"].ToString()} ");
+
+                return groupNameBuilder.ToString();
             }
             else
             {
-                dataColumn = groupedTestResult.Columns[name];
+                return null;
             }
-
-            return dataColumn;
         }
     }
+
 }

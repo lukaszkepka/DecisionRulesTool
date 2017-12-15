@@ -12,8 +12,8 @@ namespace DecisionRulesTool.Model.Model
         protected RuleSetSubset rootRuleSet;
         protected List<IRuleFilter> ruleFilters;
 
-        public string FiltersInfo { get; set; }
-        public string FiltersShortInfo { get; set; }
+        public string FiltersInfo { get; set; } = string.Empty;
+        public string FiltersShortInfo { get; set; } = string.Empty;
         public RuleSetSubset RootRuleSet
         {
             get

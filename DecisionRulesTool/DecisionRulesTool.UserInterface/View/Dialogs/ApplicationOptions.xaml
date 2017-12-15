@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DecisionRulesTool.UserInterface.View.Dialogs"
         mc:Ignorable="d"
-        Title="ApplicationOptions" Height="300" Width="300">
+        Title="Settings" Height="300" Width="300">
     
-    <Border Margin="10">
+    <Border Margin="15">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -33,7 +33,7 @@
                 </StackPanel.Resources>
 
                 <ItemsControl>
-                    <TextBlock Text="Save result after each test" Grid.Column="0" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Backup test results" Grid.Column="0" HorizontalAlignment="Center"/>
                     <CheckBox IsChecked="{Binding DumpResults}" Grid.Column="1" HorizontalAlignment="Center"/>
                 </ItemsControl>
             </StackPanel>
@@ -42,16 +42,18 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="5"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Button Grid.Column="1" Content="Apply"  VerticalAlignment="Center" Width="Auto"  Command="{Binding Apply}"/>
-                <Button Grid.Column="3" Content="Cancel"  VerticalAlignment="Center" Width="Auto" Command="{Binding Cancel}"/>
+                <Separator Grid.Row="0" Grid.ColumnSpan="5"/>
+                <Button Grid.Row="1" Grid.Column="1" Content="Apply"  VerticalAlignment="Center" Width="Auto"  Command="{Binding Apply}"/>
+                <Button Grid.Row="1" Grid.Column="3" Content="Cancel"  VerticalAlignment="Center" Width="Auto" Command="{Binding Cancel}"/>
             </Grid>
 
 

@@ -1,0 +1,51 @@
+﻿<Window x:Class="DecisionRulesTool.UserInterface.View.Dialogs.TestResultLoadingProgressWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DecisionRulesTool.UserInterface.View.Dialogs"
+        mc:Ignorable="d"
+        Closing="Window_Closing"
+        ResizeMode="NoResize"
+        Title="{Binding Title}" Height="200" Width="400">
+    <Border Margin="15">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Action}"/>
+                    <TextBlock Text=" test results in progress : "/>
+                    <TextBlock Text="{Binding ActualIteration, Mode=OneWay}"/>
+                    <TextBlock Text=" / "/>
+                    <TextBlock Text="{Binding MaxIteration, Mode=OneWay}"/> 
+                </StackPanel>
+                <ProgressBar Margin="0,15,0,10"  Height="30" Value="{Binding Progress, Mode=OneWay}"/>
+            </StackPanel>
+
+
+            <Grid Grid.Row="3"  Height="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Separator Grid.Row="0" Grid.ColumnSpan="5"/>
+                <Button Grid.Row="1" Grid.Column="1" Content="Cancel"  VerticalAlignment="Center" Width="Auto"  Command="{Binding Cancel}" IsEnabled="{Binding IsInProgress}"/>
+                <Button Grid.Row="1" Grid.Column="3" Content="Ok"  VerticalAlignment="Center" Width="Auto" Command="{Binding Apply}" IsEnabled="{Binding !IsInProgress}"/>
+            </Grid>
+
+
+        </Grid>
+
+    </Border>
+</Window>
