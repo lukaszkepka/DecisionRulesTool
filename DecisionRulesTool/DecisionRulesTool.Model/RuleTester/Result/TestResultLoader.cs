@@ -22,7 +22,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             return CreateTestRequestFromMetaData(workBook);
         }
 
-        public Model.Attribute ReadDecisionAttribute(DataTable confusionMatrixTable)
+        public string[] ReadDecisionAttributeValues(DataTable confusionMatrixTable)
         {
             List<string> availableValues = new List<string>();
             for (int i = 1; i < confusionMatrixTable.Columns.Count - 2; i++)
@@ -30,10 +30,10 @@ namespace DecisionRulesTool.Model.RuleTester.Result
                 availableValues.Add(confusionMatrixTable.Columns[i].ColumnName);
             }
 
-            return new Model.Attribute() { AvailableValues = availableValues.ToArray() };
+            return availableValues.ToArray();
         }
 
-        public Model.DataSet ReadDataSet(XLWorkbook workBook, string name)
+        public Model.DataSet ReadDataSet(XLWorkbook workBook, string name, DataTable confusionMatrixTable, int decisionAttributeIndex)
         {
             IXLWorksheet labels = workBook.Worksheet("Labels");
             IXLWorksheet attributesMetaData = workBook.Worksheet("AttributesMetaData");
@@ -43,6 +43,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
 
             Model.DataSet dataSet = new Model.DataSet(name, new List<Model.Attribute>(), new List<Model.Object>());
 
+            int i = 0;
             foreach (DataRow attributeMetaData in attributesMetaDataTable.Rows)
             {
                 string columnName = attributeMetaData[0].ToString();
@@ -50,13 +51,20 @@ namespace DecisionRulesTool.Model.RuleTester.Result
                 string availableValuesString = attributeMetaData[2].ToString();
 
                 string[] availableValues;
-                if (String.IsNullOrEmpty(availableValuesString))
+                if (i++ == decisionAttributeIndex)
                 {
-                    availableValues = new string[0];
+                    availableValues = ReadDecisionAttributeValues(confusionMatrixTable);
                 }
                 else
                 {
-                    availableValues = availableValuesString.Split(',');
+                    if (String.IsNullOrEmpty(availableValuesString))
+                    {
+                        availableValues = new string[0];
+                    }
+                    else
+                    {
+                        availableValues = availableValuesString.Split(',');
+                    }
                 }
 
 
@@ -76,6 +84,9 @@ namespace DecisionRulesTool.Model.RuleTester.Result
                     throw new FormatException("File has invalid structure");
                 }
             }
+
+            //set decision attribute
+            //dataSet.Attributes.
 
             return dataSet;
         }
@@ -139,7 +150,6 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             DataTable metaDataTable = metaDataWorkbook.Table(0)?.AsNativeDataTable();
             DataRow metaDataRow = metaDataTable.Rows[0];
 
-            Model.Attribute decisionAttribute = ReadDecisionAttribute(confusionMatrixTable);
 
             string filters = metaDataRow["Filters"].ToString();
             string filtersShort = metaDataRow["Filters short"].ToString();
@@ -148,12 +158,13 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             int decisionAttributeIndex = Convert.ToInt32(metaDataRow["Decision Attribute Index"].ToString());
             string conflictResolvingMethod = metaDataRow["Conflict Resolving Method"].ToString();
 
-            Model.DataSet testSet = ReadDataSet(workBook, testSetName);
+            Model.DataSet testSet = ReadDataSet(workBook, testSetName, confusionMatrixTable, decisionAttributeIndex);
+            Model.Attribute decisionAttribute = testSet.Attributes.ElementAt(decisionAttributeIndex);
             Model.RuleSet ruleSet = new Model.RuleSetSubsetViewItem(ruleSetName)
             {
                 FiltersShortInfo = filtersShort,
                 FiltersInfo = filters,
-                DecisionAttribute = testSet.Attributes.ElementAt(decisionAttributeIndex)
+                DecisionAttribute = decisionAttribute
             };
 
             TestRequest testRequest = new TestRequest(ruleSet, testSet, (ConflictResolvingMethod)Enum.Parse(typeof(ConflictResolvingMethod), conflictResolvingMethod))

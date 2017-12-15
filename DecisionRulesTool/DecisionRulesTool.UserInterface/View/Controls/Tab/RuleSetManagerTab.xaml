@@ -74,7 +74,8 @@
 
                         <TreeView.Resources>
                             <Style TargetType="TreeViewItem">
-                                <EventSetter Event="MouseRightButtonDown" Handler="TreeViewItem_MouseRightButtonDown">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                            <EventSetter Event="MouseRightButtonDown" Handler="TreeViewItem_MouseRightButtonDown">
                                 </EventSetter>
                             </Style>
                         </TreeView.Resources>

@@ -19,6 +19,10 @@ namespace DecisionRulesTool.Model.RuleTester
         {
         }
 
+        public MajorityVoting(DataSet testSet, Attribute decisionAttribute, string[] decisionValues) : base(testSet, decisionAttribute, decisionValues)
+        {
+        }
+
         protected override string ResolveConflict(KeyValuePair<Object, int[]> decisionItem)
         {
             string decision = string.Empty;

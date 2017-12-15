@@ -54,6 +54,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public ICommand GenerateTestRequests { get; private set; }
         public ICommand DeleteTestRequest { get; private set; }
         public ICommand LoadTestResult { get; private set; }
+        public ICommand UndoLastLoadedTestRequests { get; private set; }
         public ICommand ShowTestResults { get; private set; }
         public ICommand SaveAllResults { get; private set; }
 
@@ -139,6 +140,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             ShowGroupedTestResults = new RelayCommand<TestRequestGroup>(OnShowResultsForTestSet);
             ShowTestResults = new RelayCommand<TestRequest>(OnShowSingleTestResult);
 
+            UndoLastLoadedTestRequests = new RelayCommand(OnUndoLastLoadedTestRequests);
             SaveAllResults = new RelayCommand(OnSaveAllResults);
             ViewTestSet = new RelayCommand<TestRequestGroup>(OnViewTestSet);
             LoadTestSets = new RelayCommand(OnLoadTestSets);
@@ -147,6 +149,27 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             GenerateTestRequests = new RelayCommand(OnGenerateTestRequests);
             DeleteTestRequest = new RelayCommand(OnDeleteTestRequest);
             DeleteTestRequestGroup = new RelayCommand<TestRequestGroup>(OnDeleteTestRequestGroup);
+        }
+
+        private void OnUndoLastLoadedTestRequests()
+        {
+            try
+            {
+                if (applicationCache.TestRequests.Any())
+                {
+                    int lastSerieNumber = applicationCache.TestRequests.Max(x => x.SeriesNumber);
+                    var testRequestsToDelete = applicationCache.TestRequests.Where(x => x.SeriesNumber == lastSerieNumber);
+                    if (testRequestsToDelete.Any())
+                    {
+                        DeleteTestRequests(testRequestsToDelete);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during undoing last operation : {ex.Message}");
+            }
+
         }
 
         private void OnDeleteTestRequestGroup(TestRequestGroup obj)
@@ -172,40 +195,23 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                int serieNumber = GetTestRequestSerieNumber();
+                if (applicationCache.TestRequests.Any())
+                {
+                    int serieNumber = GetTestRequestSerieNumber();
+                    TestResultSaverViewModel testResultSaverViewModel = new TestResultSaverViewModel(applicationCache, servicesRepository);
+                    testResultSaverViewModel.RunSaving();
+                    servicesRepository.DialogService.ShowDialog(testResultSaverViewModel);
+                }
+                else
+                {
+                    //TODO
+                }
 
-                TestResultSaverViewModel testResultSaverViewModel = new TestResultSaverViewModel(AddTestRequest, applicationCache, servicesRepository);
-                testResultSaverViewModel.RunSaving();
-                servicesRepository.DialogService.ShowDialog(testResultSaverViewModel);
             }
             catch (Exception ex)
             {
                 servicesRepository.DialogService.ShowErrorMessage($"Fatal error during saving test results : {ex.Message}");
             }
-
-            //try
-            //{
-            //    IsThinking = true;
-            //    string folderPath = servicesRepository.DialogService.BrowseFolderDialog(Environment.CurrentDirectory);
-            //    folderPath = Path.Combine(folderPath, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
-
-            //    if (!string.IsNullOrEmpty(folderPath))
-            //    {
-            //        foreach (var testRequest in applicationCache.TestRequests.Where(x => x.Progress == 100))
-            //        {
-            //            TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationCache, servicesRepository);
-            //            testResultViewModel.SaveResultToFile($"{folderPath}\\{testRequest.GetFileName()}");
-            //        }
-
-            //        servicesRepository.DialogService.ShowInformationMessage("Saving results completed successfully");
-            //    }
-            //    IsThinking = false;
-            //}
-            //catch (Exception ex)
-            //{
-            //    servicesRepository.DialogService.ShowErrorMessage($"Fatal error during saving test results : {ex.Message}");
-            //    IsThinking = false;
-            //}
         }
 
         private void OnLoadTestResult()
@@ -216,7 +222,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
                 TestResultLoaderViewModel progressViewModel = new TestResultLoaderViewModel(AddTestRequest, applicationCache, servicesRepository);
                 progressViewModel.RunLoading(serieNumber);
-                servicesRepository.DialogService.ShowDialog(progressViewModel);             
+                servicesRepository.DialogService.ShowDialog(progressViewModel);
             }
             catch (Exception ex)
             {
@@ -340,11 +346,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void OnDeleteTestRequest()
+        private void DeleteTestRequests(IEnumerable<TestRequest> testRequestsToDelete)
         {
-            var testRequestsToDelete = TestRequests.Where(x => x.IsSelected).ToList();
-
-            foreach (var testRequest in testRequestsToDelete)
+            foreach (var testRequest in testRequestsToDelete.ToList())
             {
                 if (testRequest != null)
                 {
@@ -358,6 +362,21 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                         }
                     }
                 }
+            }
+
+            UpdateNumericComparisonResultTable();
+        }
+
+        private void OnDeleteTestRequest()
+        {
+            try
+            {
+                var testRequestsToDelete = TestRequests.Where(x => x.IsSelected);
+                DeleteTestRequests(testRequestsToDelete);
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during deleting test requests : {ex.Message}");
             }
 
         }

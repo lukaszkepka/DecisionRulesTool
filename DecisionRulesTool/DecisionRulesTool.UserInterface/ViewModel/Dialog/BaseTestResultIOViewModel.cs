@@ -12,8 +12,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
     {
         private bool isInProgress = false;
         protected bool cancelRequest = false;
-        protected IFileParser<TestRequest> testResultLoader;
-        protected Action<TestRequest, int> testRequestInserter;
+
 
         public abstract string Title { get; }
         public abstract string Action { get; }
@@ -42,7 +41,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
         public override void OnCancel()
         {
             cancelRequest = true;
-            OnCloseRequest();
         }
 
         protected void UpdateProgress(int actualIteration, int maxIterations)

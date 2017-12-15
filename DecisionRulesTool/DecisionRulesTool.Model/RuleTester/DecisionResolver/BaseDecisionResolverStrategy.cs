@@ -30,6 +30,17 @@ namespace DecisionRulesTool.Model.RuleTester.DecisionResolver
             }
         }
 
+        public BaseDecisionResolverStrategy(DataSet testSet, Attribute decisionAttribute, string[] decisionValues)
+        {
+            this.decisionValues = decisionValues;
+            decisionAttributeIndex = testSet.Attributes.TakeWhile(x => !x.Equals(decisionAttribute)).Count();
+            decisionMatrix = new Dictionary<Object, int[]>(ReferenceEqualityComparer.Default);
+            foreach (var dataObject in testSet.Objects)
+            {
+                decisionMatrix.Add(dataObject, new int[decisionValues.Length]);
+            }
+        }
+
         public int GetDecisionValueIndex(Decision decision)
         {
             for (int i = 0; i < decisionValues.Length; i++)

@@ -117,5 +117,11 @@ namespace DecisionRulesTool.UserInterface.View.Controls
                 context.DeleteTestRequest.Execute(null);
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic context = DataContext;
+            context.UndoLastLoadedTestRequests.Execute(null);            
+        }
     }
 }

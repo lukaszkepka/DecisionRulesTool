@@ -21,10 +21,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
         public override string Title => "Decision Rules Tool - Test Result Saving";
         public override string Action => "Saving";
 
-        public TestResultSaverViewModel(Action<TestRequest, int> testRequestInserter, ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public TestResultSaverViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
-            this.testResultLoader = new TestResultLoader();
-            this.testRequestInserter = testRequestInserter;
         }
 
         public string GetFolderPath()

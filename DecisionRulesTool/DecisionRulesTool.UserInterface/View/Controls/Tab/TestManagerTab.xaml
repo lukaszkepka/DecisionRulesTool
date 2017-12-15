@@ -126,6 +126,19 @@
                             </StackPanel>
                         </wpftoolkit:DropDownButton.DropDownContent>
                     </wpftoolkit:DropDownButton>
+                    <wpftoolkit:DropDownButton  Content="Undo" Margin="5 0 5 0" Background="AliceBlue" BorderThickness="0">
+                        <wpftoolkit:DropDownButton.DropDownContent>
+                            <StackPanel>
+                                <Button Content="Last loaded test requests" 
+                                        Background="AliceBlue" 
+                                        BorderThickness="0" 
+                                        Width="150" 
+                                        Command="{Binding FilterTestRequests}"
+                                        CommandParameter="All"
+                                        Click="Button_Click" />
+                            </StackPanel>
+                        </wpftoolkit:DropDownButton.DropDownContent>
+                    </wpftoolkit:DropDownButton>
                     <Button Content="Load" Command="{Binding LoadTestResult}"/>
                     <Button Content="Save All" Command="{Binding SaveAllResults}"/>
                 </ToolBar>

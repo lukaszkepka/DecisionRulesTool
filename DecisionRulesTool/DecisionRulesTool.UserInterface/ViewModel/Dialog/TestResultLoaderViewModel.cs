@@ -20,6 +20,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
     [AddINotifyPropertyChangedInterface]
     public class TestResultLoaderViewModel : BaseTestResultIOViewModel
     {
+        protected IFileParser<TestRequest> testResultLoader;
+        protected Action<TestRequest, int> testRequestInserter;
+
         public override string Title => "Decision Rules Tool - Test Result Loading";
         public override string Action => "Loading";
 
