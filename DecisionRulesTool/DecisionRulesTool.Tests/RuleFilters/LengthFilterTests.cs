@@ -101,7 +101,7 @@ namespace DecisionRulesTool.Test.RuleFilters
                 new Attribute(AttributeType.Symbolic, "State", new[] {"1", "2", "3"})
             };
 
-            var ruleSet = new RuleSet(string.Empty, attributes, new List<Rule>(), attributes.Last());
+            var ruleSet = new RuleSet(string.Empty, string.Empty, attributes, new List<Rule>(), attributes.Last());
             var rules = new[]
             {
                 new _4eMkaRule(ruleSet : ruleSet,

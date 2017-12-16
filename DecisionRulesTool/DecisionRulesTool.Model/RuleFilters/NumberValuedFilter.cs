@@ -45,7 +45,7 @@ namespace DecisionRulesTool.Model.RuleFilters
 
         public RuleSet FilterRules(RuleSet ruleSet)
         {
-            RuleSet newRuleSet = new RuleSet(ruleSet.Name, ruleSet.Attributes, new List<Rule>(), ruleSet.DecisionAttribute);
+            RuleSet newRuleSet = new RuleSet(ruleSet.Name, ruleSet.FileExtension, ruleSet.Attributes, new List<Rule>(), ruleSet.DecisionAttribute);
             foreach (Rule rule in ruleSet.Rules)
             {
                 if (CheckCondition(rule))

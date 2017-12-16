@@ -26,6 +26,7 @@ namespace DecisionRulesTool.Model.Parsers
         private void ParseHeader(StreamReader fileStream, RuleSet rulesSet)
         {
             rulesSet.Name = GetSectionValue(fileStream, fileFormat.RuleFileHeader);
+            rulesSet.FileExtension = BaseFileFormat.FileExtensions.RSESRuleSet;
         }
 
         private void ParseAttributes(StreamReader fileStream, RuleSet rulesSet)

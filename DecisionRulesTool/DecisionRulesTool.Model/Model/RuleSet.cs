@@ -13,6 +13,7 @@ namespace DecisionRulesTool.Model.Model
     {
 
         public virtual string Name { get; set; }
+        public string FileExtension { get; set; }
         public Attribute DecisionAttribute { get; set; }
         public IList<Attribute> Attributes { get; protected set; }
         public IList<Rule> Rules { get; protected set; }
@@ -28,8 +29,9 @@ namespace DecisionRulesTool.Model.Model
             Name = name;
         }
 
-        public RuleSet(string name, IList<Attribute> attributes, IList<Rule> rules, Attribute decisionAttribute) : this(name)
+        public RuleSet(string name, string extension, IList<Attribute> attributes, IList<Rule> rules, Attribute decisionAttribute) : this(name)
         {
+            FileExtension = extension;
             Attributes = attributes;
             Rules = rules;
             DecisionAttribute = decisionAttribute;
@@ -61,7 +63,7 @@ namespace DecisionRulesTool.Model.Model
         {
             int decisionAttributeIndex = Attributes.IndexOf(DecisionAttribute);
             IList<Attribute> newAttributes = new List<Attribute>(Attributes);
-            return new RuleSet(Name, newAttributes, new List<Rule>(Rules), newAttributes[decisionAttributeIndex]);
+            return new RuleSet(Name, FileExtension, newAttributes, new List<Rule>(Rules), newAttributes[decisionAttributeIndex]);
         }
     }
 }

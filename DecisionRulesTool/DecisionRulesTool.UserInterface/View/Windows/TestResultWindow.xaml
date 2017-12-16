@@ -27,7 +27,7 @@
         <DockPanel>
             <DockPanel Height="30" DockPanel.Dock="Top">
                 <ToolBar DockPanel.Dock="Top">
-                    <Button Content="Save" Command="{Binding SaveToFile}" />
+                    <Button Content="Save To Excel" Command="{Binding SaveToFile}" />
                 </ToolBar>
             </DockPanel>
 

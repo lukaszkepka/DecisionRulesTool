@@ -115,7 +115,7 @@ namespace DecisionRulesTool.Te.RuleTester
                 new Attribute(AttributeType.Symbolic, "D1", "T", "N")
             };
 
-            var ruleSet = new RuleSet(string.Empty, attributes, new List<Rule>(), attributes.Last());
+            var ruleSet = new RuleSet(string.Empty, string.Empty, attributes, new List<Rule>(), attributes.Last());
             var rules = new[]
             {
                 new _4eMkaRule(ruleSet : ruleSet,

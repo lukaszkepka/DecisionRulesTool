@@ -10,11 +10,14 @@ namespace DecisionRulesTool.Model.FileSavers
 {
     public abstract class BaseFileSaver<T> : IFileSaver<T>
     {
+        protected string cachedFileName;
+
         public StreamWriter OpenFile(string path)
         {
             StreamWriter streamWriter = default(StreamWriter);
             try
             {
+                cachedFileName = Path.GetFileName(path);
                 FileStream fileStream = File.OpenWrite(path);
                 streamWriter = new StreamWriter(fileStream);
             }
@@ -39,6 +42,7 @@ namespace DecisionRulesTool.Model.FileSavers
                     {
                         Debug.WriteLine(ex.Message);
                         fileStream.Flush();
+                        throw;
                     }
                 }
                 else

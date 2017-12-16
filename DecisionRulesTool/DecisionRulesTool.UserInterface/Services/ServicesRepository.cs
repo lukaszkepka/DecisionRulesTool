@@ -1,4 +1,5 @@
-﻿using DecisionRulesTool.Model.IO.Parsers.Factory;
+﻿using DecisionRulesTool.Model.IO.FileSavers.Factory;
+using DecisionRulesTool.Model.IO.Parsers.Factory;
 using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.RuleTester.Result;
 using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
@@ -38,6 +39,23 @@ namespace DecisionRulesTool.UserInterface.Services
                 return serviceLocator.GetInstance<IFileParserFactory<RuleSet>>();
             }
         }
+
+        public IFileSaverFactory<RuleSet> RuleSetSaverFactory
+        {
+            get
+            {
+                return serviceLocator.GetInstance<IFileSaverFactory<RuleSet>>();
+            }
+        }
+
+        public IRuleSetSaverService RuleSetSaverService
+        {
+            get
+            {
+                return serviceLocator.GetInstance<IRuleSetSaverService>();
+            }
+        }
+
 
         public IFileParserFactory<DataSet> TestSetParserFactory
         {

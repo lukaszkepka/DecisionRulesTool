@@ -62,6 +62,7 @@ namespace DecisionRulesTool.Tests.IO
 
             RuleSet expectedResult = new RuleSet(
             name: string.Empty,
+            extension: string.Empty,
             attributes: new[]
             {
                 new Attribute(AttributeType.Numeric, "comma"),

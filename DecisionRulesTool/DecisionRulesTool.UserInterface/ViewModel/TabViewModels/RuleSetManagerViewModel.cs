@@ -13,6 +13,8 @@ using System;
 using DecisionRulesTool.UserInterface.Services.Dialog;
 using DecisionRulesTool.Model.FileSavers.RSES;
 using DecisionRulesTool.Model.IO;
+using DecisionRulesTool.Model.IO.FileSavers.Factory;
+using DecisionRulesTool.Model.FileSavers;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
@@ -67,18 +69,22 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void OnSaveRuleSetToFile()
         {
-            SaveFileDialogSettings settings = new SaveFileDialogSettings()
+            try
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                ExtensionFilter = $"RSES filter (*{BaseFileFormat.FileExtensions.RSESRuleSet})|*{BaseFileFormat.FileExtensions.RSESRuleSet}|" +
-                                  $"4EMKA filter (*{BaseFileFormat.FileExtensions._4emkaRuleSet})|*{BaseFileFormat.FileExtensions._4emkaRuleSet}|" +
-                                  $"All files (*.*)|*.*"
-            };
-
-            string filePath = servicesRepository.DialogService.SaveFileDialog(settings);
-            RsesRulesSaver rsesRulesSaver = new RsesRulesSaver();
-
-            rsesRulesSaver.Save(selectedRuleSet, filePath);
+                if (selectedRuleSet != null)
+                {
+                    servicesRepository.RuleSetSaverService.SaveRuleSet(selectedRuleSet);
+                    servicesRepository.DialogService.ShowInformationMessage($"File saved sucessfully");
+                }
+                else
+                {
+                    servicesRepository.DialogService.ShowErrorMessage($"You haven't selected any rule set");
+                }
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Error during saving rule set to file : {ex.Message}");
+            }
         }
 
         private void OnEditFilters()

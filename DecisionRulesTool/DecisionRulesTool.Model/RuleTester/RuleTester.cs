@@ -17,10 +17,10 @@ namespace DecisionRulesTool.Model.RuleTester
 
     public class RuleTester : IRuleTester
     {
-        private string dumpPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Backup";
         private readonly IProgressNotifier progressNotifier;
         private readonly IConditionChecker conditionChecker;
         private readonly DecisionResolverFactory decisionResolverFactory;
+        private readonly BackupManager backupManager;
 
         public bool DumpResults { get; set; }
 
@@ -29,6 +29,7 @@ namespace DecisionRulesTool.Model.RuleTester
             this.progressNotifier = progressNotifier;
             this.conditionChecker = conditionChecker;
             decisionResolverFactory = new DecisionResolverFactory();
+            backupManager = new BackupManager(new TestRequestToExcelSaver());
         }
 
         public RuleTester(IConditionChecker conditionChecker, IProgressNotifier progressNotifier, DecisionResolverFactory decisionResolverFactory) : this(conditionChecker, progressNotifier)
@@ -88,8 +89,7 @@ namespace DecisionRulesTool.Model.RuleTester
 
         public virtual IEnumerable<TestResult> RunTesting(IEnumerable<TestRequest> testRequests)
         {
-            string _dumpPath = Path.Combine(dumpPath, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
-
+            backupManager.Initialize();
 
             int completedTestRequestCount = 0;
             int testRequestsCount = testRequests.Count();
@@ -117,7 +117,7 @@ namespace DecisionRulesTool.Model.RuleTester
 
                     if(DumpResults)
                     {
-                        DumpResult(testRequest, _dumpPath);
+                        backupManager.Backup(testRequest);
                     }
 
                     testResults.Add(testResult);
@@ -132,21 +132,6 @@ namespace DecisionRulesTool.Model.RuleTester
             return testResults;
         }
 
-
-        private void DumpResult(TestRequest testRequest, string _dumpPath)
-        {
-            IFileSaver<TestRequest> resultSaver = new TestRequestToExcelSaver();
-
-            try
-            {
-                string filePath = Path.Combine(_dumpPath, testRequest.GetFileName());
-                resultSaver.Save(testRequest, filePath);
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine($"Fatal error during backuping result : {ex.Message}");
-            }
-        }
 
         private int GetTesterProgress(int actualIteration, int maxIterations) => (int)((actualIteration / (double)maxIterations) * 100);
 

@@ -68,7 +68,7 @@ namespace DecisionRulesTool.Model.Model
         /// Constructor used for filling basic RuleSet class fields
         /// </summary>
         /// <param name="ruleSet">RuleSet used for initializing fields</param>
-        public RuleSetSubset(RuleSet ruleSet) : base(ruleSet.Name, ruleSet.Attributes, ruleSet.Rules, ruleSet.DecisionAttribute)
+        public RuleSetSubset(RuleSet ruleSet) : base(ruleSet.Name, ruleSet.FileExtension, ruleSet.Attributes, ruleSet.Rules, ruleSet.DecisionAttribute)
         {
             Initialize();
         }
@@ -100,7 +100,7 @@ namespace DecisionRulesTool.Model.Model
             this.ruleFilters.AddRange(initialRuleSet.Filters);
         }
 
-        public RuleSetSubset(RuleSetSubset initialRuleSet, RuleSetSubset rootRuleSet) : base(initialRuleSet.Name, initialRuleSet.Attributes, initialRuleSet.Rules, initialRuleSet.DecisionAttribute)
+        public RuleSetSubset(RuleSetSubset initialRuleSet, RuleSetSubset rootRuleSet) : base(initialRuleSet.Name, initialRuleSet.FileExtension, initialRuleSet.Attributes, initialRuleSet.Rules, initialRuleSet.DecisionAttribute)
         {
             Initialize();
             InitialRuleSet = initialRuleSet;

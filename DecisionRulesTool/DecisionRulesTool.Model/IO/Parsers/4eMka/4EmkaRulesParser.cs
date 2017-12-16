@@ -56,6 +56,7 @@ namespace DecisionRulesTool.Model.Parsers
             }
 
             ruleSet.Name = ruleSetName;
+            ruleSet.FileExtension = BaseFileFormat.FileExtensions._4emkaRuleSet;
         }
 
         public void ParseRules(StreamReader fileStream, RuleSet ruleSet)

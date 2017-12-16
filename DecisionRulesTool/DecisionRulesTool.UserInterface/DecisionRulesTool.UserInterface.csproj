@@ -233,6 +233,8 @@
     <Compile Include="Services\Interfaces\ITestSetLoaderService.cs" />
     <Compile Include="Services\Interfaces\IWindowNavigatorService.cs" />
     <Compile Include="Services\Interfaces\ITestRequestService.cs" />
+    <Compile Include="Services\Interfaces\IRuleSetSaverService.cs" />
+    <Compile Include="Services\RuleSetSaverService.cs" />
     <Compile Include="Services\RuleSetSubsetService.cs" />
     <Compile Include="Services\TestRequestService.cs" />
     <Compile Include="Utils\Extensions.cs" />
@@ -284,9 +286,6 @@
     <Compile Include="View\Dialogs\TestSetDialog.xaml.cs">
       <DependentUpon>TestSetDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Windows\GroupedTestResultWindow.xaml.cs">
       <DependentUpon>GroupedTestResultWindow.xaml</DependentUpon>
     </Compile>
@@ -329,10 +328,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Dialogs\TestSetDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -80,8 +80,9 @@ namespace DecisionRulesTool.Tests
             "RULES 1\n" +
             "(temperature = 38.7) & (headache = 7)=>(disease = angina[1]) 1\n";
 
-            var expectedResult = new RuleSet(
+            var expectedResult = new RuleSet(                
                 name: "Demo",
+                extension : string.Empty,
                 attributes: new[]
                 {
                     new Attribute(AttributeType.Numeric, "temperature"),

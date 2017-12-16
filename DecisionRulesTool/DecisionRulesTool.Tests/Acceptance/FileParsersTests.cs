@@ -50,7 +50,7 @@ namespace DecisionRulesTool.Tests.Acceptance
                 new Attribute(AttributeType.Symbolic, "disease", new[] {"angina", "influenza", "cold", "healthy"})
             };
 
-            var expectedRuleSet = new RuleSet("Demo", attributes, new List<Rule>(), attributes.Last());
+            var expectedRuleSet = new RuleSet("Demo", string.Empty, attributes, new List<Rule>(), attributes.Last());
             var rules = new[]
             {
                 new Rule(ruleSet : expectedRuleSet,
@@ -210,7 +210,7 @@ namespace DecisionRulesTool.Tests.Acceptance
                 new Attribute(AttributeType.Symbolic, "State", new[] {"1", "2", "3"})
             };
 
-            var expectedRuleSet = new RuleSet(string.Empty, attributes, new List<Rule>(), attributes.Last());
+            var expectedRuleSet = new RuleSet(string.Empty, string.Empty, attributes, new List<Rule>(), attributes.Last());
             var rules = new[]
             {
                 new _4eMkaRule(ruleSet : expectedRuleSet,

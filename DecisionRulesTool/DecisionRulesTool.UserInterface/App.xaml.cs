@@ -16,6 +16,7 @@ namespace DecisionRulesTool.UserInterface
 {
     using DecisionRulesTool.Model;
     using DecisionRulesTool.Model.IO;
+    using DecisionRulesTool.Model.IO.FileSavers.Factory;
     using DecisionRulesTool.Model.Model;
     using DecisionRulesTool.Model.Parsers;
     using DecisionRulesTool.Model.RuleTester.Result;
@@ -98,6 +99,7 @@ namespace DecisionRulesTool.UserInterface
             SimpleIoc.Default.Register<IServiceLocator>(() => SimpleIoc.Default);
 
             SimpleIoc.Default.Register<ITestResultConverter<System.Data.DataTable>, TestResultToDataTableConverter>();
+            SimpleIoc.Default.Register<IFileSaverFactory<RuleSet>, RuleSetFileSaverFactory>();
             SimpleIoc.Default.Register<IFileParserFactory<RuleSet>, RuleSetParserFactory>();
             SimpleIoc.Default.Register<IFileParserFactory<DataSet>, DataSetParserFactory>();
             SimpleIoc.Default.Register<ITestRequestService, TestRequestService>();
@@ -106,7 +108,7 @@ namespace DecisionRulesTool.UserInterface
             SimpleIoc.Default.Register<ITestSetLoaderService, TestSetLoaderService>();
             SimpleIoc.Default.Register<IRuleSetLoaderService, RuleSetLoaderService>();
             SimpleIoc.Default.Register<IRuleSetSubsetService, RuleSetSubsetService>();
-
+            SimpleIoc.Default.Register<IRuleSetSaverService, RuleSetSaverService>();
             
             SimpleIoc.Default.Register<TestResultComparisionViewModel>();
             SimpleIoc.Default.Register<TestRequestGeneratorViewModel>();

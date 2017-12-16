@@ -89,6 +89,7 @@
     <Compile Include="Exceptions\FileFormatNotSupportedException.cs" />
     <Compile Include="Exceptions\InvalidFileBodyException.cs" />
     <Compile Include="IO\BaseFileFormat.cs" />
+    <Compile Include="IO\FileSavers\4eMka\_4eMkaFileSaver.cs" />
     <Compile Include="IO\FileSavers\4eMka\_4eMkaRulesSaver.cs" />
     <Compile Include="IO\FileSavers\Excel\TestRequestToExcelSaver.cs" />
     <Compile Include="IO\FileSavers\Factory\IFileSaverFactory.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Model\RuleSetSubset.cs" />
     <Compile Include="RuleFilters\SupportValueFilter.cs" />
     <Compile Include="RuleSubsetGeneration\LowestLevelSubsetGenerator.cs" />
+    <Compile Include="RuleTester\BackupManager.cs" />
     <Compile Include="RuleTester\DecisionResolver\Factory\DecisionResolverFactory.cs" />
     <Compile Include="Converters\Interfaces\ITestResultConverter.cs" />
     <Compile Include="Converters\TestResultToDataTableConverter.cs" />
