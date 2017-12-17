@@ -1,5 +1,5 @@
 ﻿
-#define TEST
+#define TEST1
 
 using DecisionRulesTool.Model.RuleTester;
 using DecisionRulesTool.UserInterface.Services;

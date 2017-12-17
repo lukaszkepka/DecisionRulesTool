@@ -12,8 +12,32 @@
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate />
 
-    <UIRef Id="WixUI_Mondo" />
-    <UIRef Id="WixUI_ErrorProgressText" />
+    <PropertyRef Id="WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED"/>
+    <Condition Message="This application requires .NET Framework 4.6.2 or higher. Please install the .NET Framework then run this installer again">
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED]]>
+    </Condition>
+
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    
+    <UI>
+      <UIRef Id="WixUI_InstallDir" />
+
+      <!-- Skip license dialog -->
+      <Publish Dialog="WelcomeDlg"
+               Control="Next"
+               Event="NewDialog"
+               Value="InstallDirDlg"
+               Order="2">1</Publish>
+      <Publish Dialog="InstallDirDlg"
+               Control="Back"
+               Event="NewDialog"
+               Value="WelcomeDlg"
+               Order="2">1</Publish>
+    </UI>
+
+    <!--<UIRef Id="WixUI_Mondo" />
+    <UIRef Id="WixUI_ErrorProgressText" />-->
     
     <Feature Id="ProductFeature" Title="DecisionRulesTool" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
@@ -46,6 +70,8 @@
       </Directory>
     </Directory>
   </Fragment>
+
+
 
   <Fragment>
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
