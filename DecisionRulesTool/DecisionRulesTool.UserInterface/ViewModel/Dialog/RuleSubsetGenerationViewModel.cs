@@ -7,7 +7,6 @@ using DecisionRulesTool.Model.RuleSubsetGeneration;
 using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using DecisionRulesTool.UserInterface.Model;
 using DecisionRulesTool.UserInterface.ViewModel.Filters;
-using Unity;
 using GalaSoft.MvvmLight.Command;
 using DecisionRulesTool.UserInterface.Services;
 

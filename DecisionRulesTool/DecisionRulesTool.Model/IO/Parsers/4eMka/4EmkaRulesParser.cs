@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 namespace DecisionRulesTool.Model.Parsers
 {
     using Model;
-    using NLog;
     using System.Globalization;
 
     public class _4eMkaRulesParser : _4eMkaFileParser<RuleSet>
@@ -23,8 +22,6 @@ namespace DecisionRulesTool.Model.Parsers
 
         public override RuleSet ParseFile(StreamReader fileStream)
         {
-            LogManager.GetCurrentClassLogger().Info("Testowa informacja!");
-
             RuleSet ruleSet = default(RuleSet);
             using (fileStream)
             {

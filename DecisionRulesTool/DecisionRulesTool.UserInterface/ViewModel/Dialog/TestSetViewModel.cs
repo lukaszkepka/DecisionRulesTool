@@ -10,7 +10,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     using DecisionRulesTool.Model.Model;
     using DecisionRulesTool.UserInterface.Model;
     using DecisionRulesTool.UserInterface.Services;
-    using Unity;
 
     public class TestSetViewModel : BaseDialogViewModel
     {

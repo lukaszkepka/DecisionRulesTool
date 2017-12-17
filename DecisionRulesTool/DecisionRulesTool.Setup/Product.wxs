@@ -1,29 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?define FileSource = "D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.UserInterface\bin\Debug\"?>
+<?define FileSource = "D:\DecisionRulesTool\DecisionRulesTool\DecisionRulesTool.UserInterface\bin\Release\"?>
+<?define Resources.4emka.Examples.Rules = "D:\DecisionRulesTool\Resources\Examples\4eMka\Rules\"?>
+<?define Resources.4emka.Examples.Sets = "D:\DecisionRulesTool\Resources\Examples\4eMka\Sets\"?>
+<?define Resources.RSES.Examples.Rules = "D:\DecisionRulesTool\Resources\Examples\RSES\Rules\"?>
+<?define Resources.RSES.Examples.Sets = "D:\DecisionRulesTool\Resources\Examples\RSES\Sets\"?>
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="Decision Rules Tool" Language="1033" Version="1.0.0.0" Manufacturer="Lukasz Kepka" UpgradeCode="382e3d6e-9f51-419b-b2af-d01b9ceb7062">
+  <Product Id="*" Name="Decision Rules Tool" Language="1033" Version="1.0.0.0" Manufacturer="Unknown" UpgradeCode="382e3d6e-9f51-419b-b2af-d01b9ceb7062">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate />
 
-    <Feature Id="ProductFeature" Title="DecisionRulesTool.Setup" Level="1">
+    <UIRef Id="WixUI_Mondo" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+    
+    <Feature Id="ProductFeature" Title="DecisionRulesTool" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="Examples_4eMka" />
+      <ComponentGroupRef Id="Examples_Rses" />
     </Feature>
   </Product>
 
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLFOLDER" Name="DecisionRulesTool.Setup" />
+        <Directory Id="INSTALLFOLDER" Name="DecisionRulesTool">
+          <Directory Id="RESOURCES" Name="Resources">
+            <Directory Id="EXAMPLES" Name="Examples">
+              <Directory Id="EXAMPLES_4eMka" Name="4eMka">
+                <Directory Id="EXAMPLES_4eMka_Rules" Name="Rules">
+                </Directory>
+                <Directory Id="EXAMPLES_4eMka_Sets" Name="Sets">
+                </Directory>
+              </Directory>
+              <Directory Id="EXAMPLES_RSES" Name="Rses">
+                <Directory Id="EXAMPLES_RSES_Rules" Name="Rules">
+                </Directory>
+                <Directory Id="EXAMPLES_RSES_Sets" Name="Sets">
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
       </Directory>
     </Directory>
   </Fragment>
 
   <Fragment>
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-      <Component Id="Files">
-        <File Source="$(var.FileSource)"/>
+      <Component Id="Files" Guid="{E79528F9-FC1B-4A40-A570-B09E85751E6D}">
+        <File Source="$(var.FileSource)ClosedXML.dll"/>
+        <!--<File Source="$(var.FileSource)ClosedXML.pdb"/>-->
+        <!--<File Source="$(var.FileSource)ClosedXML.xml"/>-->
+        <File Source="$(var.FileSource)DecisionRulesTool.UserInterface.exe         "/>
+        <!--<File Source="$(var.FileSource)DecisionRulesTool.UserInterface.exe.config    "/>
+        <File Source="$(var.FileSource)DecisionRulesTool.UserInterface.pdb    "/>-->
+        <File Source="$(var.FileSource)DecisionRulesToolModel.dll          "/>
+        <!--<File Source="$(var.FileSource)DecisionRulesToolModel.dll.config    "/>
+        <File Source="$(var.FileSource)DecisionRulesToolModel.pdb       "/>-->
+        <File Source="$(var.FileSource)DocumentFormat.OpenXml.dll     "/>
+        <!--<File Source="$(var.FileSource)DocumentFormat.OpenXml.xml  "/>-->
+        <File Source="$(var.FileSource)FastMember.Signed.dll   "/>
+        <File Source="$(var.FileSource)GalaSoft.MvvmLight.dll      "/>
+        <File Source="$(var.FileSource)GalaSoft.MvvmLight.Extras.dll    "/>
+        <!--<File Source="$(var.FileSource)GalaSoft.MvvmLight.Extras.pdb  "/>
+        <File Source="$(var.FileSource)GalaSoft.MvvmLight.Extras.xml  "/>-->
+        <!--<File Source="$(var.FileSource)GalaSoft.MvvmLight.pdb     "/>-->
+        <File Source="$(var.FileSource)GalaSoft.MvvmLight.Platform.dll    "/>
+        <!--<File Source="$(var.FileSource)GalaSoft.MvvmLight.Platform.pdb  "/>
+        <File Source="$(var.FileSource)GalaSoft.MvvmLight.Platform.xml "/>
+        <File Source="$(var.FileSource)GalaSoft.MvvmLight.xml  "/>-->
+        <File Source="$(var.FileSource)Microsoft.Expression.Interactions.dll    "/>
+        <!--<File Source="$(var.FileSource)Microsoft.Expression.Interactions.xml   "/>-->
+        <File Source="$(var.FileSource)Microsoft.Practices.ServiceLocation.dll  "/>
+        <!--<File Source="$(var.FileSource)Microsoft.Practices.ServiceLocation.pdb      "/>
+        <File Source="$(var.FileSource)Microsoft.Practices.ServiceLocation.xml  "/>-->
+        <File Source="$(var.FileSource)Microsoft.Win32.Primitives.dll  "/>
+        <File Source="$(var.FileSource)System.AppContext.dll    "/>
+        <File Source="$(var.FileSource)System.Console.dll    "/>
+        <File Source="$(var.FileSource)System.Diagnostics.DiagnosticSource.dll    "/>
+        <!--<File Source="$(var.FileSource)System.Diagnostics.DiagnosticSource.xml "/>-->
+        <File Source="$(var.FileSource)System.Globalization.Calendars.dll  "/>
+        <File Source="$(var.FileSource)System.IO.Compression.dll       "/>
+        <File Source="$(var.FileSource)System.IO.Compression.ZipFile.dll   "/>
+        <File Source="$(var.FileSource)System.IO.FileSystem.dll    "/>
+        <File Source="$(var.FileSource)System.IO.FileSystem.Primitives.dll   "/>
+        <File Source="$(var.FileSource)System.IO.Packaging.dll"/>
+        <File Source="$(var.FileSource)System.Net.Http.dll       "/>
+        <File Source="$(var.FileSource)System.Net.Sockets.dll"/>
+        <File Source="$(var.FileSource)System.Reflection.TypeExtensions.dll   "/>
+        <File Source="$(var.FileSource)System.Runtime.InteropServices.RuntimeInformation.dll"/>
+        <File Source="$(var.FileSource)System.Security.Cryptography.Algorithms.dll   "/>
+        <File Source="$(var.FileSource)System.Security.Cryptography.Encoding.dll   "/>
+        <File Source="$(var.FileSource)System.Security.Cryptography.Primitives.dll   "/>
+        <File Source="$(var.FileSource)System.Security.Cryptography.X509Certificates.dll    "/>
+        <File Source="$(var.FileSource)System.ValueTuple.dll     "/>
+        <!--<File Source="$(var.FileSource)System.ValueTuple.xml   "/>-->
+        <File Source="$(var.FileSource)System.Windows.Interactivity.dll      "/>
+        <File Source="$(var.FileSource)System.Xml.ReaderWriter.dll "/>
+        <File Source="$(var.FileSource)Xceed.Wpf.AvalonDock.dll   "/>
+        <File Source="$(var.FileSource)Xceed.Wpf.AvalonDock.Themes.Aero.dll        "/>
+        <File Source="$(var.FileSource)Xceed.Wpf.AvalonDock.Themes.Metro.dll    "/>
+        <File Source="$(var.FileSource)Xceed.Wpf.AvalonDock.Themes.VS2010.dll   "/>
+        <File Source="$(var.FileSource)Xceed.Wpf.DataGrid.dll        "/>
+        <File Source="$(var.FileSource)Xceed.Wpf.Toolkit.dll      "/>
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="Examples_4eMka">
+      <Component Id="_4eMka_Rules" Directory="EXAMPLES_4eMka_Rules" Guid="{AD4052C3-C116-4917-8149-2B3448ABFF23}">
+        <File Source="$(var.Resources.4emka.Examples.Rules)female_4K.rls"/>   
+      </Component>
+      <Component Id="_4eMka_Sets" Directory="EXAMPLES_4eMka_Sets" Guid="{04D74895-E777-495F-ADBA-3B74D7C8D747}">
+        <File Source="$(var.Resources.4emka.Examples.Sets)FIn.isf"/>
+        <File Source="$(var.Resources.4emka.Examples.Sets)FTst.isf"/>
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="Examples_Rses">
+      <Component Id="Rses_Rules" Directory="EXAMPLES_RSES_Rules" Guid="{81E82EA3-E92F-44E2-A38E-DF4F229958C4}">
+        <File Source="$(var.Resources.RSES.Examples.Rules)male.rul"/>
+        <File Source="$(var.Resources.RSES.Examples.Rules)female.rul"/>
+      </Component>
+      <Component Id="Rses_Sets" Directory="EXAMPLES_RSES_Sets" Guid="{3602F06F-8E17-42B1-8BE2-CB18CCAAF8D1}">
+        <File Source="$(var.Resources.RSES.Examples.Sets)Min.tab"/>
+        <File Source="$(var.Resources.RSES.Examples.Sets)Mts.tab"/>
+        <File Source="$(var.Resources.RSES.Examples.Sets)Fin.tab"/>
+        <File Source="$(var.Resources.RSES.Examples.Sets)Fts.tab"/>
       </Component>
     </ComponentGroup>
   </Fragment>

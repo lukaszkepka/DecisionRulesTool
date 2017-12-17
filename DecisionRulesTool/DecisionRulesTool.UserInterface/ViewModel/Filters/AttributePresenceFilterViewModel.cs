@@ -10,7 +10,6 @@ using DecisionRulesTool.UserInterface.Model;
 using System.Collections.ObjectModel;
 using DecisionRulesTool.Model.Model.Factory;
 using DecisionRulesTool.Model.RuleFilters.Appliers;
-using Unity;
 using DecisionRulesTool.UserInterface.Services;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters

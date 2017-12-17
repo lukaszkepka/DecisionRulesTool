@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
 using DecisionRulesTool.Model.RuleTester;
 using DecisionRulesTool.Model.Comparers;
 using DecisionRulesTool.Model.RuleFilters;

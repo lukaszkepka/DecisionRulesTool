@@ -7,7 +7,6 @@ using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.Model.Model.Factory;
-using Unity;
 using DecisionRulesTool.UserInterface.Services;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters

@@ -1,14 +1,7 @@
 ﻿using DecisionRulesTool.Model.Model;
 using DecisionRulesTool.Model.Model.Factory;
 using DecisionRulesTool.Model.RuleFilters.Appliers;
-using DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters;
 using DecisionRulesTool.UserInterface.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity;
 
 namespace DecisionRulesTool.UserInterface.ViewModel.Filters
 {

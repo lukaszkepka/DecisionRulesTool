@@ -11,7 +11,6 @@ namespace DecisionRulesTool.Model.IO.Parsers._4eMka
 {
     using DecisionRulesTool.Model.Exceptions;
     using Model;
-    using NLog;
 
     public class _4eMkaDataSetParser : _4eMkaFileParser<DataSet>
     {
