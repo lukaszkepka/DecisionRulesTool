@@ -34,7 +34,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
         public int MaxIteration { get; protected set; }
         public int Progress { get; protected set; }
 
-        public BaseTestResultIOViewModel(Model.ApplicationCache applicationCache, Services.ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public BaseTestResultIOViewModel(Model.ApplicationRepository applicationCache, Services.ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
         }
 

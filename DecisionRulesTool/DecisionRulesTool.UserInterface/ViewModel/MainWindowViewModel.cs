@@ -22,7 +22,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public TestResultComparisionViewModel TestResultComparisionViewModel { get; }
 
         public MainWindowViewModel(RuleSetManagerViewModel ruleSetManagerViewModel, TestManagerViewModel testManagerViewModel, TestResultComparisionViewModel testResultComparisionViewModel,
-                                   ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+                                   ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             this.RuleSetManagerViewModel = ruleSetManagerViewModel;
             this.TestManagerViewModel = testManagerViewModel;

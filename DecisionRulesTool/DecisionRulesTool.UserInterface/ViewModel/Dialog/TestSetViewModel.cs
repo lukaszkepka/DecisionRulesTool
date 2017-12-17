@@ -32,7 +32,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         #endregion
 
 
-        public TestSetViewModel(DataSet testSet, ApplicationCache applicationCache, ServicesRepository servicesRepository)
+        public TestSetViewModel(DataSet testSet, ApplicationRepository applicationCache, ServicesRepository servicesRepository)
             : base(applicationCache, servicesRepository)
         {
             this.testSet = testSet;

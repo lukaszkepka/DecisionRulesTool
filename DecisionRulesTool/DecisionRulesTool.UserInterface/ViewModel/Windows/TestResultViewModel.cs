@@ -38,7 +38,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
         #endregion
 
         #region Constructor
-        public TestResultViewModel(TestRequest testRequest, ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public TestResultViewModel(TestRequest testRequest, ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             this.testRequest = testRequest;
             InitializeCommands();

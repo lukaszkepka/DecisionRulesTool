@@ -17,21 +17,21 @@ namespace DecisionRulesTool.UserInterface.ViewModel.MainViewModels
     /// </summary>
     public class ApplicationViewModel : ViewModelBase
     {
-        protected ApplicationCache applicationCache;
+        protected ApplicationRepository applicationRepository;
         protected ServicesRepository servicesRepository;
 
         public ICommand ShowOptions { get; private set; }
 
-        public ApplicationViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository)
+        public ApplicationViewModel(ApplicationRepository applicationCache, ServicesRepository servicesRepository)
         {
             this.servicesRepository = servicesRepository;
-            this.applicationCache = applicationCache;
+            this.applicationRepository = applicationCache;
             ShowOptions = new RelayCommand(OnShowOptions);
         }
 
         private void OnShowOptions()
         {
-            servicesRepository.DialogService.ShowDialog(new ApplicationOptionsViewModel(applicationCache, servicesRepository));
+            servicesRepository.DialogService.ShowDialog(new ApplicationOptionsViewModel(applicationRepository, servicesRepository));
         }
     }
 }

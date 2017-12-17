@@ -21,7 +21,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
         public override string Title => "Decision Rules Tool - Test Result Saving";
         public override string Action => "Saving";
 
-        public TestResultSaverViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public TestResultSaverViewModel(ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
         }
 
@@ -43,7 +43,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
             {
                 IsInProgress = true;
 
-                IEnumerable<TestRequest> testRequestsToSave = applicationCache.TestRequests.Where(x => x.Progress == 100);
+                IEnumerable<TestRequest> testRequestsToSave = applicationRepository.TestRequests.Where(x => x.Progress == 100);
                 MaxIteration = testRequestsToSave.Count();
                 string folderPath = GetFolderPath();
                 int savedFilesCount = 0;
@@ -54,7 +54,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
                     {
                         if (!cancelRequest)
                         {
-                            TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationCache, servicesRepository);
+                            TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationRepository, servicesRepository);
                             await Task.Factory.StartNew(() => testResultViewModel.SaveResultToFile(GetFilePath(folderPath, testRequest)));
                             UpdateProgress(savedFilesCount++, MaxIteration);
                         }

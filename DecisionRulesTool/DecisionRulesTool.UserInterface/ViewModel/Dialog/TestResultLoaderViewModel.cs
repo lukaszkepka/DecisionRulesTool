@@ -26,7 +26,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
         public override string Title => "Decision Rules Tool - Test Result Loading";
         public override string Action => "Loading";
 
-        public TestResultLoaderViewModel(Action<TestRequest, int> testRequestInserter, ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public TestResultLoaderViewModel(Action<TestRequest, int> testRequestInserter, ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             this.testResultLoader = new TestRequestParser();
             this.testRequestInserter = testRequestInserter;

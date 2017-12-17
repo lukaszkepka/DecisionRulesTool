@@ -35,7 +35,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
         public ICommand CalculateResultTable { get; private set; }
         public ICommand SaveToFile { get; private set; }
 
-        public TestResultComparisionViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public TestResultComparisionViewModel(ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             CalculateResultTable = new RelayCommand(OnCalculateResultTable);
             SaveToFile = new RelayCommand(OnSaveToFile);
@@ -84,12 +84,12 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
                 resultTable.Columns.Add(new DataColumn("Conflict Resolving Method", typeof(string)));
                 resultTable.Columns.Add(new DataColumn("Parameter Name", typeof(string)));
 
-                foreach (var testSet in applicationCache.TestSets)
+                foreach (var testSet in applicationRepository.TestSets)
                 {
                     resultTable.Columns.Add(new DataColumn(testSet.Name, typeof(string)));
                 }
 
-                var testRequestGroups = applicationCache.TestRequests.OrderBy(x => x.TestSet.Name)
+                var testRequestGroups = applicationRepository.TestRequests.OrderBy(x => x.TestSet.Name)
                     .GroupBy(x => new GroupedRuleSetResult((RuleSetSubset)x.RuleSet, x.ResolvingMethod), new GroupedRuleSetResultComparer());
 
                 foreach (var testRequestGroup in testRequestGroups)

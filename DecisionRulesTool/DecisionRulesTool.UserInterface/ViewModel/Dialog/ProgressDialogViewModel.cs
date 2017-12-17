@@ -26,7 +26,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
             }
         }
 
-        public ProgressDialogViewModel(IProgressNotifier progressNotifier, ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public ProgressDialogViewModel(IProgressNotifier progressNotifier, ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             this.progressNotifier = progressNotifier;
 

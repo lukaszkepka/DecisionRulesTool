@@ -51,17 +51,17 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             get
             {
-                return applicationCache.RuleSets;
+                return applicationRepository.RuleSets;
             }
             set
             {
-                applicationCache.RuleSets = new ObservableCollection<RuleSetSubset>(value);
+                applicationRepository.RuleSets = new ObservableCollection<RuleSetSubset>(value);
                 RaisePropertyChanged("RuleSets");
             }
         }
         #endregion
 
-        public RuleSetManagerViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository)
+        public RuleSetManagerViewModel(ApplicationRepository applicationCache, ServicesRepository servicesRepository)
             : base(applicationCache, servicesRepository)
         {
             InitializeCommands();
@@ -147,7 +147,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             {
                 if (ruleSet != null)
                 {
-                    var optionsViewModel = new RuleSubsetGenerationViewModel(ruleSet, new RuleSetSubsetViewItemFactory(), applicationCache, servicesRepository);
+                    var optionsViewModel = new RuleSubsetGenerationViewModel(ruleSet, new RuleSetViewModelFactory(), applicationRepository, servicesRepository);
                     if (servicesRepository.DialogService.ShowDialog(optionsViewModel) == true)
                     {
                         IRuleSubsetGenerator ruleSubsetGenerator = optionsViewModel.GetSubsetGenerator();
@@ -186,9 +186,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void OnDeleteRuleSet(RuleSetSubset obj)
         {
-            if (applicationCache.RuleSets.Contains(obj))
+            if (applicationRepository.RuleSets.Contains(obj))
             {
-                applicationCache.RuleSets.Remove(obj);
+                applicationRepository.RuleSets.Remove(obj);
             }
         }
 

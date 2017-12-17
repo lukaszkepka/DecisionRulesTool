@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.UserInterface.Model
 {
-    public class ApplicationCache
+    public class ApplicationRepository
     {
         public ObservableCollection<RuleSetSubset> RuleSets { get; set; }
         public ObservableCollection<DataSet> TestSets { get; set; }

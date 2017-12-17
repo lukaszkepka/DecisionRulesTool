@@ -13,7 +13,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
     public class ApplicationOptionsViewModel : BaseDialogViewModel
     {
         public bool DumpResults { get; set; }
-        public ApplicationOptionsViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public ApplicationOptionsViewModel(ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
         }
 

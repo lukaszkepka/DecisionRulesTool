@@ -31,7 +31,7 @@ namespace DecisionRulesTool.UserInterface
     /// </summary>
     public partial class App : Application
     {
-        protected ApplicationCache InitializeApplicationCache()
+        protected ApplicationRepository InitializeApplicationCache()
         {
             //Rule sets
             var ruleSets = new ThreadSafeObservableCollection<RuleSetSubset>(Enumerable.Empty<RuleSetSubset>());
@@ -81,7 +81,7 @@ namespace DecisionRulesTool.UserInterface
 
 
 
-            return new ApplicationCache()
+            return new ApplicationRepository()
             {
                 RuleSets = ruleSets,
                 TestSets = testSets,

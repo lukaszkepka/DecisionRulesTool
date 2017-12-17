@@ -43,7 +43,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public ICommand ShowSettings { get; private set; }
         #endregion
 
-        public TestRequestGeneratorViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository)
+        public TestRequestGeneratorViewModel(ApplicationRepository applicationCache, ServicesRepository servicesRepository)
             : base(applicationCache, servicesRepository)
         {
             this.SettingsViewModel = new TestRequestGeneratorOptionsViewModel(applicationCache, servicesRepository);
@@ -109,7 +109,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         private void FilterRuleSetsApplicableFor(DataSet testSet)
         {
             this.RuleSets = new ObservableCollection<RuleSetSubset>();
-            foreach (var ruleSet in applicationCache.RuleSets)
+            foreach (var ruleSet in applicationRepository.RuleSets)
             {
                 if (ruleSet.Attributes.SequenceEqual(testSet.Attributes))
                 {

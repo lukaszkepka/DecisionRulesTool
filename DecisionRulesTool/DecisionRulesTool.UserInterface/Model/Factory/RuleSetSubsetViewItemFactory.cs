@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.UserInterface.Model.Factory
 {
-    public class RuleSetSubsetViewItemFactory : IRuleSetSubsetFactory
+    public class RuleSetViewModelFactory : IRuleSetSubsetFactory
     {
         public RuleSetSubset Create(RuleSet ruleSet)
         {

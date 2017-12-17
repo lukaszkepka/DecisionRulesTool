@@ -26,7 +26,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
 
         public ICommand SaveToFile { get; private set; }
 
-        public AlgorithmsToTestSetsResultViewModel(TestRequestGroup testRequestGroup, ApplicationCache applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public AlgorithmsToTestSetsResultViewModel(TestRequestGroup testRequestGroup, ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             this.testRequestGroup = testRequestGroup;
             InitializeCommands();

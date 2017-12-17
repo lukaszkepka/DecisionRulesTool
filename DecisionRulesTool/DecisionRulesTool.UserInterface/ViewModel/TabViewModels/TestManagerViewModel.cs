@@ -62,7 +62,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             get
             {
-                return applicationCache.TestSets;
+                return applicationRepository.TestSets;
             }
         }
 
@@ -73,7 +73,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             get
             {
-                return applicationCache.TestRequests;
+                return applicationRepository.TestRequests;
             }
         }
 
@@ -101,7 +101,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         #endregion
 
         #region Constructors
-        public TestManagerViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository)
+        public TestManagerViewModel(ApplicationRepository applicationCache, ServicesRepository servicesRepository)
             : base(applicationCache, servicesRepository)
         {
             this.ruleTesterProgressNotifier = new ProgressNotifier();
@@ -117,9 +117,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         private void InitializeTestRequestGroups()
         {
             TestRequestGroups = new ObservableCollection<TestRequestGroup>();
-            foreach (DataSet testSet in applicationCache.TestSets)
+            foreach (DataSet testSet in applicationRepository.TestSets)
             {
-                ICollection<TestRequest> testRequests = applicationCache.TestRequests.Where(x => x.TestSet == testSet).ToList();
+                ICollection<TestRequest> testRequests = applicationRepository.TestRequests.Where(x => x.TestSet == testSet).ToList();
                 TestRequestGroups.Add(new TestRequestGroup(testSet, testRequests));
             }
         }
@@ -146,10 +146,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                if (applicationCache.TestRequests.Any())
+                if (applicationRepository.TestRequests.Any())
                 {
-                    int lastSerieNumber = applicationCache.TestRequests.Max(x => x.SeriesNumber);
-                    var testRequestsToDelete = applicationCache.TestRequests.Where(x => x.SeriesNumber == lastSerieNumber);
+                    int lastSerieNumber = applicationRepository.TestRequests.Max(x => x.SeriesNumber);
+                    var testRequestsToDelete = applicationRepository.TestRequests.Where(x => x.SeriesNumber == lastSerieNumber);
                     if (testRequestsToDelete.Any())
                     {
                         DeleteTestRequests(testRequestsToDelete);
@@ -168,11 +168,11 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             try
             {
                 TestRequestGroups.Remove(obj);
-                applicationCache.TestSets.Remove(obj.TestSet);
+                applicationRepository.TestSets.Remove(obj.TestSet);
 
                 foreach (var item in obj.TestRequests)
                 {
-                    applicationCache.TestRequests.Remove(item);
+                    applicationRepository.TestRequests.Remove(item);
                 }
                 UpdateNumericComparisonResultTable();
             }
@@ -186,10 +186,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                if (applicationCache.TestRequests.Any())
+                if (applicationRepository.TestRequests.Any())
                 {
                     int serieNumber = GetTestRequestSerieNumber();
-                    TestResultSaverViewModel testResultSaverViewModel = new TestResultSaverViewModel(applicationCache, servicesRepository);
+                    TestResultSaverViewModel testResultSaverViewModel = new TestResultSaverViewModel(applicationRepository, servicesRepository);
                     testResultSaverViewModel.RunSaving();
                     servicesRepository.DialogService.ShowDialog(testResultSaverViewModel);
                 }
@@ -211,7 +211,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             {
                 int serieNumber = GetTestRequestSerieNumber();
 
-                TestResultLoaderViewModel progressViewModel = new TestResultLoaderViewModel(AddTestRequest, applicationCache, servicesRepository);
+                TestResultLoaderViewModel progressViewModel = new TestResultLoaderViewModel(AddTestRequest, applicationRepository, servicesRepository);
                 progressViewModel.RunLoading(serieNumber);
                 servicesRepository.DialogService.ShowDialog(progressViewModel);
             }
@@ -256,7 +256,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void AddTestSet(DataSet testSet)
         {
-            applicationCache.TestSets.Add(testSet);
+            applicationRepository.TestSets.Add(testSet);
             TestRequestGroups.Add(new TestRequestGroup(testSet, new ObservableCollection<TestRequest>()));
         }
 
@@ -276,7 +276,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 testRequestGroup = TestRequestGroups.FirstOrDefault(x => x.TestSet.Name.Equals(testRequest.TestSet.Name));
             }
 
-            applicationCache.TestRequests.Add(testRequest);
+            applicationRepository.TestRequests.Add(testRequest);
             testRequestGroup.AddTestRequest(testRequest);
             testRequestGroup.RecalculateProgress();
         }
@@ -287,7 +287,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             foreach (var testSet in servicesRepository.DataSetLoaderService.LoadDataSets())
             {
-                if (applicationCache.TestSets.Any(x => x.Name.Equals(testSet.Name)))
+                if (applicationRepository.TestSets.Any(x => x.Name.Equals(testSet.Name)))
                 {
                     servicesRepository.DialogService.ShowInformationMessage($"Test Set with name {testSet.Name} is already loaded");
                 }
@@ -302,7 +302,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                TestSetViewModel testSetDialogViewModel = new TestSetViewModel(testRequestGroup.TestSet, applicationCache, servicesRepository);
+                TestSetViewModel testSetDialogViewModel = new TestSetViewModel(testRequestGroup.TestSet, applicationRepository, servicesRepository);
                 servicesRepository.DialogService.ShowDialog(testSetDialogViewModel);
             }
             catch (Exception ex)
@@ -349,7 +349,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                         if (testRequestGroup.TestRequests.Contains(testRequest))
                         {
                             testRequestGroup.TestRequests.Remove(testRequest);
-                            applicationCache.TestRequests.Remove(testRequest);
+                            applicationRepository.TestRequests.Remove(testRequest);
                         }
                     }
                 }
@@ -410,7 +410,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 }
                 else
                 {
-                    servicesRepository.DialogService.ShowDialog(new AlgorithmsToTestSetsResultViewModel(testRequestGroup, applicationCache, servicesRepository));
+                    servicesRepository.DialogService.ShowDialog(new AlgorithmsToTestSetsResultViewModel(testRequestGroup, applicationRepository, servicesRepository));
                 }
             }
             catch (Exception ex)
@@ -426,7 +426,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationCache, servicesRepository);
+                TestResultViewModel testResultViewModel = new TestResultViewModel(testRequest, applicationRepository, servicesRepository);
                 servicesRepository.WindowNavigatorService.ShowWindow(testResultViewModel);
             }
             catch (Exception ex)
@@ -451,7 +451,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                         }
                         else
                         {
-                            FilteredTestRequests = new ObservableCollection<TestRequest>(servicesRepository.TestRequestService.Filter(SelectedTestRequestGroup.TestSet, applicationCache.TestRequests));
+                            FilteredTestRequests = new ObservableCollection<TestRequest>(servicesRepository.TestRequestService.Filter(SelectedTestRequestGroup.TestSet, applicationRepository.TestRequests));
                         }
                         break;
                     default:

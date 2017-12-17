@@ -19,7 +19,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
     {
         public event EventHandler CloseRequest;
 
-        public BaseWindowViewModel(ApplicationCache applicationCache, ServicesRepository servicesRepository) 
+        public BaseWindowViewModel(ApplicationRepository applicationCache, ServicesRepository servicesRepository) 
             : base(applicationCache, servicesRepository)
         {
         }
