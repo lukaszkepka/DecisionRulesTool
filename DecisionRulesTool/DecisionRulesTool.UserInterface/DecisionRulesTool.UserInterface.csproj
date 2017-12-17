@@ -175,7 +175,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\ApplicationCache.cs" />
+    <Compile Include="Model\ApplicationRepository.cs" />
     <Compile Include="Model\Behaviours\ColumnsBindingBehaviour.cs" />
     <Compile Include="Model\Converters\AttributeModeToStringConverter.cs" />
     <Compile Include="Model\Converters\AttributeToDataGridColumnConverter.cs" />
@@ -185,11 +185,10 @@
     <Compile Include="Model\Converters\FiltersToStringConverter.cs" />
     <Compile Include="Model\Converters\RelationToStringConverter.cs" />
     <Compile Include="Model\Converters\RuleSetConflictResolvingMethodConverter.cs" />
-    <Compile Include="Model\CustomControls\TabControlReorderBehaviour.cs" />
     <Compile Include="Model\DataTemplateSelectors\FilterViewModelTemplateSelector.cs" />
     <Compile Include="Model\Exceptions\IncompatibleTestSetsException.cs" />
     <Compile Include="Model\Factory\RuleSetSubsetViewItemFactory.cs" />
-    <Compile Include="Model\ThreadSafeObservableCollection.cs" />
+    <Compile Include="Utils\ThreadSafeObservableCollection.cs" />
     <Compile Include="Model\Utils\ISelectable.cs" />
     <Compile Include="Model\Utils\SelectableItem.cs" />
     <Compile Include="Model\Utils\SelectableItemExtension.cs" />

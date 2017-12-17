@@ -15,6 +15,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
         public bool DumpResults { get; set; }
         public ApplicationOptionsViewModel(ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
+            DumpResults = servicesRepository.TestManagerViewModel.DumpResults;
         }
 
         public override void OnApply()

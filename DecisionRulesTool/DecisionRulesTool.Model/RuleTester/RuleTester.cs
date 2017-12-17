@@ -89,7 +89,7 @@ namespace DecisionRulesTool.Model.RuleTester
 
         public virtual IEnumerable<TestResult> RunTesting(IEnumerable<TestRequest> testRequests)
         {
-            backupManager.Initialize();
+            backupManager.Initialize(DumpResults);
 
             int completedTestRequestCount = 0;
             int testRequestsCount = testRequests.Count();

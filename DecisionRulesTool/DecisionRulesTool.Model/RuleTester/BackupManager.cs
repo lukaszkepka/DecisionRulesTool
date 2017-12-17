@@ -22,12 +22,15 @@ namespace DecisionRulesTool.Model.RuleTester
             this.resultSaver = resultSaver;
         }
 
-        public void Initialize()
+        public void Initialize(bool dumpResults)
         {
-            backupLocation = Path.Combine(backupDirectory, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
-            if (!Directory.Exists(backupLocation))
+            if (dumpResults)
             {
-                Directory.CreateDirectory(backupLocation);
+                backupLocation = Path.Combine(backupDirectory, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
+                if (!Directory.Exists(backupLocation))
+                {
+                    Directory.CreateDirectory(backupLocation);
+                }
             }
         }
 

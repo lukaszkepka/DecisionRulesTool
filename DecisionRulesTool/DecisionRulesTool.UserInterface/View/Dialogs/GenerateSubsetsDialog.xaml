@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:DecisionRulesTool.UserInterface.View"
-        xmlns:controls="clr-namespace:DecisionRulesTool.UserInterface.Model.CustomControls"
         xmlns:converters="clr-namespace:DecisionRulesTool.UserInterface.Model.Converters"
         xmlns:templateSelectors="clr-namespace:DecisionRulesTool.UserInterface.Model.DataTemplateSelectors"
         xmlns:filtersVM="clr-namespace:DecisionRulesTool.UserInterface.ViewModel.Filters"
@@ -47,7 +46,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <controls:ReorderableTabControl x:Name="RuleFiltersTabControl"
+                <TabControl x:Name="RuleFiltersTabControl"
                     Grid.Column="0" 
                     Grid.ColumnSpan="2" 
                     TabStripPlacement="Top" 
@@ -55,21 +54,21 @@
                     SelectedItem="{Binding SelectedFilterViewModel}"
                     ItemsSource="{Binding Filters}">
 
-                    <controls:ReorderableTabControl.ItemTemplate>
+                    <TabControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Button Content=" &lt; " BorderThickness="0" Background="White" Width="20" 
                                         Visibility="{Binding IsSelected, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource AncestorType=TabItem}}"  
-                                        Command="{Binding DataContext.MoveViewModelLeft, RelativeSource={RelativeSource AncestorType=controls:ReorderableTabControl}}"/>
+                                        Command="{Binding DataContext.MoveViewModelLeft, RelativeSource={RelativeSource AncestorType=TabControl}}"/>
                                 <TextBlock Text="{Binding Name}" Margin="5 0 5 0" />
                                 <Button Content=" &gt; " BorderThickness="0" Background="White" Width="20" 
                                         Visibility="{Binding IsSelected, Converter={StaticResource boolToVisConverter}, RelativeSource={RelativeSource AncestorType=TabItem}}"  
-                                        Command="{Binding DataContext.MoveViewModelRight, RelativeSource={RelativeSource AncestorType=controls:ReorderableTabControl}}"/>
+                                        Command="{Binding DataContext.MoveViewModelRight, RelativeSource={RelativeSource AncestorType=TabControl}}"/>
                             </StackPanel>
                         </DataTemplate>
-                    </controls:ReorderableTabControl.ItemTemplate>
+                    </TabControl.ItemTemplate>
 
-                    <controls:ReorderableTabControl.Resources>
+                    <TabControl.Resources>
                         <DataTemplate DataType="{x:Type filtersVM:LengthFilterViewModel}">
                             <GroupBox Padding="5" HorizontalAlignment="Stretch">
                                 <GroupBox.Header>
@@ -189,15 +188,15 @@
                                 </Grid>
                             </GroupBox>
                         </DataTemplate>
-                    </controls:ReorderableTabControl.Resources>
+                    </TabControl.Resources>
 
-                    <controls:ReorderableTabControl.ContentTemplate>
+                    <TabControl.ContentTemplate>
                         <DataTemplate>
                             <ContentControl Content="{Binding}"/>
                         </DataTemplate>
-                    </controls:ReorderableTabControl.ContentTemplate>
+                    </TabControl.ContentTemplate>
 
-                </controls:ReorderableTabControl>
+                </TabControl>
             </Grid>
 
         </DockPanel>

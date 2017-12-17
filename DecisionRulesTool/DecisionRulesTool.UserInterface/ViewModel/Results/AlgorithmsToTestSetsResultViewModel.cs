@@ -59,49 +59,60 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
             }
         }
 
+        private void AddColumns(IEnumerable<TestRequest> completedTests)
+        {
+            TestRequest exampleTest = completedTests.First();
+
+            foreach (var attribute in exampleTest.TestSet.Attributes)
+            {
+                GroupedTestResultTable.Columns.Add(new DataColumn(attribute.Name, typeof(object)));
+            }
+
+            foreach (var completedTest in completedTests)
+            {
+                GroupedTestResultTable.Columns.Add(new DataColumn($"{completedTest.GetShortenName()}", typeof(string)));
+            }
+
+            GroupedTestResultTable.Columns.Add(new DataColumn($"Result", typeof(string)));
+        }
+
+        private void AddRows(IEnumerable<TestRequest> completedTests)
+        {
+            TestRequest exampleTest = completedTests.First();
+            int rowsCount = exampleTest.TestSet.Objects.Count;
+
+            for (int i = 0; i < rowsCount; i++)
+            {
+                List<object> partlyResults = new List<object>();
+                Object dataObject = exampleTest.TestSet.Objects.ElementAt(i);
+                MajorityVoting majorityVoting = new MajorityVoting(exampleTest.TestSet, exampleTest.RuleSet.DecisionAttribute);
+
+                foreach (var completedTest in completedTests)
+                {
+                    string partlyResult = completedTest.TestResult.ClassificationResults[i];
+                    string partlyDecisionValue = completedTest.TestResult.DecisionValues[i];
+
+                    majorityVoting.AddDecision(dataObject, new Decision(DecisionType.Undefined, null, partlyDecisionValue));
+                    partlyResults.Add(partlyResult);
+                }
+
+                ClassificationResult[] finalClassificationResult = majorityVoting.RunClassification();
+                partlyResults.Add(finalClassificationResult[i].Result);
+
+                object[] finalRow = dataObject.Values.Concat(partlyResults).ToArray();
+                GroupedTestResultTable.Rows.Add(finalRow);
+            }
+        }
+
         public void FillResultDataTable()
         {
             IEnumerable<TestRequest> completedTests = testRequestGroup.TestRequests.Where(x => x.IsCompleted);
 
             GroupedTestResultTable = new DataTable();
             if (completedTests.Any())
-            {
-                TestRequest exampleTest = completedTests.First();
-                int rowsCount = exampleTest.TestSet.Objects.Count;
-
-                foreach (var attribute in exampleTest.TestSet.Attributes)
-                {
-                    GroupedTestResultTable.Columns.Add(new DataColumn(attribute.Name, typeof(object)));
-                }
-
-                foreach (var completedTest in completedTests)
-                {
-                    GroupedTestResultTable.Columns.Add(new DataColumn($"{completedTest.GetShortenName()}", typeof(string)));
-                }
-
-                GroupedTestResultTable.Columns.Add(new DataColumn($"Result", typeof(string)));
-
-                for (int i = 0; i < rowsCount; i++)
-                {
-                    List<object> partlyResults = new List<object>();
-                    Object dataObject = exampleTest.TestSet.Objects.ElementAt(i);
-                    MajorityVoting majorityVoting = new MajorityVoting(exampleTest.TestSet, exampleTest.RuleSet.DecisionAttribute);
-
-                    foreach (var completedTest in completedTests)
-                    {
-                        string partlyResult = completedTest.TestResult.ClassificationResults[i];
-                        string partlyDecisionValue = completedTest.TestResult.DecisionValues[i];
-
-                        majorityVoting.AddDecision(dataObject, new Decision(DecisionType.Undefined, null, partlyDecisionValue));
-                        partlyResults.Add(partlyResult);
-                    }
-
-                    ClassificationResult[] finalClassificationResult = majorityVoting.RunClassification();
-                    partlyResults.Add(finalClassificationResult[i].Result);
-
-                    object[] finalRow = dataObject.Values.Concat(partlyResults).ToArray();
-                    GroupedTestResultTable.Rows.Add(finalRow);
-                }
+            {               
+                AddColumns(completedTests);
+                AddRows(completedTests);
             }
         }
     }
