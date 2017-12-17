@@ -52,7 +52,7 @@
             <TabItem Header="Test Manager">
                 <controls:TestManagerTab DataContext="{Binding TestManagerViewModel, Mode=OneWay}"/>
             </TabItem>
-            <TabItem x:Name="resultViewerTab" Header="Result Viewer" MouseDown="TabItem_MouseDown">
+            <TabItem x:Name="resultViewerTab" Header="Rule Set Ranking" MouseDown="TabItem_MouseDown">
                 <controls:TestResultComparisionTab DataContext="{Binding TestResultComparisionViewModel, Mode=OneWay}"/>
             </TabItem>
         </TabControl>

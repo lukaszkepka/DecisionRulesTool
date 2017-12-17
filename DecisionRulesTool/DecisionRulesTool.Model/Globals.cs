@@ -8,8 +8,8 @@ namespace DecisionRulesTool.Model
 {
     public static class Globals
     {
-        public static string TestFilesDirectory = "../../../../Resources";
-        public static string _4eMkaFilesDirectory = "../../../../Resources/Examples/4eMka";
-        public static string RsesFilesDirectory = "../../../../Resources/Examples/RSES";
+        public static string TestFilesDirectory = "Resources";
+        public static string _4eMkaFilesDirectory = "Resources/Examples/4eMka";
+        public static string RsesFilesDirectory = "Resources/Examples/RSES";
     }
 }

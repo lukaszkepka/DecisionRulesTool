@@ -245,7 +245,7 @@
     <Compile Include="ViewModel\Results\AlgorithmsToTestSetsResultViewModel.cs" />
     <Compile Include="ViewModel\Results\GroupedRuleSetResult.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\RuleSetSubsetViewItem.cs" />
+    <Compile Include="ViewModel\RuleSetViewModel.cs" />
     <Compile Include="ViewModel\TabViewModels\TestResultComparisionViewModel.cs" />
     <Compile Include="ViewModel\TabViewModels\RuleSetManagerViewModel.cs" />
     <Compile Include="Model\TestRequestsAggregate.cs" />
@@ -383,10 +383,12 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <AdditionalFiles Include="..\DecisionRulesTool.Diagrams\DependencyValidation1.layerdiagram">
       <Link>DependencyValidation1.layerdiagram</Link>
@@ -427,6 +429,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>echo D | xcopy /S /Y "..\..\..\..\Resources" "$(TargetDir)Resources"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

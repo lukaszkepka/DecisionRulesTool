@@ -7,32 +7,32 @@ using System.Threading.Tasks;
 
 namespace DecisionRulesTool.Model.Model
 {
-    public class RuleSetSubsetViewItem : RuleSetSubset
+    public class RuleSetViewModel : RuleSetSubset
     {
         public bool IsSelected { get; set; }
 
         public bool IsExpanded { get; set; }
 
 
-        public RuleSetSubsetViewItem(string name) : base(name)
+        public RuleSetViewModel(string name) : base(name)
         {
         }
 
-        public RuleSetSubsetViewItem(RuleSet ruleSet) : base(ruleSet)
+        public RuleSetViewModel(RuleSet ruleSet) : base(ruleSet)
         {
         }
 
-        public RuleSetSubsetViewItem(RuleSetSubset initialRuleSet) : base(initialRuleSet)
+        public RuleSetViewModel(RuleSetSubset initialRuleSet) : base(initialRuleSet)
         {
         }
 
-        public RuleSetSubsetViewItem(RuleSetSubset initialRuleSet, RuleSetSubset rootRuleSet) : base(initialRuleSet, rootRuleSet)
+        public RuleSetViewModel(RuleSetSubset initialRuleSet, RuleSetSubset rootRuleSet) : base(initialRuleSet, rootRuleSet)
         {
         }
 
         public override object Clone()
         {
-            return new RuleSetSubsetViewItem(InitialRuleSet, RootRuleSet)
+            return new RuleSetViewModel(InitialRuleSet, RootRuleSet)
             {
                 Rules = this.Rules,
                 Subsets = this.Subsets,

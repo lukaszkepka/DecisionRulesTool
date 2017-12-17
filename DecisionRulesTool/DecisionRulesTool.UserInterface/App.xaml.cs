@@ -42,11 +42,11 @@ namespace DecisionRulesTool.UserInterface
 #if TEST
             IFileParserFactory<RuleSet> fileParserFactory = new RuleSetParserFactory();
             IFileParser<RuleSet> ruleSetParser = fileParserFactory.Create(BaseFileFormat.FileExtensions.RSESRuleSet);
-            RuleSetSubset ruleSet1 = new RuleSetSubsetViewItem(ruleSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Rules/male.rul"));
-            RuleSetSubset ruleSet2 = new RuleSetSubsetViewItem(ruleSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Rules/female.rul"));
+            RuleSetSubset ruleSet1 = new RuleSetViewModel(ruleSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Rules/male.rul"));
+            RuleSetSubset ruleSet2 = new RuleSetViewModel(ruleSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Rules/female.rul"));
 
             ruleSetParser = fileParserFactory.Create(BaseFileFormat.FileExtensions._4emkaRuleSet);
-            RuleSetSubset ruleSet3 = new RuleSetSubsetViewItem(ruleSetParser.ParseFile($"{Globals._4eMkaFilesDirectory}/Rules/female_4K.rls"));
+            RuleSetSubset ruleSet3 = new RuleSetViewModel(ruleSetParser.ParseFile($"{Globals._4eMkaFilesDirectory}/Rules/female_4K.rls"));
 
             ruleSets.Add(ruleSet1);
             ruleSets.Add(ruleSet2);

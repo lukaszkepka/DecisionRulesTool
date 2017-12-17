@@ -27,7 +27,7 @@ namespace DecisionRulesTool.UserInterface.Services
         {
             WalkSubsetTree(ruleSets, (ruleSet) =>
             {
-                if (ruleSet is RuleSetSubsetViewItem selectableRuleSet)
+                if (ruleSet is RuleSetViewModel selectableRuleSet)
                 {
                     selectableRuleSet.IsSelected = true;
                 }
@@ -38,7 +38,7 @@ namespace DecisionRulesTool.UserInterface.Services
         {
             WalkSubsetTree(ruleSets, (ruleSet) =>
             {
-                if (ruleSet is RuleSetSubsetViewItem selectableRuleSet)
+                if (ruleSet is RuleSetViewModel selectableRuleSet)
                 {
                     if (!ruleSet.Rules.Any())
                     {

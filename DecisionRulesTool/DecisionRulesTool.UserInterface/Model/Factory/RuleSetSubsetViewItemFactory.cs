@@ -12,17 +12,17 @@ namespace DecisionRulesTool.UserInterface.Model.Factory
     {
         public RuleSetSubset Create(RuleSet ruleSet)
         {
-            return new RuleSetSubsetViewItem(ruleSet);
+            return new RuleSetViewModel(ruleSet);
         }
 
         public RuleSetSubset Create(RuleSetSubset initialRuleSet)
         {
-            return new RuleSetSubsetViewItem(initialRuleSet);
+            return new RuleSetViewModel(initialRuleSet);
         }
 
         public RuleSetSubset Create(RuleSetSubset initialRuleSet, RuleSetSubset rootRuleSet)
         {
-            return new RuleSetSubsetViewItem(initialRuleSet, rootRuleSet);
+            return new RuleSetViewModel(initialRuleSet, rootRuleSet);
         }
     }
 }

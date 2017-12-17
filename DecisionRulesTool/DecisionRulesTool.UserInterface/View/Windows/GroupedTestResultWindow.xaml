@@ -12,7 +12,7 @@
         xmlns:filters="clr-namespace:DecisionRulesTool.Model.RuleFilters;assembly=DecisionRulesToolModel"      
         xmlns:model="clr-namespace:DecisionRulesTool.Model.Model;assembly=DecisionRulesToolModel"
         mc:Ignorable="d"
-        Title="Decision Rules Tool - Rule Set Manager" Height="500" Width="800" WindowState="Maximized">
+        Title="Decision Rules Tool" Height="500" Width="800" WindowState="Maximized">
 
     <Window.Resources>
         <ResourceDictionary>

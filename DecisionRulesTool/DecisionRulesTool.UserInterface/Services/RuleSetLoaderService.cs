@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -34,13 +35,18 @@ namespace DecisionRulesTool.UserInterface.Services
             this.fileParserFactory = fileParserFactory;
         }
 
+        private string GetExamplesPath()
+        {
+            return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), Globals.TestFilesDirectory);
+        }
+
         private OpenFileDialogSettings CreateOpenFileDialogOptions()
         {
             return new OpenFileDialogSettings
             {
                 Multiselect = true,
                 Filter = ruleSetsFilter,
-                InitialDirectory = Path.GetFullPath(Globals.RsesFilesDirectory)
+                InitialDirectory = GetExamplesPath()
             };
         }
 

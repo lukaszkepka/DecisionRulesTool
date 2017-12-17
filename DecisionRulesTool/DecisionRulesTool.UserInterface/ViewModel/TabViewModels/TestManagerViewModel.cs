@@ -1,5 +1,4 @@
-﻿using DecisionRulesTool.Model.Model;
-using DecisionRulesTool.UserInterface.Model;
+﻿using DecisionRulesTool.UserInterface.Model;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,30 +6,22 @@ using System.Windows.Input;
 using System;
 using DecisionRulesTool.Model.RuleTester;
 using PropertyChanged;
-using Unity;
 using DecisionRulesTool.UserInterface.Services;
 using GalaSoft.MvvmLight.Command;
 using DecisionRulesTool.UserInterface.ViewModel.MainViewModels;
 using GalaSoft.MvvmLight.Ioc;
 using DecisionRulesTool.UserInterface.Model.Exceptions;
-using DecisionRulesTool.UserInterface.Services.Dialog;
 using System.Data;
-using ClosedXML.Excel;
 using System.Threading.Tasks;
 using DecisionRulesTool.Model.Utils;
 using DecisionRulesTool.Model.Comparers;
 
 namespace DecisionRulesTool.UserInterface.ViewModel
 {
-    using DecisionRulesTool.Model.Exceptions;
     using DecisionRulesTool.Model.Model;
-    using DecisionRulesTool.Model.Parsers;
-    using DecisionRulesTool.Model.RuleTester.Result;
-    using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
     using DecisionRulesTool.UserInterface.ViewModel.Dialog;
     using DecisionRulesTool.UserInterface.ViewModel.Results;
     using DecisionRulesTool.UserInterface.ViewModel.Windows;
-    using System.IO;
 
     [AddINotifyPropertyChangedInterface]
     public class TestManagerViewModel : ApplicationViewModel

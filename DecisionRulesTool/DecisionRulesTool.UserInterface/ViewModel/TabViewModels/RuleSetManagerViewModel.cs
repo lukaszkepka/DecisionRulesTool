@@ -123,7 +123,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             {
                 foreach (var ruleSet in servicesRepository.RuleSetLoaderService.LoadRuleSets())
                 {
-                    RuleSets.Add(new RuleSetSubsetViewItem(ruleSet));
+                    RuleSets.Add(new RuleSetViewModel(ruleSet));
                 }
 
                 if (RuleSets.Any())

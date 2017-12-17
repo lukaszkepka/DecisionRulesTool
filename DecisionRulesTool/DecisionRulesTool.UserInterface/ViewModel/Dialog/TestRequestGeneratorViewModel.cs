@@ -142,7 +142,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             {
                 foreach (var ruleSet in ruleSets)
                 {
-                    if (((RuleSetSubsetViewItem)ruleSet).IsSelected)
+                    if (((RuleSetViewModel)ruleSet).IsSelected)
                     {
                         result.Add(ruleSet);
                     }
