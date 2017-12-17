@@ -87,11 +87,6 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void OnEditFilters()
-        {
-            servicesRepository.DialogService.ShowWarningMessage("Functionality not implemented yet");
-        }
-
         private void OnDeleteSubset()
         {
             try
@@ -186,18 +181,32 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         private void OnDeleteRuleSet(RuleSetSubset obj)
         {
-            if (applicationRepository.RuleSets.Contains(obj))
+            try
             {
-                applicationRepository.RuleSets.Remove(obj);
+                if (applicationRepository.RuleSets.Contains(obj))
+                {
+                    applicationRepository.RuleSets.Remove(obj);
+                }
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage("Fatal error during deleting rule sets");
             }
         }
 
         private void OnDeleteSubsets(RuleSetSubset obj)
         {
-            obj.Subsets.Clear();
-            //TODO: this line is for refresh tree view, change this
-            //      so it will be refreshed without creating new collection
-            RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
+            try
+            {
+                obj.Subsets.Clear();
+                //TODO: this line is for refresh tree view, change this
+                //      so it will be refreshed without creating new collection
+                RuleSets = new ObservableCollection<RuleSetSubset>(RuleSets);
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage("Fatal error during deleting rule sets subsets");
+            }
         }
     }
 }

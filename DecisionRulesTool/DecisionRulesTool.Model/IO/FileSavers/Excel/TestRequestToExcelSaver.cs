@@ -28,10 +28,10 @@ namespace DecisionRulesTool.Model.RuleTester.Result
         public override void Save(TestRequest testRequest, StreamWriter fileStream)
         {
             DataTable testResultDataTable = testResultConverterToDataTableConverter.ConvertClassificationTable(testRequest);
-            DataTable confusionMatrixDataTable = testResultConverterToDataTableConverter.ConvertConfusionMatrix(testRequest);
+            DataTable confusionMatrixDataTable = testResultConverterToDataTableConverter.ConvertConfusionMatrix(testRequest?.TestResult?.ConfusionMatrix);
             DataTable attributesMetaDataTable = CreateAttributtesMetaDataTable(testRequest);
             DataTable metaDataTable = CreateMetaDataTable(testRequest);
-            DataTable summaryDataTable = CreateSummaryDataTable(testRequest);
+            DataTable summaryDataTable = CreateSummaryDataTable(testRequest.TestResult);
 
             XLWorkbook excelFile = CreateExcelWorkBook(testResultDataTable, confusionMatrixDataTable, attributesMetaDataTable, metaDataTable, summaryDataTable);
             excelFile.SaveAs(fileStream.BaseStream);
@@ -55,13 +55,13 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             return attributesMetaDataTable;
         }
 
-        private DataTable CreateSummaryDataTable(TestRequest testRequest)
+        private DataTable CreateSummaryDataTable(TestResult testResult)
         {
             DataTable summaryTable = new DataTable();
             summaryTable.Columns.Add(new DataColumn("Coverage", typeof(decimal)));
             summaryTable.Columns.Add(new DataColumn("Accuracy", typeof(decimal)));
             summaryTable.Columns.Add(new DataColumn("Total Accuracy", typeof(decimal)));
-            summaryTable.Rows.Add(new object[] { testRequest.TestResult.Coverage, testRequest.TestResult.Accuracy, testRequest.TestResult.TotalAccuracy });
+            summaryTable.Rows.Add(new object[] { testResult.Coverage, testResult.Accuracy, testResult.TotalAccuracy });
             return summaryTable;
         }
 
@@ -106,7 +106,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             DataTable confusionMatrixDataTable = ConfusionMatrix;
             DataTable attributesMetaDataTable = CreateAttributtesMetaDataTable(testRequest);
             DataTable metaDataTable = CreateMetaDataTable(testRequest);
-            DataTable summaryDataTable = CreateSummaryDataTable(testRequest);
+            DataTable summaryDataTable = CreateSummaryDataTable(testRequest.TestResult);
 
             XLWorkbook excelFile = CreateExcelWorkBook(testResultDataTable, confusionMatrixDataTable, attributesMetaDataTable, metaDataTable, summaryDataTable);
             excelFile.SaveAs(filePath);

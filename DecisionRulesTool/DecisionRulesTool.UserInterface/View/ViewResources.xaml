@@ -8,6 +8,7 @@
     <converters:RelationToStringConverter  x:Key="relationToStringConverter" />
     <converters:BoolToVisibleOrHidden x:Key="boolToVisConverter"/>
     <converters:DecisionToColorConverter x:Key="decisionToColorConverter"/>
+    <converters:AConverter x:Key="AConverter"/>
     <converters:FiltersToStringConverter x:Key="filtersToStringConverter" />
     <converters:RuleSetConflictResolvingMethodConverter x:Key="ruleSetConflictResolvingMethodConverter"/>
 

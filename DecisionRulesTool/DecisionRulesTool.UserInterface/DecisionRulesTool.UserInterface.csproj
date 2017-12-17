@@ -177,6 +177,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\ApplicationRepository.cs" />
     <Compile Include="Model\Behaviours\ColumnsBindingBehaviour.cs" />
+    <Compile Include="Model\Converters\AConverter.cs" />
     <Compile Include="Model\Converters\AttributeModeToStringConverter.cs" />
     <Compile Include="Model\Converters\AttributeToDataGridColumnConverter.cs" />
     <Compile Include="Model\Converters\BoolToVisibleOrHidden.cs" />

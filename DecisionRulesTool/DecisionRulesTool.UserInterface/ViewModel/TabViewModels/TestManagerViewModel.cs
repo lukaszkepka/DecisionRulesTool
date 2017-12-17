@@ -127,10 +127,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         private void InitializeCommands()
         {
             Run = new RelayCommand(OnRunTesting);
-            //SaveToFile = new RelayCommand(OnSaveToFile);
             ShowGroupedTestResults = new RelayCommand<TestRequestGroup>(OnShowResultsForTestSet);
             ShowTestResults = new RelayCommand<TestRequest>(OnShowSingleTestResult);
-
             UndoLastLoadedTestRequests = new RelayCommand(OnUndoLastLoadedTestRequests);
             SaveAllResults = new RelayCommand(OnSaveAllResults);
             ViewTestSet = new RelayCommand<TestRequestGroup>(OnViewTestSet);
@@ -285,16 +283,23 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public void OnLoadTestSets()
         {
-            foreach (var testSet in servicesRepository.DataSetLoaderService.LoadDataSets())
+            try
             {
-                if (applicationRepository.TestSets.Any(x => x.Name.Equals(testSet.Name)))
+                foreach (var testSet in servicesRepository.DataSetLoaderService.LoadDataSets())
                 {
-                    servicesRepository.DialogService.ShowInformationMessage($"Test Set with name {testSet.Name} is already loaded");
+                    if (applicationRepository.TestSets.Any(x => x.Name.Equals(testSet.Name)))
+                    {
+                        servicesRepository.DialogService.ShowInformationMessage($"Test Set with name {testSet.Name} is already loaded");
+                    }
+                    else
+                    {
+                        AddTestSet(testSet);
+                    }
                 }
-                else
-                {
-                    AddTestSet(testSet);
-                }
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during loading test sets : {ex.Message}");
             }
         }
 
@@ -350,12 +355,25 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                         {
                             testRequestGroup.TestRequests.Remove(testRequest);
                             applicationRepository.TestRequests.Remove(testRequest);
+                            testRequestGroup.RecalculateProgress();
                         }
                     }
                 }
             }
 
             UpdateNumericComparisonResultTable();
+            UpdateTestRequestProgress();
+        }
+
+        private void UpdateTestRequestProgress()
+        {
+            if (TestRequestGroups.Any())
+            {
+                foreach (var testRequestGroup in TestRequestGroups)
+                {
+                    testRequestGroup.RecalculateProgress();
+                }
+            }
         }
 
         private void OnDeleteTestRequest()
@@ -387,13 +405,20 @@ namespace DecisionRulesTool.UserInterface.ViewModel
 
         public void OnRunTesting()
         {
-            IEnumerable<TestRequest> notCompletedTestRequests = GetNotCompletedTestRequests();
-            RuleTesterManager.Clear();
-            RuleTesterManager.AddTestRequests(notCompletedTestRequests);
-
-            if (RuleTesterManager.TestRequests.Any())
+            try
             {
-                RunTestsAsync(RuleTesterManager);
+                IEnumerable<TestRequest> notCompletedTestRequests = GetNotCompletedTestRequests();
+                RuleTesterManager.Clear();
+                RuleTesterManager.AddTestRequests(notCompletedTestRequests);
+
+                if (RuleTesterManager.TestRequests.Any())
+                {
+                    RunTestsAsync(RuleTesterManager);
+                }
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during testing rule sets : {ex.Message}");
             }
         }
 
@@ -410,7 +435,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                 }
                 else
                 {
-                    servicesRepository.DialogService.ShowDialog(new AlgorithmsToTestSetsResultViewModel(testRequestGroup, applicationRepository, servicesRepository));
+                    var a = new AlgorithmsToTestSetsResultViewModel(testRequestGroup, applicationRepository, servicesRepository);
+                    servicesRepository.WindowNavigatorService.ShowWindow(a);
                 }
             }
             catch (Exception ex)

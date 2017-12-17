@@ -8,7 +8,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result.Interfaces
 {
     public interface ITestResultConverter<T>
     {
-        T ConvertConfusionMatrix(TestRequest testResult);
+        T ConvertConfusionMatrix(ConfusionMatrix confusionMatrix);
 
         T ConvertClassificationTable(TestRequest testResult);
     }

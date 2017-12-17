@@ -45,13 +45,11 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             return classificationTable;
         }
 
-        public DataTable ConvertConfusionMatrix(TestRequest testRequest)
+        public DataTable ConvertConfusionMatrix(ConfusionMatrix confusionMatrix)
         {
             DataTable confusionMatrixTable = new DataTable();
-            if (testRequest.TestResult != null)
+            if (confusionMatrix != null)
             {
-                var confusionMatrix = testRequest.TestResult.ConfusionMatrix;
-
                 string[] decisionClasses = confusionMatrix.AvailableValues;
 
                 confusionMatrixTable.Columns.Add(new DataColumn("\\"));

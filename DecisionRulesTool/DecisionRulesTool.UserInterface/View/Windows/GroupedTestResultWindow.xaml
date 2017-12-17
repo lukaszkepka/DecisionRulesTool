@@ -21,46 +21,106 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*" />
+            <RowDefinition Height="1" />
         </Grid.RowDefinitions>
 
         <ToolBar Grid.Row="0">
             <Button Content="Save To Excel" Command="{Binding SaveToFile}" />
+            <Separator></Separator>
+            <TextBlock HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       TextAlignment="Center" 
+                       Text=" Grouped test results for : "/>
+            <TextBlock HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       TextAlignment="Center" 
+                       Text="{Binding TestSetName}"/>
         </ToolBar>
 
-        <ListBox Grid.Row="1"
-                 ItemsSource="{Binding}">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="COLUMN1"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <DataGrid x:Name="G1DataGrid"
-                  Grid.Row="1"
-                  VirtualizingStackPanel.IsVirtualizing="True"
-                  VirtualizingStackPanel.VirtualizationMode="Recycling"
-                  DockPanel.Dock="Top"
-                  ColumnWidth="100"
-                  AutoGenerateColumns="True"                    
-                  CanUserAddRows="False"
-                  ItemsSource="{Binding GroupedTestResultTable}">
+        <TabControl  Grid.Row="1">
+            <TabItem Header="Labels">
+                <DataGrid x:Name="G1DataGrid"
+                          VirtualizingStackPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          VerticalScrollBarVisibility="Visible"
+                          HorizontalScrollBarVisibility="Visible"
+                          DockPanel.Dock="Top"
+                          ColumnWidth="100"
+                          AutoGenerateColumns="True"   
+                          MouseDoubleClick="G1DataGrid_MouseDoubleClick"
+                          CanUserAddRows="False"
+                          ItemsSource="{Binding GroupedTestResultTable}" SelectionChanged="G1DataGrid_SelectionChanged">
 
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="FontWeight" Value="Bold" />
-                    <Setter Property="Background" Value="{Binding ., Mode=OneWay, Converter={StaticResource decisionToColorConverter}}" />
-                </Style>
-            </DataGrid.RowStyle>
-        </DataGrid>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource AConverter}, ConverterParameter={x:Reference Name=G2DataGrid}}" />
+                        </Style>
+                    </DataGrid.CellStyle>
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <!--<Setter Property="Background" Value="{Binding ., Mode=OneWay, Converter={StaticResource decisionToColorConverter}}" />-->
+                        </Style>
+                    </DataGrid.RowStyle>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Confusion Matrix">
+                <controls:ConfusionMatrix DataContext="{Binding}"
+                                          Grid.Row="2"/>
+            </TabItem>
+            <TabItem x:Name="D" Header="Summary">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type ItemsControl}">
+                            <Setter Property="ItemsPanel">
+                                <Setter.Value>
+                                    <ItemsPanelTemplate>
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                        </Grid>
+                                    </ItemsPanelTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <ItemsControl HorizontalAlignment="Left" Width="200">
+                        <TextBlock Grid.Column="0" Text="Coverage : " />
+                        <TextBlock Grid.Column="1" Text="{Binding Coverage, StringFormat={}{0:P2}}"/>
+                    </ItemsControl>
+                    <ItemsControl HorizontalAlignment="Left" Width="200">
+                        <TextBlock Grid.Column="0" Text="Accuracy : "/>
+                        <TextBlock Grid.Column="1" Text="{Binding Accuracy,StringFormat={}{0:P}}"/>
+                    </ItemsControl>
+                    <ItemsControl HorizontalAlignment="Left" Width="200">
+                        <TextBlock Grid.Column="0" Text="TotalAccuracy : "/>
+                        <TextBlock Grid.Column="1" Text="{Binding TotalAccuracy, StringFormat={}{0:P}}"/>
+                    </ItemsControl>
+                </StackPanel>
+
+            </TabItem>
+        </TabControl>
+
+        <TextBlock x:Name="G2DataGrid"
+                  Grid.Row="2"
+                  Visibility="Hidden"
+                  IsEnabled="false"
+                                            VirtualizingStackPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  DataContext="{Binding GroupedTestResultTable}" />
+
+
+
     </Grid>
 </Window>

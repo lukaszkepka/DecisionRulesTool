@@ -1,4 +1,7 @@
-﻿using DecisionRulesTool.Model.RuleTester;
+﻿
+#define TEST
+
+using DecisionRulesTool.Model.RuleTester;
 using DecisionRulesTool.UserInterface.Services;
 using DecisionRulesTool.UserInterface.Services.Interfaces;
 using DecisionRulesTool.UserInterface.ViewModel;
@@ -35,7 +38,7 @@ namespace DecisionRulesTool.UserInterface
         {
             //Rule sets
             var ruleSets = new ThreadSafeObservableCollection<RuleSetSubset>(Enumerable.Empty<RuleSetSubset>());
-#if DEBUG
+#if TEST
             IFileParserFactory<RuleSet> fileParserFactory = new RuleSetParserFactory();
             IFileParser<RuleSet> ruleSetParser = fileParserFactory.Create(BaseFileFormat.FileExtensions.RSESRuleSet);
             RuleSetSubset ruleSet1 = new RuleSetViewModel(ruleSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Rules/male.rul"));
@@ -51,7 +54,7 @@ namespace DecisionRulesTool.UserInterface
 
             //Test sets
             var testSets = new ThreadSafeObservableCollection<DataSet>(Enumerable.Empty<DataSet>());
-#if DEBUG
+#if TEST
             IFileParserFactory<DataSet> fileParserFactory1 = new DataSetParserFactory();
             IFileParser<DataSet> dataSetParser = fileParserFactory1.Create(BaseFileFormat.FileExtensions.RSESDataset);
             DataSet dataSet1 = dataSetParser.ParseFile($"{Globals.RsesFilesDirectory}/Sets/mts.tab");
@@ -69,7 +72,7 @@ namespace DecisionRulesTool.UserInterface
 
             //Test requests
             var testRequests = new ThreadSafeObservableCollection<TestRequest>(Enumerable.Empty<TestRequest>());
-#if DEBUG
+#if TEST
             foreach (ConflictResolvingMethod conflictResolvingMethod in Enum.GetValues(typeof(ConflictResolvingMethod)))
             {
                 testRequests.Add(new TestRequest(ruleSet1, testSets[0], conflictResolvingMethod));

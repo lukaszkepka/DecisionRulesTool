@@ -22,6 +22,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
     public class TestResultViewModel : BaseWindowViewModel
     {
         #region Fields
+        private TestRequestToExcelSaver fileSaver;
         private TestRequest testRequest;
         #endregion
 
@@ -40,6 +41,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
         #region Constructor
         public TestResultViewModel(TestRequest testRequest, ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
+            this.fileSaver = new TestRequestToExcelSaver();
             this.testRequest = testRequest;
             InitializeCommands();
             InitializeSummary();
@@ -77,7 +79,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
         {
             try
             {
-                ConfusionMatrix = servicesRepository.TestResultConverter.ConvertConfusionMatrix(testRequest);
+                ConfusionMatrix = servicesRepository.TestResultConverter.ConvertConfusionMatrix(testRequest?.TestResult?.ConfusionMatrix);
             }
             catch (Exception ex)
             {
@@ -87,8 +89,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
 
         public void SaveResultToFile(string filePath)
         {
-            TestRequestToExcelSaver f = new TestRequestToExcelSaver();
-            f.SaveResultToFile(filePath, ConfusionMatrix, TestResultDataTable, testRequest);
+            fileSaver.SaveResultToFile(filePath, ConfusionMatrix, TestResultDataTable, testRequest);
         }
 
         private void OnSaveToFile()

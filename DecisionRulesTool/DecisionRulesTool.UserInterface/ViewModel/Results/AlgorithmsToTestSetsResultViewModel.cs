@@ -20,17 +20,24 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
     [AddINotifyPropertyChangedInterface]
     public class AlgorithmsToTestSetsResultViewModel : BaseDialogViewModel
     {
+        private ExtendedTestResult testResult;
         private TestRequestGroup testRequestGroup;
 
+        public string TestSetName => testRequestGroup.TestSet.Name;
+        public decimal Coverage { get; private set; }
+        public decimal Accuracy { get; private set; }
+        public decimal TotalAccuracy { get; private set; }
         public DataTable GroupedTestResultTable { get; private set; }
+        public DataTable ConfusionMatrix { get; private set; }
 
         public ICommand SaveToFile { get; private set; }
 
         public AlgorithmsToTestSetsResultViewModel(TestRequestGroup testRequestGroup, ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
+            this.testResult = new ExtendedTestResult();
             this.testRequestGroup = testRequestGroup;
             InitializeCommands();
-            FillResultDataTable();
+            CalculateResultTables();
         }
 
         private void InitializeCommands()
@@ -38,81 +45,174 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
             SaveToFile = new RelayCommand(OnSaveToFile);
         }
 
+        private DataTable GetSummaryDataTable()
+        {
+            DataTable summaryTable = new DataTable();
+            summaryTable.Columns.Add(new DataColumn("Coverage", typeof(decimal)));
+            summaryTable.Columns.Add(new DataColumn("Accuracy", typeof(decimal)));
+            summaryTable.Columns.Add(new DataColumn("Total Accuracy", typeof(decimal)));
+            summaryTable.Rows.Add(new object[] { testResult.Coverage, testResult.Accuracy, testResult.TotalAccuracy });
+            return summaryTable;
+        }
+
         private void OnSaveToFile()
         {
-            if (GroupedTestResultTable.Rows.Count > 0)
+            try
             {
-                SaveFileDialogSettings settings = new SaveFileDialogSettings()
+                if (GroupedTestResultTable != null)
                 {
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    ExtensionFilter = $"Excel(*.xlsx)|*.xlsx"
-                };
+                    SaveFileDialogSettings settings = new SaveFileDialogSettings()
+                    {
+                        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        ExtensionFilter = $"Excel(*.xlsx)|*.xlsx"
+                    };
 
-                string filePath = servicesRepository.DialogService.SaveFileDialog(settings);
-                if (filePath != null)
-                {
-                    //TODO : Remove to test result saver class
-                    XLWorkbook excelWorkbook = new XLWorkbook();
-                    excelWorkbook.Worksheets.Add(GroupedTestResultTable, $"Classification results for {testRequestGroup.TestSet.Name}");
-                    excelWorkbook.SaveAs(filePath);
+                    string filePath = servicesRepository.DialogService.SaveFileDialog(settings);
+                    if (filePath != null)
+                    {
+                        XLWorkbook excelWorkBook = new XLWorkbook();
+                        excelWorkBook.Worksheets.Add(GroupedTestResultTable, "Labels");
+                        excelWorkBook.Worksheets.Add(ConfusionMatrix, "Confusion Matrix");
+                        excelWorkBook.Worksheets.Add(GetSummaryDataTable(), "Summary");
+                        excelWorkBook.SaveAs(filePath);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                servicesRepository.DialogService.ShowErrorMessage($"Fatal error during saving results {ex.Message}");
             }
         }
 
-        private void AddColumns(IEnumerable<TestRequest> completedTests)
+        private void AddColumnsToLabelsTable(IEnumerable<TestRequest> completedTests)
         {
             TestRequest exampleTest = completedTests.First();
 
-            foreach (var attribute in exampleTest.TestSet.Attributes)
-            {
-                GroupedTestResultTable.Columns.Add(new DataColumn(attribute.Name, typeof(object)));
-            }
+            GroupedTestResultTable.Columns.Add(new ExtendedDataColumn("Rule Set", typeof(string)));
+            GroupedTestResultTable.Columns.Add(new ExtendedDataColumn("Filters", typeof(string)));
+            GroupedTestResultTable.Columns.Add(new ExtendedDataColumn("Conflict Resolving Method", typeof(string)));
 
+            int objectIndex = 0;
+            foreach (var objects in exampleTest.TestSet.Objects)
+            {
+                GroupedTestResultTable.Columns.Add(new DataColumn($"Object {objectIndex++}"));
+            }
+        }
+
+        private void AddRowsToLabelsTable(IEnumerable<TestRequest> completedTests, TestRequest exampleTest)
+        {
+            Object[] objects = exampleTest.TestSet.Objects.ToArray();
+
+            MajorityVoting majorityVoting = new MajorityVoting(exampleTest.TestSet, exampleTest.RuleSet.DecisionAttribute);
             foreach (var completedTest in completedTests)
             {
-                GroupedTestResultTable.Columns.Add(new DataColumn($"{completedTest.GetShortenName()}", typeof(string)));
-            }
-
-            GroupedTestResultTable.Columns.Add(new DataColumn($"Result", typeof(string)));
-        }
-
-        private void AddRows(IEnumerable<TestRequest> completedTests)
-        {
-            TestRequest exampleTest = completedTests.First();
-            int rowsCount = exampleTest.TestSet.Objects.Count;
-
-            for (int i = 0; i < rowsCount; i++)
-            {
-                List<object> partlyResults = new List<object>();
-                Object dataObject = exampleTest.TestSet.Objects.ElementAt(i);
-                MajorityVoting majorityVoting = new MajorityVoting(exampleTest.TestSet, exampleTest.RuleSet.DecisionAttribute);
-
-                foreach (var completedTest in completedTests)
+                List<object> rowValues = new List<object>
                 {
-                    string partlyResult = completedTest.TestResult.ClassificationResults[i];
-                    string partlyDecisionValue = completedTest.TestResult.DecisionValues[i];
+                    completedTest.RuleSet.Name,
+                    ((RuleSetSubset)completedTest.RuleSet).FiltersInfo,
+                    completedTest.ResolvingMethod
+                };
+                rowValues.AddRange(completedTest.TestResult.ClassificationResults);
 
-                    majorityVoting.AddDecision(dataObject, new Decision(DecisionType.Undefined, null, partlyDecisionValue));
-                    partlyResults.Add(partlyResult);
+                for (int i = 0; i < objects.Length; i++)
+                {
+                    majorityVoting.AddDecision(objects[i], new Decision(DecisionType.Undefined, null, completedTest.TestResult.DecisionValues[i]));
                 }
 
-                ClassificationResult[] finalClassificationResult = majorityVoting.RunClassification();
-                partlyResults.Add(finalClassificationResult[i].Result);
-
-                object[] finalRow = dataObject.Values.Concat(partlyResults).ToArray();
+                object[] finalRow = rowValues.ToArray();
                 GroupedTestResultTable.Rows.Add(finalRow);
+            }
+
+            testResult._ClassificationResults = majorityVoting.RunClassification();
+
+            List<object> finalResultRowValues = new List<object>
+            {
+                "",
+                "",
+                "Final Result : "
+            };
+
+            finalResultRowValues.AddRange(testResult.ClassificationResults);
+            object[] finalResultRow = finalResultRowValues.ToArray();
+            GroupedTestResultTable.Rows.Add(finalResultRow);
+        }
+
+        public void FillConfusionMatrixTable(TestRequest exampleTestRequest)
+        {
+            testResult.ConfusionMatrix = RuleTester.ComputeConfusionMatrix(testResult._ClassificationResults, exampleTestRequest.TestSet, exampleTestRequest.RuleSet.DecisionAttribute);
+            ConfusionMatrix = servicesRepository.TestResultConverter.ConvertConfusionMatrix(testResult.ConfusionMatrix);
+        }
+
+        public void FillSummary()
+        {
+            Coverage = testResult.Coverage;
+            Accuracy = testResult.Accuracy;
+            TotalAccuracy = testResult.TotalAccuracy;
+        }
+
+        public void FillLabelsTable(IEnumerable<TestRequest> completedTests, TestRequest exampleTest)
+        {
+            GroupedTestResultTable = new DataTable();
+            AddColumnsToLabelsTable(completedTests);
+            AddRowsToLabelsTable(completedTests, exampleTest);
+        }
+
+        public void CalculateResultTables()
+        {
+            IEnumerable<TestRequest> completedTests = testRequestGroup.TestRequests.Where(x => x.IsCompleted);
+            if (completedTests.Any())
+            {
+                TestRequest exampleTest = completedTests.First();
+                FillLabelsTable(completedTests, exampleTest);
+                FillConfusionMatrixTable(exampleTest);
+                FillSummary();
+            }
+        }
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    public class ExtendedDataColumn : DataColumn
+    {
+        public decimal Width { get; set; }
+
+        public ExtendedDataColumn(string columnName, Type dataType) : base(columnName, dataType)
+        {
+            ColumnName = columnName;
+            Width = 30;
+        }
+    }
+
+    public class ExtendedTestResult : TestResult
+    {
+        private ClassificationResult[] _classificationResults;
+        private ConfusionMatrix _confusionMatrix;
+
+        public ClassificationResult[] _ClassificationResults
+        {
+            get
+            {
+                return _classificationResults;
+            }
+            set
+            {
+                _classificationResults = value;
+                this.DecisionValues = _classificationResults.Select(x => x.DecisionValue).ToArray();
+                this.ClassificationResults = _classificationResults.Select(x => x.Result).ToArray();
             }
         }
 
-        public void FillResultDataTable()
+        public override ConfusionMatrix ConfusionMatrix
         {
-            IEnumerable<TestRequest> completedTests = testRequestGroup.TestRequests.Where(x => x.IsCompleted);
-
-            GroupedTestResultTable = new DataTable();
-            if (completedTests.Any())
-            {               
-                AddColumns(completedTests);
-                AddRows(completedTests);
+            get
+            {
+                return _confusionMatrix;
+            }
+            set
+            {
+                _confusionMatrix = value;
+                Coverage = _confusionMatrix.Coverage;
+                Accuracy = _confusionMatrix.Accuary;
+                TotalAccuracy = _confusionMatrix.Coverage * _confusionMatrix.Accuary;
             }
         }
     }

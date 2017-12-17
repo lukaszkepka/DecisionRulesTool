@@ -57,7 +57,7 @@ namespace DecisionRulesTool.Model.RuleTester
             }
         }
 
-        private ConfusionMatrix ComputeConfusionMatrix(ClassificationResult[] decisionValues, DataSet testSet, Attribute decisionAttribute)
+        public static ConfusionMatrix ComputeConfusionMatrix(ClassificationResult[] decisionValues, DataSet testSet, Attribute decisionAttribute)
         {
             int i = 0;
             ConfusionMatrix confusionMatrix = new ConfusionMatrix(decisionAttribute);
