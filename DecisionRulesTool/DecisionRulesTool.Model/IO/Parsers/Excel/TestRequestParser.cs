@@ -11,11 +11,11 @@ namespace DecisionRulesTool.Model.RuleTester.Result
 {
     using DecisionRulesTool.Model.Model;
 
-    public class TestRequestParser : BaseFileParser<TestRequest>
+    public class TestRequestParser : BaseFileParser<TestObject>
     {
         public override string SupportedFormat => BaseFileFormat.FileExtensions.ExcelFile;
 
-        public override TestRequest ParseFile(StreamReader fileStream)
+        public override TestObject ParseFile(StreamReader fileStream)
         {
             XLWorkbook workBook = new XLWorkbook(fileStream.BaseStream);
             return CreateTestRequestFromMetaData(workBook);
@@ -137,7 +137,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             return confusionMatrix;
         }
 
-        public TestRequest CreateTestRequestFromMetaData(XLWorkbook workBook)
+        public TestObject CreateTestRequestFromMetaData(XLWorkbook workBook)
         {
             IXLWorksheet metaDataWorkbook = workBook.Worksheet("MetaData");
             IXLWorksheet confusionMatrixWorksheet = workBook.Worksheet("Confusion Matrix");
@@ -162,7 +162,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
                 DecisionAttribute = decisionAttribute
             };
 
-            TestRequest testRequest = new TestRequest(ruleSet, testSet, (ConflictResolvingMethod)Enum.Parse(typeof(ConflictResolvingMethod), conflictResolvingMethod))
+            TestObject testRequest = new TestObject(ruleSet, testSet, (ConflictResolvingMethod)Enum.Parse(typeof(ConflictResolvingMethod), conflictResolvingMethod))
             {
                 Progress = 100,
                 IsReadOnly = true

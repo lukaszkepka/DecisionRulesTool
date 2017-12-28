@@ -28,7 +28,7 @@ namespace DecisionRulesTool.Model.RuleSubsetGeneration
                 rootRuleSet
             };
 
-            foreach (IRuleFilterApplier seriesFilter in ruleFilters)
+            foreach (IRuleFilterApplier seriesFilter in filterAppliers)
             {
                 //Collection of parent rule setes are copied to actual                 
                 //processed level collection

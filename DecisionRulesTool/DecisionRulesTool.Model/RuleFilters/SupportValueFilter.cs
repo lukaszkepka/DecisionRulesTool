@@ -9,7 +9,7 @@ using DecisionRulesTool.Model.Utils;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
-    public class SupportValueFilter : ValueBasedFilter
+    public class SupportValueFilter : NumberBasedFilter
     {
         /// <summary>
         /// Constructor for support value filter

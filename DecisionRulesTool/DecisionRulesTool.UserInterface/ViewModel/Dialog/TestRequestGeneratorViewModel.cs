@@ -118,16 +118,16 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        public IEnumerable<TestRequest> GenerateTestRequests()
+        public IEnumerable<TestObject> GenerateTestRequests()
         {
-            IList<TestRequest> testRequests = new List<TestRequest>();
+            IList<TestObject> testRequests = new List<TestObject>();
             foreach (DataSet testSet in TestSets)
             {
                 foreach (RuleSet ruleSet in GetSelectedRuleSets())
                 {
                     foreach (ConflictResolvingMethod conflictResolvingMethod in GetSelectedConflictResolvingStrategies())
                     {
-                        testRequests.Add(new TestRequest(ruleSet, testSet, conflictResolvingMethod));
+                        testRequests.Add(new TestObject(ruleSet, testSet, conflictResolvingMethod));
                     }
                 }
             }

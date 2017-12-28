@@ -72,7 +72,7 @@ namespace DecisionRulesTool.Model.RuleTester
             return confusionMatrix;
         }
 
-        private ClassificationResult[] HandleTestRequest(TestRequest testRequest)
+        private ClassificationResult[] HandleTestRequest(TestObject testRequest)
         {
             IDecisionResolverStrategy decisionResolver = decisionResolverFactory.Instantiate(testRequest);
             for (int i = 0; i < testRequest.RuleSet.Rules.Count; i++)
@@ -83,11 +83,11 @@ namespace DecisionRulesTool.Model.RuleTester
                 testRequest.Progress = GetTesterProgress(i, testRequest.RuleSet.Rules.Count);
             }
 
-            testRequest.Progress = TestRequest.MaxProgress;
+            testRequest.Progress = TestObject.MaxProgress;
             return decisionResolver.RunClassification();
         }
 
-        public virtual IEnumerable<TestResult> RunTesting(IEnumerable<TestRequest> testRequests)
+        public virtual IEnumerable<TestResult> RunTesting(IEnumerable<TestObject> testRequests)
         {
             backupManager.Initialize(DumpResults);
 
@@ -97,7 +97,7 @@ namespace DecisionRulesTool.Model.RuleTester
             progressNotifier.OnStart();
 
             IList<TestResult> testResults = new List<TestResult>();
-            foreach (TestRequest testRequest in testRequests)
+            foreach (TestObject testRequest in testRequests)
             {
                 if (testRequest.Progress < 100)
                 {

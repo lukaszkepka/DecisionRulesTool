@@ -11,7 +11,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
 {
     public class TestResultToDataTableConverter : ITestResultConverter<DataTable>
     {
-        public DataTable ConvertClassificationTable(TestRequest testRequest)
+        public DataTable ConvertClassificationTable(TestObject testRequest)
         {
             DataTable classificationTable = new DataTable();
             if (testRequest.TestResult != null)

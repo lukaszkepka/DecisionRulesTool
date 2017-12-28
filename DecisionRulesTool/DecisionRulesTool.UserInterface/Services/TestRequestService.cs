@@ -10,12 +10,12 @@ namespace DecisionRulesTool.UserInterface.Services
 {
     public class TestRequestService : ITestRequestService
     {
-        public ICollection<TestRequest> Filter(DataSet testSet, ICollection<TestRequest> testRequests)
+        public ICollection<TestObject> Filter(DataSet testSet, ICollection<TestObject> testRequests)
         {
             return testRequests.Where(x => x.TestSet.Equals(testSet)).ToList();
         }
 
-        public ICollection<TestRequest> Filter(RuleSet ruleSet, ICollection<TestRequest> testRequests)
+        public ICollection<TestObject> Filter(RuleSet ruleSet, ICollection<TestObject> testRequests)
         {
             return testRequests.Where(x => x.RuleSet.Equals(ruleSet)).ToList();
         }

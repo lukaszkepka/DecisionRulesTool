@@ -116,7 +116,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
             }
         }
 
-        public DataRow CreateDataRow(IGrouping<GroupedRuleSetResult, TestRequest> testRequestGroup, DataTable groupedTestResult, string parameter)
+        public DataRow CreateDataRow(IGrouping<GroupedRuleSetResult, TestObject> testRequestGroup, DataTable groupedTestResult, string parameter)
         {
             object[] values = new object[groupedTestResult.Columns.Count];
             values[0] = testRequestGroup.Key.RuleSet.Name;

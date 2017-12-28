@@ -10,27 +10,27 @@ namespace DecisionRulesTool.Model.RuleFilters.RuleSeriesFilters
 {
     public abstract class BaseRuleSetSubsetGenerator : IRuleSubsetGenerator
     {
-        protected IList<IRuleFilterApplier> ruleFilters;
+        protected IList<IRuleFilterApplier> filterAppliers;
         protected RuleSetSubset rootRuleSet;
 
-        public IEnumerable<IRuleFilterApplier> Filters => ruleFilters;
+        public IEnumerable<IRuleFilterApplier> Filters => filterAppliers;
 
         public BaseRuleSetSubsetGenerator(RuleSetSubset rootRuleSet)
         {
-            ruleFilters = new List<IRuleFilterApplier>();
+            filterAppliers = new List<IRuleFilterApplier>();
             this.rootRuleSet = rootRuleSet;
         }
 
         public void RemoveFilterApplier(int index)
         {
-            ruleFilters.RemoveAt(index);
+            filterAppliers.RemoveAt(index);
         }
 
         public void AddFilterApplier(IRuleFilterApplier ruleFilter)
         {
             if (ruleFilter != null)
             {
-                ruleFilters.Add(ruleFilter);
+                filterAppliers.Add(ruleFilter);
             }
         }
 

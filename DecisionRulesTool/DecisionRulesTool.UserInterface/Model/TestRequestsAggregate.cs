@@ -15,13 +15,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public bool IsSelected { get; set; }
         public DataSet TestSet { get; }
 
-        public ICollection<TestRequest> TestRequests { get; }
+        public ICollection<TestObject> TestRequests { get; }
 
         public int Progress { get; set; }
 
 
 
-        public TestRequestGroup(DataSet testSet, ICollection<TestRequest> testRequests)
+        public TestRequestGroup(DataSet testSet, ICollection<TestObject> testRequests)
         {
             this.TestSet = testSet;
             this.TestRequests = testRequests;
@@ -32,7 +32,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        public void AddTestRequest(TestRequest testRequest)
+        public void AddTestRequest(TestObject testRequest)
         {
             TestRequests.Add(testRequest);
             testRequest.PropertyChanged += Item_PropertyChanged;
@@ -41,9 +41,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         public void RecalculateProgress()
         {
             int progressSum = TestRequests.Sum(x => x.Progress);
-            if (progressSum == TestRequests.Count() * TestRequest.MaxProgress)
+            if (progressSum == TestRequests.Count() * TestObject.MaxProgress)
             {
-                Progress = TestRequest.MaxProgress;
+                Progress = TestObject.MaxProgress;
             }
             else
             {

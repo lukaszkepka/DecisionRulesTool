@@ -54,12 +54,12 @@ namespace DecisionRulesTool.Model.RuleFilters.Appliers
                 for (int j = 0; j < additionalFilterParents.Count; j++)
                 {
                     var parentRuleSubset = additionalFilterParents[j];
-                    var parentFilter = (ValueBasedFilter)parentRuleSubset.Filters.LastOrDefault();
+                    var parentFilter = (NumberBasedFilter)parentRuleSubset.Filters.LastOrDefault();
 
                     //TODO : parentRuleSubset.RootRuleSet is temporary solution, fix it 
                     for (int i = GetLowerBound(parentFilter); i <= GetUpperBound(parentFilter, parentRuleSubset.RootRuleSet); i++)
                     {
-                        ValueBasedFilter filter = InstantiateSingleFilter(i, Relation.Equality);
+                        NumberBasedFilter filter = InstantiateSingleFilter(i, Relation.Equality);
                         var subset = ApplySingleFilter(filter, parentRuleSubset);                   
                         //Mark new subset as parent for next level
                         currentRuleSubsets.Add(subset);
@@ -75,7 +75,7 @@ namespace DecisionRulesTool.Model.RuleFilters.Appliers
             return RelationBetweenRulesLengths != Relation.Equality && GenerateChildFilters;
         }
 
-        public virtual int GetLowerBound(ValueBasedFilter lengthFilter)
+        public virtual int GetLowerBound(NumberBasedFilter lengthFilter)
         {
             switch (RelationBetweenRulesLengths)
             {
@@ -91,8 +91,8 @@ namespace DecisionRulesTool.Model.RuleFilters.Appliers
             }
         }
 
-        public abstract ValueBasedFilter InstantiateSingleFilter(int desiredValue, Relation relation);
+        public abstract NumberBasedFilter InstantiateSingleFilter(int desiredValue, Relation relation);
 
-        public abstract int GetUpperBound(ValueBasedFilter lengthFilter, RuleSet ruleSet);
+        public abstract int GetUpperBound(NumberBasedFilter lengthFilter, RuleSet ruleSet);
     }
 }

@@ -71,7 +71,7 @@ namespace DecisionRulesTool.UserInterface
 #endif
 
             //Test requests
-            var testRequests = new ThreadSafeObservableCollection<TestRequest>(Enumerable.Empty<TestRequest>());
+            var testRequests = new ThreadSafeObservableCollection<TestObject>(Enumerable.Empty<TestObject>());
 #if TEST
             foreach (ConflictResolvingMethod conflictResolvingMethod in Enum.GetValues(typeof(ConflictResolvingMethod)))
             {

@@ -10,7 +10,7 @@ using System.Text;
 namespace DecisionRulesTool.Model.RuleTester
 {
     [AddINotifyPropertyChangedInterface]
-    public class TestRequest : INotifyPropertyChanged
+    public class TestObject : INotifyPropertyChanged
     {
         public const int MaxProgress = 100;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -32,7 +32,7 @@ namespace DecisionRulesTool.Model.RuleTester
 
         public int SeriesNumber { get; set; }
 
-        public TestRequest(RuleSet ruleSet, DataSet testSet, ConflictResolvingMethod resolvingMethod)
+        public TestObject(RuleSet ruleSet, DataSet testSet, ConflictResolvingMethod resolvingMethod)
         {
             RuleSet = ruleSet;
             TestSet = testSet;

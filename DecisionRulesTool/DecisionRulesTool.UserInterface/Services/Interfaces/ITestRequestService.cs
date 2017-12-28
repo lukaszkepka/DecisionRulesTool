@@ -8,7 +8,7 @@ namespace DecisionRulesTool.UserInterface.Services
     using DecisionRulesTool.Model.Model;
     public interface ITestRequestService
     {
-        ICollection<TestRequest> Filter(DataSet testSet, ICollection<TestRequest> testRequests);
-        ICollection<TestRequest> Filter(RuleSet ruleSet, ICollection<TestRequest> testRequests);
+        ICollection<TestObject> Filter(DataSet testSet, ICollection<TestObject> testRequests);
+        ICollection<TestObject> Filter(RuleSet ruleSet, ICollection<TestObject> testRequests);
     }
 }

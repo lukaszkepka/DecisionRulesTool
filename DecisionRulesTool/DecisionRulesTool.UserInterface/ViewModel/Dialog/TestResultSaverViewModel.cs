@@ -32,7 +32,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
             return folderPath;
         }
 
-        public string GetFilePath(string folderPath, TestRequest testRequest)
+        public string GetFilePath(string folderPath, TestObject testRequest)
         {
             return $"{folderPath}\\{testRequest.GetFileName()}";
         }
@@ -43,7 +43,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Dialog
             {
                 IsInProgress = true;
 
-                IEnumerable<TestRequest> testRequestsToSave = applicationRepository.TestRequests.Where(x => x.Progress == 100);
+                IEnumerable<TestObject> testRequestsToSave = applicationRepository.TestRequests.Where(x => x.Progress == 100);
                 MaxIteration = testRequestsToSave.Count();
                 string folderPath = GetFolderPath();
                 int savedFilesCount = 0;

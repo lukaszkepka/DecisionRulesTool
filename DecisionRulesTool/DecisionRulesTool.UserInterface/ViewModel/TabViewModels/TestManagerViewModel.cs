@@ -69,7 +69,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         /// <summary>
         /// Wrapper property for application's cache test request collection
         /// </summary>
-        public IEnumerable<TestRequest> TestRequests
+        public IEnumerable<TestObject> TestRequests
         {
             get
             {
@@ -77,8 +77,8 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        public IEnumerable<TestRequest> FilteredTestRequests { get; private set; }
-        public TestRequest SelectedTestRequest { get; set; }
+        public IEnumerable<TestObject> FilteredTestRequests { get; private set; }
+        public TestObject SelectedTestRequest { get; set; }
         public RuleTesterManager RuleTesterManager { get; private set; }
         public ICollection<TestRequestGroup> TestRequestGroups { get; private set; }
         public TestRequestGroup SelectedTestRequestGroup
@@ -119,7 +119,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             TestRequestGroups = new ObservableCollection<TestRequestGroup>();
             foreach (DataSet testSet in applicationRepository.TestSets)
             {
-                ICollection<TestRequest> testRequests = applicationRepository.TestRequests.Where(x => x.TestSet == testSet).ToList();
+                ICollection<TestObject> testRequests = applicationRepository.TestRequests.Where(x => x.TestSet == testSet).ToList();
                 TestRequestGroups.Add(new TestRequestGroup(testSet, testRequests));
             }
         }
@@ -128,7 +128,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             Run = new RelayCommand(OnRunTesting);
             ShowGroupedTestResults = new RelayCommand<TestRequestGroup>(OnShowResultsForTestSet);
-            ShowTestResults = new RelayCommand<TestRequest>(OnShowSingleTestResult);
+            ShowTestResults = new RelayCommand<TestObject>(OnShowSingleTestResult);
             UndoLastLoadedTestRequests = new RelayCommand(OnUndoLastLoadedTestRequests);
             SaveAllResults = new RelayCommand(OnSaveAllResults);
             ViewTestSet = new RelayCommand<TestRequestGroup>(OnViewTestSet);
@@ -255,10 +255,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         private void AddTestSet(DataSet testSet)
         {
             applicationRepository.TestSets.Add(testSet);
-            TestRequestGroups.Add(new TestRequestGroup(testSet, new ObservableCollection<TestRequest>()));
+            TestRequestGroups.Add(new TestRequestGroup(testSet, new ObservableCollection<TestObject>()));
         }
 
-        private void AddTestRequest(TestRequest testRequest, int serieNumber)
+        private void AddTestRequest(TestObject testRequest, int serieNumber)
         {
             testRequest.SeriesNumber = serieNumber;
 
@@ -342,7 +342,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private void DeleteTestRequests(IEnumerable<TestRequest> testRequestsToDelete)
+        private void DeleteTestRequests(IEnumerable<TestObject> testRequestsToDelete)
         {
             foreach (var testRequest in testRequestsToDelete.ToList())
             {
@@ -407,7 +407,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                IEnumerable<TestRequest> notCompletedTestRequests = GetNotCompletedTestRequests();
+                IEnumerable<TestObject> notCompletedTestRequests = GetNotCompletedTestRequests();
                 RuleTesterManager.Clear();
                 RuleTesterManager.AddTestRequests(notCompletedTestRequests);
 
@@ -448,7 +448,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         /// <summary>
         /// Opens window with classification results for single test request
         /// </summary>
-        private void OnShowSingleTestResult(TestRequest testRequest)
+        private void OnShowSingleTestResult(TestObject testRequest)
         {
             try
             {
@@ -477,7 +477,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
                         }
                         else
                         {
-                            FilteredTestRequests = new ObservableCollection<TestRequest>(servicesRepository.TestRequestService.Filter(SelectedTestRequestGroup.TestSet, applicationRepository.TestRequests));
+                            FilteredTestRequests = new ObservableCollection<TestObject>(servicesRepository.TestRequestService.Filter(SelectedTestRequestGroup.TestSet, applicationRepository.TestRequests));
                         }
                         break;
                     default:
@@ -490,7 +490,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel
             }
         }
 
-        private IEnumerable<TestRequest> GetNotCompletedTestRequests()
+        private IEnumerable<TestObject> GetNotCompletedTestRequests()
         {
             return TestRequestGroups.SelectMany(x => x.TestRequests).Where(x => x.Progress < 100 && x.IsReadOnly == false);
         }

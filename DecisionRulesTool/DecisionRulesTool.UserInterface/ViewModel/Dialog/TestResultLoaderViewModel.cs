@@ -20,13 +20,13 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
     [AddINotifyPropertyChangedInterface]
     public class TestResultLoaderViewModel : BaseTestResultIOViewModel
     {
-        protected IFileParser<TestRequest> testResultLoader;
-        protected Action<TestRequest, int> testRequestInserter;
+        protected IFileParser<TestObject> testResultLoader;
+        protected Action<TestObject, int> testRequestInserter;
 
         public override string Title => "Decision Rules Tool - Test Result Loading";
         public override string Action => "Loading";
 
-        public TestResultLoaderViewModel(Action<TestRequest, int> testRequestInserter, ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public TestResultLoaderViewModel(Action<TestObject, int> testRequestInserter, ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             this.testResultLoader = new TestRequestParser();
             this.testRequestInserter = testRequestInserter;
@@ -52,7 +52,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
             {
                 try
                 {
-                    TestRequest testRequest = await Task.Factory.StartNew(() => testResultLoader.ParseFile(filePaths[i]));
+                    TestObject testRequest = await Task.Factory.StartNew(() => testResultLoader.ParseFile(filePaths[i]));
                     testRequestInserter.Invoke(testRequest, serieNumber);
                     UpdateProgress(i, MaxIteration);
                 }

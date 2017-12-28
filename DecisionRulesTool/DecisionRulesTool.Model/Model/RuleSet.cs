@@ -11,7 +11,6 @@ namespace DecisionRulesTool.Model.Model
     [AddINotifyPropertyChangedInterface]
     public class RuleSet : ICloneable
     {
-
         public virtual string Name { get; set; }
         public string FileExtension { get; set; }
         public Attribute DecisionAttribute { get; set; }

@@ -13,11 +13,11 @@ namespace DecisionRulesTool.Model.RuleTester
     public class BackupManager
     {
         private readonly string backupDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Backup");
-        private readonly IFileSaver<TestRequest> resultSaver;
+        private readonly IFileSaver<TestObject> resultSaver;
 
         private string backupLocation;
 
-        public BackupManager(IFileSaver<TestRequest> resultSaver)
+        public BackupManager(IFileSaver<TestObject> resultSaver)
         {
             this.resultSaver = resultSaver;
         }
@@ -34,7 +34,7 @@ namespace DecisionRulesTool.Model.RuleTester
             }
         }
 
-        public void Backup(TestRequest testRequest)
+        public void Backup(TestObject testRequest)
         {
             try
             {

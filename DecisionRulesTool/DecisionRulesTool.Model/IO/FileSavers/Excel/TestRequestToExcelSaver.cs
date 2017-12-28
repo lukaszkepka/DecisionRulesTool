@@ -14,7 +14,7 @@ using DecisionRulesTool.Model.RuleTester.Result.Interfaces;
 
 namespace DecisionRulesTool.Model.RuleTester.Result
 {
-    public class TestRequestToExcelSaver : BaseFileSaver<TestRequest>
+    public class TestRequestToExcelSaver : BaseFileSaver<TestObject>
     {
         private _FiltersToStringConverter filtersToStringConverter;
         private ITestResultConverter<DataTable> testResultConverterToDataTableConverter;
@@ -25,7 +25,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             filtersToStringConverter = new _FiltersToStringConverter();
         }
 
-        public override void Save(TestRequest testRequest, StreamWriter fileStream)
+        public override void Save(TestObject testRequest, StreamWriter fileStream)
         {
             DataTable testResultDataTable = testResultConverterToDataTableConverter.ConvertClassificationTable(testRequest);
             DataTable confusionMatrixDataTable = testResultConverterToDataTableConverter.ConvertConfusionMatrix(testRequest?.TestResult?.ConfusionMatrix);
@@ -37,7 +37,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             excelFile.SaveAs(fileStream.BaseStream);
         }
 
-        private DataTable CreateAttributtesMetaDataTable(TestRequest testRequest)
+        private DataTable CreateAttributtesMetaDataTable(TestObject testRequest)
         {
             DataTable attributesMetaDataTable = new DataTable();
             attributesMetaDataTable.Columns.Add(new DataColumn("Column Name", typeof(string)));
@@ -65,7 +65,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             return summaryTable;
         }
 
-        private DataTable CreateMetaDataTable(TestRequest testRequest)
+        private DataTable CreateMetaDataTable(TestObject testRequest)
         {
             DataTable metaData = new DataTable();
             metaData.Columns.Add(new DataColumn("Test Set", typeof(string)));
@@ -100,7 +100,7 @@ namespace DecisionRulesTool.Model.RuleTester.Result
             return excelWorkBook;
         }
 
-        public void SaveResultToFile(string filePath, DataTable ConfusionMatrix, DataTable TestResultDataTable, TestRequest testRequest)
+        public void SaveResultToFile(string filePath, DataTable ConfusionMatrix, DataTable TestResultDataTable, TestObject testRequest)
         {
             DataTable testResultDataTable = TestResultDataTable;
             DataTable confusionMatrixDataTable = ConfusionMatrix;

@@ -84,9 +84,9 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
             }
         }
 
-        private void AddColumnsToLabelsTable(IEnumerable<TestRequest> completedTests)
+        private void AddColumnsToLabelsTable(IEnumerable<TestObject> completedTests)
         {
-            TestRequest exampleTest = completedTests.First();
+            TestObject exampleTest = completedTests.First();
 
             GroupedTestResultTable.Columns.Add(new ExtendedDataColumn("Rule Set", typeof(string)));
             GroupedTestResultTable.Columns.Add(new ExtendedDataColumn("Filters", typeof(string)));
@@ -99,7 +99,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
             }
         }
 
-        private void AddRowsToLabelsTable(IEnumerable<TestRequest> completedTests, TestRequest exampleTest)
+        private void AddRowsToLabelsTable(IEnumerable<TestObject> completedTests, TestObject exampleTest)
         {
             Object[] objects = exampleTest.TestSet.Objects.ToArray();
 
@@ -137,7 +137,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
             GroupedTestResultTable.Rows.Add(finalResultRow);
         }
 
-        public void FillConfusionMatrixTable(TestRequest exampleTestRequest)
+        public void FillConfusionMatrixTable(TestObject exampleTestRequest)
         {
             testResult.ConfusionMatrix = RuleTester.ComputeConfusionMatrix(testResult._ClassificationResults, exampleTestRequest.TestSet, exampleTestRequest.RuleSet.DecisionAttribute);
             ConfusionMatrix = servicesRepository.TestResultConverter.ConvertConfusionMatrix(testResult.ConfusionMatrix);
@@ -150,7 +150,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
             TotalAccuracy = testResult.TotalAccuracy;
         }
 
-        public void FillLabelsTable(IEnumerable<TestRequest> completedTests, TestRequest exampleTest)
+        public void FillLabelsTable(IEnumerable<TestObject> completedTests, TestObject exampleTest)
         {
             GroupedTestResultTable = new DataTable();
             AddColumnsToLabelsTable(completedTests);
@@ -159,10 +159,10 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Results
 
         public void CalculateResultTables()
         {
-            IEnumerable<TestRequest> completedTests = testRequestGroup.TestRequests.Where(x => x.IsCompleted);
+            IEnumerable<TestObject> completedTests = testRequestGroup.TestRequests.Where(x => x.IsCompleted);
             if (completedTests.Any())
             {
-                TestRequest exampleTest = completedTests.First();
+                TestObject exampleTest = completedTests.First();
                 FillLabelsTable(completedTests, exampleTest);
                 FillConfusionMatrixTable(exampleTest);
                 FillSummary();

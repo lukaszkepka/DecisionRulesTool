@@ -45,7 +45,7 @@ namespace DecisionRulesTool.Model.RuleSubsetGeneration
                 rootRuleSet
             };
 
-            foreach (IRuleFilterApplier seriesFilter in ruleFilters)
+            foreach (IRuleFilterApplier seriesFilter in filterAppliers)
             {
                 InnerFuncton(rootRuleSet, seriesFilter);
             }

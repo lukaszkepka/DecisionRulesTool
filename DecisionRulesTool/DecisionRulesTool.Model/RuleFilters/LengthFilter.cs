@@ -9,7 +9,7 @@ using DecisionRulesTool.Model.Utils;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
-    public class LengthFilter : ValueBasedFilter
+    public class LengthFilter : NumberBasedFilter
     {
         /// <summary>
         /// Constructor for length filter

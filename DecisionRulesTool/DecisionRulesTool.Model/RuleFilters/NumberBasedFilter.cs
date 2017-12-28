@@ -8,13 +8,13 @@ using DecisionRulesTool.Model.Comparers;
 
 namespace DecisionRulesTool.Model.RuleFilters
 {
-    public abstract class ValueBasedFilter : IRuleFilter
+    public abstract class NumberBasedFilter : IRuleFilter
     {
         protected Relation Relation { get; }
         protected IAttributeValuesComparer RuleAttributeComparer { get; }
         public int DesiredValue { get; }
 
-        public ValueBasedFilter(Relation relation, int desiredLength, IAttributeValuesComparer ruleLengthComparer = null)
+        public NumberBasedFilter(Relation relation, int desiredLength, IAttributeValuesComparer ruleLengthComparer = null)
         {
             this.Relation = relation;
             this.DesiredValue = desiredLength;

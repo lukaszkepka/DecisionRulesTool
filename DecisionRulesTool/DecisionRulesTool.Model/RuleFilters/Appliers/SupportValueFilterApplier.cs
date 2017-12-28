@@ -15,7 +15,7 @@ namespace DecisionRulesTool.Model.RuleFilters.Appliers
         {
         }
 
-        public override int GetUpperBound(ValueBasedFilter lengthFilter, RuleSet ruleSet)
+        public override int GetUpperBound(NumberBasedFilter lengthFilter, RuleSet ruleSet)
         {
             switch (RelationBetweenRulesLengths)
             {
@@ -31,7 +31,7 @@ namespace DecisionRulesTool.Model.RuleFilters.Appliers
             }
         }
 
-        public override ValueBasedFilter InstantiateSingleFilter(int desiredValue, Relation relation)
+        public override NumberBasedFilter InstantiateSingleFilter(int desiredValue, Relation relation)
         {
             return new SupportValueFilter(relation, desiredValue);
         }

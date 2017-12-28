@@ -13,6 +13,6 @@ namespace DecisionRulesTool.UserInterface.Model
     {
         public ObservableCollection<RuleSetSubset> RuleSets { get; set; }
         public ObservableCollection<DataSet> TestSets { get; set; }
-        public ObservableCollection<TestRequest> TestRequests { get; set; }
+        public ObservableCollection<TestObject> TestRequests { get; set; }
     }
 }

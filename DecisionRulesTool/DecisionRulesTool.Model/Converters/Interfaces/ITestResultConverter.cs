@@ -10,6 +10,6 @@ namespace DecisionRulesTool.Model.RuleTester.Result.Interfaces
     {
         T ConvertConfusionMatrix(ConfusionMatrix confusionMatrix);
 
-        T ConvertClassificationTable(TestRequest testResult);
+        T ConvertClassificationTable(TestObject testResult);
     }
 }

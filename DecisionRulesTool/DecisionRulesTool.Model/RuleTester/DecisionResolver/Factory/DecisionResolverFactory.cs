@@ -9,7 +9,7 @@ namespace DecisionRulesTool.Model.RuleTester
 {
     public class DecisionResolverFactory
     {
-        public virtual IDecisionResolverStrategy Instantiate(TestRequest testRequest)
+        public virtual IDecisionResolverStrategy Instantiate(TestObject testRequest)
         {
             switch (testRequest.ResolvingMethod)
             {

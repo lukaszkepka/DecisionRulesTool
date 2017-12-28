@@ -23,7 +23,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
     {
         #region Fields
         private TestRequestToExcelSaver fileSaver;
-        private TestRequest testRequest;
+        private TestObject testRequest;
         #endregion
 
         #region Properties
@@ -39,7 +39,7 @@ namespace DecisionRulesTool.UserInterface.ViewModel.Windows
         #endregion
 
         #region Constructor
-        public TestResultViewModel(TestRequest testRequest, ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
+        public TestResultViewModel(TestObject testRequest, ApplicationRepository applicationCache, ServicesRepository servicesRepository) : base(applicationCache, servicesRepository)
         {
             this.fileSaver = new TestRequestToExcelSaver();
             this.testRequest = testRequest;

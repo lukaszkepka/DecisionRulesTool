@@ -47,7 +47,7 @@ namespace DecisionRulesTool.UserInterface.View.Controls
         private void ItemsControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             dynamic context = DataContext;
-            if(((dynamic)e.Source).DataContext is TestRequest testRequest)
+            if(((dynamic)e.Source).DataContext is TestObject testRequest)
             {
                 context.ShowTestResults.Execute(testRequest);
             }
@@ -112,7 +112,7 @@ namespace DecisionRulesTool.UserInterface.View.Controls
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
             dynamic context = DataContext;
-            if (((dynamic)e.Source).DataContext is TestRequest testRequestGroup)
+            if (((dynamic)e.Source).DataContext is TestObject testRequestGroup)
             {
                 context.DeleteTestRequest.Execute(null);
             }

@@ -15,8 +15,8 @@ namespace DecisionRulesTool.Model.RuleTester
     [AddINotifyPropertyChangedInterface]
     public class RuleTesterManager
     {
-        private IList<TestRequest> testRequests;
-        public virtual IEnumerable<TestRequest> TestRequests
+        private IList<TestObject> testRequests;
+        public virtual IEnumerable<TestObject> TestRequests
         {
             get
             {
@@ -26,22 +26,22 @@ namespace DecisionRulesTool.Model.RuleTester
 
         public RuleTesterManager()
         {
-            testRequests = new List<TestRequest>();
+            testRequests = new List<TestObject>();
         }
 
-        public RuleTesterManager(IEnumerable<TestRequest> testRequests)
+        public RuleTesterManager(IEnumerable<TestObject> testRequests)
         {
             this.testRequests = testRequests.ToList();
         }
 
-        public virtual IEnumerable<TestRequest> GenerateTests(DataSet testSet, IEnumerable<RuleSet> ruleSets, IEnumerable<ConflictResolvingMethod> conflictResolvingMethods)
+        public virtual IEnumerable<TestObject> GenerateTests(DataSet testSet, IEnumerable<RuleSet> ruleSets, IEnumerable<ConflictResolvingMethod> conflictResolvingMethods)
         {
-            IList<TestRequest> testRequests = new List<TestRequest>();
+            IList<TestObject> testRequests = new List<TestObject>();
             foreach (RuleSet ruleSet in ruleSets)
             {
                 foreach (ConflictResolvingMethod conflictResolvingMethod in conflictResolvingMethods)
                 {
-                    testRequests.Add(new TestRequest(ruleSet, testSet, conflictResolvingMethod));
+                    testRequests.Add(new TestObject(ruleSet, testSet, conflictResolvingMethod));
                 }
             }
             return testRequests;
@@ -52,12 +52,12 @@ namespace DecisionRulesTool.Model.RuleTester
             return testingStrategy.RunTesting(testRequests);
         }
 
-        public virtual void AddTestRequest(TestRequest testRequest)
+        public virtual void AddTestRequest(TestObject testRequest)
         {
             testRequests.Add(testRequest);
         }
 
-        public virtual void AddTestRequests(IEnumerable<TestRequest> testRequests)
+        public virtual void AddTestRequests(IEnumerable<TestObject> testRequests)
         {
             foreach (var testRequest in testRequests)
             {
