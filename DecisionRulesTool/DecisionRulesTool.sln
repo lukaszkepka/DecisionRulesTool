@@ -13,7 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecisionRulesTool.Tests", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1E3FE3D7-9B34-466B-A994-C32BB79B0400}"
 	ProjectSection(SolutionItems) = preProject
-		..\Resources\DecisionRulesTool.Plan.docx = ..\Resources\DecisionRulesTool.Plan.docx
 		..\Resources\M. Sikora WYBRANE_METODY_OCENY_I_PRZYCINANIA_REGUŁ_DEDYZYJNYCH.pdf = ..\Resources\M. Sikora WYBRANE_METODY_OCENY_I_PRZYCINANIA_REGUŁ_DEDYZYJNYCH.pdf
 		..\Resources\RSES_MANUAL.pdf = ..\Resources\RSES_MANUAL.pdf
 	EndProjectSection

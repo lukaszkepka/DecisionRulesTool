@@ -15,23 +15,23 @@ namespace DecisionRulesTool.Model.RuleTester
     [AddINotifyPropertyChangedInterface]
     public class RuleTesterManager
     {
-        private IList<TestObject> testRequests;
+        private IList<TestObject> testObjects;
         public virtual IEnumerable<TestObject> TestRequests
         {
             get
             {
-                return testRequests;
+                return testObjects;
             }
         }
 
         public RuleTesterManager()
         {
-            testRequests = new List<TestObject>();
+            testObjects = new List<TestObject>();
         }
 
         public RuleTesterManager(IEnumerable<TestObject> testRequests)
         {
-            this.testRequests = testRequests.ToList();
+            this.testObjects = testRequests.ToList();
         }
 
         public virtual IEnumerable<TestObject> GenerateTests(DataSet testSet, IEnumerable<RuleSet> ruleSets, IEnumerable<ConflictResolvingMethod> conflictResolvingMethods)
@@ -49,30 +49,30 @@ namespace DecisionRulesTool.Model.RuleTester
 
         public virtual IEnumerable<TestResult> RunTesting(IRuleTester testingStrategy)
         {
-            return testingStrategy.RunTesting(testRequests);
+            return testingStrategy.RunTesting(testObjects);
         }
 
-        public virtual void AddTestRequest(TestObject testRequest)
+        public virtual void AddTestObject(TestObject testRequest)
         {
-            testRequests.Add(testRequest);
+            testObjects.Add(testRequest);
         }
 
         public virtual void AddTestRequests(IEnumerable<TestObject> testRequests)
         {
             foreach (var testRequest in testRequests)
             {
-                AddTestRequest(testRequest);
+                AddTestObject(testRequest);
             }
         }
 
         public virtual void DeleteTestRequest(int index)
         {
-            testRequests.RemoveAt(index);
+            testObjects.RemoveAt(index);
         }
 
         public virtual void Clear()
         {
-            testRequests.Clear();
+            testObjects.Clear();
         }
     }
 }

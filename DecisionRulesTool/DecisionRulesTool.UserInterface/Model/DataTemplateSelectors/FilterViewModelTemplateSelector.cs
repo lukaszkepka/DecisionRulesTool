@@ -28,7 +28,6 @@ namespace DecisionRulesTool.UserInterface.Model.DataTemplateSelectors
                     return AttributePresenceViewModelTemplate;
                 default:
                     return base.SelectTemplate(item, container);
-
             }
         }
     }

@@ -168,6 +168,7 @@ namespace DecisionRulesTool.Tests.Acceptance
             IFileParser<RuleSet> _4eMkaFileParser = new _4eMkaRulesParser();
 
             string fileContent =
+            "#\n\n" +
             "**ATTRIBUTES\n" +
             "+ MaxSpeed: (continuous)\n" +
             "+ ComprPressure: (continuous)\n" +

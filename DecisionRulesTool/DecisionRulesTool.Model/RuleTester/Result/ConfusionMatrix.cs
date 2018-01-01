@@ -66,13 +66,19 @@ namespace DecisionRulesTool.Model.RuleTester
         {
             get
             {
+                int u = 0;
                 int truePositivesNegativesCount = 0;
                 int i = 0;
                 foreach (var realDecisionRow in decisionClassRows)
                 {
+                    u += realDecisionRow[ClassificationResult.NoCoverage];
                     truePositivesNegativesCount += realDecisionRow[i++];
                 }
-                return (decimal)(truePositivesNegativesCount) / globalCount;
+
+
+                int y = globalCount - u;
+
+                return y == 0 ? 0 : (decimal)(truePositivesNegativesCount) / y;
             }
         }
 

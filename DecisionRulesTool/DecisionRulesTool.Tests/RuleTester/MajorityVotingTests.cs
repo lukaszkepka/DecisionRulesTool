@@ -35,7 +35,7 @@ namespace DecisionRulesTool.Tests.RuleTester
 
             foreach (var item in testRequests)
             {
-                ruleTesterManager.AddTestRequest(item);
+                ruleTesterManager.AddTestObject(item);
             }
 
             var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
@@ -57,7 +57,7 @@ namespace DecisionRulesTool.Tests.RuleTester
 
             foreach (var item in testRequests)
             {
-                ruleTesterManager.AddTestRequest(item);
+                ruleTesterManager.AddTestObject(item);
             }
 
             var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
@@ -79,7 +79,7 @@ namespace DecisionRulesTool.Tests.RuleTester
 
             foreach (var item in testRequests)
             {
-                ruleTesterManager.AddTestRequest(item);
+                ruleTesterManager.AddTestObject(item);
             }
 
             var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));
@@ -101,7 +101,7 @@ namespace DecisionRulesTool.Tests.RuleTester
 
             foreach (var item in testRequests)
             {
-                ruleTesterManager.AddTestRequest(item);
+                ruleTesterManager.AddTestObject(item);
             }
 
             var testResults = ruleTesterManager.RunTesting(new RuleTester(new ConditionChecker(), progressNotifier));

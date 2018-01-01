@@ -22,6 +22,7 @@ namespace DecisionRulesTool.Tests.IO
             IFileParser<RuleSet> _4emkaFileParser = new _4eMkaRulesParser();
 
             string fileContent =
+            "#\n\n" +
             "**ATTRIBUTES\n" +
             "+ but:	(continuous)\n" +
             "+ author:	[edith, jane]\n" +
@@ -50,6 +51,7 @@ namespace DecisionRulesTool.Tests.IO
             IFileParser<RuleSet> _4emkaFileParser = new _4eMkaRulesParser();
 
             string fileContent =
+            "#\n\n" +
             "**ATTRIBUTES\n" +
             "+ comma:	(continuous)\n" +
             "+ author:	[curwood, london]\n" +
