@@ -320,16 +320,23 @@ namespace DecisionRulesTool.UserInterface.ViewModel
         {
             try
             {
-                TestRequestGeneratorViewModel testRequestGeneratorViewModel = InstantiateTestRequestGeneratorViewModel();
-
-                if (testRequestGeneratorViewModel != null && servicesRepository.DialogService.ShowDialog(testRequestGeneratorViewModel) == true)
+                if (applicationRepository.TestSets.Any())
                 {
-                    int serieNumber = GetTestRequestSerieNumber();
-                    foreach (var testRequest in testRequestGeneratorViewModel.GenerateTestRequests())
+                    TestRequestGeneratorViewModel testRequestGeneratorViewModel = InstantiateTestRequestGeneratorViewModel();
+
+                    if (testRequestGeneratorViewModel != null && servicesRepository.DialogService.ShowDialog(testRequestGeneratorViewModel) == true)
                     {
-                        AddTestRequest(testRequest, serieNumber);
+                        int serieNumber = GetTestRequestSerieNumber();
+                        foreach (var testRequest in testRequestGeneratorViewModel.GenerateTestRequests())
+                        {
+                            AddTestRequest(testRequest, serieNumber);
+                        }
+                        OnFilterTestRequests(TestRequestFilter.All);
                     }
-                    OnFilterTestRequests(TestRequestFilter.All);
+                }
+                else
+                {
+                    servicesRepository.DialogService.ShowInformationMessage($"Load some test sets before generating test objects");
                 }
             }
             catch (IncompatibleTestSetsException ex)

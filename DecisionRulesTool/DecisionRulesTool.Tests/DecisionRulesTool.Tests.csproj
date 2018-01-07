@@ -135,7 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acceptance\FileParsersTests.cs" />
-    <Compile Include="Acceptance\FileSaversTests.cs" />
     <Compile Include="Comparers\ConditionCheckerTests.cs" />
     <Compile Include="DataProviders\DataProvider.cs" />
     <Compile Include="DataProviders\ITestDataProvider.cs" />
@@ -149,7 +148,6 @@
     <Compile Include="RuleFilters\SupportValueFilterTests.cs" />
     <Compile Include="RuleTester\MajorityVotingTests.cs" />
     <Compile Include="RuleTester\RefuseConflictsTests.cs" />
-    <Compile Include="RuleTester\RuleManagerTests.cs" />
     <Compile Include="RuleTester\WeightedVotingTests.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
